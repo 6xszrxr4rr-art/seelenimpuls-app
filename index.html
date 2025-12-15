@@ -6,28 +6,41 @@
   <title>Seelenimpuls</title>
 </head>
 <body style="font-family: system-ui; padding:20px;">
+
   <h2>Dein Seelenimpuls ✨</h2>
 
   <div id="impuls">
-    Atme tief ein. Du musst heute nicht alles halten – nur diesen Moment.
+    Atme tief ein. Du musst heute nicht alles halten.
   </div>
 
   <button onclick="neuerImpuls()">Neuen Impuls ziehen</button>
 
-  <h3>Affirmation</h3>
-  <div id="affirmation">
-    Ich bin sicher. Ich bin geführt.
+  <hr style="margin:20px 0;">
+
+  <h2 id="situation-title">Innere Unruhe & Gedankenkarussell</h2>
+
+  <div id="situation-impuls">
+    Wenn Gedanken laut werden und dein Inneres keinen Halt findet, ist das kein Fehler.
+    Dein System sucht nach Sicherheit.
+    In diesem Moment darfst du langsamer werden – nichts muss gelöst werden.
   </div>
 
-  <h2>Innere Ruhe & Gedankenkarussell</h2>
+  <h3>✨ Affirmationen</h3>
+  <ul id="situation-affirmationen">
+    <li>Ich darf zur Ruhe kommen.</li>
+    <li>Mein Atem bringt mich zurück in den Moment.</li>
+    <li>Sicherheit beginnt in mir.</li>
+  </ul>
 
-  <p>
+  <h3>🌙 Mini-Ritual</h3>
+  <div id="situation-ritual">
     Lass die Schultern sinken.<br>
     Spüre den Boden unter dir.<br>
     Ich muss jetzt nichts tragen.
-  </p>
+  </div>
 
-  <audio controls>
+  <h3>🎵 Musik</h3>
+  <audio id="audioPlayer" controls preload="none">
     <source src="audio/inner-ruhe.mp3" type="audio/mpeg">
     Dein Browser unterstützt kein Audio.
   </audio>
