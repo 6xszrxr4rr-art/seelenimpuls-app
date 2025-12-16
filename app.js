@@ -12,8 +12,21 @@ const affirmationen = [
 ];
 
 function neuerImpuls() {
+  // Text wechseln
   document.getElementById("impuls").innerText =
     impulse[Math.floor(Math.random() * impulse.length)];
+
   document.getElementById("affirmation").innerText =
     affirmationen[Math.floor(Math.random() * affirmationen.length)];
+
+  // Musik starten (nach Button-Klick erlaubt, auch auf iPhone)
+  const audio = document.getElementById("audioPlayer");
+  if (audio) {
+    audio.pause();           // falls es schon lief
+    audio.currentTime = 0;   // von vorn starten
+    audio.play().catch(() => {
+      // Falls Safari trotzdem blockt, passiert einfach nichts.
+      // Dann kann man den Play-Button nutzen.
+    });
+  }
 }
