@@ -30,26 +30,3 @@ function neuerImpuls() {
     });
   }
 }
-function playMusic() {
-  const audio = document.getElementById("audioPlayer");
-  if (!audio) return;
-
-  // von vorn starten (optional)
-  audio.pause();
-  audio.currentTime = 0;
-
-  audio.play().catch(() => {
-    // iPhone kann trotzdem blocken, wenn noch keine Interaktion erkannt wurde.
-    // Dann muss der User einmal auf Play tippen.
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("btnImpuls");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      // kleiner Delay, damit Safari "mitkommt"
-      setTimeout(playMusic, 150);
-    });
-  }
-});
