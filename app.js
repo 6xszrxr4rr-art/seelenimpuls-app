@@ -32,7 +32,13 @@ function typeText(el, text, speed = 22) {
     tick();
   });
 }
-
+// Erklärungstext mit bewussten Zeilenumbrüchen
+const textErklaerung =
+  "Innere Unruhe ist ein Zeichen.\n" +
+  "Dein Nervensystem sucht Sicherheit.\n" +
+  "Dein Körper lädt dich ein,\n" +
+  "Tempo herauszunehmen\n" +
+  "und wieder im Moment anzukommen.";
 function fadeInBgMusic(targetVolume = 0.02, durationMs = 6000) {
   const bg = document.getElementById("bgMusic");
   if (!bg) return;
