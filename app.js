@@ -1,12 +1,4 @@
-// Kleine Helfer
-function sleep(ms) { return new Promise(res => setTimeout(res, ms)); }
-function show(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.classList.remove("hidden");
-  el.classList.add("show");
-}
-
+// --- Zufalls-Impulse oben ---
 const impulse = [
   "Atme tief ein. Du musst heute nicht alles halten.",
   "Du darfst langsam sein.",
@@ -14,83 +6,97 @@ const impulse = [
   "Alles darf leicht sein."
 ];
 
-function neuerImpuls() {
-  // Impuls wechseln
-  const imp = document.getElementById("impuls");
-  if (imp) imp.innerText = impulse[Math.floor(Math.random() * impulse.length)];
-
-  // Sequence starten (nach Button-Klick = erlaubt auf iPhone)
-  startSequence();
+// --- Helper: Schritte ein/ausblenden ---
+function hideAllSteps() {
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById("step" + i);
+    if (el) el.classList.remove("show");
+  }
 }
 
-async function startSequence() {
-  // Hintergrundmusik: leiser Start + sanftes Fade
+function showStep(n) {
+  const el = document.getElementById("step" + n);
+  if (el) el.classList.add("show");
+}
+
+// --- Musik-Helper ---
+function stopAudio(id) {
+  const a = document.getElementById(id);
+  if (!a) return;
+  a.pause();
+  a.currentTime = 0;
+}
+
+function startBackgroundMusicSoft() {
   const bg = document.getElementById("bgMusic");
-  if (bg) {
-    try {
-      bg.pause();
-      bg.currentTime = 0;
-      bg.volume = 0.08;        // START sehr leise
-      await bg.play();         // klappt nur nach Interaktion (Button)
-      // Fade-in auf angenehm leise
-      let v = 0.08;
-      const target = 0.16;     // <- hier die Ziel-Lautstärke (sehr leise)
-      for (let i = 0; i < 16; i++) {
-        v += (target - 0.08) / 16;
-        bg.volume = Math.max(0, Math.min(1, v));
-        await sleep(160);
-      }
-    } catch (e) {
-      // Falls iPhone blockt: erst nach erstem Button-Klick klappt es meistens.
-    }
+  if (!bg) return;
+
+  // leise starten
+  bg.volume = 0.15;
+
+  // iPhone/Safari: Autoplay klappt nur nach User-Interaktion (Buttonklick).
+  // Wir starten es nach dem Klick per play().
+  bg.play().catch(() => {
+    // Wenn es blockt, ist das ok – dann kann man später manuell starten
+    // (aber meist klappt es nach Button-Klick).
+  });
+}
+
+// --- Hauptablauf: sanft nacheinander einblenden ---
+function startSituationFlow() {
+  // Reset
+  hideAllSteps();
+  stopAudio("audioPlayer"); // gesungene Affirmation stoppen (falls lief)
+
+  // Hintergrundmusik NICHT sofort beim Laden, sondern erst im Flow (nach Klick)
+  // und erst am Ende, damit es wirklich sanft wirkt:
+  // (Wenn du sie lieber direkt ab Schritt 1 willst, sag kurz Bescheid.)
+  const delays = [0, 1200, 3500, 5600, 8200]; // ms: Schritt 1..5
+
+  setTimeout(() => showStep(1), delays[0]);     // Ankommen
+  setTimeout(() => showStep(2), delays[1]);     // Erklärung
+  setTimeout(() => showStep(3), delays[2]);     // Affirmationen
+  setTimeout(() => showStep(4), delays[3]);     // Ritual
+  setTimeout(() => {
+    showStep(5);                                // Musik anzeigen
+    startBackgroundMusicSoft();                 // Hintergrundmusik starten (leise)
+  }, delays[4]);
+}
+
+// --- Button "Neuen Impuls ziehen" ---
+function neuerImpuls() {
+  // Text oben wechseln
+  const box = document.getElementById("impuls");
+  if (box) {
+    box.innerText = impulse[Math.floor(Math.random() * impulse.length)];
   }
 
-  // Alles, was schrittweise erscheinen soll, erstmal verstecken
-  const ids = [
-    "step-explain",
-    "step-aff-title", "step-aff-list",
-    "step-rit-title", "step-ritual",
-    "step-music-title", "step-music-text",
-    "step-vocal"
-  ];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.classList.add("hidden"); el.classList.remove("show"); }
-  });
-
-  // Jetzt langsam einblenden – mit genug Zeit zum Lesen
-  await sleep(600);
-  show("step-explain");
-  await sleep(4200);
-
-  show("step-aff-title");
-  await sleep(300);
-  show("step-aff-list");
-  await sleep(4200);
-
-  show("step-rit-title");
-  await sleep(300);
-  show("step-ritual");
-  await sleep(5200);
-
-  show("step-music-title");
-  await sleep(250);
-  show("step-music-text");
-  await sleep(900);
-
-  show("step-vocal");
+  // Flow starten (das ist dein "langsam einblenden")
+  startSituationFlow();
 }
 
-// Gesungene Affirmation nur auf Knopfdruck starten
+// --- Initialisierung ---
 document.addEventListener("DOMContentLoaded", () => {
+  hideAllSteps();
+
+  const btn = document.getElementById("btnImpuls");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      neuerImpuls();
+    });
+  }
+
+  // Gesungene Affirmation: nur auf Button-Klick
   const btnVocal = document.getElementById("btnVocal");
   if (btnVocal) {
     btnVocal.addEventListener("click", () => {
-      const audio = document.getElementById("audioPlayer");
-      if (!audio) return;
-      audio.pause();
-      audio.currentTime = 0;
-      audio.play().catch(() => {});
+      const player = document.getElementById("audioPlayer");
+      if (!player) return;
+
+      player.currentTime = 0;
+      player.play().catch(() => {
+        // falls iPhone noch blockt: User kann im Player auf Play tippen
+      });
     });
   }
 });
