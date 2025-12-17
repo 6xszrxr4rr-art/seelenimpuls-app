@@ -218,13 +218,13 @@
     const song = document.getElementById("audioPlayer");
 
     // Leiser, wirklich Hintergrund (du kannst 0.08–0.18 testen)
-    const BG_VOLUME = 0.04;
+    const BG_VOLUME = 0.06;
 
     // Typewriter Tempo (höher = langsamer)
     const CHAR_DELAY_MS = 45;
 
     // Pause zwischen Blöcken (damit man lesen kann)
-    const BETWEEN_BLOCKS_MS = 700;
+    const BETWEEN_BLOCKS_MS = 2200;
 
     function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
@@ -246,8 +246,8 @@
           li.textContent += item[i];
           await sleep(CHAR_DELAY_MS);
         }
-        await sleep(220);
-      }
+        await sleep(500);
+      }z
     }
 
     function showBlock(id){
