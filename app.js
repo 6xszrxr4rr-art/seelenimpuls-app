@@ -12,21 +12,27 @@ const affirmationen = [
 ];
 
 function neuerImpuls() {
-  // Text wechseln
+    // alles zuerst ausblenden
+  document.getElementById("situation-impuls").style.display = "none";
+  document.getElementById("situation-affirmationen").style.display = "none";
+  document.getElementById("situation-ritual").style.display = "none";
+
+  // Ankommenssatz
   document.getElementById("impuls").innerText =
-    impulse[Math.floor(Math.random() * impulse.length)];
+    "Du darfst jetzt ruhig werden.";
 
-  document.getElementById("affirmation").innerText =
-    affirmationen[Math.floor(Math.random() * affirmationen.length)];
+  // Erklärung nach 2 Sekunden
+  setTimeout(() => {
+    document.getElementById("situation-impuls").style.display = "block";
+  }, 2000);
 
-  // Musik starten (nach Button-Klick erlaubt, auch auf iPhone)
-  const audio = document.getElementById("audioPlayer");
-  if (audio) {
-    audio.pause();           // falls es schon lief
-    audio.currentTime = 0;   // von vorn starten
-    audio.play().catch(() => {
-      // Falls Safari trotzdem blockt, passiert einfach nichts.
-      // Dann kann man den Play-Button nutzen.
-    });
-  }
+  // Affirmationen nach 5 Sekunden
+  setTimeout(() => {
+    document.getElementById("situation-affirmationen").style.display = "block";
+  }, 5000);
+
+  // Ritual nach 8 Sekunden
+  setTimeout(() => {
+    document.getElementById("situation-ritual").style.display = "block";
+  }, 8000);
 }
