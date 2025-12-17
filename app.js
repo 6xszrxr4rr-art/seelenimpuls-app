@@ -20,8 +20,13 @@ function typeText(el, text, speed = 22) {
     el.innerText = "";
     let i = 0;
 
-    function tick() {
-      el.innerText += text.charAt(i);
+    function tick() 
+    {const ch = text.charAt(i);
+if (ch === "\n") {
+  el.innerHTML += "<br>";
+} else {
+  el.innerHTML += ch;
+}
       i++;
       if (i < text.length) {
         setTimeout(tick, speed);
