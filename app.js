@@ -1,3 +1,21 @@
+// Seelenimpuls – app.js (komplett)
+
+// Hintergrundmusik sicher starten (nur nach User-Klick erlaubt – iPhone/Safari)
+function startBackgroundMusic() {
+  const bg = document.getElementById("bgMusic");
+  if (!bg) return;
+
+  // nur starten, wenn sie noch nicht läuft
+  if (bg.paused) {
+    bg.volume = 0.6; // sanfter Start
+    bg.play().catch(() => {
+      // iPhone kann trotzdem blocken, wenn der Klick nicht "zählt"
+      // dann muss der User einmal Play tippen (kommt selten vor)
+    });
+  }
+}
+
+// Texte für Button "Neuen Impuls ziehen"
 const impulse = [
   "Atme tief ein. Du musst heute nicht alles halten.",
   "Du darfst langsam sein.",
@@ -11,28 +29,31 @@ const affirmationen = [
   "Ich vertraue mir."
 ];
 
+// Wird vom Button in index.html aufgerufen: onclick="neuerImpuls()"
 function neuerImpuls() {
-    // alles zuerst ausblenden
-  document.getElementById("situation-impuls").style.display = "none";
-  document.getElementById("situation-affirmationen").style.display = "none";
-  document.getElementById("situation-ritual").style.display = "none";
+  // 1) Hintergrundmusik starten (User-Klick)
+  startBackgroundMusic();
 
-  // Ankommenssatz
-  document.getElementById("impuls").innerText =
-    "Du darfst jetzt ruhig werden.";
+  // 2) Impuls wechseln
+  const imp = document.getElementById("impuls");
+  if (imp) {
+    imp.innerText = impulse[Math.floor(Math.random() * impulse.length)];
+  }
 
-  // Erklärung nach 2 Sekunden
-  setTimeout(() => {
-    document.getElementById("situation-impuls").style.display = "block";
-  }, 2000);
+  // 3) Affirmation wechseln
+  const aff = document.getElementById("affirmation");
+  if (aff) {
+    aff.innerText =
+      affirmationen[Math.floor(Math.random() * affirmationen.length)];
+  }
 
-  // Affirmationen nach 5 Sekunden
-  setTimeout(() => {
-    document.getElementById("situation-affirmationen").style.display = "block";
-  }, 5000);
-
-  // Ritual nach 8 Sekunden
-  setTimeout(() => {
-    document.getElementById("situation-ritual").style.display = "block";
-  }, 8000);
+  // 4) Gesungene Affirmation (Situation-Song) starten
+  const audio = document.getElementById("audioPlayer");
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play().catch(() => {
+      // Falls Safari blockt: User kann Play im Player tippen
+    });
+  }
 }
