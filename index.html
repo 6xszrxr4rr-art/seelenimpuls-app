@@ -44,12 +44,14 @@
   Wenn du magst, lass dich jetzt von der Musik begleiten.
 </p>
 
-<audio
-  id="audioPlayer"
-  controls
-  preload="metadata"
->
+<!-- Background (läuft leise im Hintergrund) -->
+<audio id="bgMusic" preload="metadata" loop>
   <source src="audio/stillness-space.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Gesungene Affirmation (Situation-Song) -->
+<audio id="audioPlayer" controls preload="metadata">
+  <source src="audio/held-within.mp3" type="audio/mpeg">
   Dein Browser unterstützt kein Audio.
 </audio>
 
