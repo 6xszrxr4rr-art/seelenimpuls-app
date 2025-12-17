@@ -1,93 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dein Seelenimpuls</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seelenimpuls</title>
 
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 22px;
-      line-height: 1.5;
-      background: #fff;
-      color: #111;
-    }
+    body { font-family: system-ui; padding: 20px; }
+    h2 { margin-top: 0; }
+    button { padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd; background: #f5f5f5; }
 
-    h2 {
-      margin-top: 0;
-    }
+    .step { display:none; opacity:0; transform: translateY(6px);
+      transition: opacity .6s ease, transform .6s ease; margin-top: 14px; }
+    .step.show { display:block; opacity:1; transform: translateY(0); }
 
-    button {
-      margin-top: 12px;
-      padding: 10px 14px;
-      border-radius: 14px;
-      border: 1px solid #ddd;
-      background: #f6f6f6;
-      font-size: 0.95em;
-    }
-
-    hr {
-      margin: 22px 0;
-    }
-
-    /* Sanfte Einblendung */
-    .step {
-      opacity: 0;
-      transform: translateY(6px);
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 900ms ease, transform 900ms ease, max-height 900ms ease;
-    }
-
-    .step.show {
-      opacity: 1;
-      transform: translateY(0);
-      max-height: 1000px;
-    }
-
-    ul {
-      padding-left: 18px;
-    }
+    ul { margin-top: 8px; }
   </style>
 </head>
 
 <body>
 
-  <!-- Titel -->
   <h2>Dein Seelenimpuls ✨</h2>
 
-  <!-- Startimpuls -->
-  <div id="impuls">
+  <div id="impuls" style="margin: 12px 0 10px 0;">
     Atme tief ein. Du musst heute nicht alles halten.
   </div>
 
   <button id="btnImpuls">Neuen Impuls ziehen</button>
 
-  <hr>
+  <hr style="margin:20px 0;">
 
-  <!-- Situation -->
-  <h2>Innere Unruhe & Gedankenkarussell</h2>
+  <h2 id="situation-title">Innere Unruhe & Gedankenkarussell</h2>
 
   <!-- Schritt 1: Ankommen -->
   <div id="step1" class="step">
-    <p style="font-size:1.05em;">
-      Du darfst jetzt ruhig sein.
-    </p>
+    <b>Ankommen</b><br>
+    Du bist sicher. Du bist hier.
   </div>
 
   <!-- Schritt 2: Erklärung -->
   <div id="step2" class="step">
-    <p>
-      Wenn Gedanken laut werden und dein Inneres keinen Halt findet,
-      ist das kein Fehler. Dein Körper sucht nach Sicherheit.
-      Dein Atem hilft dir, wieder im Moment anzukommen.
-    </p>
+    <b>Impuls</b><br>
+    Wenn Gedanken laut werden und dein Inneres keinen Halt findet, ist das kein Fehler.<br>
+    Dein Körper sucht nach Sicherheit. Du darfst jetzt langsamer werden.
   </div>
 
   <!-- Schritt 3: Affirmationen -->
   <div id="step3" class="step">
-    <h3>✨ Affirmationen</h3>
+    <b>✨ Affirmationen</b>
     <ul>
       <li>Ich bin sicher.</li>
       <li>Ich bin ganz.</li>
@@ -97,40 +57,34 @@
 
   <!-- Schritt 4: Ritual -->
   <div id="step4" class="step">
-    <h3>🌙 Mini-Ritual</h3>
-    <p>
-      Nimm drei tiefe Atemzüge.<br>
-      Atme ruhig ein – und etwas länger aus.<br>
-      Lass die Schultern sinken.<br>
-      Spüre den Boden unter dir.
-    </p>
+    <b>🌙 Mini-Ritual</b><br>
+    Nimm drei tiefe Atemzüge.<br>
+    Atme ruhig ein – atme länger aus.<br>
+    Lass die Schultern sinken. Spüre den Boden unter dir.
   </div>
 
   <!-- Schritt 5: Musik -->
   <div id="step5" class="step">
-    <h3>🎵 Musik</h3>
-    <p style="opacity:0.85; font-size:0.95em;">
-      Wenn du magst, lass dich jetzt von der Musik begleiten.
-    </p>
+    <b>🎧 Musik</b><br>
+    <div style="opacity:0.8; font-size:0.95em; margin:8px 0;">
+      Hintergrundmusik startet leise. Die gesungene Affirmation startest du aktiv.
+    </div>
 
-    <!-- Hintergrundmusik -->
-    <audio id="bgMusic" preload="auto" loop>
+    <!-- Hintergrundmusik (leise, Loop, ohne Controls) -->
+    <audio id="bgMusic" loop preload="metadata">
       <source src="audio/stillness-space.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Gesungene Affirmation -->
-    <button id="btnVocal">Gesungene Affirmation starten</button>
+    <!-- Button für gesungene Affirmation -->
+    <button id="btnVocal" style="margin:10px 0;">Gesungene Affirmation starten</button>
 
-    <div style="margin-top:10px;">
-      <audio id="audioPlayer" controls preload="metadata">
-        <source src="audio/held-within.mp3" type="audio/mpeg">
-        Dein Browser unterstützt kein Audio.
-      </audio>
-    </div>
+    <!-- Gesungene Affirmation (mit Controls) -->
+    <audio id="audioPlayer" controls preload="metadata">
+      <source src="audio/held-within.mp3" type="audio/mpeg">
+      Dein Browser unterstützt kein Audio.
+    </audio>
   </div>
 
-  <!-- Script -->
   <script src="app.js"></script>
-
 </body>
 </html>
