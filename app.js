@@ -32,15 +32,16 @@ function typeText(el, text, speed = 22) {
   });
 }
 
-function fadeInBgMusic(targetVolume = 0.04, durationMs = 3000) {
+function fadeInBgMusic(targetVolume = 0.02, durationMs = 6000) {
   const bg = document.getElementById("bgMusic");
   if (!bg) return;
 
-  bg.volume = 0; // Start ganz leise
-  // iPhone/Safari: nur nach USER-KLICK erlaubt
+  bg.volume = 0; // Start wirklich ganz leise
+
+  // iPhone/Safari: Audio erst nach USER-KLICK erlaubt
   bg.play().then(() => {
-    const steps = 30;
-    const stepTime = Math.max(40, Math.floor(durationMs / steps));
+    const steps = 60; // mehr Steps = weicher
+    const stepTime = Math.max(50, Math.floor(durationMs / steps));
     let v = 0;
     const inc = targetVolume / steps;
 
@@ -50,8 +51,7 @@ function fadeInBgMusic(targetVolume = 0.04, durationMs = 3000) {
       if (bg.volume >= targetVolume) clearInterval(timer);
     }, stepTime);
   }).catch(() => {
-    // Wenn Safari trotzdem blockt, passiert einfach nichts.
-    // (Dann müsste man einen extra "Hintergrundmusik starten"-Button anbieten.)
+    // Wenn Safari blockt: dann passiert hier nichts (User müsste nochmal tippen)
   });
 }
 
