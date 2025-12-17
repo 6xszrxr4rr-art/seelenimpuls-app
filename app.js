@@ -77,29 +77,17 @@ async function startSituation1() {
   fadeInBgMusic(0.035, 3500); // <- leiser machen: 0.03 / lauter: 0.05
 
   // Texte langsam einlaufen lassen (etwas langsamer: speed erhöhen)
-  await typeText(
-    document.getElementById("lineAnkommen"),
-    "Du bist hier. Du darfst ruhig werden.",
-    26
-  );
+await typeText(document.getElementById("lineAnkommen"), "Du bist hier. Du darfst ruhig werden.", 28);
+await wait(900);
 
-  await typeText(
-    document.getElementById("lineErklaerung"),
-    "Innere Unruhe ist oft ein Zeichen: Dein Nervensystem sucht Sicherheit. Dein Körper lädt dich ein, Tempo rauszunehmen und wieder im Moment anzukommen.",
-    22
-  );
+await typeText(document.getElementById("lineErklaerung"), "Innere Unruhe ist oft ein Zeichen: Dein Nervensystem sucht Sicherheit. Dein Körper lädt dich ein, Tempo herauszunehmen und wieder im Moment anzukommen.", 28);
+await wait(1200);
 
-  await typeText(
-    document.getElementById("lineAffirmationen"),
-    "• Ich bin sicher.\n• Ich bin ganz.\n• Ich bin gehalten in mir.",
-    22
-  );
+await typeText(document.getElementById("lineAffirmationen"), "• Ich bin sicher.\n• Ich bin ganz.\n• Ich bin gehalten in mir.", 26);
+await wait(1200);
 
-  await typeText(
-    document.getElementById("lineRitual"),
-    "1) Drei tiefe Atemzüge.\n2) Einatmen – ruhig und weich.\n3) Ausatmen – etwas länger.\n4) Schultern sinken lassen.\n5) Boden unter dir spüren.",
-    22
-  );
+await typeText(document.getElementById("lineRitual"), "1) Drei tiefe Atemzüge.\n2) Einatmen – ruhig und weich.\n3) Ausatmen – etwas länger.\n4) Schultern sinken lassen.\n5) Boden unter dir spüren.", 26);
+await wait(900);
 
   // Button für Song aktivieren
   const btnSong = document.getElementById("btnSong");
