@@ -5,6 +5,34 @@ const impulse = [
   "Alles darf leicht sein."
 ];
 
+// Texte (ohne Verneinungen)
+const step1Text = "Du bist sicher.\nDu bist hier.";
+const step2Text =
+  "Wenn Gedanken laut werden und dein Inneres keinen Halt findet, ist das kein Fehler.\n" +
+  "Dein Körper sucht nach Sicherheit.\n" +
+  "Du darfst langsamer werden.";
+
+const affirmations = [
+  "Ich bin sicher.",
+  "Ich bin ganz.",
+  "Ich bin gehalten in mir."
+];
+
+const ritualText =
+  "Nimm drei tiefe Atemzüge.\n" +
+  "Atme ruhig ein – atme länger aus.\n" +
+  "Lass die Schultern sinken.\n" +
+  "Spüre den Boden unter dir.";
+
+// Typing-Settings (langsamer = größerer Wert)
+const CHAR_DELAY = 28;      // Zeichenweise (ms)
+const LINE_PAUSE = 420;     // Pause nach jeder Zeile (ms)
+const STEP_PAUSE = 900;     // Pause nach jedem Block (ms)
+
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
 function hideAllSteps() {
   for (let i = 1; i <= 5; i++) {
     const el = document.getElementById("step" + i);
@@ -12,45 +40,126 @@ function hideAllSteps() {
   }
 }
 
+// Safteres Einblenden (ohne "ruck" von translate)
 function showStep(n) {
   const el = document.getElementById("step" + n);
   if (el) el.classList.add("show");
 }
 
-function startBgMusicSoft() {
-  const bg = document.getElementById("bgMusic");
-  if (!bg) return;
-  bg.volume = 0.12; // deutlich leiser Start
-  bg.play().catch(() => {
-    // iPhone kann trotzdem blocken – dann startet es erst, wenn User nochmal tippt
-  });
+// Typewriter: schreibt Text zeilenweise/zeichenweise in ein Element
+async function typeInto(el, text) {
+  if (!el) return;
+  el.innerHTML = "";
+
+  const lines = text.split("\n");
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li];
+
+    const lineEl = document.createElement("div");
+    el.appendChild(lineEl);
+
+    for (let i = 0; i < line.length; i++) {
+      lineEl.textContent += line[i];
+      await sleep(CHAR_DELAY);
+    }
+    await sleep(LINE_PAUSE);
+  }
 }
 
-function neuerImpuls() {
+// Bullet-Typewriter (Affirmationen)
+async function typeBullets(el, items) {
+  if (!el) return;
+  el.innerHTML = "";
+  const ul = document.createElement("ul");
+  el.appendChild(ul);
+
+  for (const item of items) {
+    const li = document.createElement("li");
+    ul.appendChild(li);
+    for (let i = 0; i < item.length; i++) {
+      li.textContent += item[i];
+      await sleep(CHAR_DELAY);
+    }
+    await sleep(LINE_PAUSE);
+  }
+}
+
+// Hintergrundmusik: sofort im Klick starten (muted), später weich einblenden
+function primeBgMusic() {
+  const bg = document.getElementById("bgMusic");
+  if (!bg) return;
+
+  bg.muted = true;     // Autoplay-Hack für iOS
+  bg.volume = 0.0;
+
+  // WICHTIG: play() direkt im Klick-Kontext
+  bg.play().catch(() => {});
+}
+
+async function fadeInBgMusic(target = 0.12, durationMs = 6000) {
+  const bg = document.getElementById("bgMusic");
+  if (!bg) return;
+
+  // jetzt hörbar machen
+  bg.muted = false;
+
+  const steps = 30;
+  const stepMs = Math.floor(durationMs / steps);
+  for (let i = 1; i <= steps; i++) {
+    bg.volume = (target * i) / steps;
+    await sleep(stepMs);
+  }
+}
+
+function stopVocal() {
+  const vocal = document.getElementById("audioPlayer");
+  if (vocal) {
+    vocal.pause();
+    vocal.currentTime = 0;
+  }
+}
+
+async function neuerImpuls() {
   // Impuls wechseln
   const box = document.getElementById("impuls");
   if (box) box.innerText = impulse[Math.floor(Math.random() * impulse.length)];
 
-  // Schritte reset
+  // Reset UI
   hideAllSteps();
+  stopVocal();
 
-  // Gesungene Affirmation stoppen (falls lief)
-  const vocal = document.getElementById("audioPlayer");
-  if (vocal) { vocal.pause(); vocal.currentTime = 0; }
+  // Hintergrundmusik sofort "primen"
+  primeBgMusic();
 
-  // Flow (langsam einblenden)
+  // Inhalte tippen lassen – langsam & nacheinander
   showStep(1);
-  setTimeout(() => showStep(2), 1400);
-  setTimeout(() => showStep(3), 3600);
-  setTimeout(() => showStep(4), 6000);
-  setTimeout(() => { showStep(5); startBgMusicSoft(); }, 8600);
+  await typeInto(document.getElementById("step1Text"), step1Text);
+  await sleep(STEP_PAUSE);
+
+  showStep(2);
+  await typeInto(document.getElementById("step2Text"), step2Text);
+  await sleep(STEP_PAUSE);
+
+  showStep(3);
+  await typeBullets(document.getElementById("step3Text"), affirmations);
+  await sleep(STEP_PAUSE);
+
+  showStep(4);
+  await typeInto(document.getElementById("step4Text"), ritualText);
+  await sleep(STEP_PAUSE);
+
+  showStep(5);
+  await fadeInBgMusic(0.12, 6500); // sanft einblenden
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   hideAllSteps();
 
   const btn = document.getElementById("btnImpuls");
-  if (btn) btn.addEventListener("click", neuerImpuls);
+  if (btn) btn.addEventListener("click", () => {
+    // async sicher starten
+    neuerImpuls();
+  });
 
   const btnVocal = document.getElementById("btnVocal");
   if (btnVocal) {
