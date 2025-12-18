@@ -92,13 +92,13 @@ await typeText(document.getElementById("lineAnkommen"), "Du bist hier. Du darfst
 await wait(900);
 
 await typeText(document.getElementById("lineErklaerung"), "Innere Unruhe ist oft ein Zeichen: Dein Nervensystem sucht Sicherheit. Dein Körper lädt dich ein, Tempo herauszunehmen und wieder im Moment anzukommen.", 28);
-await wait(1200);
+await wait(3500);
 
 await typeText(document.getElementById("lineAffirmationen"), "• Ich bin sicher.\n• Ich bin ganz.\n• Ich bin gehalten in mir.", 26);
-await wait(1200);
+await wait(2500);
 
 await typeText(document.getElementById("lineRitual"), "1) Drei tiefe Atemzüge.\n2) Einatmen – ruhig und weich.\n3) Ausatmen – etwas länger.\n4) Schultern sinken lassen.\n5) Boden unter dir spüren.", 26);
-await wait(900);
+await wait(1500);
 
   // Button für Song aktivieren
   const btnSong = document.getElementById("btnSong");
