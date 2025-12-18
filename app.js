@@ -14,7 +14,7 @@ function neuerImpuls() {
 }
 
 // ---------- Reveal / Typewriter ----------
-function typeText(el, text, speed = 22) {
+function typeText(el, text, speed = 28) {
   return new Promise((resolve) => {
     if (!el) return resolve();
     el.innerText = "";
