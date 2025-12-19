@@ -79,30 +79,39 @@ function stopSongIfPlaying() {
 }
 
 async function startSituation1() {
-  const content = document.getElementById("content");
-  if (!content) return;
+  if (situation1Running) return;
+  situation1Running = true;
 
-  // Content sichtbar machen
-  content.classList.remove("hidden");
+  try {
+    const content = document.getElementById("content");
+    if (!content) return;
 
-  // Gesungenen Song stoppen, falls er lief
-  stopSongIfPlaying();
+    content.classList.remove("hidden");
 
-  // Hintergrundmusik SOFORT starten (nur wegen User-Klick möglich!)
-  fadeInBgMusic(0.035, 3500); // <- leiser machen: 0.03 / lauter: 0.05
+    stopSongIfPlaying();
 
-  // Texte langsam einlaufen lassen (etwas langsamer: speed erhöhen)
-await typeText(document.getElementById("lineAnkommen"), "Du bist hier. Du darfst ruhig werden.", 28);
-await wait(900);
+    fadeInBgMusic(0.035, 3500);
 
-await typeText(document.getElementById("lineErklaerung"), "Innere Unruhe ist oft ein Zeichen: Dein Nervensystem sucht Sicherheit. Dein Körper lädt dich ein, Tempo herauszunehmen und wieder im Moment anzukommen.", 28);
-await wait(3500);
+    await typeText(document.getElementById("lineAnkommen"),
+      "Du bist hier. Du darfst ruhig werden.", 30);
+    await wait(1200);
 
-await typeText(document.getElementById("lineAffirmationen"), "• Ich bin sicher.\n• Ich bin ganz.\n• Ich bin gehalten in mir.", 26);
-await wait(2500);
+    await typeText(document.getElementById("lineErklaerung"),
+      textErklaerung, 32);
+    await wait(6500); // <- HIER mehr Pause nach Erklärung (statt 3500)
 
-await typeText(document.getElementById("lineRitual"), "1) Drei tiefe Atemzüge.\n2) Einatmen – ruhig und weich.\n3) Ausatmen – etwas länger.\n4) Schultern sinken lassen.\n5) Boden unter dir spüren.", 26);
-await wait(1500);
+    await typeText(document.getElementById("lineAffirmationen"),
+      "• Ich bin sicher.\n• Ich bin ganz.\n• Ich bin gehalten in mir.", 30);
+    await wait(4000); // <- mehr Pause nach Affirmationen (statt 2500)
+
+    await typeText(document.getElementById("lineRitual"),
+      "1) Drei tiefe Atemzüge.\n2) Einatmen – ruhig und weich.\n3) Ausatmen – etwas länger.\n4) Schultern sinken lassen.\n5) Boden unter dir spüren.", 30);
+    await wait(2500);
+
+  } finally {
+    situation1Running = false; // <- DAS ist C (aber “safe”)
+  }
+}
 
   // Button für Song aktivieren
   const btnSong = document.getElementById("btnSong");
