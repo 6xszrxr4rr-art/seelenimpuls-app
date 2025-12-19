@@ -1,4 +1,4 @@
-const wait = (ms) => new Promise((r) => setTimeout(r, ms));w
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 // Kleine Impulse oben
 const impulse = [
   "Atme tief ein. Du musst heute nicht alles halten.",
