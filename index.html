@@ -229,9 +229,10 @@
     function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
     async function typeText(el, text){
-      el.textContent = "";
+     el.innerHTML = ""; 
       for (let i=0; i<text.length; i++){
-        el.textContent += text[i];
+        const ch = text[i];
+el.innerHTML += (ch === "\n") ? "<br>" : ch;
         await sleep(CHAR_DELAY_MS);
       }
     }
