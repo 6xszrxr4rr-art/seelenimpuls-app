@@ -14,19 +14,22 @@ function neuerImpuls() {
 }
 
 // ---------- Reveal / Typewriter ----------
-function typeText(el, text, speed = 28) {
+function typeText(el, text, speed = 36) {
   return new Promise((resolve) => {
     if (!el) return resolve();
-    el.innerText = "";
+
+    el.innerHTML = "";   // korrekt
     let i = 0;
 
-    function tick() 
-    {const ch = text.charAt(i);
-if (ch === "\n") {
-  el.innerHTML += "<br>";
-} else {
-  el.innerHTML += ch;
-}
+    function tick() {
+      const ch = text.charAt(i);
+
+      if (ch === "\n") {
+        el.innerHTML += "<br>";
+      } else {
+        el.innerHTML += ch;   // ← DAS ist der wichtige Unterschied
+      }
+
       i++;
       if (i < text.length) {
         setTimeout(tick, speed);
@@ -34,6 +37,7 @@ if (ch === "\n") {
         resolve();
       }
     }
+
     tick();
   });
 }
