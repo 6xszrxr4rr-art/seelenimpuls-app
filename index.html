@@ -17,169 +17,126 @@
       --radius:18px;
     }
 
- body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--text);
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(180deg, var(--bg2), var(--bg1));
+    }
 
-  /* 🌿 SANFTER HINTERGRUND */
-  background: linear-gradient(
-    180deg,
-    var(--bg2),
-    var(--bg1)
-  );
-}
-   body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(255,255,255,0.25), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(31,122,224,0.08), transparent 45%),
-    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.18), transparent 45%);
-  pointer-events: none;
-}
+    /* sanfter Licht/„Regen“-Schimmer */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.30), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(31,122,224,0.08), transparent 50%),
+        radial-gradient(circle at 50% 85%, rgba(255,255,255,0.20), transparent 55%);
+      filter: blur(0px);
+    }
 
-    .wrap{ max-width: 520px; margin: 0 auto; }
+    .wrap{ max-width:520px; margin:0 auto; padding:22px; }
 
     .card{
       background: var(--card);
-      border: 1px solid var(--stroke);
+      border:1px solid var(--stroke);
       border-radius: var(--radius);
-      padding: 18px 16px;
+      padding:18px 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,.06);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-      margin-bottom: 14px;
+      margin-bottom:14px;
     }
 
-    h1{
-      margin: 0 0 10px 0;
-      font-size: 34px;
-      letter-spacing: -0.02em;
-    }
-    .sub{ color:var(--muted); font-size: 18px; margin: 0 0 14px 0; }
+    h1{ margin: 0 0 10px 0; font-size: 34px; letter-spacing:-0.02em; }
+    .sub{ color:var(--muted); font-size:18px; margin:0 0 14px 0; }
 
     .btn{
       appearance:none;
-      border: 1px solid #d7e3ef;
-      background: #eaf2fb;
-      color: var(--accent);
-      font-weight: 700;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 18px;
+      border:1px solid #d7e3ef;
+      background:#eaf2fb;
+      color:var(--accent);
+      font-weight:700;
+      padding:12px 16px;
+      border-radius:14px;
+      font-size:18px;
+      width:100%;
     }
     .btn:active{ transform: scale(.99); }
 
-    .divider{
-      height:1px;
-      background: #e6edf3;
-      margin: 14px 0;
-    }
+    .divider{ height:1px; background:#e6edf3; margin:14px 0; }
 
-    .titleBig{
-      font-size: 38px;
-      line-height: 1.05;
-      margin: 4px 0 0 0;
-      letter-spacing: -0.03em;
-    }
-
-    /* Blocks, die nacheinander kommen */
-    .block{
-  margin-top: 12px;
-  padding: 14px 14px;
-  border: 1px solid var(--stroke);
-  border-radius: 16px;
-  background: linear-gradient(
-    180deg,
-    #ffffffee,
-    #f4f7f3ee
-  );
-}
-
-    /* Start: unsichtbar */
-    .hidden{
-      opacity: 0;
-      transform: translateY(8px);
-      pointer-events: none;
-    }
-
-    /* Sanftes Einblenden */
-    .show{
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 700ms ease, transform 700ms ease;
-      pointer-events: auto;
-    }
-
-    .block h3{
-      margin: 0 0 8px 0;
-      font-size: 22px;
-    }
-    .block p{
-  font-size: 18px;
-  line-height: 1.45;
-  color: #20262c;
-  min-height: 4.5em;   /* nur für Fließtext, nicht für Listen */
-}
-
-.block li{
-  font-size: 18px;
-  line-height: 1.45;
-  color: #20262c;
-  margin: 10px 0;      /* schöner Abstand, aber nicht riesig */
-}
-    }
-    .muted{ color:var(--muted); font-size: 16px; margin-top: 8px; }
-
-    ul{ margin: 0 0 0 22px; padding: 0; }
-    ol{ margin: 0 0 0 22px; padding: 0; }
-
-    /* Situation-Button als große Kachel */
     .situationBtn{
-      width: 100%;
-      text-align: left;
-      border: 1px solid var(--stroke);
-      background: #ffffffd9;
-      border-radius: 18px;
-      padding: 16px;
+      width:100%;
+      text-align:left;
+      border:1px solid var(--stroke);
+      background:#ffffffd9;
+      border-radius:18px;
+      padding:16px;
     }
     .situationBtn .headline{
-      color: var(--accent);
-      font-weight: 900;
-      font-size: 34px;
-      line-height: 1.05;
-      margin: 0;
+      color:var(--accent);
+      font-weight:900;
+      font-size:30px;
+      line-height:1.05;
+      margin:0;
     }
     .situationBtn .hint{
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 16px;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:16px;
     }
 
-    audio{ width: 100%; margin-top: 10px; }
+    /* Blocks */
+    .block{
+      margin-top:12px;
+      padding:14px 14px;
+      border:1px solid var(--stroke);
+      border-radius:16px;
+      background:#ffffffd9;
+    }
+    .hidden{ opacity:0; transform: translateY(8px); pointer-events:none; }
+    .show{ opacity:1; transform: translateY(0); transition: opacity 600ms ease, transform 600ms ease; pointer-events:auto; }
+
+    .block h3{ margin:0 0 8px 0; font-size:22px; }
+    .block p, .block li{
+      font-size:18px;
+      line-height:1.45;
+      color:#20262c;
+    }
+
+    /* Fix: keine RIESEN-Abstände bei UL/OL */
+    ul, ol{ margin: 0 0 0 20px; padding:0; }
+    li{ margin: 6px 0; }
+
+    .muted{ color:var(--muted); font-size:16px; margin-top:8px; }
+
+    /* Fix: Erklärung springt nicht mehr – wir reservieren Platz */
+    .stableText{
+      white-space: pre-line;     /* \n wird zu Zeilenumbruch */
+      min-height: 6.2em;         /* Platz reservieren (Erklärung) */
+    }
+
+    audio{ width:100%; margin-top:10px; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-
-    <!-- Kopf / Impuls -->
     <div class="card">
       <h1>Dein Seelenimpuls ✨</h1>
       <p class="sub" id="impuls">Atme tief ein. Du musst heute nicht alles halten.</p>
-
       <button class="btn" id="btnImpuls" type="button">Neuen Impuls ziehen</button>
     </div>
 
-    <!-- Situation auswählen -->
     <div class="card">
       <div class="divider"></div>
 
       <button class="situationBtn" id="btnSituation1" type="button">
-        <div class="headline">Innere Unruhe &amp;<br/>Gedankenkarussell</div>
-        <div class="hint">Tippe hier, um langsam zu starten (mit leiser Hintergrundmusik).</div>
+        <div class="headline">Innere Unruhe<br/>Gedankenkarussell</div>
+        <div class="hint">Tippe hier, um langsam zu starten (mit sehr leiser Hintergrundmusik).</div>
       </button>
 
       <!-- Hintergrundmusik (läuft leise im Hintergrund) -->
@@ -188,166 +145,42 @@
         Dein Browser unterstützt kein Audio.
       </audio>
 
-      <!-- Blocks (kommen nacheinander; Überschriften NICHT sofort sichtbar) -->
+      <!-- Blocks -->
       <div class="block hidden" id="b1">
         <h3>🌿 Ankommen</h3>
-        <p id="t1"></p>
+        <p id="lineAnkommen" class="stableText"></p>
       </div>
 
       <div class="block hidden" id="b2">
         <h3>🌿 Erklärung</h3>
-        <p id="t2"></p>
+        <p id="lineErklaerung" class="stableText"></p>
       </div>
 
       <div class="block hidden" id="b3">
         <h3>✨ Affirmationen</h3>
-        <ul id="t3"></ul>
+        <ul id="lineAffirmationen"></ul>
       </div>
 
       <div class="block hidden" id="b4">
         <h3>🌙 Mini-Ritual</h3>
-        <ol id="t4"></ol>
+        <ol id="lineRitual"></ol>
       </div>
 
       <div class="block hidden" id="b5">
-        <h3>🎧 Gesungene Affirmation</h3>
+        <h3>💡 Gesungene Affirmation</h3>
         <p class="muted">Diese startet bewusst nur per Klick.</p>
 
         <button class="btn" id="btnSong" type="button">Gesungene Affirmation starten</button>
 
-        <audio id="audioPlayer" controls preload="metadata">
+        <audio id="songPlayer" controls preload="metadata">
           <source src="audio/held-within.mp3" type="audio/mpeg">
           Dein Browser unterstützt kein Audio.
         </audio>
       </div>
     </div>
-
   </div>
 
-  <script>
-    // --- 1) Impulse (damit index.html komplett alleine läuft) ---
-    const impulse = [
-      "Atme tief ein. Du musst heute nicht alles halten.",
-      "Du darfst langsam sein.",
-      "Dein Herz kennt den Weg.",
-      "Alles darf leicht sein."
-    ];
-
-    const btnImpuls = document.getElementById("btnImpuls");
-    const impulsEl  = document.getElementById("impuls");
-    btnImpuls.addEventListener("click", () => {
-      impulsEl.textContent = impulse[Math.floor(Math.random()*impulse.length)];
-    });
-
-    // --- 2) Situation 1: Sequenz + Musik ---
-    const bg = document.getElementById("bgMusic");
-    const song = document.getElementById("audioPlayer");
-
-    // Leiser, wirklich Hintergrund (du kannst 0.08–0.18 testen)
-    const BG_VOLUME = 0.03;
-
-    // Typewriter Tempo (höher = langsamer)
-    const CHAR_DELAY_MS = 45;
-
-    // Pause zwischen Blöcken (damit man lesen kann)
-    const BETWEEN_BLOCKS_MS = 2200;
-
-    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-    async function typeText(el, text){
-     el.innerHTML = ""; 
-      for (let i=0; i<text.length; i++){
-        const ch = text[i];
-el.innerHTML += (ch === "\n") ? "<br>" : ch;
-        await sleep(CHAR_DELAY_MS);
-      }
-    }
-
-    async function typeList(ulOrOl, items){
-      ulOrOl.innerHTML = "";
-      for (const item of items){
-        const li = document.createElement("li");
-        ulOrOl.appendChild(li);
-        // tippt den Listentext Zeichen für Zeichen
-        for (let i=0; i<item.length; i++){
-          li.textContent += item[i];
-          await sleep(CHAR_DELAY_MS);
-        }
-        await sleep(500);
-      }
-    }
-
-    function showBlock(id){
-      const b = document.getElementById(id);
-      b.classList.remove("hidden");
-      // Trick: erst reflow, dann Transition sauber
-      void b.offsetWidth;
-      b.classList.add("show");
-    }
-
-    let started = false;
-
-    document.getElementById("btnSituation1").addEventListener("click", async () => {
-      if (started) return;
-      started = true;
-
-      // Hintergrundmusik sofort beim Klick starten (iPhone erlaubt das)
-      if (bg){
-        bg.volume = BG_VOLUME;
-        bg.currentTime = 0;
-        bg.play().catch(()=>{});
-      }
-
-      // Inhalte (ohne Verneinungen)
-      const ankommen = "Du bist hier. Du darfst ruhig werden.";
-      const erklaerung =
-        "Innere Unruhe ist oft ein Zeichen: Dein Nervensystem sucht Sicherheit. " +
-        "Dein Körper lädt dich ein, Tempo herauszunehmen und wieder im Moment anzukommen.";
-
-      const affirmationen = [
-        "Ich bin sicher.",
-        "Ich bin ganz.",
-        "Ich bin gehalten in mir."
-      ];
-
-      const ritual = [
-        "Drei tiefe Atemzüge.",
-        "Einatmen – ruhig und weich.",
-        "Ausatmen – etwas länger.",
-        "Schultern sinken lassen.",
-        "Boden unter dir spüren."
-      ];
-
-      // Block 1
-      showBlock("b1");
-      await typeText(document.getElementById("t1"), ankommen);
-      await sleep(BETWEEN_BLOCKS_MS);
-
-      // Block 2
-      showBlock("b2");
-      await typeText(document.getElementById("t2"), erklaerung);
-      await sleep(BETWEEN_BLOCKS_MS);
-
-      // Block 3
-      showBlock("b3");
-      await typeList(document.getElementById("t3"), affirmationen);
-      await sleep(BETWEEN_BLOCKS_MS);
-
-      // Block 4
-      showBlock("b4");
-      await typeList(document.getElementById("t4"), ritual);
-      await sleep(BETWEEN_BLOCKS_MS);
-
-      // Block 5 (Song)
-      showBlock("b5");
-    });
-
-    // Gesungene Affirmation: nur per Button
-    document.getElementById("btnSong").addEventListener("click", () => {
-      if (!song) return;
-      song.currentTime = 0;
-      song.play().catch(()=>{});
-    });
-  </script>
+  <!-- NUR app.js nutzen (kein doppeltes Script in index.html) -->
+  <script src="app.js"></script>
 </body>
 </html>
