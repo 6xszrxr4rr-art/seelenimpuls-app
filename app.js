@@ -92,7 +92,7 @@ async function startSituation1() {
 
     stopSongIfPlaying();
 
-    fadeInBgMusic(0.003, 5000);
+    fadeInBgMusic(0.001, 8000);
 
     await typeText(document.getElementById("lineAnkommen"),
       "Du bist hier. Du darfst ruhig werden.", 30);
