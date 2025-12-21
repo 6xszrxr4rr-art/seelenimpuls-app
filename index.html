@@ -1,3 +1,4 @@
+<!-- index.html (komplett ersetzen) -->
 <!doctype html>
 <html lang="de">
 <head>
@@ -17,23 +18,39 @@
       --radius:18px;
     }
 
+    html, body { height: 100%; }
+
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
+
+      /* Basis-Verlauf */
       background: linear-gradient(180deg, var(--bg2), var(--bg1));
+      position: relative;
+      overflow-x: hidden;
     }
 
-    /* sanfter Licht/„Regen“-Schimmer */
+    /* „Regenfall“-Schattierung: zarte diagonale Streifen + Lichtflecken */
     body::before{
       content:"";
       position: fixed;
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.30), transparent 45%),
-        radial-gradient(circle at 80% 30%, rgba(31,122,224,0.08), transparent 50%),
-        radial-gradient(circle at 50% 85%, rgba(255,255,255,0.20), transparent 55%);
+        /* leichter Regen-Schimmer */
+        repeating-linear-gradient(
+          115deg,
+          rgba(31,122,224,0.05) 0px,
+          rgba(31,122,224,0.05) 1px,
+          rgba(255,255,255,0) 18px,
+          rgba(255,255,255,0) 32px
+        ),
+        /* weiche Lichtflecken */
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.35), transparent 46%),
+        radial-gradient(circle at 80% 30%, rgba(31,122,224,0.10), transparent 52%),
+        radial-gradient(circle at 55% 85%, rgba(255,255,255,0.22), transparent 58%);
+      opacity: 0.9;
       filter: blur(0px);
     }
 
@@ -89,7 +106,6 @@
       font-size:16px;
     }
 
-    /* Blocks */
     .block{
       margin-top:12px;
       padding:14px 14px;
@@ -98,7 +114,7 @@
       background:#ffffffd9;
     }
     .hidden{ opacity:0; transform: translateY(8px); pointer-events:none; }
-    .show{ opacity:1; transform: translateY(0); transition: opacity 600ms ease, transform 600ms ease; pointer-events:auto; }
+    .show{ opacity:1; transform: translateY(0); transition: opacity 650ms ease, transform 650ms ease; pointer-events:auto; }
 
     .block h3{ margin:0 0 8px 0; font-size:22px; }
     .block p, .block li{
@@ -107,16 +123,16 @@
       color:#20262c;
     }
 
-    /* Fix: keine RIESEN-Abstände bei UL/OL */
+    /* keine Riesenabstände */
     ul, ol{ margin: 0 0 0 20px; padding:0; }
     li{ margin: 6px 0; }
 
     .muted{ color:var(--muted); font-size:16px; margin-top:8px; }
 
-    /* Fix: Erklärung springt nicht mehr – wir reservieren Platz */
+    /* stabiler Text (Erklärung etc.) */
     .stableText{
-      white-space: pre-line;     /* \n wird zu Zeilenumbruch */
-      min-height: 6.2em;         /* Platz reservieren (Erklärung) */
+      white-space: pre-line;
+      min-height: 6.8em;
     }
 
     audio{ width:100%; margin-top:10px; }
@@ -139,13 +155,11 @@
         <div class="hint">Tippe hier, um langsam zu starten (mit sehr leiser Hintergrundmusik).</div>
       </button>
 
-      <!-- Hintergrundmusik (läuft leise im Hintergrund) -->
       <audio id="bgMusic" preload="metadata" loop>
         <source src="audio/stillness-space.mp3" type="audio/mpeg">
         Dein Browser unterstützt kein Audio.
       </audio>
 
-      <!-- Blocks -->
       <div class="block hidden" id="b1">
         <h3>🌿 Ankommen</h3>
         <p id="lineAnkommen" class="stableText"></p>
@@ -180,7 +194,6 @@
     </div>
   </div>
 
-  <!-- NUR app.js nutzen (kein doppeltes Script in index.html) -->
   <script src="app.js"></script>
 </body>
 </html>
