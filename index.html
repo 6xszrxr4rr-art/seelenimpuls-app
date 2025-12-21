@@ -1,133 +1,184 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seelenimpuls</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seelenimpuls</title>
 
-<style>
-:root{
-  --bg1:#eef3f6;
-  --bg2:#f7fbff;
-  --card:#ffffffcc;
-  --text:#1b1f24;
-  --muted:#5a6672;
-  --accent:#1f7ae0;
-}
-body{
-  margin:0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: linear-gradient(180deg,var(--bg2),var(--bg1));
-  color:var(--text);
-}
-.wrap{ max-width:520px; margin:auto; padding:22px; }
-.card{
-  background:var(--card);
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.06);
-  margin-bottom:14px;
-}
-button{
-  width:100%;
-  padding:14px;
-  font-size:18px;
-  border-radius:14px;
-  border:none;
-  background:#eaf2fb;
-  color:var(--accent);
-  font-weight:700;
-}
-.block{
-  margin-top:14px;
-  padding:14px;
-  border-radius:16px;
-  background:#ffffffd9;
-  display:none;
-}
-.block.show{ display:block; }
-h3{ margin-top:0; }
-audio{ width:100%; margin-top:10px; }
+  <style>
+    :root{
+      --bg1:#eef3f6;
+      --bg2:#f7fbff;
+      --card:#ffffffcc;
+      --stroke:#e6edf3;
+      --text:#1b1f24;
+      --muted:#5a6672;
+      --accent:#1f7ae0;
+      --radius:18px;
+    }
 
-ul{ margin:0 0 0 18px; padding:0; }
-li{ margin:6px 0; }
+    /* Grundlayout + dezente "Regenfall"-Schattierung */
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(180deg, var(--bg2), var(--bg1));
+      min-height:100vh;
+      padding:22px;
+      position:relative;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,.65), rgba(255,255,255,0) 40%),
+        radial-gradient(circle at 80% 30%, rgba(31,122,224,.08), rgba(31,122,224,0) 45%),
+        radial-gradient(circle at 45% 80%, rgba(120,160,190,.10), rgba(120,160,190,0) 55%),
+        linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0) 35%);
+      filter: blur(0px);
+    }
+    /* “feiner Regen” als sehr transparente Streifen */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        120deg,
+        rgba(31,122,224,0.025) 0px,
+        rgba(31,122,224,0.025) 1px,
+        rgba(255,255,255,0) 14px,
+        rgba(255,255,255,0) 22px
+      );
+      opacity:.55;
+      transform: translateZ(0);
+    }
 
-/* 🌧️ dezenter Regen – erscheint erst am Ende */
-.rain{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  display:none;
-  opacity:0.85;
-}
-.drop{
-  position:absolute;
-  top:-20vh;
-  width:2px;
-  height:18vh;
-  background:linear-gradient(to bottom, transparent, rgba(31,122,224,0.15));
-  animation:fall linear infinite;
-}
-@keyframes fall{ to{ transform:translateY(120vh); } }
-</style>
-</head>
+    .wrap{ max-width: 520px; margin: 0 auto; }
 
-<body>
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      margin-bottom: 14px;
+    }
 
-<div class="rain" id="rain">
-  <span class="drop" style="left:18%;animation-duration:4.8s"></span>
-  <span class="drop" style="left:38%;animation-duration:5.6s"></span>
-  <span class="drop" style="left:58%;animation-duration:5.1s"></span>
-  <span class="drop" style="left:78%;animation-duration:6.2s"></span>
-</div>
+    h1{ margin: 0 0 10px 0; font-size: 34px; letter-spacing: -0.02em; }
+    .sub{ color:var(--muted); font-size: 18px; margin: 0 0 14px 0; }
 
-<div class="wrap">
-  <div class="card">
-    <h1>Dein Seelenimpuls ✨</h1>
-    <p id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
-    <button id="btnImpuls" type="button">Neuen Impuls</button>
-  </div>
+    .btn{
+      appearance:none;
+      border: 1px solid #d7e3ef;
+      background: #eaf2fb;
+      color: var(--accent);
+      font-weight: 800;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 18px;
+      width: 100%;
+    }
+    .btn:active{ transform: scale(.99); }
 
-  <div class="card">
-    <button id="startSituation" type="button">
-      Innere Unruhe & Gedankenkarussell
-    </button>
+    .divider{ height:1px; background: var(--stroke); margin: 14px 0; }
 
-    <!-- Hintergrundmusik (kein loop) -->
-    <audio id="bgMusic" preload="metadata">
-      <source src="audio/stillness-space.mp3" type="audio/mpeg">
-    </audio>
+    .situationBtn{
+      width:100%;
+      text-align:left;
+      border:1px solid var(--stroke);
+      background:#ffffffd9;
+      border-radius:18px;
+      padding:16px;
+    }
+    .situationBtn .headline{
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 28px;
+      line-height: 1.05;
+      margin: 0;
+    }
+    .situationBtn .hint{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+    }
 
-    <div class="block" id="b1">
-      <h3>🌿 Ankommen</h3>
-      <p id="t1"></p>
-    </div>
+    /* Blocks */
+    .block{
+      margin-top: 12px;
+      padding: 14px 14px;
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: #ffffffd9;
+    }
 
-    <div class="block" id="b2">
-      <h3>🌿 Erklärung</h3>
-      <p id="t2"></p>
-    </div>
+    .hidden{
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events:none;
+    }
+    .show{
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 700ms ease, transform 700ms ease;
+      pointer-events:auto;
+    }
 
-    <div class="block" id="b3">
-      <h3>✨ Affirmationen</h3>
-      <ul id="t3"></ul>
-    </div>
+    .block h3{
+      margin: 0 0 8px 0;
+      font-size: 22px;
+    }
 
-    <div class="block" id="b4">
-      <h3>🌙 Mini-Ritual</h3>
-      <ul id="t4"></ul>
-    </div>
+    /* Stabil: Newlines werden schön angezeigt */
+    .typed{
+      white-space: pre-line;
+      font-size: 18px;
+      line-height: 1.45;
+      color:#20262c;
+      margin:0;
+    }
 
-    <div class="block" id="b5">
-      <h3>💡 Gesungene Affirmation</h3>
-      <button id="playSong" type="button">Jetzt hören</button>
-      <audio id="song" preload="metadata">
-        <source src="audio/held-within.mp3" type="audio/mpeg">
-      </audio>
-    </div>
-  </div>
-</div>
+    /* Gegen “springen”: min-height reserviert Platz */
+    #t1{ min-height: 3.2em; }
+    #t2{ min-height: 8.5em; }
 
-<script src="app.js"></script>
-</body>
-</html>
+    ul, ol{ margin: 0 0 0 18px; padding:0; }
+    li{
+      font-size: 18px;
+      line-height: 1.45;
+      color:#20262c;
+      margin: 0 0 10px 0;  /* kein riesiger Abstand */
+    }
+
+    .muted{ color:var(--muted); font-size:16px; margin-top:8px; }
+
+    audio{ width:100%; margin-top:10px; }
+
+    /* Ende-Visuals */
+    #endVisual{
+      display:none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: #ffffffd9;
+      position: relative;
+      overflow:hidden;
+    }
+    #endVisual.on{ display:block; }
+
+    .harp{
+      font-size: 28px;
+      opacity:.75;
+      margin-bottom: 6px;
+    }
+    .endText{
+      color: var(--muted);
+      font-size: 15px;
+      margin:0 0 10px 0;
