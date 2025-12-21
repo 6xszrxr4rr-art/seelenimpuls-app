@@ -117,11 +117,19 @@
       margin: 0 0 8px 0;
       font-size: 22px;
     }
-    .block p, .block li{
-      font-size: 18px;
-      line-height: 1.45;
-      color: #20262c;
-      min-height: 4.5em;
+    .block p{
+  font-size: 18px;
+  line-height: 1.45;
+  color: #20262c;
+  min-height: 4.5em;   /* nur für Fließtext, nicht für Listen */
+}
+
+.block li{
+  font-size: 18px;
+  line-height: 1.45;
+  color: #20262c;
+  margin: 10px 0;      /* schöner Abstand, aber nicht riesig */
+}
     }
     .muted{ color:var(--muted); font-size: 16px; margin-top: 8px; }
 
