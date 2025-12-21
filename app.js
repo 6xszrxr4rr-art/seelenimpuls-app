@@ -48,7 +48,7 @@ const textErklaerung =
   "Dein Körper lädt dich ein,\n" +
   "Tempo herauszunehmen\n" +
   "und wieder im Moment anzukommen.";
-function fadeInBgMusic(targetVolume = 0.004, durationMs = 6000) {
+function fadeInBgMusic(targetVolume = 0.0025, durationMs = 6000) {
   const bg = document.getElementById("bgMusic");
   if (!bg) return;
 
@@ -56,6 +56,8 @@ function fadeInBgMusic(targetVolume = 0.004, durationMs = 6000) {
 
   // iPhone/Safari: Audio erst nach USER-KLICK erlaubt
   bg.play().then(() => {
+  bg.volume = targetVolume;
+});
     const steps = 60; // mehr Steps = weicher
     const stepTime = Math.max(50, Math.floor(durationMs / steps));
     let v = 0;
