@@ -1,64 +1,63 @@
+// Helper
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-// Kleine Impulse oben
-const impulse = [
+
+// Impulse
+const impulses = [
   "Atme tief ein. Du musst heute nicht alles halten.",
   "Du darfst langsam sein.",
   "Dein Herz kennt den Weg.",
   "Alles darf leicht sein."
 ];
 
-function neuerImpuls() {
-  const el = document.getElementById("impuls");
+// Sehr leise Hintergrundmusik (das ist die „richtige“ Stelle!)
+const BG_TARGET_VOLUME = 0.012; // <- WIRKLICH leise (0.008–0.02 ist sinnvoll)
+const BG_FADE_MS = 6000;
+
+let situation1Running = false;
+
+// --- Typewriter: Absatz (stabil + keine Sprünge) ---
+async function typeParagraph(el, text, speed = 22) {
   if (!el) return;
-  el.innerText = impulse[Math.floor(Math.random() * impulse.length)];
+
+  // Wichtig: Text hat feste \n => Zeilenumbruch stabil
+  el.textContent = "";
+  for (let i = 0; i < text.length; i++) {
+    el.textContent += text[i];
+    await wait(speed);
+  }
 }
 
-// ---------- Reveal / Typewriter ----------
-function typeText(el, text, speed = 36) {
-  return new Promise((resolve) => {
-    if (!el) return resolve();
+// --- Typewriter: Liste (keine riesigen Abstände; CSS regelt li margin) ---
+async function typeList(listEl, items, speed = 18) {
+  if (!listEl) return;
 
-    el.innerHTML = "";   // korrekt
-    let i = 0;
+  listEl.innerHTML = "";
+  for (const item of items) {
+    const li = document.createElement("li");
+    li.textContent = "";
+    listEl.appendChild(li);
 
-    function tick() {
-      const ch = text.charAt(i);
-
-      if (ch === "\n") {
-        el.innerHTML += "<br>";
-      } else {
-        el.innerHTML += ch;   // ← DAS ist der wichtige Unterschied
-      }
-
-      i++;
-      if (i < text.length) {
-        setTimeout(tick, speed);
-      } else {
-        resolve();
-      }
+    for (let i = 0; i < item.length; i++) {
+      li.textContent += item[i];
+      await wait(speed);
     }
-
-    tick();
-  });
+    await wait(250);
+  }
 }
-// Erklärungstext mit bewussten Zeilenumbrüchen
-const textErklaerung =
-  "Innere Unruhe ist ein Zeichen.\n" +
-  "Dein Nervensystem sucht Sicherheit.\n" +
-  "Dein Körper lädt dich ein,\n" +
-  "Tempo herauszunehmen\n" +
-  "und wieder im Moment anzukommen.";
-function fadeInBgMusic(targetVolume = 0.0025, durationMs = 6000) {
+
+// --- Musik Fade-In (wirklich leise) ---
+function fadeInBgMusic(targetVolume = BG_TARGET_VOLUME, durationMs = BG_FADE_MS) {
   const bg = document.getElementById("bgMusic");
   if (!bg) return;
 
-  bg.volume = 0; // Start wirklich ganz leise
+  // Sofort hart begrenzen
+  targetVolume = Math.max(0, Math.min(0.03, targetVolume)); // nie über 0.03
 
-  // iPhone/Safari: Audio erst nach USER-KLICK erlaubt
+  bg.volume = 0;
+
+  // iPhone/Safari: play nur nach User-Klick erlaubt
   bg.play().then(() => {
-  bg.volume = targetVolume;
-});
-    const steps = 60; // mehr Steps = weicher
+    const steps = 60;
     const stepTime = Math.max(50, Math.floor(durationMs / steps));
     let v = 0;
     const inc = targetVolume / steps;
@@ -69,7 +68,8 @@ function fadeInBgMusic(targetVolume = 0.0025, durationMs = 6000) {
       if (bg.volume >= targetVolume) clearInterval(timer);
     }, stepTime);
   }).catch(() => {
-    // Wenn Safari blockt: dann passiert hier nichts (User müsste nochmal tippen)
+    // Wenn Safari blockt, passiert hier nichts.
+    // User müsste ggf. nochmal tippen.
   });
 }
 
@@ -80,55 +80,121 @@ function stopSongIfPlaying() {
   song.currentTime = 0;
 }
 
+function showBlock(id) {
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.classList.remove("hidden");
+  // reflow
+  void b.offsetWidth;
+  b.classList.add("show");
+}
+
 async function startSituation1() {
   if (situation1Running) return;
   situation1Running = true;
 
   try {
-    const content = document.getElementById("content");
-    if (!content) return;
-
-    content.classList.remove("hidden");
-
+    // Song stoppen falls er lief
     stopSongIfPlaying();
 
-    fadeInBgMusic(0.001, 8000);
+    // Hintergrundmusik sehr leise starten
+    fadeInBgMusic(BG_TARGET_VOLUME, BG_FADE_MS);
 
-    await typeText(document.getElementById("lineAnkommen"),
-      "Du bist hier. Du darfst ruhig werden.", 30);
+    // Texte: mit festen Zeilenumbrüchen => kein Springen
+    const textAnkommen =
+      "Du bist hier.\n" +
+      "Du darfst ruhig werden.";
+
+    const textErklaerung =
+      "Innere Unruhe ist oft ein Zeichen.\n" +
+      "Dein Nervensystem sucht Sicherheit.\n" +
+      "Dein Körper lädt dich ein,\n" +
+      "Tempo herauszunehmen\n" +
+      "und wieder im Moment anzukommen.";
+
+    const affirmationen = [
+      "Ich bin sicher.",
+      "Ich bin ganz.",
+      "Ich bin gehalten in mir."
+    ];
+
+    const ritual = [
+      "Drei tiefe Atemzüge.",
+      "Einatmen – ruhig und weich.",
+      "Ausatmen – etwas länger.",
+      "Schultern sinken lassen.",
+      "Boden unter dir spüren."
+    ];
+
+    // Block 1
+    showBlock("b1");
+    await typeParagraph(document.getElementById("lineAnkommen"), textAnkommen, 20);
+    await wait(900);
+
+    // Block 2
+    showBlock("b2");
+    await typeParagraph(document.getElementById("lineErklaerung"), textErklaerung, 18);
     await wait(1200);
 
-    await typeText(document.getElementById("lineErklaerung"),
-      textErklaerung, 32);
-    await wait(6500); // <- HIER mehr Pause nach Erklärung (statt 3500)
+    // Block 3
+    showBlock("b3");
+    await typeList(document.getElementById("lineAffirmationen"), affirmationen, 18);
+    await wait(800);
 
-    await typeText(document.getElementById("lineAffirmationen"),
-      "• Ich bin sicher.\n• Ich bin ganz.\n• Ich bin gehalten in mir.", 30);
-    await wait(4000); // <- mehr Pause nach Affirmationen (statt 2500)
+    // Block 4
+    showBlock("b4");
+    await typeList(document.getElementById("lineRitual"), ritual, 18);
+    await wait(700);
 
-    await typeText(document.getElementById("lineRitual"),
-      "1) Drei tiefe Atemzüge.\n2) Einatmen – ruhig und weich.\n3) Ausatmen – etwas länger.\n4) Schultern sinken lassen.\n5) Boden unter dir spüren.", 30);
-    await wait(2500);
+    // Block 5
+    showBlock("b5");
 
   } finally {
-    situation1Running = false; // <- DAS ist C (aber “safe”)
+    situation1Running = false;
   }
 }
 
-  // Button für Song aktivieren
+document.addEventListener("DOMContentLoaded", () => {
+  // Impuls Button
+  const btnImpuls = document.getElementById("btnImpuls");
+  const impulsEl = document.getElementById("impuls");
+  if (btnImpuls && impulsEl) {
+    btnImpuls.addEventListener("click", () => {
+      impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    });
+  }
+
+  // Start Situation 1
+  const btnSituation1 = document.getElementById("btnSituation1");
+  if (btnSituation1) {
+    btnSituation1.addEventListener("click", startSituation1);
+  }
+
+  // Song Button (bewusst per Klick)
   const btnSong = document.getElementById("btnSong");
-  if (btnSong) {
-    btnSong.onclick = () => {
-      const song = document.getElementById("songPlayer");
-      if (!song) return;
+  const song = document.getElementById("songPlayer");
+  const bg = document.getElementById("bgMusic");
+
+  if (btnSong && song) {
+    btnSong.addEventListener("click", () => {
+      // Wenn Song startet: Hintergrundmusik noch leiser (optional, aber angenehm)
+      if (bg) bg.volume = Math.min(bg.volume, 0.006);
+
       song.currentTime = 0;
       song.play().catch(() => {});
-    };
-  }
-}
+    });
 
-// Wiring
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("btnSituation1");
-  if (btn) btn.addEventListener("click", startSituation1);
+    // Wenn Song endet: Hintergrundmusik wieder auf Ziel-Lautstärke
+    song.addEventListener("ended", () => {
+      if (bg) bg.volume = BG_TARGET_VOLUME;
+    });
+    song.addEventListener("pause", () => {
+      // Nur zurückstellen, wenn nicht komplett gestoppt
+      if (bg) bg.volume = BG_TARGET_VOLUME;
+    });
+  }
+
+  // Extra Sicherheit: Background-Musik beim Laden schon leise setzen
+  const bgMusic = document.getElementById("bgMusic");
+  if (bgMusic) bgMusic.volume = 0;
 });
