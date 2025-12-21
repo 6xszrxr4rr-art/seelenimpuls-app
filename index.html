@@ -14,20 +14,13 @@
   --muted:#5a6672;
   --accent:#1f7ae0;
 }
-
 body{
   margin:0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: linear-gradient(180deg,var(--bg2),var(--bg1));
   color:var(--text);
 }
-
-.wrap{
-  max-width:520px;
-  margin:auto;
-  padding:22px;
-}
-
+.wrap{ max-width:520px; margin:auto; padding:22px; }
 .card{
   background:var(--card);
   border-radius:18px;
@@ -35,7 +28,6 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.06);
   margin-bottom:14px;
 }
-
 button{
   width:100%;
   padding:14px;
@@ -46,7 +38,6 @@ button{
   color:var(--accent);
   font-weight:700;
 }
-
 .block{
   margin-top:14px;
   padding:14px;
@@ -54,19 +45,20 @@ button{
   background:#ffffffd9;
   display:none;
 }
-
 .block.show{ display:block; }
-
 h3{ margin-top:0; }
-
 audio{ width:100%; margin-top:10px; }
 
-/* 🌧️ Regen – erscheint erst am Ende */
+ul{ margin:0 0 0 18px; padding:0; }
+li{ margin:6px 0; }
+
+/* 🌧️ dezenter Regen – erscheint erst am Ende */
 .rain{
   position:fixed;
   inset:0;
   pointer-events:none;
   display:none;
+  opacity:0.85;
 }
 .drop{
   position:absolute;
@@ -76,34 +68,33 @@ audio{ width:100%; margin-top:10px; }
   background:linear-gradient(to bottom, transparent, rgba(31,122,224,0.15));
   animation:fall linear infinite;
 }
-@keyframes fall{
-  to{ transform:translateY(120vh); }
-}
+@keyframes fall{ to{ transform:translateY(120vh); } }
 </style>
 </head>
 
 <body>
 
 <div class="rain" id="rain">
-  <span class="drop" style="left:20%;animation-duration:4s"></span>
-  <span class="drop" style="left:40%;animation-duration:5s"></span>
-  <span class="drop" style="left:60%;animation-duration:4.5s"></span>
-  <span class="drop" style="left:80%;animation-duration:5.5s"></span>
+  <span class="drop" style="left:18%;animation-duration:4.8s"></span>
+  <span class="drop" style="left:38%;animation-duration:5.6s"></span>
+  <span class="drop" style="left:58%;animation-duration:5.1s"></span>
+  <span class="drop" style="left:78%;animation-duration:6.2s"></span>
 </div>
 
 <div class="wrap">
   <div class="card">
     <h1>Dein Seelenimpuls ✨</h1>
     <p id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
-    <button id="btnImpuls">Neuen Impuls</button>
+    <button id="btnImpuls" type="button">Neuen Impuls</button>
   </div>
 
   <div class="card">
-    <button id="startSituation">
+    <button id="startSituation" type="button">
       Innere Unruhe & Gedankenkarussell
     </button>
 
-    <audio id="bgMusic">
+    <!-- Hintergrundmusik (kein loop) -->
+    <audio id="bgMusic" preload="metadata">
       <source src="audio/stillness-space.mp3" type="audio/mpeg">
     </audio>
 
@@ -129,8 +120,8 @@ audio{ width:100%; margin-top:10px; }
 
     <div class="block" id="b5">
       <h3>💡 Gesungene Affirmation</h3>
-      <button id="playSong">Jetzt hören</button>
-      <audio id="song">
+      <button id="playSong" type="button">Jetzt hören</button>
+      <audio id="song" preload="metadata">
         <source src="audio/held-within.mp3" type="audio/mpeg">
       </audio>
     </div>
