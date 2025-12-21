@@ -1,88 +1,101 @@
-// app.js (komplett ersetzen)
+const wait = ms => new Promise(r=>setTimeout(r,ms));
 
-// Helper
-const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const BG_VOL = 0.003;          // sehr leise
+const BG_MAX = 90000;          // 90 Sekunden
 
-// Impulse
-const impulses = [
-  "Atme tief ein. Du musst heute nicht alles halten.",
-  "Du darfst langsam sein.",
-  "Dein Herz kennt den Weg.",
-  "Alles darf leicht sein."
-];
+const TYPE = 42;               // langsamer Text
+const PAUSE = {
+  b1: 4000,
+  b2: 6500,
+  b3: 7500,
+  b4: 12000
+};
 
-// Hintergrundmusik: noch leiser + endet automatisch
-const BG_TARGET_VOLUME = 0.007;     // <- sehr leise (noch leiser als vorher)
-const BG_FADE_IN_MS = 6000;
-const BG_FADE_OUT_MS = 5000;
-const BG_MAX_PLAY_MS = 120000;      // <- 2 Minuten laufen lassen, dann ausfaden + stoppen
+const bg = document.getElementById("bgMusic");
+const song = document.getElementById("song");
 
-// Typewriter: Tick langsamer
-const TYPE_SPEED_PARA = 30;
-const TYPE_SPEED_LIST = 28;
-
-// Pausen (damit man wirklich Zeit hat)
-const PAUSE_AFTER_BLOCK_1 = 3200;
-const PAUSE_AFTER_BLOCK_2 = 5200;
-const PAUSE_AFTER_AFFIRMATIONS = 6500;
-const PAUSE_AFTER_RITUAL = 12000;   // Zeit für Atemzüge etc.
-
-let situation1Running = false;
-let bgAutoStopTimer = null;
-
-// ---------- Audio helpers ----------
-function clearBgTimer(){
-  if (bgAutoStopTimer) {
-    clearTimeout(bgAutoStopTimer);
-    bgAutoStopTimer = null;
+async function fade(audio,to,ms){
+  const steps=50, step=ms/steps;
+  const diff=(to-audio.volume)/steps;
+  for(let i=0;i<steps;i++){
+    audio.volume+=diff;
+    await wait(step);
   }
 }
 
-function fadeVolume(audio, to, durationMs){
-  if (!audio) return Promise.resolve();
-  to = Math.max(0, Math.min(1, to));
-  const from = audio.volume ?? 0;
-  const steps = 60;
-  const stepTime = Math.max(40, Math.floor(durationMs / steps));
-  const delta = (to - from) / steps;
-
-  return new Promise((resolve) => {
-    let i = 0;
-    const timer = setInterval(() => {
-      i++;
-      audio.volume = Math.max(0, Math.min(1, (audio.volume ?? from) + delta));
-      if (i >= steps) {
-        audio.volume = to;
-        clearInterval(timer);
-        resolve();
-      }
-    }, stepTime);
-  });
+async function startBg(){
+  bg.volume=0;
+  await bg.play();
+  await fade(bg,BG_VOL,6000);
+  setTimeout(()=>stopBg(),BG_MAX);
 }
 
-async function startBgMusic(){
-  const bg = document.getElementById("bgMusic");
-  if (!bg) return;
+async function stopBg(){
+  await fade(bg,0,4000);
+  bg.pause(); bg.currentTime=0;
+}
 
-  clearBgTimer();
-
-  // Start wirklich leise
-  bg.volume = 0;
-
-  try {
-    await bg.play();
-  } catch {
-    return; // Safari blockt ggf. – dann passiert nichts
+async function type(el,text){
+  el.textContent="";
+  for(const c of text){
+    el.textContent+=c;
+    await wait(TYPE);
   }
-
-  await fadeVolume(bg, BG_TARGET_VOLUME, BG_FADE_IN_MS);
-
-  // Automatisch nach BG_MAX_PLAY_MS ausfaden & stoppen
-  bgAutoStopTimer = setTimeout(async () => {
-    await stopBgMusic(true);
-  }, BG_MAX_PLAY_MS);
 }
 
-async function stopBgMusic(withFade = true){
-  const bg = document.getElementById("bgMusic");
-  if (!bg
+async function list(el,items){
+  el.innerHTML="";
+  for(const i of items){
+    const li=document.createElement("li");
+    el.appendChild(li);
+    for(const c of i){
+      li.textContent+=c;
+      await wait(TYPE);
+    }
+    await wait(800);
+  }
+}
+
+document.getElementById("startSituation").onclick = async ()=>{
+  await startBg();
+
+  document.getElementById("b1").classList.add("show");
+  await type(t1,"Du bist hier.\nDu darfst jetzt langsamer werden.");
+  await wait(PAUSE.b1);
+
+  document.getElementById("b2").classList.add("show");
+  await type(t2,
+    "Innere Unruhe ist oft ein wertvoller Hinweis deines Unterbewusstseins.\n" +
+    "Dein inneres System sucht nach Sicherheit.\n" +
+    "Du darfst diesem Signal jetzt zuhören."
+  );
+  await wait(PAUSE.b2);
+
+  document.getElementById("b3").classList.add("show");
+  await list(t3,[
+    "Ich bin sicher.",
+    "Ich bin ganz.",
+    "Ich bin gehalten in mir."
+  ]);
+  await wait(PAUSE.b3);
+
+  document.getElementById("b4").classList.add("show");
+  await list(t4,[
+    "Nimm dir einen Moment nur für dich.",
+    "Atme ruhig und gleichmäßig ein.",
+    "Atme etwas länger aus.",
+    "Lass deine Schultern sinken.",
+    "Spüre den Boden unter deinen Füßen.",
+    "Nimm wahr, wie Ruhe dich durchströmt."
+  ]);
+  await wait(PAUSE.b4);
+
+  document.getElementById("b5").classList.add("show");
+  document.getElementById("rain").style.display="block";
+};
+
+document.getElementById("playSong").onclick = async ()=>{
+  await stopBg();
+  song.currentTime=0;
+  song.play();
+};
