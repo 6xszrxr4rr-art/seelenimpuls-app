@@ -86,12 +86,16 @@
 
     /* Blocks, die nacheinander kommen */
     .block{
-      margin-top: 12px;
-      padding: 14px 14px;
-      border: 1px solid var(--stroke);
-      border-radius: 16px;
-      background: #ffffffd9;
-    }
+  margin-top: 12px;
+  padding: 14px 14px;
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    #ffffffee,
+    #f4f7f3ee
+  );
+}
 
     /* Start: unsichtbar */
     .hidden{
@@ -116,6 +120,7 @@
       font-size: 18px;
       line-height: 1.45;
       color: #20262c;
+      min-height: 4.5em;
     }
     .muted{ color:var(--muted); font-size: 16px; margin-top: 8px; }
 
