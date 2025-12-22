@@ -9,7 +9,7 @@
     :root{
       --bg1:#eef3f6;
       --bg2:#f7fbff;
-      --card:#ffffffcc;
+      --card:rgba(255,255,255,.85);
       --stroke:#e6edf3;
       --text:#1b1f24;
       --muted:#5a6672;
@@ -17,7 +17,6 @@
       --radius:18px;
     }
 
-    /* Grundlayout + dezente "Regenfall"-Schattierung */
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -28,36 +27,41 @@
       position:relative;
       overflow-x:hidden;
     }
+
+    /* weiche Lichtflecken */
     body::before{
       content:"";
       position:fixed;
       inset:0;
       pointer-events:none;
       background:
-        radial-gradient(circle at 20% 15%, rgba(255,255,255,.65), rgba(255,255,255,0) 40%),
-        radial-gradient(circle at 80% 30%, rgba(31,122,224,.08), rgba(31,122,224,0) 45%),
-        radial-gradient(circle at 45% 80%, rgba(120,160,190,.10), rgba(120,160,190,0) 55%),
-        linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0) 35%);
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,.8) 0 140px, rgba(255,255,255,0) 260px),
+        radial-gradient(circle at 82% 22%, rgba(31,122,224,.10) 0 120px, rgba(31,122,224,0) 260px),
+        radial-gradient(circle at 48% 86%, rgba(31,122,224,.08) 0 140px, rgba(31,122,224,0) 280px);
       filter: blur(0px);
+      z-index:0;
     }
-    /* “feiner Regen” als sehr transparente Streifen */
+
+    /* dezenter „Regenfall“-Schimmer */
     body::after{
       content:"";
       position:fixed;
       inset:-40px;
       pointer-events:none;
-      background: repeating-linear-gradient(
-        120deg,
-        rgba(31,122,224,0.025) 0px,
-        rgba(31,122,224,0.025) 1px,
-        rgba(255,255,255,0) 14px,
-        rgba(255,255,255,0) 22px
-      );
+      background:
+        repeating-linear-gradient(
+          120deg,
+          rgba(31,122,224,.025) 0px,
+          rgba(31,122,224,.025) 1px,
+          rgba(255,255,255,0) 14px,
+          rgba(255,255,255,0) 22px
+        );
       opacity:.55;
       transform: translateZ(0);
+      z-index:0;
     }
 
-    .wrap{ max-width: 520px; margin: 0 auto; }
+    .wrap{ max-width: 520px; margin: 0 auto; position:relative; z-index:1; }
 
     .card{
       background: var(--card);
@@ -65,13 +69,17 @@
       border-radius: var(--radius);
       padding: 18px 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,.06);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       margin-bottom: 14px;
     }
 
-    h1{ margin: 0 0 10px 0; font-size: 34px; letter-spacing: -0.02em; }
-    .sub{ color:var(--muted); font-size: 18px; margin: 0 0 14px 0; }
+    h1{
+      margin: 0 0 10px 0;
+      font-size: 34px;
+      letter-spacing:-0.02em;
+    }
+    .sub{ color:var(--muted); font-size:18px; margin:0 0 14px 0; }
 
     .btn{
       appearance:none;
@@ -91,22 +99,23 @@
     .situationBtn{
       width:100%;
       text-align:left;
-      border:1px solid var(--stroke);
-      background:#ffffffd9;
-      border-radius:18px;
-      padding:16px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.80);
+      border-radius: 18px;
+      padding: 16px;
+      color: var(--text);
     }
     .situationBtn .headline{
       color: var(--accent);
       font-weight: 900;
-      font-size: 28px;
-      line-height: 1.05;
-      margin: 0;
+      font-size: 24px;
+      line-height:1.15;
+      margin:0;
     }
     .situationBtn .hint{
-      margin-top: 8px;
       color: var(--muted);
       font-size: 15px;
+      margin-top: 8px;
     }
 
     /* Blocks */
@@ -115,27 +124,17 @@
       padding: 14px 14px;
       border: 1px solid var(--stroke);
       border-radius: 16px;
-      background: #ffffffd9;
+      background: rgba(255,255,255,.78);
     }
 
-    .hidden{
-      opacity: 0;
-      transform: translateY(8px);
-      pointer-events:none;
-    }
-    .show{
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 700ms ease, transform 700ms ease;
-      pointer-events:auto;
-    }
+    .hidden{ display:none; }
 
     .block h3{
-      margin: 0 0 8px 0;
+      margin: 0 0 10px 0;
       font-size: 22px;
     }
 
-    /* Stabil: Newlines werden schön angezeigt */
+    /* stabil für Zeilenumbrüche */
     .typed{
       white-space: pre-line;
       font-size: 18px;
@@ -144,21 +143,15 @@
       margin:0;
     }
 
-    /* Gegen “springen”: min-height reserviert Platz */
-    #t1{ min-height: 3.2em; }
-    #t2{ min-height: 8.5em; }
-
-    ul, ol{ margin: 0 0 0 18px; padding:0; }
+    ul, ol{ margin: 0 0 6px 22px; padding:0; }
     li{
       font-size: 18px;
       line-height: 1.45;
       color:#20262c;
-      margin: 0 0 10px 0;  /* kein riesiger Abstand */
+      margin: 0 0 10px 0; /* nicht riesig */
     }
 
     .muted{ color:var(--muted); font-size:16px; margin-top:8px; }
-
-    audio{ width:100%; margin-top:10px; }
 
     /* Ende-Visuals */
     #endVisual{
@@ -167,8 +160,8 @@
       padding: 14px;
       border-radius: 16px;
       border: 1px solid var(--stroke);
-      background: #ffffffd9;
-      position: relative;
+      background: rgba(255,255,255,.78);
+      position:relative;
       overflow:hidden;
     }
     #endVisual.on{ display:block; }
@@ -181,4 +174,96 @@
     .endText{
       color: var(--muted);
       font-size: 15px;
-      margin:0 0 10px 0;
+      margin: 0 0 10px 0;
+    }
+
+    .drops{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.6;
+    }
+    .drop{
+      position:absolute;
+      top:-20%;
+      width:2px;
+      height:22%;
+      border-radius: 999px;
+      background: rgba(31,122,224,.10);
+      animation: fall linear infinite;
+      filter: blur(.2px);
+    }
+    @keyframes fall{
+      from{ transform: translateY(0); }
+      to{ transform: translateY(160%); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Kopf / Impuls -->
+    <div class="card">
+      <h1>Dein Seelenimpuls ✨</h1>
+      <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
+      <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
+    </div>
+
+    <!-- Situation auswählen -->
+    <div class="card">
+      <button class="situationBtn" id="btnSituation1" type="button">
+        <div class="headline">Innere Unruhe &amp;<br>Gedankenkarussell</div>
+        <div class="hint">Tippe hier, um sanft zu starten (mit leiser Hintergrundmusik).</div>
+      </button>
+
+      <div class="divider"></div>
+
+      <!-- Blocks -->
+      <div class="block hidden" id="b1">
+        <h3>🌿 Ankommen</h3>
+        <p class="typed" id="t1"></p>
+      </div>
+
+      <div class="block hidden" id="b2">
+        <h3>🌿 Erklärung</h3>
+        <p class="typed" id="t2"></p>
+      </div>
+
+      <div class="block hidden" id="b3">
+        <h3>✨ Affirmationen</h3>
+        <ul id="t3"></ul>
+      </div>
+
+      <div class="block hidden" id="b4">
+        <h3>🌙 Mini-Ritual</h3>
+        <ul id="t4"></ul>
+      </div>
+
+      <div class="block hidden" id="b5">
+        <h3>💡 Gesungene Affirmation</h3>
+        <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
+        <button class="btn" id="btnSong" type="button">Jetzt hören</button>
+      </div>
+
+      <div id="endVisual">
+        <div class="harp">🎶</div>
+        <p class="endText">Ein paar sanfte Tropfen – und ein Moment nur für dich.</p>
+        <div class="drops" id="drops"></div>
+      </div>
+
+      <!-- Audio -->
+      <audio id="bgMusic" preload="metadata">
+        <source src="audio/stillness-space.mp3" type="audio/mpeg">
+      </audio>
+
+      <audio id="songPlayer" preload="metadata">
+        <source src="audio/held-within.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
