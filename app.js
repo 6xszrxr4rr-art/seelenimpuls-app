@@ -18,10 +18,10 @@ const BETWEEN_BLOCKS_MS = 3800;    // Pause zum Lesen/Umsetzen
 const AFTER_RITUAL_MS = 6500;      // extra Zeit nach Mini-Ritual
 
 // Musik
-const BG_TARGET_VOLUME = 0.012;    // sehr leise (wenn du willst: 0.010)
-const BG_FADE_MS = 1200;
-const BG_MAX_PLAY_MS = 90000;      // endet nach 90s automatisch
-
+// Musik
+const BG_TARGET_VOLUME = 0.007;   // leiser (vorher war’s zu laut)
+const BG_FADE_MS       = 2200;    // weicher/ruhiger Fade (länger)
+const BG_MAX_PLAY_MS   = 120000;  // max 2 Minuten laufen lassen
 let runId = 0; // schützt vor Doppelstarts
 
 function $(id){ return document.getElementById(id); }
