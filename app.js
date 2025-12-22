@@ -222,7 +222,7 @@ $("btnSituation1").addEventListener("click", async () => {
   // Danach: visuelle Ruhefläche + BG langsam beenden
   showEndVisual();
   // BG darf noch kurz laufen, dann endet es
-  setTimeout(() => stopBgMusic(true), 30000); // 30 Sekunden nachklingen lassen
+  setTimeout(() => stopBgMusic(true), 30000); // 30 Sek. nachklingen
 });
 
 $("btnSong").addEventListener("click", () => {
