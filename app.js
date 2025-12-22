@@ -1,149 +1,179 @@
-(() => {
-  // ---------- Settings ----------
-  const TYPE_SPEED_MS = 32;          // langsamer tippen
-  const BETWEEN_BLOCKS_MS = 1800;    // Pause zwischen Blöcken
-  const RITUAL_STEP_PAUSE_MS = 1400; // Zeit zum Mitmachen pro Ritual-Schritt
+/* =========================
+   Seelenimpuls – app.js
+   Stabil: kein „Springen“, keine Dopplungen,
+   leise BG-Musik, stoppt bei Song, endet automatisch.
+   ========================= */
 
-  const BG_TARGET_VOL = 0.006;       // sehr leise Hintergrundmusik
-  const BG_FADEIN_MS = 4500;
-  const BG_AUTO_FADEOUT_AFTER_MS = 45000; // nach 45s ausfaden
-  const BG_FADEOUT_MS = 5000;
+const impulses = [
+  "Atme tief ein. Du musst heute nichts halten.",
+  "Du darfst langsam sein.",
+  "Dein Herz kennt den Weg.",
+  "Alles darf leicht sein.",
+  "Du musst nicht kämpfen, um sicher zu sein."
+];
 
-  // ---------- Helpers ----------
-  const $ = (id) => document.getElementById(id);
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// Typing / Pausen
+const CHAR_DELAY_MS = 65;          // etwas langsamer
+const BETWEEN_BLOCKS_MS = 3800;    // Pause zum Lesen/Umsetzen
+const AFTER_RITUAL_MS = 6500;      // extra Zeit nach Mini-Ritual
 
-  // Abbruch/“nur 1 Sequenz gleichzeitig”
-  let runToken = 0;
-  let bgFadeTimer = null;
+// Musik
+const BG_TARGET_VOLUME = 0.012;    // sehr leise (wenn du willst: 0.010)
+const BG_FADE_MS = 1200;
+const BG_MAX_PLAY_MS = 90000;      // endet nach 90s automatisch
 
-  function clearList(el) {
-    if (!el) return;
-    el.innerHTML = "";
+let runId = 0; // schützt vor Doppelstarts
+
+function $(id){ return document.getElementById(id); }
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+function show(id){
+  const el = $(id);
+  if (!el) return;
+  el.classList.remove("hidden");
+}
+
+function clearAllBlocks(){
+  ["b1","b2","b3","b4","b5"].forEach(id => {
+    const el = $(id);
+    if (el) el.classList.add("hidden");
+  });
+  $("t1").textContent = "";
+  $("t2").textContent = "";
+  $("t3").innerHTML = "";
+  $("t4").innerHTML = "";
+  $("endVisual").classList.remove("on");
+  $("drops").innerHTML = "";
+}
+
+async function typeText(el, text, myRun){
+  el.textContent = "";
+  for (let i=0; i<text.length; i++){
+    if (myRun !== runId) return;
+    el.textContent += text[i];
+    await sleep(CHAR_DELAY_MS);
   }
+}
 
-  // Typewriter: schreibt Text als TextContent (stabil) – Newlines über CSS pre-line
-  async function typeText(el, text, speed = TYPE_SPEED_MS, token) {
-    if (!el) return;
-    el.textContent = "";
-    for (let i = 0; i < text.length; i++) {
-      if (token !== runToken) return;
-      el.textContent += text[i];
-      await sleep(speed);
+async function typeList(ul, items, myRun){
+  ul.innerHTML = "";
+  for (const item of items){
+    if (myRun !== runId) return;
+    const li = document.createElement("li");
+    ul.appendChild(li);
+    for (let i=0; i<item.length; i++){
+      if (myRun !== runId) return;
+      li.textContent += item[i];
+      await sleep(CHAR_DELAY_MS);
     }
+    await sleep(420);
   }
+}
 
-  // List typewriter
-  async function typeList(listEl, items, speed = TYPE_SPEED_MS, token) {
-    if (!listEl) return;
-    clearList(listEl);
+/* ---------- Audio helpers ---------- */
+function fadeTo(audio, target, durationMs){
+  if (!audio) return;
+  const start = audio.volume || 0;
+  const steps = 30;
+  const stepTime = Math.max(30, Math.floor(durationMs / steps));
+  let n = 0;
 
-    for (const item of items) {
-      if (token !== runToken) return;
+  const timer = setInterval(() => {
+    n++;
+    const v = start + (target - start) * (n / steps);
+    audio.volume = Math.max(0, Math.min(1, v));
+    if (n >= steps) clearInterval(timer);
+  }, stepTime);
+}
 
-      const li = document.createElement("li");
-      li.textContent = "";
-      listEl.appendChild(li);
+let bgStopTimer = null;
 
-      for (let i = 0; i < item.length; i++) {
-        if (token !== runToken) return;
-        li.textContent += item[i];
-        await sleep(speed);
-      }
-    }
+function startBgMusic(){
+  const bg = $("bgMusic");
+  if (!bg) return;
+
+  // Reset
+  bg.pause();
+  bg.currentTime = 0;
+  bg.loop = false;           // soll enden (nicht endlos)
+  bg.volume = 0;             // starte wirklich leise
+
+  // Safari/iPhone: Play nur nach User-Klick möglich – wir sind im Klick
+  bg.play().then(() => {
+    fadeTo(bg, BG_TARGET_VOLUME, BG_FADE_MS);
+
+    // nach X ms automatisch aus
+    if (bgStopTimer) clearTimeout(bgStopTimer);
+    bgStopTimer = setTimeout(() => stopBgMusic(true), BG_MAX_PLAY_MS);
+  }).catch(() => {
+    // wenn Safari blockt: passiert einfach nichts
+  });
+}
+
+function stopBgMusic(fade){
+  const bg = $("bgMusic");
+  if (!bg) return;
+
+  if (bgStopTimer) clearTimeout(bgStopTimer);
+  bgStopTimer = null;
+
+  if (!fade){
+    bg.pause();
+    return;
   }
+  fadeTo(bg, 0, 900);
+  setTimeout(() => {
+    bg.pause();
+  }, 950);
+}
 
-  function showBlock(id) {
-    const b = $(id);
-    if (!b) return;
-    b.classList.remove("hidden");
-    // reflow für saubere Transition
-    void b.offsetWidth;
-    b.classList.add("show");
+function stopSong(){
+  const song = $("songPlayer");
+  if (!song) return;
+  song.pause();
+  song.currentTime = 0;
+}
+
+/* ---------- End visuals ---------- */
+function showEndVisual(){
+  const box = $("endVisual");
+  const drops = $("drops");
+  if (!box || !drops) return;
+
+  box.classList.add("on");
+  drops.innerHTML = "";
+
+  // „tanzende Regentropfen“
+  const count = 18;
+  for (let i=0; i<count; i++){
+    const d = document.createElement("div");
+    d.className = "drop";
+    d.style.left = (Math.random()*100).toFixed(2) + "%";
+    d.style.animationDuration = (2.6 + Math.random()*2.6).toFixed(2) + "s";
+    d.style.animationDelay = (Math.random()*1.8).toFixed(2) + "s";
+    d.style.opacity = (0.25 + Math.random()*0.55).toFixed(2);
+    d.style.height = (18 + Math.random()*30).toFixed(0) + "%";
+    drops.appendChild(d);
   }
+}
 
-  // ---------- Audio ----------
-  function fadeTo(audioEl, targetVol, durationMs) {
-    if (!audioEl) return;
-    const steps = 60;
-    const stepTime = Math.max(50, Math.floor(durationMs / steps));
-    const start = audioEl.volume ?? 0;
-    const delta = (targetVol - start) / steps;
+/* ---------- UI wiring ---------- */
+$("btnImpuls").addEventListener("click", () => {
+  const el = $("impuls");
+  el.textContent = impulses[Math.floor(Math.random()*impulses.length)];
+});
 
-    let current = start;
-    const timer = setInterval(() => {
-      current += delta;
-      audioEl.volume = Math.max(0, Math.min(1, current));
-      if (
-        (delta >= 0 && audioEl.volume >= targetVol) ||
-        (delta < 0 && audioEl.volume <= targetVol)
-      ) {
-        audioEl.volume = targetVol;
-        clearInterval(timer);
-      }
-    }, stepTime);
-  }
+$("btnSituation1").addEventListener("click", async () => {
+  runId++;               // stoppt evtl. laufende Sequenzen
+  const myRun = runId;
 
-  function startBgMusic() {
-    const bg = $("bgMusic");
-    if (!bg) return;
+  clearAllBlocks();
+  stopSong();            // falls Song noch läuft
+  startBgMusic();        // BG startet leise
 
-    // iOS/Safari: play nur nach User-Klick zuverlässig – passiert hier.
-    bg.loop = true;
-    bg.currentTime = 0;
-    bg.volume = 0;
-
-    bg.play().then(() => {
-      fadeTo(bg, BG_TARGET_VOL, BG_FADEIN_MS);
-
-      // Auto-Fadeout, damit es nicht ewig läuft
-      if (bgFadeTimer) clearTimeout(bgFadeTimer);
-      bgFadeTimer = setTimeout(() => {
-        fadeOutAndStopBg();
-      }, BG_AUTO_FADEOUT_AFTER_MS);
-    }).catch(() => {
-      // falls Safari blockt: dann bleibt es still – App läuft trotzdem
-    });
-  }
-
-  function fadeOutAndStopBg() {
-    const bg = $("bgMusic");
-    if (!bg) return;
-    fadeTo(bg, 0, BG_FADEOUT_MS);
-    setTimeout(() => {
-      try {
-        bg.pause();
-        bg.currentTime = 0;
-      } catch {}
-    }, BG_FADEOUT_MS + 50);
-  }
-
-  function stopBgImmediately() {
-    const bg = $("bgMusic");
-    if (!bg) return;
-    try {
-      bg.pause();
-      bg.currentTime = 0;
-      bg.volume = 0;
-    } catch {}
-  }
-
-  // ---------- Impulse ----------
-  const impulse = [
-    "Atme tief ein. Du musst heute nichts halten.",
-    "Du darfst langsam sein.",
-    "Dein Herz kennt den Weg.",
-    "Alles darf leicht sein."
-  ];
-
-  function neuerImpuls() {
-    const el = $("impuls");
-    if (!el) return;
-    el.textContent = impulse[Math.floor(Math.random() * impulse.length)];
-  }
-
-  // ---------- Content ----------
-  const ankommen = "Du bist hier.\nDu darfst jetzt langsamer werden.";
+  const ankommen =
+    "Du bist hier.\n" +
+    "Du darfst jetzt langsamer werden.";
 
   const erklaerung =
     "Innere Unruhe ist oft ein wertvoller Hinweis deines Unterbewusstseins.\n" +
@@ -158,110 +188,56 @@
   ];
 
   const ritual = [
-    "Nimm drei tiefe Atemzüge – nur für dich.",
+    "Nimm dir einen Moment nur für dich.",
     "Atme ruhig und gleichmäßig ein.",
     "Atme etwas länger aus.",
     "Lass deine Schultern sinken.",
     "Nimm den Boden unter deinen Füßen wahr.",
-    "Spüre, wie Ruhe und Harmonie dich sanft durchströmen."
+    "Spüre, wie Ruhe und Harmonie dich durchströmen."
   ];
 
-  // ---------- Sequence ----------
-  async function startSituation1() {
-    // Neue Sequenz starten (bricht evtl. alte ab)
-    runToken++;
-    const token = runToken;
+  // Block 1
+  show("b1");
+  await typeText($("t1"), ankommen, myRun);
+  await sleep(BETWEEN_BLOCKS_MS);
 
-    // Reset/auf Anfangszustand
-    ["b1","b2","b3","b4","b5"].forEach((id) => {
-      const b = $(id);
-      if (!b) return;
-      b.classList.add("hidden");
-      b.classList.remove("show");
-    });
+  // Block 2
+  show("b2");
+  await typeText($("t2"), erklaerung, myRun);
+  await sleep(BETWEEN_BLOCKS_MS);
 
-    clearList($("t3"));
-    clearList($("t4"));
-    $("t1") && ($("t1").textContent = "");
-    $("t2") && ($("t2").textContent = "");
+  // Block 3
+  show("b3");
+  await typeList($("t3"), affirmationen, myRun);
+  await sleep(BETWEEN_BLOCKS_MS);
 
-    // Visual-Ende aus
-    const endVis = $("endVisual");
-    if (endVis) endVis.classList.remove("on");
+  // Block 4 (Ritual) + extra Zeit
+  show("b4");
+  await typeList($("t4"), ritual, myRun);
+  await sleep(AFTER_RITUAL_MS);
 
-    // Background Music starten
-    startBgMusic();
+  // Block 5
+  show("b5");
 
-    // Block 1
-    showBlock("b1");
-    await typeText($("t1"), ankommen, TYPE_SPEED_MS, token);
-    await sleep(BETWEEN_BLOCKS_MS);
+  // Danach: visuelle Ruhefläche + BG langsam beenden
+  showEndVisual();
+  // BG darf noch kurz laufen, dann endet es
+  setTimeout(() => stopBgMusic(true), 12000);
+});
 
-    // Block 2
-    showBlock("b2");
-    await typeText($("t2"), erklaerung, TYPE_SPEED_MS, token);
-    await sleep(BETWEEN_BLOCKS_MS);
+$("btnSong").addEventListener("click", () => {
+  // Beim Song: Hintergrundmusik aus, Song an
+  stopBgMusic(true);
 
-    // Block 3
-    showBlock("b3");
-    await typeList($("t3"), affirmationen, TYPE_SPEED_MS, token);
-    await sleep(BETWEEN_BLOCKS_MS);
+  const song = $("songPlayer");
+  if (!song) return;
 
-    // Block 4 (Ritual) + Pausen zum Mitmachen
-    showBlock("b4");
-    const listEl = $("t4");
-    clearList(listEl);
+  song.currentTime = 0;
+  song.volume = 1.0;
+  song.play().catch(() => {});
+});
 
-    for (const step of ritual) {
-      if (token !== runToken) return;
-      const li = document.createElement("li");
-      li.textContent = "";
-      listEl.appendChild(li);
-
-      for (let i = 0; i < step.length; i++) {
-        if (token !== runToken) return;
-        li.textContent += step[i];
-        await sleep(TYPE_SPEED_MS);
-      }
-      // Zeit zum Mitmachen
-      await sleep(RITUAL_STEP_PAUSE_MS);
-    }
-
-    await sleep(BETWEEN_BLOCKS_MS);
-
-    // Block 5 + dezente Visuals
-    showBlock("b5");
-    if (endVis) endVis.classList.add("on");
-  }
-
-  // Gesungene Affirmation: Background aus, Song an
-  function startSong() {
-    const song = $("audioPlayer");
-    if (!song) return;
-
-    // Background stoppen
-    if (bgFadeTimer) clearTimeout(bgFadeTimer);
-    fadeOutAndStopBg();
-
-    // Song starten
-    try {
-      song.currentTime = 0;
-      song.play().catch(() => {});
-    } catch {}
-  }
-
-  // ---------- Wiring ----------
-  document.addEventListener("DOMContentLoaded", () => {
-    const btnImpuls = $("btnImpuls");
-    btnImpuls && btnImpuls.addEventListener("click", neuerImpuls);
-
-    const btnSituation1 = $("btnSituation1");
-    btnSituation1 && btnSituation1.addEventListener("click", startSituation1);
-
-    const btnSong = $("btnSong");
-    btnSong && btnSong.addEventListener("click", startSong);
-
-    // Start-Impuls initial setzen
-    neuerImpuls();
-  });
-})();
+/* Song-Ende: optional BG nicht wieder starten (bewusst ruhig) */
+$("songPlayer").addEventListener("ended", () => {
+  // nichts – bewusst Stille danach
+});
