@@ -19,7 +19,7 @@ const AFTER_RITUAL_MS = 25000;    // 25 Sekunden Zeit für Ritual
 
 // Musik
 // Musik
-const BG_TARGET_VOLUME = 0.00005;   // leiser (vorher war’s zu laut)
+const BG_TARGET_VOLUME = 0.0005;   // leiser (vorher war’s zu laut)
 const BG_FADE_MS       = 2200;    // weicher/ruhiger Fade (länger)
 const BG_MAX_PLAY_MS   = 120000;  // max 2 Minuten laufen lassen
 let runId = 0; // schützt vor Doppelstarts
@@ -70,20 +70,34 @@ async function typeList(ul, items, myRun){
   }
 }
 
-/* ---------- Audio helpers ---------- */
-function fadeTo(audio, target, durationMs){
-  if (!audio) return;
-  const start = audio.volume || 0;
-  const steps = 30;
-  const stepTime = Math.max(30, Math.floor(durationMs / steps));
-  let n = 0;
+/* ---------- Audio helpers (iOS-safe via WebAudio Gain) ---------- */
 
-  const timer = setInterval(() => {
-    n++;
-    const v = start + (target - start) * (n / steps);
-    audio.volume = Math.max(0, Math.min(1, v));
-    if (n >= steps) clearInterval(timer);
-  }, stepTime);
+let audioCtx = null;
+let bgGain = null;
+let bgSource = null;
+
+function ensureAudioGraph() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const bg = $("bgMusic");
+  if (!bg) return;
+
+  bgSource = audioCtx.createMediaElementSource(bg);
+  bgGain = audioCtx.createGain();
+  bgGain.gain.value = 0; // startet stumm
+
+  bgSource.connect(bgGain);
+  bgGain.connect(audioCtx.destination);
+}
+
+function fadeGainTo(target, durationMs) {
+  if (!bgGain || !audioCtx) return;
+  const now = audioCtx.currentTime;
+  const dur = Math.max(0.05, durationMs / 1000);
+  bgGain.gain.cancelScheduledValues(now);
+  bgGain.gain.setValueAtTime(bgGain.gain.value, now);
+  bgGain.gain.linearRampToValueAtTime(target, now + dur);
 }
 
 let bgStopTimer = null;
