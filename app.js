@@ -116,7 +116,7 @@ function startBgMusic(){
 
   // Safari/iPhone: Play nur nach User-Klick möglich – wir sind im Klick
   bg.play().then(() => {
-    fadeTo(bg, BG_TARGET_VOLUME, BG_FADE_MS);
+    fadeGainTo(BG_TARGET_GAIN, BG_FADE_MS);
 
     // nach X ms automatisch aus
     if (bgStopTimer) clearTimeout(bgStopTimer);
@@ -137,10 +137,12 @@ function stopBgMusic(fade){
     bg.pause();
     return;
   }
-  fadeTo(bg, 0, 900);
-  setTimeout(() => {
-    bg.pause();
-  }, 950);
+  if (fade) {
+  fadeGainTo(0, 900);
+  setTimeout(() => { bg.pause(); }, 950);
+} else {
+  fadeGainTo(0, 50);
+  bg.pause();
 }
 
 function stopSong(){
