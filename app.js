@@ -173,7 +173,7 @@ function showEndVisual(){
     drops.appendChild(d);
   }
 }
-
+window.addEventListener("DOMContentLoaded", () => {
 /* ---------- UI wiring ---------- */
 $("btnImpuls").addEventListener("click", () => {
   const el = $("impuls");
