@@ -225,16 +225,28 @@ $("btnSituation1").addEventListener("click", async () => {
   setTimeout(() => stopBgMusic(true), 30000); // 30 Sek. nachklingen
 });
 
-$("btnSong").addEventListener("click", () => {
-  // Beim Song: Hintergrundmusik aus, Song an
-  stopBgMusic(true);
+$("btnSong").addEventListener("click", async () => {
+  // 1) Hintergrundmusik sofort stoppen (nicht nur fade)
+  stopBgMusic(false);
 
   const song = $("songPlayer");
   if (!song) return;
 
-  song.currentTime = 0;
-  song.volume = 1.0;
-  song.play().catch(() => {});
+  try{
+    // iOS: einmal "resetten", dann play
+    song.pause();
+    song.currentTime = 0;
+    song.volume = 1.0;
+
+    await song.play();
+  }catch(e){
+    // Wenn iOS trotzdem blockt: kleiner Trick -> einmal kurz stumm starten, dann normal
+    try{
+      song.muted = true;
+      await song.play();
+      song.muted = false;
+    }catch(_){}
+  }
 });
 
 /* Song-Ende: optional BG nicht wieder starten (bewusst ruhig) */
