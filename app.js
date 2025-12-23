@@ -81,6 +81,8 @@ function ensureAudioGraph() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
   const bg = $("bgMusic");
+ensureAudioGraph();
+if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
   if (!bg) return;
 
   bgSource = audioCtx.createMediaElementSource(bg);
