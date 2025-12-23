@@ -111,7 +111,7 @@ function startBgMusic(){
   bg.pause();
   bg.currentTime = 0;
   bg.loop = false;           // soll enden (nicht endlos)
-  bg.volume = 0;             // starte wirklich leise
+  bg.volume = 0.0001;   // HARD LIMIT – sehr sehr leise
 
   // Safari/iPhone: Play nur nach User-Klick möglich – wir sind im Klick
   bg.play().then(() => {
