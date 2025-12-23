@@ -1,20 +1,17 @@
-console.log("🔥 app.js START");
-
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ DOMContentLoaded");
+  console.log("✅ app.js läuft");
 
   const btnImpuls = document.getElementById("btnImpuls");
-  const out = document.getElementById("impuls");
+  const impuls = document.getElementById("impuls");
 
-  console.log("btnImpuls =", btnImpuls);
-  console.log("impuls =", out);
-
-  if (btnImpuls) {
-    btnImpuls.addEventListener("click", () => {
-      console.log("👉 btnImpuls CLICK");
-      if (out) out.textContent = "✅ Klick funktioniert!";
-    });
+  if (!btnImpuls || !impuls) {
+    console.error("❌ btnImpuls oder impuls nicht gefunden");
+    return;
   }
+
+  btnImpuls.addEventListener("click", () => {
+    impuls.textContent = "✨ JS-Klick funktioniert!";
+  });
 });
 /* =========================
    Seelenimpuls – app.js
