@@ -128,7 +128,7 @@ function stopBgMusic(fade){
 }
 
 function stopSong(){
-  const song = $("songPlayer");
+  const song = document.getElementById("songPlayer");
   if (!song) return;
   song.pause();
   song.currentTime = 0;
@@ -229,7 +229,7 @@ $("btnSong").addEventListener("click", async () => {
   // 1) Hintergrundmusik sofort stoppen (nicht nur fade)
   stopBgMusic(false);
 
-  const song = $("songPlayer");
+  const song = document.getElementById("songPlayer");
   if (!song) return;
 
   try{
