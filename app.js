@@ -14,12 +14,11 @@ const impulses = [
 
 // Typing / Pausen
 const CHAR_DELAY_MS = 65;          // etwas langsamer
-const BETWEEN_BLOCKS_MS = 9000;   // 9 Sekunden Pause nach jedem Block
+const BETWEEN_BLOCKS_MS = 15000;   // 15 Sekunden Pause nach jedem Block
 const AFTER_RITUAL_MS = 25000;    // 25 Sekunden Zeit für Ritual
 
 // Musik
-// Musik
-const BG_TARGET_VOLUME = 0.0005;   // leiser (vorher war’s zu laut)
+const BG_TARGET_VOLUME = 0.0001;   // leiser (vorher war’s zu laut)
 const BG_FADE_MS       = 2200;    // weicher/ruhiger Fade (länger)
 const BG_MAX_PLAY_MS   = 120000;  // max 2 Minuten laufen lassen
 let runId = 0; // schützt vor Doppelstarts
