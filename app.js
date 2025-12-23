@@ -14,8 +14,8 @@ const impulses = [
 
 // Typing / Pausen
 const CHAR_DELAY_MS = 65;          // etwas langsamer
-const BETWEEN_BLOCKS_MS = 3800;    // Pause zum Lesen/Umsetzen
-const AFTER_RITUAL_MS = 6500;      // extra Zeit nach Mini-Ritual
+const BETWEEN_BLOCKS_MS = 9000;   // 9 Sekunden Pause nach jedem Block
+const AFTER_RITUAL_MS = 25000;    // 25 Sekunden Zeit für Ritual
 
 // Musik
 // Musik
