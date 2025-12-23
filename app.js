@@ -1,18 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ app.js läuft");
-
-  const btnImpuls = document.getElementById("btnImpuls");
-  const impuls = document.getElementById("impuls");
-
-  if (!btnImpuls || !impuls) {
-    console.error("❌ btnImpuls oder impuls nicht gefunden");
-    return;
-  }
-
-  btnImpuls.addEventListener("click", () => {
-    impuls.textContent = "✨ JS-Klick funktioniert!";
-  });
-});
 /* =========================
    Seelenimpuls – app.js
    Stabil: kein „Springen“, keine Dopplungen,
