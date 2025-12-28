@@ -1,270 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Seelenimpuls</title>
 
   <style>
-    :root{
-      --bg1:#eef3f6;
-      --bg2:#f7fbff;
-      --card:rgba(255,255,255,.85);
-      --stroke:#e6edf3;
-      --text:#1b1f24;
-      --muted:#5a6672;
-      --accent:#1f7ae0;
-      --radius:18px;
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
     }
 
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background: linear-gradient(180deg, var(--bg2), var(--bg1));
-      min-height:100vh;
-      padding:22px;
-      position:relative;
-      overflow-x:hidden;
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
     }
 
-    /* weiche Lichtflecken */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 18% 12%, rgba(255,255,255,.8) 0 140px, rgba(255,255,255,0) 260px),
-        radial-gradient(circle at 82% 22%, rgba(31,122,224,.10) 0 120px, rgba(31,122,224,0) 260px),
-        radial-gradient(circle at 48% 86%, rgba(31,122,224,.08) 0 140px, rgba(31,122,224,0) 280px);
-      filter: blur(0px);
-      z-index:0;
-    }
-
-    /* dezenter „Regenfall“-Schimmer */
-    body::after{
-      content:"";
-      position:fixed;
-      inset:-40px;
-      pointer-events:none;
-      background:
-        repeating-linear-gradient(
-          120deg,
-          rgba(31,122,224,.025) 0px,
-          rgba(31,122,224,.025) 1px,
-          rgba(255,255,255,0) 14px,
-          rgba(255,255,255,0) 22px
-        );
-      opacity:.55;
-      transform: translateZ(0);
-      z-index:0;
-    }
-
-    .wrap{ max-width: 520px; margin: 0 auto; position:relative; z-index:1; }
-
-    .card{
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      padding: 18px 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.06);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      margin-bottom: 14px;
-    }
-
-    h1{
-      margin: 0 0 10px 0;
-      font-size: 34px;
-      letter-spacing:-0.02em;
-    }
-    .sub{ color:var(--muted); font-size:18px; margin:0 0 14px 0; }
-
-    .btn{
-      appearance:none;
-      border: 1px solid #d7e3ef;
-      background: #eaf2fb;
-      color: var(--accent);
-      font-weight: 800;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 18px;
+    button {
       width: 100%;
-    }
-    .btn:active{ transform: scale(.99); }
-
-    .divider{ height:1px; background: var(--stroke); margin: 14px 0; }
-
-    .situationBtn{
-      width:100%;
-      text-align:left;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.80);
-      border-radius: 18px;
       padding: 16px;
-      color: var(--text);
-    }
-    .situationBtn .headline{
-      color: var(--accent);
-      font-weight: 900;
-      font-size: 24px;
-      line-height:1.15;
-      margin:0;
-    }
-    .situationBtn .hint{
-      color: var(--muted);
-      font-size: 15px;
-      margin-top: 8px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: none;
+      background: #e6eef7;
+      cursor: pointer;
     }
 
-    /* Blocks */
-    .block{
-      margin-top: 12px;
-      padding: 14px 14px;
-      border: 1px solid var(--stroke);
-      border-radius: 16px;
-      background: rgba(255,255,255,.78);
-    }
-
-    .hidden{ display:none; }
-
-    .block h3{
-      margin: 0 0 10px 0;
-      font-size: 22px;
-    }
-
-    /* stabil für Zeilenumbrüche */
-    .typed{
-      white-space: pre-line;
-      font-size: 18px;
-      line-height: 1.45;
-      color:#20262c;
-      margin:0;
-    }
-
-    ul, ol{ margin: 0 0 6px 22px; padding:0; }
-    li{
-      font-size: 18px;
-      line-height: 1.45;
-      color:#20262c;
-      margin: 0 0 10px 0; /* nicht riesig */
-    }
-
-    .muted{ color:var(--muted); font-size:16px; margin-top:8px; }
-
-    /* Ende-Visuals */
-    #endVisual{
-      display:none;
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.78);
-      position:relative;
-      overflow:hidden;
-    }
-    #endVisual.on{ display:block; }
-
-    .harp{
-      font-size: 28px;
-      opacity:.75;
-      margin-bottom: 6px;
-    }
-    .endText{
-      color: var(--muted);
-      font-size: 15px;
-      margin: 0 0 10px 0;
-    }
-
-    .drops{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:.6;
-    }
-    .drop{
-      position:absolute;
-      top:-20%;
-      width:2px;
-      height:22%;
-      border-radius: 999px;
-      background: rgba(31,122,224,.10);
-      animation: fall linear infinite;
-      filter: blur(.2px);
-    }
-    @keyframes fall{
-      from{ transform: translateY(0); }
-      to{ transform: translateY(160%); }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
 
-    <!-- Kopf / Impuls -->
-    <div class="card">
-      <h1>Dein Seelenimpuls ✨</h1>
-      <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
-      <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
-    </div>
-
- <!-- Situation auswählen -->
-<div class="card">
-  <button class="situationBtn" id="btnSituation1" type="button">
-    <div class="headline">Innere Unruhe &amp;<br>Gedankenkarussell</div>
-    <div class="hint">Tippe hier, um sanft zu starten (mit leiser Hintergrundmusik).</div>
-  </button>
-</div>
-
-<div class="divider"></div>
-
-      <!-- Blocks -->
-      <div class="block hidden" id="b1">
-        <h3>🌿 Ankommen</h3>
-        <p class="typed" id="t1"></p>
-      </div>
-
-      <div class="block hidden" id="b2">
-        <h3>🌿 Erklärung</h3>
-        <p class="typed" id="t2"></p>
-      </div>
-
-      <div class="block hidden" id="b3">
-        <h3>✨ Affirmationen</h3>
-        <ul id="t3"></ul>
-      </div>
-
-      <div class="block hidden" id="b4">
-        <h3>🌙 Mini-Ritual</h3>
-        <ul id="t4"></ul>
-      </div>
-
-      <div class="block hidden" id="b5">
-        <h3>💡 Gesungene Affirmation</h3>
-        <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
-        <button class="btn" id="btnSong" type="button">Jetzt hören</button>
-      </div>
-
-      <div id="endVisual">
-        <div class="harp">🎶</div>
-        <p class="endText">Ein paar sanfte Tropfen – und ein Moment nur für dich.</p>
-        <div class="drops" id="drops"></div>
-      </div>
-
-      <!-- Audio -->
-      <audio id="bgMusic" preload="metadata">
-        <source src="audio/stillness-space.mp3" type="audio/mpeg">
-      </audio>
-
-      <audio id="songPlayer" preload="metadata">
-        <source src="audio/held-within.mp3" type="audio/mpeg">
-      </audio>
-    </div>
-
+  <div class="card">
+    <h1>Dein Seelenimpuls ✨</h1>
+    <p id="impuls">Tippe auf „Neuen Impuls“.</p>
+    <button id="btnImpuls" type="button">Neuen Impuls</button>
   </div>
 
-  <script src="app.js?v=10" defer></script>
+  <div class="card">
+    <button id="btnSituation1" type="button">
+      Innere Unruhe & Gedankenkarussell
+    </button>
+  </div>
+
+  <div class="card hidden" id="block1">
+    <h3>Ankommen</h3>
+    <p id="text1"></p>
+  </div>
+
+  <script src="app.js?v=1" defer></script>
 </body>
 </html>
