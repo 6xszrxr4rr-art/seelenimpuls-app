@@ -3,7 +3,9 @@
    Stabil: kein „Springen“, keine Dopplungen,
    leise BG-Musik, stoppt bei Song, endet automatisch.
    ========================= */
-
+function $(id) {
+  return document.getElementById(id);
+}
 const impulses = [
   "Atme tief ein. Du musst heute nichts halten.",
   "Du darfst langsam sein.",
