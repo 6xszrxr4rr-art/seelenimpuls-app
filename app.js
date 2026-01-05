@@ -285,34 +285,37 @@ showEndVisual();
 setTimeout(() => stopBgMusic(true), 45000);
   });
 
-  btnSong.addEventListener("click", async () => {
-    stopBgMusic(false); // sofort still
-    const song = $("songPlayer");
-    if (!song) return;
+ btnSong.addEventListener("click", async () => {
+  stopBgMusic(false); // Hintergrund sofort still
 
-    try{
-      song.pause();
-      song.currentTime = 0;
-      song.volume = 0.35;   // deutlich leiser
+  const song = $("songPlayer");
+  if (!song) return;
+
+  try {
+    song.pause();
+    song.currentTime = 0;
+
+    // Start SEHR leise
+    song.volume = 0.03;
+    await song.play();
+
+    // Sanfter Fade-in
+    let v = 0.03;
+    const step = 0.01;
+    const timer = setInterval(() => {
+      v = Math.min(SONG_TARGET_VOLUME, v + step);
+      song.volume = v;
+      if (v >= SONG_TARGET_VOLUME) clearInterval(timer);
+    }, 120);
+
+  } catch (e) {
+    // iOS-Fallback
+    try {
+      song.muted = true;
       await song.play();
-       song.volume = 0.05;
-await song.play();
-let v = 0.05;
-const target = 0.35;
-const step = 0.02;
-const timer = setInterval(() => {
-  v = Math.min(target, v + step);
-  song.volume = v;
-  if (v >= target) clearInterval(timer);
-}, 80);
-    } catch(e){
-      // iOS Fallback-Trick
-      try{
-        song.muted = true;
-        await song.play();
-        song.muted = false;
-      } catch(_) {}
-    }
-  });
+      song.muted = false;
+    } catch (_) {}
+  }
+}); 
 
 });
