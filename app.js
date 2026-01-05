@@ -72,16 +72,17 @@ function autoScrollTo(id){
     "Spüre, wie Ruhe und Harmonie dich durchströmen."
   ];
 
-  // ---------- Timing (hier stellst du Pausen ein) ----------
-  const CHAR_DELAY_MS      = 70;     // Tippgeschwindigkeit (höher = langsamer)
-  const BETWEEN_BLOCKS_MS  = 9000;   // 9 Sekunden
-  const AFTER_RITUAL_MS    = 15000;  // 15 Sekunden Ritual-Zeit
+ // ---------- Timing ----------
+const CHAR_DELAY_MS      = 70;
+const BETWEEN_BLOCKS_MS  = 9000;
+const AFTER_RITUAL_MS    = 15000;
 
-  // ---------- Audio: Hintergrundmusik super-leise (WebAudio Gain) ----------
-  // DAS ist der Regler, der wirklich wirkt:
-  const BG_TARGET_GAIN = 0.003;   // etwas lauter
-  const BG_FADE_MS     = 2500;    // weicher Fade
-  const BG_MAX_PLAY_MS = 180000;  // max 3 Minuten (damit sie länger nachklingt)
+// ---------- Audio ----------
+const BG_TARGET_GAIN     = 0.003;   // Hintergrund sehr leise
+const BG_FADE_MS         = 2500;
+const BG_MAX_PLAY_MS     = 180000;
+
+const SONG_TARGET_VOLUME = 0.15;    // Song angenehm leise
 
   let runId = 0;
   let bgStopTimer = null;
