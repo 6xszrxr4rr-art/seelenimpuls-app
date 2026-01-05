@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try{
       song.pause();
       song.currentTime = 0;
-      song.volume = 1.0;
+      song.volume = 0.35;   // deutlich leiser
       await song.play();
     } catch(e){
       // iOS Fallback-Trick
