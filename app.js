@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Audio: Hintergrundmusik super-leise (WebAudio Gain) ----------
   // DAS ist der Regler, der wirklich wirkt:
-  const BG_TARGET_GAIN = 0.0018;  // EXTREM leise. Noch leiser: 0.001
+  const BG_TARGET_GAIN = 0.0024;   // etwas lauter
   const BG_FADE_MS     = 2500;    // weicher Fade
   const BG_MAX_PLAY_MS = 180000;  // max 3 Minuten (damit sie länger nachklingt)
 
