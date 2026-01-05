@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Timing (hier stellst du Pausen ein) ----------
   const CHAR_DELAY_MS      = 70;     // Tippgeschwindigkeit (höher = langsamer)
-  const BETWEEN_BLOCKS_MS  = 18000;  // Pause NACH Block 1/2/3 (z.B. 18s)
-  const AFTER_RITUAL_MS    = 45000;  // Zeit fürs Ritual (z.B. 45s)
+  const BETWEEN_BLOCKS_MS  = 9000;   // 9 Sekunden
+const AFTER_RITUAL_MS    = 15000;  // 15 Sekunden Ritual-Zeit
 
   // ---------- Audio: Hintergrundmusik super-leise (WebAudio Gain) ----------
   // DAS ist der Regler, der wirklich wirkt:
