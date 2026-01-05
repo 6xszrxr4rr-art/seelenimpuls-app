@@ -78,11 +78,11 @@ const BETWEEN_BLOCKS_MS  = 9000;
 const AFTER_RITUAL_MS    = 15000;
 
 // ---------- Audio ----------
-const BG_TARGET_GAIN     = 0.0045;   // Hintergrund sehr leise
+const BG_TARGET_GAIN     = 0.0055;   // Hintergrund sehr leise
 const BG_FADE_MS         = 2500;
 const BG_MAX_PLAY_MS     = 180000;
 
-const SONG_TARGET_VOLUME = 0.10;    // Song angenehm leise
+const SONG_TARGET_VOLUME = 0.08;    // Song angenehm leise
 
   let runId = 0;
   let bgStopTimer = null;
