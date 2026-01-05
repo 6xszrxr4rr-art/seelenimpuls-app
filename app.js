@@ -278,6 +278,16 @@ document.addEventListener("DOMContentLoaded", () => {
       song.currentTime = 0;
       song.volume = 0.35;   // deutlich leiser
       await song.play();
+       song.volume = 0.05;
+await song.play();
+let v = 0.05;
+const target = 0.35;
+const step = 0.02;
+const timer = setInterval(() => {
+  v = Math.min(target, v + step);
+  song.volume = v;
+  if (v >= target) clearInterval(timer);
+}, 80);
     } catch(e){
       // iOS Fallback-Trick
       try{
