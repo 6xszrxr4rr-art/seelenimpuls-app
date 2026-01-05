@@ -17,7 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!el) return;
     el.classList.remove("hidden");
   }
-
+function autoScrollTo(id){
+  const el = $(id);
+  if (!el) return;
+  el.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
   function clearAllBlocks(){
     ["b1","b2","b3","b4","b5"].forEach(id => {
       const el = $(id);
