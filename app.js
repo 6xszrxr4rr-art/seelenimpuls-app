@@ -242,7 +242,8 @@ const AFTER_RITUAL_MS    = 15000;  // 15 Sekunden Ritual-Zeit
 
     // Block 1
     show("b1");
-    await typeText($("t1"), ankommenText, myRun);
+autoScrollTo("b1");
+await typeText($("t1"), ankommenText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 2
