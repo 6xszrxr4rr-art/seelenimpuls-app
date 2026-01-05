@@ -242,28 +242,32 @@ const AFTER_RITUAL_MS    = 15000;  // 15 Sekunden Ritual-Zeit
 
     // Block 1
     show("b1");
-autoScrollTo("b1");
-await typeText($("t1"), ankommenText, myRun);
+    autoScrollTo("b1");
+    await typeText($("t1"), ankommenText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 2
+    // Block 2 – Erklärung
     show("b2");
-    await typeText($("t2"), erklaerungText, myRun);
+    autoScrollTo("b2");
+    await typeText($("t2"), erklaerung, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 3
+    // Block 3 – Affirmationen
     show("b3");
-    await typeList($("t3"), affirmationItems, myRun);
+    autoScrollTo("b3");
+    await typeList($("t3"), affirmationen, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 4 (Ritual)
+    // Block 4 – Mini-Ritual
     show("b4");
-    await typeList($("t4"), ritualItems, myRun);
+    autoScrollTo("b4");
+    await typeList($("t4"), ritual, myRun);
     await sleep(AFTER_RITUAL_MS);
 
-    // Block 5 (Song-Button)
+    // Block 5 – Gesungene Affirmation
     show("b5");
-
+    autoScrollTo("b5");
+     
     // End-Visual + BG noch nachklingen lassen (z.B. 45s)
     showEndVisual();
     setTimeout(() => stopBgMusic(true), 45000);
