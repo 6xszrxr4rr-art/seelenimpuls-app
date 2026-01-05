@@ -11,8 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- Helper ----------
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-
-  function show(id){
+$("impuls").textContent = "JS geladen ✅  BG=" + BG_TARGET_GAIN + "  SONG=" + SONG_TARGET_VOLUME;
+ 
+   function show(id){
     const el = $(id);
     if (!el) return;
     el.classList.remove("hidden");
