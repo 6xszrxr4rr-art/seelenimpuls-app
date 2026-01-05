@@ -79,7 +79,7 @@ function autoScrollTo(id){
 
   // ---------- Audio: Hintergrundmusik super-leise (WebAudio Gain) ----------
   // DAS ist der Regler, der wirklich wirkt:
-  const BG_TARGET_GAIN = 0.0,003;   // etwas lauter
+  const BG_TARGET_GAIN = 0.003;   // etwas lauter
   const BG_FADE_MS     = 2500;    // weicher Fade
   const BG_MAX_PLAY_MS = 180000;  // max 3 Minuten (damit sie länger nachklingt)
 
