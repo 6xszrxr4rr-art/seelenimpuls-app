@@ -248,36 +248,40 @@ function autoScrollTo(id){
     await startBgMusic();    // dann sauber neu starten (sehr leise)
 
     // Block 1
-    show("b1");
-    autoScrollTo("b1");
-    await typeText($("t1"), ankommenText, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+show("b1");
+autoScrollTo("b1");
+await typeText($("t1"), ankommenText, myRun);
+autoScrollTo("b1");
+await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 2 – Erklärung
-    show("b2");
-    autoScrollTo("b2");
-    await typeText($("t2"), erklaerung, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+// Block 2 – Erklärung
+show("b2");
+autoScrollTo("b2");
+await typeText($("t2"), erklaerungText, myRun);   // WICHTIG: ...Text
+autoScrollTo("b2");
+await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 3 – Affirmationen
-    show("b3");
-    autoScrollTo("b3");
-    await typeList($("t3"), affirmationen, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+// Block 3 – Affirmationen
+show("b3");
+autoScrollTo("b3");
+await typeList($("t3"), affirmationItems, myRun); // WICHTIG: affirmationItems
+autoScrollTo("b3");
+await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 4 – Mini-Ritual
-    show("b4");
-    autoScrollTo("b4");
-    await typeList($("t4"), ritual, myRun);
-    await sleep(AFTER_RITUAL_MS);
+// Block 4 – Mini-Ritual
+show("b4");
+autoScrollTo("b4");
+await typeList($("t4"), ritualItems, myRun);      // WICHTIG: ritualItems
+autoScrollTo("b4");
+await sleep(AFTER_RITUAL_MS);
 
-    // Block 5 – Gesungene Affirmation
-    show("b5");
-    autoScrollTo("b5");
-     
-    // End-Visual + BG noch nachklingen lassen (z.B. 45s)
-    showEndVisual();
-    setTimeout(() => stopBgMusic(true), 45000);
+// Block 5 – Song-Button sichtbar + End-Visual
+show("b5");
+autoScrollTo("b5");
+
+// End-Visual + BG nachklingen lassen
+showEndVisual();
+setTimeout(() => stopBgMusic(true), 45000);
   });
 
   btnSong.addEventListener("click", async () => {
