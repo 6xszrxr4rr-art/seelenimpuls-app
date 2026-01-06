@@ -228,6 +228,7 @@ const SONG_TARGET_VOLUME = 0.08;    // Song angenehm leise
   const btnSituation1 = $("btnSituation1");
   const btnSong = $("btnSong");
   const impulsEl = $("impuls");
+   $("impuls").textContent = "JS geladen ✅  BG=" + BG_TARGET_GAIN + "  SONG=" + SONG_TARGET_VOLUME;
 
   // Sicherheitscheck: wenn IDs fehlen, NICHT still sterben
   if (!btnImpuls || !btnSituation1 || !btnSong || !impulsEl) {
