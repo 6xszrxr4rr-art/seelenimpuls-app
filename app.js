@@ -91,8 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Timing ----------
   const CHAR_DELAY_MS      = 70;
-  const BETWEEN_BLOCKS_MS  = 9000;
-  const AFTER_RITUAL_MS    = 15000;
+  const BETWEEN_BLOCKS_MS  = 5000;
+  const AFTER_RITUAL_MS    = 8000;
 
   // ---------- Audio ----------
   const BG_TARGET_GAIN   = 0.0085;
