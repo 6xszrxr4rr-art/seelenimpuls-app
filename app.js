@@ -12,23 +12,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // --- sanftes Mit-Scrollen während des Tippens (ruhig + nur wenn nötig) ---
-  let lastScrollTs = 0;
-  function followWhileTyping(el){
-    if (!el) return;
+ let lastScrollTs = 0;
+function followWhileTyping(el){
+  if (!el) return;
 
-    const now = performance.now();
-    if (now - lastScrollTs < 90) return; // throttle
-    lastScrollTs = now;
+  const now = performance.now();
+  if (now - lastScrollTs < 80) return; // häufiger = gleichmäßiger
+  lastScrollTs = now;
 
-    const r = el.getBoundingClientRect();
-    const padding = 240;
-    const limit = window.innerHeight - padding;
+  const r = el.getBoundingClientRect();
 
-    if (r.bottom > limit){
-      window.scrollBy({ top: (r.bottom - limit), behavior: "smooth" });
-    }
+  // früher einsetzen: größere "Schutzzone" unten => scrollt früher
+  const padding = 240;
+  const limit = window.innerHeight - padding;
+
+  if (r.bottom > limit){
+    const delta = r.bottom - limit;
+    // WICHTIG: "auto" statt "smooth" = kein Aufschaukeln / keine Sprünge
+    window.scrollBy({ top: delta, behavior: "auto" });
   }
+}
 
   function show(id){
     const el = $(id);
