@@ -11,24 +11,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- Helper ----------
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-  // --- sanftes Mit-Scrollen während des Tippens (ruhig + nur wenn nötig) ---
+ // --- sanftes Mit-Scrollen während des Tippens (ruhig + nur wenn nötig) ---
 let lastScrollTs = 0;
 function followWhileTyping(el){
   if (!el) return;
 
   const now = performance.now();
-  if (now - lastScrollTs < 120) return; // throttle: max ~8x/Sek.
+  if (now - lastScrollTs < 140) return; // etwas ruhiger
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
-  const padding = 120; // Abstand zum unteren Rand (ruhiger)
+  const padding = 140;
   const limit = window.innerHeight - padding;
 
   if (r.bottom > limit){
-    const delta = r.bottom - limit;
-    window.scrollBy({ top: delta, behavior: "smooth" });
+    window.scrollBy({ top: (r.bottom - limit), behavior: "smooth" });
   }
-}z.B.
+}
    
    function show(id){
     const el = $(id);
@@ -220,7 +219,6 @@ const SONG_TARGET_GAIN = 0.04;  // Song leiser machen: 0.08 / 0.06
   // am Ende einmal sauber ausrichten
   followWhileTyping(el);
 }
-  }
 
   async function typeList(ul, items, myRun){
     if (!ul) return;
