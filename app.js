@@ -296,18 +296,19 @@ setTimeout(() => stopBgMusic(true), 45000);
     song.pause();
     song.currentTime = 0;
 
-    // Start SEHR leise
-    song.volume = 0.03;
+    // Start extrem leise + HARD SET (damit es wirklich greift)
+    song.volume = 0.02;
     await song.play();
+    song.volume = 0.02;
 
-    // Sanfter Fade-in
-    let v = 0.03;
-    const step = 0.01;
+    // Sanfter Fade-in bis Ziel
+    let v = 0.02;
+    const step = 0.005;
     const timer = setInterval(() => {
       v = Math.min(SONG_TARGET_VOLUME, v + step);
       song.volume = v;
       if (v >= SONG_TARGET_VOLUME) clearInterval(timer);
-    }, 120);
+    }, 140);
 
   } catch (e) {
     // iOS-Fallback
@@ -315,8 +316,9 @@ setTimeout(() => stopBgMusic(true), 45000);
       song.muted = true;
       await song.play();
       song.muted = false;
+      song.volume = SONG_TARGET_VOLUME;
     } catch (_) {}
   }
-}); 
+});
 
 });
