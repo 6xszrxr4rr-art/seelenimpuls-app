@@ -199,23 +199,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Typing ----------
   async function typeText(el, text, myRun){
-    if (!el) return;
-    el.textContent = "";
+  if (!el) return;
 
-    for (let i = 0; i < text.length; i++){
-      if (myRun !== runId) return;
+  // Textnode + Cursor sauber vorbereiten
+  el.textContent = "";
+  const textNode = document.createTextNode("");
+  el.appendChild(textNode);
 
-      el.textContent += text[i];
-
-      if (text[i] === "\n" || i % 18 === 0) {
-        followWhileTyping(el);
-      }
-
-      await sleep(CHAR_DELAY_MS);
-    }
-
-    followWhileTyping(el);
+  let cursor = el.querySelector(".cursor");
+  if (!cursor) {
+    cursor = document.createElement("span");
+    cursor.className = "cursor";
+    el.appendChild(cursor);
   }
+
+  for (let i = 0; i < text.length; i++){
+    if (myRun !== runId) return;
+
+    textNode.textContent += text[i];
+
+    // JETZT: von Anfang an sanft mitscrollen
+    followWhileTyping(cursor);
+
+    await sleep(CHAR_DELAY_MS);
+  }
+
+  // kein harter Sprung am Ende mehr
+}
 
   async function typeList(ul, items, myRun){
     if (!ul) return;
