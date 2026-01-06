@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!el) return;
 
     const now = performance.now();
-    if (now - lastScrollTs < 140) return; // throttle
+    if (now - lastScrollTs < 90) return; // throttle
     lastScrollTs = now;
 
     const r = el.getBoundingClientRect();
-    const padding = 140;
+    const padding = 240;
     const limit = window.innerHeight - padding;
 
     if (r.bottom > limit){
