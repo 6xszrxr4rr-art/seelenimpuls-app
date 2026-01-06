@@ -81,7 +81,7 @@ const AFTER_RITUAL_MS    = 15000;
 const BG_TARGET_GAIN = 0.0085;  // vorher 0.0055
 const BG_FADE_MS         = 2500;
 const BG_MAX_PLAY_MS     = 180000;
-const SONG_TARGET_GAIN = 0.09;  // Song leiser machen: 0.08 / 0.06
+const SONG_TARGET_GAIN = 0.04;  // Song leiser machen: 0.08 / 0.06
 
   let runId = 0;
   let bgStopTimer = null;
@@ -238,7 +238,6 @@ const SONG_TARGET_GAIN = 0.09;  // Song leiser machen: 0.08 / 0.06
   const btnSituation1 = $("btnSituation1");
   const btnSong = $("btnSong");
   const impulsEl = $("impuls");
-   $("impuls").textContent = "JS geladen ✅  BG=" + BG_TARGET_GAIN + "  SONG=" + SONG_TARGET_VOLUME;
 
   // Sicherheitscheck: wenn IDs fehlen, NICHT still sterben
   if (!btnImpuls || !btnSituation1 || !btnSong || !impulsEl) {
