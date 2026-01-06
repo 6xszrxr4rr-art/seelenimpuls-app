@@ -241,10 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (myRun !== runId) return;
 
         li.textContent += item[i];
-
-        if (item[i] === " " || i % 16 === 0){
-          followWhileTyping(ul);
-        }
+        followWhileTyping(li);
 
         await sleep(CHAR_DELAY_MS);
       }
