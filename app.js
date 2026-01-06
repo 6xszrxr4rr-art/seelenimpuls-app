@@ -91,7 +91,9 @@ const SONG_TARGET_VOLUME = 0.045;   // deutlich leiser
   let audioCtx = null;
   let bgGain = null;
   let bgSource = null;
-
+  let songGain = null;
+  let songSource = null;
+   
   function ensureAudioGraph(){
     if (audioCtx) return;
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
