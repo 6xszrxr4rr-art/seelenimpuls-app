@@ -26,7 +26,6 @@ function followWhileTyping(el){
 
   if (r.bottom > limit){
     window.scrollBy({ top: (r.bottom - limit), behavior: "smooth" });
-  }
 }
    
    function show(id){
@@ -132,7 +131,6 @@ const SONG_TARGET_GAIN = 0.04;  // Song leiser machen: 0.08 / 0.06
     songGain.gain.value = 0;
     songSource.connect(songGain);
     songGain.connect(audioCtx.destination);
-  }
 }
   function fadeGainTo(targetGain, durationMs){
     if (!audioCtx || !bgGain) return;
@@ -170,7 +168,6 @@ const SONG_TARGET_GAIN = 0.04;  // Song leiser machen: 0.08 / 0.06
       bgStopTimer = setTimeout(() => stopBgMusic(true), BG_MAX_PLAY_MS);
     } catch(_) {
       // Safari blockiert → dann läuft einfach keine BG (kein Crash)
-    }
   }
 
   function stopBgMusic(fade){
@@ -241,7 +238,6 @@ await sleep(CHAR_DELAY_MS);
       }
 
       await sleep(700);
-    }
   }
 
   // ---------- End Visuals ----------
@@ -263,7 +259,6 @@ await sleep(CHAR_DELAY_MS);
       d.style.opacity = (0.25 + Math.random()*0.55).toFixed(2);
       d.style.height = (18 + Math.random()*30).toFixed(0) + "px";
       drops.appendChild(d);
-    }
   }
 
   // ---------- UI Wiring ----------
