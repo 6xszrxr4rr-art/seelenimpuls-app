@@ -94,20 +94,29 @@ const SONG_TARGET_GAIN = 0.12;  // Song leiser machen: 0.08 / 0.06
   let songSource = null;
    
   function ensureAudioGraph(){
-    if (audioCtx) return;
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    const bg = $("bgMusic");
-    if (!bg) return;
-
+  // --- BG ---
+  const bg = $("bgMusic");
+  if (bg) {
     bgSource = audioCtx.createMediaElementSource(bg);
     bgGain = audioCtx.createGain();
-    bgGain.gain.value = 0; // startet stumm
-
+    bgGain.gain.value = 0;
     bgSource.connect(bgGain);
     bgGain.connect(audioCtx.destination);
   }
 
+  // --- SONG ---
+  const song = $("songPlayer");
+  if (song) {
+    songSource = audioCtx.createMediaElementSource(song);
+    songGain = audioCtx.createGain();
+    songGain.gain.value = 0;
+    songSource.connect(songGain);
+    songGain.connect(audioCtx.destination);
+  }
+}
   function fadeGainTo(targetGain, durationMs){
     if (!audioCtx || !bgGain) return;
     const now = audioCtx.currentTime;
