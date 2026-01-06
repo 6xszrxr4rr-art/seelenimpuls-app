@@ -234,7 +234,12 @@ const SONG_TARGET_GAIN = 0.04;  // Song leiser machen: 0.08 / 0.06
       for (let i = 0; i < item.length; i++){
         if (myRun !== runId) return;
         li.textContent += item[i];
-        await sleep(CHAR_DELAY_MS);
+
+if (item[i] === " " || i % 16 === 0) {
+  followWhileTyping(ul);
+}
+
+await sleep(CHAR_DELAY_MS);
       }
 
       await sleep(700);
