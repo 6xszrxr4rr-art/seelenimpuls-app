@@ -78,7 +78,7 @@ const BETWEEN_BLOCKS_MS  = 9000;
 const AFTER_RITUAL_MS    = 15000;
 
 // ---------- Audio ----------
-const BG_TARGET_GAIN     = 0.0055;   // Hintergrund sehr leise
+const BG_TARGET_GAIN = 0.0075;  // vorher 0.0055
 const BG_FADE_MS         = 2500;
 const BG_MAX_PLAY_MS     = 180000;
 
