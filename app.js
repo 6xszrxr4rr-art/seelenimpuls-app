@@ -201,13 +201,25 @@ const SONG_TARGET_GAIN = 0.04;  // Song leiser machen: 0.08 / 0.06
 
   // ---------- Typing ----------
   async function typeText(el, text, myRun){
-    if (!el) return;
-    el.textContent = "";
-    for (let i = 0; i < text.length; i++){
-      if (myRun !== runId) return;
-      el.textContent += text[i];
-      await sleep(CHAR_DELAY_MS);
+  if (!el) return;
+  el.textContent = "";
+
+  for (let i = 0; i < text.length; i++){
+    if (myRun !== runId) return;
+
+    el.textContent += text[i];
+
+    // Scroll folgt sanft beim Schreiben (besonders bei Zeilenumbrüchen)
+    if (text[i] === "\n" || i % 18 === 0) {
+      followWhileTyping(el);
     }
+
+    await sleep(CHAR_DELAY_MS);
+  }
+
+  // am Ende einmal sauber ausrichten
+  followWhileTyping(el);
+}
   }
 
   async function typeList(ul, items, myRun){
