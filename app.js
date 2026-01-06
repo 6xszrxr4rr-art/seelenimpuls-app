@@ -82,7 +82,7 @@ const BG_TARGET_GAIN     = 0.0055;   // Hintergrund sehr leise
 const BG_FADE_MS         = 2500;
 const BG_MAX_PLAY_MS     = 180000;
 
-const SONG_TARGET_VOLUME = 0.08;    // Song angenehm leise
+const SONG_TARGET_VOLUME = 0.045;   // deutlich leiser
 
   let runId = 0;
   let bgStopTimer = null;
