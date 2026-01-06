@@ -5,30 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Seelenimpuls</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    :root{
-      --bg1:#eef3f6;
-      --bg2:#f7fbff;
-      --card:#ffffffcc;
-      --stroke:#e6edf3;
-      --text:#1b1f24;
-      --muted:#5a6672;
-      --accent:#1f7ae0;
-      --radius:18px;
-    }
+  :root{
+    --bg1:#eef3f6;
+    --bg2:#f7fbff;
+    --card:#ffffffcc;
+    --stroke:#e6edf3;
+    --text:#1b1f24;
+    --muted:#5a6672;
+    --accent:#1f7ae0;
+    --radius:18px;
+  }
 
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color:var(--text);
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
-      min-height:100vh;
-      padding: 22px;
-      padding-left:  calc(22px + env(safe-area-inset-left));
-      padding-right: calc(22px + env(safe-area-inset-right));
-      position:relative;
-      overflow-x:hidden;
-    }
+  /* ✅ FIX 1: Box-Sizing GLOBAL */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    color:var(--text);
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+    min-height:100vh;
+    padding:22px;
+    padding-left:  calc(22px + env(safe-area-inset-left));
+    padding-right: calc(22px + env(safe-area-inset-right));
+    position:relative;
+    overflow-x:hidden;
+  }
 
     body::before{
       content:"";
