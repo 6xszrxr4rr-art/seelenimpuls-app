@@ -297,37 +297,43 @@ setTimeout(() => stopBgMusic(true), 45000);
   });
 
  btnSong.addEventListener("click", async () => {
-  stopBgMusic(false); // Hintergrund sofort still
+  stopBgMusic(false);
 
   const song = $("songPlayer");
   if (!song) return;
+
+  ensureAudioGraph();
+  if (audioCtx && audioCtx.state === "suspended") {
+    try { await audioCtx.resume(); } catch(_) {}
+  }
 
   try {
     song.pause();
     song.currentTime = 0;
 
-    // Start extrem leise + HARD SET (damit es wirklich greift)
-    song.volume = 0.02;
-    await song.play();
-    song.volume = 0.02;
+    // wichtig: volume auf 1, Regelung macht Gain
+    song.volume = 1.0;
 
-    // Sanfter Fade-in bis Ziel
-    let v = 0.02;
-    const step = 0.005;
-    const timer = setInterval(() => {
-      v = Math.min(SONG_TARGET_VOLUME, v + step);
-      song.volume = v;
-      if (v >= SONG_TARGET_VOLUME) clearInterval(timer);
-    }, 140);
+    // Start sehr leise
+    if (songGain) songGain.gain.value = 0.02;
+
+    await song.play();
+
+    // sanfter Fade auf Ziel
+    if (songGain) {
+      const now = audioCtx.currentTime;
+      songGain.gain.cancelScheduledValues(now);
+      songGain.gain.setValueAtTime(songGain.gain.value, now);
+      songGain.gain.linearRampToValueAtTime(SONG_TARGET_GAIN, now + 1.2);
+    }
 
   } catch (e) {
-    // iOS-Fallback
+    // iOS fallback
     try {
       song.muted = true;
       await song.play();
       song.muted = false;
-      song.volume = SONG_TARGET_VOLUME;
-    } catch (_) {}
+    } catch(_) {}
   }
 });
 
