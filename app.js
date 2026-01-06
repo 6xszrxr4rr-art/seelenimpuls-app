@@ -11,7 +11,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- Helper ----------
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
- 
+  // --- sanftes Mit-Scrollen während des Tippens (ruhig + nur wenn nötig) ---
+let lastScrollTs = 0;
+function followWhileTyping(el){
+  if (!el) return;
+
+  const now = performance.now();
+  if (now - lastScrollTs < 120) return; // throttle: max ~8x/Sek.
+  lastScrollTs = now;
+
+  const r = el.getBoundingClientRect();
+  const padding = 120; // Abstand zum unteren Rand (ruhiger)
+  const limit = window.innerHeight - padding;
+
+  if (r.bottom > limit){
+    const delta = r.bottom - limit;
+    window.scrollBy({ top: delta, behavior: "smooth" });
+  }
+}z.B.
+   
    function show(id){
     const el = $(id);
     if (!el) return;
