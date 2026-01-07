@@ -12,27 +12,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
- let lastScrollTs = 0;
+  // --- sanftes Mit-Scrollen während des Tippens (ruhig + nur wenn nötig) ---
+let lastScrollTs = 0;
+
 function followWhileTyping(el){
   if (!el) return;
 
   const now = performance.now();
-  if (now - lastScrollTs < 80) return; // häufiger = gleichmäßiger
+  if (now - lastScrollTs < 90) return; // gleichmäßig, nicht zu hektisch
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
+  const targetY = window.innerHeight * 0.45; // scrollt früh & ruhig
 
-  // früher einsetzen: größere "Schutzzone" unten => scrollt früher
-  const padding = 240;
-  const limit = window.innerHeight - padding;
-
-  if (r.bottom > limit){
-    const delta = r.bottom - limit;
-    // WICHTIG: "auto" statt "smooth" = kein Aufschaukeln / keine Sprünge
-    window.scrollBy({ top: delta, behavior: "auto" });
+  if (r.bottom > targetY){
+    window.scrollBy({
+      top: r.bottom - targetY,
+      behavior: "auto" // auf iOS ruhiger als "smooth"
+    });
   }
 }
-
+   
   function show(id){
     const el = $(id);
     if (!el) return;
