@@ -41,10 +41,12 @@ function followWhileTyping(el){
   }
 
   function autoScrollTo(id){
-    const el = $(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  const el = $(id);
+  if (!el) return;
+
+  const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.20);
+  window.scrollTo({ top: y, behavior: "smooth" });
+}
 
   function clearAllBlocks(){
     ["b1","b2","b3","b4","b5"].forEach(id => {
