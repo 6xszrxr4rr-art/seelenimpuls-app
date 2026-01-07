@@ -23,7 +23,7 @@ function followWhileTyping(el){
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
-  const targetY = window.innerHeight * 0.45; // scrollt früh & ruhig
+  const targetY = window.innerHeight * 0.30; // scrollt früh & ruhig
 
   if (r.bottom > targetY){
     window.scrollBy({
