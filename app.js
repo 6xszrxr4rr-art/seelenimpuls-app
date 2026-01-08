@@ -19,15 +19,15 @@ function followWhileTyping(el){
   if (!el) return;
 
   const now = performance.now();
-  if (now - lastScrollTs < 120) return;   // weniger hektisch
+  if (now - lastScrollTs < 90) return; // ruhig
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
-  const targetY = window.innerHeight * 0.60; // startet bei ~60%
+  const targetY = window.innerHeight * 0.75; // ✅ Start bei 3/4 Screen
 
   if (r.bottom > targetY){
     const delta = r.bottom - targetY;
-    window.scrollBy({ top: Math.min(24, delta), behavior: "auto" }); // kleine Schritte!
+    window.scrollBy({ top: Math.min(18, delta), behavior: "auto" }); // kleine Schritte
   }
 }
    
