@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------- Helper ----------
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-document.getElementById("impuls").textContent = "JS-Version: TARGETY=0.68";
  
    // --- sanftes Mit-Scrollen während des Tippens (ruhig + nur wenn nötig) ---
 let lastScrollTs = 0;
