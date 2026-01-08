@@ -19,18 +19,15 @@ function followWhileTyping(el){
   if (!el) return;
 
   const now = performance.now();
-  if (now - lastScrollTs < 60) return;   // öfter = gleichmäßiger
+  if (now - lastScrollTs < 120) return;   // weniger hektisch
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
+  const targetY = window.innerHeight * 0.60; // startet bei ~60%
 
-  // Cursor soll ungefähr bei 65% der Bildschirmhöhe "stehen"
-  const targetY = window.innerHeight * 0.65; // scrollt erst ab ~2/3 Bildschirmhöhe
-
-  // Wenn Cursor tiefer ist -> nach oben schieben (kleine Schritte, ruhig)
   if (r.bottom > targetY){
     const delta = r.bottom - targetY;
-    window.scrollBy({ top: delta, behavior: "auto" }); // "auto" = weniger Ruckeln auf iOS
+    window.scrollBy({ top: Math.min(24, delta), behavior: "auto" }); // kleine Schritte!
   }
 }
    
