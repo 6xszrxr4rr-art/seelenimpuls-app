@@ -24,8 +24,8 @@ function followWhileTyping(el){
 
   const r = el.getBoundingClientRect();
 
-  // Cursor soll ungefähr bei 55% der Bildschirmhöhe "stehen"
-  const targetY = window.innerHeight * 0.55;
+  // Cursor soll ungefähr bei 65% der Bildschirmhöhe "stehen"
+  const targetY = window.innerHeight * 0.65; // scrollt erst ab ~2/3 Bildschirmhöhe
 
   // Wenn Cursor tiefer ist -> nach oben schieben (kleine Schritte, ruhig)
   if (r.bottom > targetY){
