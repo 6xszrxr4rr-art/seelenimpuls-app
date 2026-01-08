@@ -23,7 +23,7 @@ function followWhileTyping(el){
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
-  const targetY = window.innerHeight * 0.75; // ✅ Start bei 3/4 Screen
+  const targetY = window.innerHeight * 0.85; // ✅ Start bei 3/4 Screen
 
   if (r.bottom > targetY){
     const delta = r.bottom - targetY;
