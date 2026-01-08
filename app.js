@@ -253,28 +253,6 @@ function followWhileTyping(el){
     }
   }
 
-  // ---------- End Visuals ----------
-  function showEndVisual(){
-    const box = $("endVisual");
-    const drops = $("drops");
-    if (!box || !drops) return;
-
-    box.classList.add("on");
-    drops.innerHTML = "";
-
-    const count = 18;
-    for (let i = 0; i < count; i++){
-      const d = document.createElement("div");
-      d.className = "drop";
-      d.style.left = (Math.random()*100).toFixed(2) + "%";
-      d.style.animationDuration = (2.6 + Math.random()*2.6).toFixed(2) + "s";
-      d.style.animationDelay = (Math.random()*1.8).toFixed(2) + "s";
-      d.style.opacity = (0.25 + Math.random()*0.55).toFixed(2);
-      d.style.height = (18 + Math.random()*30).toFixed(0) + "px";
-      drops.appendChild(d);
-    }
-  }
-
   // ---------- UI Wiring ----------
   const btnImpuls     = $("btnImpuls");
   const btnSituation1 = $("btnSituation1");
@@ -322,7 +300,6 @@ function followWhileTyping(el){
     show("b5");
     autoScrollTo("b5");
 
-    showEndVisual();
     setTimeout(() => stopBgMusic(true), 45000);
   });
 
