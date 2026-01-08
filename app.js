@@ -222,7 +222,7 @@ function followWhileTyping(el){
     textNode.textContent += text[i];
 
     // JETZT: von Anfang an sanft mitscrollen
-    followWhileTyping(el.closest(".block"));
+    followWhileTyping(cursor);
 
     await sleep(CHAR_DELAY_MS);
   }
