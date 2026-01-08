@@ -249,7 +249,6 @@ function followWhileTyping(el){
         await sleep(CHAR_DELAY_MS);
       }
 
-      followWhileTyping(ul);
       await sleep(700);
     }
   }
