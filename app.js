@@ -281,22 +281,18 @@ function followWhileTyping(el){
     await sleep(BETWEEN_BLOCKS_MS);
 
     show("b2");
-    autoScrollTo("b2");
     await typeText($("t2"), erklaerungText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     show("b3");
-    autoScrollTo("b3");
     await typeList($("t3"), affirmationItems, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     show("b4");
-    autoScrollTo("b4");
     await typeList($("t4"), ritualItems, myRun);
     await sleep(AFTER_RITUAL_MS);
 
     show("b5");
-    autoScrollTo("b5");
 
     setTimeout(() => stopBgMusic(true), 45000);
   });
