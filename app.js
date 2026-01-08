@@ -42,7 +42,7 @@ function followWhileTyping(el){
   if (!el) return;
 
   const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.20);
-  window.scrollTo({ top: y, behavior: "smooth" });
+  window.scrollTo({ top: y, behavior: "auto" });
 }
 
   function clearAllBlocks(){
