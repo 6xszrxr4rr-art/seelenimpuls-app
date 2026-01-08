@@ -93,7 +93,7 @@ function followWhileTyping(el){
   ];
 
   // ---------- Timing ----------
-  const CHAR_DELAY_MS      = 85;
+  const CHAR_DELAY_MS      = 95;
   const BETWEEN_BLOCKS_MS  = 3000;
   const AFTER_RITUAL_MS    = 5000;
 
