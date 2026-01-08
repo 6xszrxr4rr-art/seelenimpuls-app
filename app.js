@@ -204,7 +204,7 @@ function followWhileTyping(el){
   async function typeText(el, text, myRun){
   if (!el) return;
 
-  // Textnode + Cursor sauber vorbereiten
+  // Text + Cursor vorbereiten
   el.textContent = "";
   const textNode = document.createTextNode("");
   el.appendChild(textNode);
@@ -221,17 +221,13 @@ function followWhileTyping(el){
 
     textNode.textContent += text[i];
 
-    // JETZT: von Anfang an sanft mitscrollen
+    // ✅ Zeilenweise/ruhig mitscrollen
     followWhileTyping(cursor);
 
-    li.textContent += item[i];
-if (i % 6 === 0) followWhileTyping(li); // ruhiger als bei jedem Zeichen
-await sleep(CHAR_DELAY_MS);
+    await sleep(CHAR_DELAY_MS);
   }
-
-  // kein harter Sprung am Ende mehr
 }
-
+   
   async function typeList(ul, items, myRun){
     if (!ul) return;
     ul.innerHTML = "";
