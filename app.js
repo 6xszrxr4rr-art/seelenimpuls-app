@@ -224,7 +224,9 @@ function followWhileTyping(el){
     // JETZT: von Anfang an sanft mitscrollen
     followWhileTyping(cursor);
 
-    await sleep(CHAR_DELAY_MS);
+    li.textContent += item[i];
+if (i % 6 === 0) followWhileTyping(li); // ruhiger als bei jedem Zeichen
+await sleep(CHAR_DELAY_MS);
   }
 
   // kein harter Sprung am Ende mehr
