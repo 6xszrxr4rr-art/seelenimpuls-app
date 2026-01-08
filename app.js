@@ -244,7 +244,7 @@ function followWhileTyping(el){
         if (myRun !== runId) return;
 
         li.textContent += item[i];
-        followWhileTyping(li);
+        if (i % 6 === 0) followWhileTyping(li);
 
         await sleep(CHAR_DELAY_MS);
       }
