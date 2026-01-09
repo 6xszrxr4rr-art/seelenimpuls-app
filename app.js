@@ -221,7 +221,6 @@ const ritualItems = [
   async function typeText(el, text, myRun){
   if (!el) return;
 
-  // Text + Cursor vorbereiten
   el.textContent = "";
   const textNode = document.createTextNode("");
   el.appendChild(textNode);
@@ -233,12 +232,16 @@ const ritualItems = [
     el.appendChild(cursor);
   }
 
-  for (let i = 0; i < text.length; i++){
+  // Text in Tokens zerlegen: Wörter + Leerzeichen + Zeilenumbrüche
+  const tokens = text.match(/\n|[^\s]+\s*/g) || [];
+
+  for (const token of tokens){
     if (myRun !== runId) return;
 
-    textNode.textContent += text[i];
+    // Token (Wort + evtl. Leerzeichen) auf einmal anhängen
+    textNode.textContent += token;
 
-    // ✅ Zeilenweise/ruhig mitscrollen
+    // Scroll folgt sanft
     followWhileTyping(cursor);
 
     await sleep(CHAR_DELAY_MS);
