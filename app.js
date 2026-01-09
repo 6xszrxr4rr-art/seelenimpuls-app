@@ -264,7 +264,10 @@ if (text[i] === "\n" || i % 12 === 0) {
         if (myRun !== runId) return;
 
         li.textContent += item[i];
-        if (i % 6 === 0) followWhileTyping(li);
+        // ebenfalls nur alle 12 Zeichen oder bei Leerzeichen (natürlichere Schritte)
+if (item[i] === " " || i % 12 === 0) {
+  followWhileTyping(li);
+}
 
         await sleep(CHAR_DELAY_MS);
       }
