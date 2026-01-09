@@ -19,14 +19,18 @@ function followWhileTyping(el){
   if (!el) return;
 
   const now = performance.now();
-  if (now - lastScrollTs < 120) return;
+  if (now - lastScrollTs < 140) return; // etwas weniger "micro-ruckeln"
   lastScrollTs = now;
 
   const r = el.getBoundingClientRect();
-  const targetY = window.innerHeight * 0.78;  // statt 0.85/0.75
+
+  // Startet erst, wenn ~78% der Höhe erreicht sind
+  const targetY = window.innerHeight * 0.78;
 
   if (r.bottom > targetY){
     const delta = r.bottom - targetY;
+
+    // kleine Schritte -> ruhiger
     window.scrollBy({ top: Math.min(10, delta), behavior: "auto" });
   }
 }
