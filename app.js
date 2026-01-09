@@ -110,7 +110,7 @@ const ritualItems = [
 ];
 
   // ---------- Timing ----------
-  const CHAR_DELAY_MS      = 95;
+  const CHAR_DELAY_MS = 110;  // vorher 70/95 → ruhiger, gleichmäßig
   const BETWEEN_BLOCKS_MS  = 3000;
   const AFTER_RITUAL_MS    = 5000;
 
