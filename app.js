@@ -68,29 +68,46 @@ function followWhileTyping(el){
   ];
 
   const ankommenText =
-    "Du bist hier.\n" +
-    "Du darfst jetzt langsamer werden.";
+  "Du bist hier.\n" +
+  "\n" +
+  "Nichts drängt.\n" +
+  "Nichts will gelöst werden.\n" +
+  "\n" +
+  "Du darfst für einen Moment anhalten\n" +
+  "und wahrnehmen,\n" +
+  "dass dieser Augenblick gerade genug ist.";
 
-  const erklaerungText =
-    "Innere Unruhe ist oft ein wertvoller Hinweis.\n" +
-    "Dein Nervensystem sucht Sicherheit.\n" +
-    "Dein Körper lädt dich ein, Tempo herauszunehmen\n" +
-    "und wieder im Moment anzukommen.";
+const erklaerungText =
+  "Innere Unruhe entsteht oft dann,\n" +
+  "wenn dein Inneres schneller ist als der Moment.\n" +
+  "\n" +
+  "Gedanken kreisen,\n" +
+  "der Körper bleibt angespannt,\n" +
+  "auch wenn keine unmittelbare Gefahr da ist.\n" +
+  "\n" +
+  "Dein Nervensystem sucht nicht nach Antworten.\n" +
+  "Es sucht nach Sicherheit.\n" +
+  "\n" +
+  "Diese kleinen Impulse laden dich ein,\n" +
+  "wieder in deinem Körper anzukommen\n" +
+  "und dem inneren Tempo sanft zu begegnen.";
 
-  const affirmationItems = [
-    "Ich bin sicher.",
-    "Ich bin ganz.",
-    "Ich bin gehalten in mir."
-  ];
+const affirmationItems = [
+  "Ich darf langsamer werden.",
+  "Ich bin jetzt hier.",
+  "Ich bin getragen in diesem Moment."
+];
 
-  const ritualItems = [
-    "Nimm dir einen Moment nur für dich.",
-    "Atme ruhig und gleichmäßig ein.",
-    "Atme etwas länger aus.",
-    "Lass deine Schultern sinken.",
-    "Nimm den Boden unter deinen Füßen wahr.",
-    "Spüre, wie Ruhe und Harmonie dich durchströmen."
-  ];
+const ritualItems = [
+  "Lass deinen Atem ruhig einströmen.",
+  "Und lass ihn wieder hinausfließen – ein wenig länger, ein wenig weicher.",
+  "Spüre, wie dein Körper gehalten wird.",
+  "Der Boden unter dir. Die Fläche, die dich trägt.",
+  "Mit jedem Ausatmen darf ein wenig Spannung gehen.",
+  "Nicht alles. Nur so viel, wie jetzt möglich ist.",
+  "Und dann bleibe hier noch einen Moment.",
+  "Ohne etwas verändern zu müssen."
+];
 
   // ---------- Timing ----------
   const CHAR_DELAY_MS      = 95;
