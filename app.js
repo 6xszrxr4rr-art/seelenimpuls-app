@@ -242,8 +242,10 @@ const ritualItems = [
     textNode.textContent += token;
 
     // Scroll folgt sanft
-    followWhileTyping(cursor);
-
+// nur bei Zeilenumbruch oder alle 12 Zeichen → viel ruhiger
+if (text[i] === "\n" || i % 12 === 0) {
+  followWhileTyping(cursor);
+}
     await sleep(CHAR_DELAY_MS);
   }
 }
