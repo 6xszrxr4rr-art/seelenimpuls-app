@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   // ---------- Timing ----------
-  const CHAR_DELAY_MS = 110;
+  const CHAR_DELAY_MS = 140;
   const BETWEEN_BLOCKS_MS = 3000;
   const AFTER_RITUAL_MS = 5000;
 
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (myRun !== runId) return;
       textNode.textContent += token;
       followWhileTyping(cursor);
-      await sleep(CHAR_DELAY_MS);
+      await sleep(CHAR_DELAY_MS + Math.min(120, token.length * 8));
     }
   }
 
