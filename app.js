@@ -9,7 +9,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Helper ----------
-   alert("app.js geladen ✅");
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
  
