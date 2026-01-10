@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
     lastScrollTs = now;
 
     const r = el.getBoundingClientRect();
-    const targetY = window.innerHeight * 0.78;
+    const targetY = window.innerHeight * 0.62;
 
     if (r.bottom > targetY){
       const delta = r.bottom - targetY;
-      window.scrollBy({ top: Math.min(10, delta), behavior: "auto" });
+      window.scrollBy({ top: Math.min(14, delta), behavior: "auto" });
     }
   }
 
