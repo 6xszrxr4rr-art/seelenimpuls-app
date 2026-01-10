@@ -285,7 +285,6 @@ const ritualItems = [
 
   followWhileTyping(ul);
 }
-  }
 
   // ---------- UI Wiring ----------
   const btnImpuls     = $("btnImpuls");
