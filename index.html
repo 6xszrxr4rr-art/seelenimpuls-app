@@ -15,7 +15,6 @@
     --accent:#1f7ae0;
     --radius:18px;
   }
-.cursor{ display:block; height:1px; }
     
   /* ✅ FIX 1: Box-Sizing GLOBAL */
   *, *::before, *::after {
@@ -33,6 +32,7 @@
     padding-right: calc(30px + env(safe-area-inset-right));
     position:relative;
     overflow-x:hidden;
+    .cursor{ display:block; height:1px; }
   }
 
     body::before{
