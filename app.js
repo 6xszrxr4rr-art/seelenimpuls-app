@@ -261,29 +261,39 @@ const ritualItems = [
 }
    
   async function typeList(ul, items, myRun){
-    if (!ul) return;
-    ul.innerHTML = "";
+  if (!ul) return;
+  ul.innerHTML = "";
 
-    for (const item of items){
+  for (const item of items){
+    if (myRun !== runId) return;
+
+    const li = document.createElement("li");
+    ul.appendChild(li);
+
+    // Wortweise statt Buchstaben (verhindert Wort-"Springen")
+    const tokens = item.match(/[^\s]+\s*/g) || [];
+    let tokenCount = 0;
+
+    for (const token of tokens){
       if (myRun !== runId) return;
 
-      const li = document.createElement("li");
-      ul.appendChild(li);
+      li.textContent += token;
+      tokenCount++;
 
-      for (let i = 0; i < item.length; i++){
-        if (myRun !== runId) return;
-
-        li.textContent += item[i];
-        // ebenfalls nur alle 12 Zeichen oder bei Leerzeichen (natürlichere Schritte)
-if (item[i] === " " || i % 12 === 0) {
-  followWhileTyping(li);
-}
-
-        await sleep(CHAR_DELAY_MS);
+      // Scroll: alle 2 Tokens (ruhig)
+      if (tokenCount % 2 === 0) {
+        followWhileTyping(li);
       }
 
-      await sleep(700);
+      await sleep(CHAR_DELAY_MS);
     }
+
+    // kleine Pause zwischen Listenpunkten
+    await sleep(600);
+  }
+
+  followWhileTyping(ul);
+}
   }
 
   // ---------- UI Wiring ----------
