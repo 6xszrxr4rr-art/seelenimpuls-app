@@ -240,30 +240,17 @@ const ritualItems = [
     el.appendChild(cursor);
   }
 
-  // Tokens: entweder "\n" oder Wort+Folgespaces
   const tokens = text.match(/\n|[^\s]+\s*/g) || [];
-
-  let tokenCount = 0;
 
   for (const token of tokens){
     if (myRun !== runId) return;
 
     textNode.textContent += token;
-    tokenCount++;
-
-    // Scroll: bei Zeilenumbruch oder alle 3 Tokens (ruhig)
-    if (token === "\n" || tokenCount % 3 === 0) {
-      followWhileTyping(cursor);
-    }
+    followWhileTyping(cursor);
 
     await sleep(CHAR_DELAY_MS);
   }
-
-  // am Ende einmal stabilisieren
-  followWhileTyping(cursor);
-}
-}
-   
+}  
   async function typeList(ul, items, myRun){
   if (!ul) return;
   ul.innerHTML = "";
