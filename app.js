@@ -1,3 +1,7 @@
+window.onerror = function (msg, src, line, col) {
+  alert("JS-Fehler: " + msg + " @ Zeile " + line + ":" + col);
+};
+alert("app.js gestartet ✅");
 /* ===========================
    Seelenimpuls – app.js (FULL)
    Stabil auf iPhone/Safari:
