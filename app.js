@@ -236,22 +236,28 @@ const ritualItems = [
     el.appendChild(cursor);
   }
 
-  // Text in Tokens zerlegen: Wörter + Leerzeichen + Zeilenumbrüche
+  // Tokens: entweder "\n" oder Wort+Folgespaces
   const tokens = text.match(/\n|[^\s]+\s*/g) || [];
+
+  let tokenCount = 0;
 
   for (const token of tokens){
     if (myRun !== runId) return;
 
-    // Token (Wort + evtl. Leerzeichen) auf einmal anhängen
     textNode.textContent += token;
+    tokenCount++;
 
-    // Scroll folgt sanft
-// nur bei Zeilenumbruch oder alle 12 Zeichen → viel ruhiger
-if (text[i] === "\n" || i % 12 === 0) {
-  followWhileTyping(cursor);
-}
+    // Scroll: bei Zeilenumbruch oder alle 3 Tokens (ruhig)
+    if (token === "\n" || tokenCount % 3 === 0) {
+      followWhileTyping(cursor);
+    }
+
     await sleep(CHAR_DELAY_MS);
   }
+
+  // am Ende einmal stabilisieren
+  followWhileTyping(cursor);
+}
 }
    
   async function typeList(ul, items, myRun){
