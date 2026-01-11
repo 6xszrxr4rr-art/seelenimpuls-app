@@ -287,22 +287,14 @@ async function typeText(el, text, myRun){
   cursor.className = "cursor";
   el.appendChild(cursor);
 
-  for (let li = 0; li < lines.length; li++){
-    if (myRun !== runId) return;
+  for (let i = 0; i < item.length; i++){
+  if (myRun !== runId) return;
 
-    const line = lines[li];
+  li.textContent += item[i];
+  followWhileTyping(li);
 
-    // Zeile tippen (Buchstabe für Buchstabe)
-    for (let i = 0; i < line.length; i++){
-      if (myRun !== runId) return;
-
-      cursor.insertAdjacentText("beforebegin", line[i]);
-
-      // scroll folgt IMMER sanft beim Tippen
-      followWhileTyping(cursor);
-
-      await sleep(CHAR_DELAY_MS);
-    }
+  await sleep(CHAR_DELAY_MS);
+}
 
     // Zeilenumbruch (außer nach letzter Zeile)
     if (li < lines.length - 1) {
