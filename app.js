@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!el) return;
 
     const now = performance.now();
-    if (now - lastScrollTs < 140) return;
+    if (now - lastScrollTs < 80) return;
     lastScrollTs = now;
 
     const r = el.getBoundingClientRect();
