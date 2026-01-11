@@ -11,21 +11,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- sanftes Mit-Scrollen während des Tippens ---
   let lastScrollTs = 0;
-  function followWhileTyping(el){
-    if (!el) return;
 
-    const now = performance.now();
-    if (now - lastScrollTs < 80) return;
-    lastScrollTs = now;
+function followWhileTyping(el){
+  if (!el) return;
 
-    const r = el.getBoundingClientRect();
-    const targetY = window.innerHeight * 0.62;
+  const now = performance.now();
+  if (now - lastScrollTs < 80) return; // öfter reagieren, aber nicht nervös
+  lastScrollTs = now;
 
-    if (r.bottom > targetY){
-      const delta = r.bottom - targetY;
-      window.scrollBy({ top: Math.min(10, delta), behavior: "auto" });
-    }
+  const r = el.getBoundingClientRect();
+  const targetY = window.innerHeight * 0.62; // früher anfangen zu scrollen
+
+  if (r.bottom > targetY){
+    const delta = r.bottom - targetY;
+    window.scrollBy({ top: Math.min(14, delta), behavior: "auto" });
   }
+}
 
   function show(id){
     const el = $(id);
