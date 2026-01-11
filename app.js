@@ -1,7 +1,6 @@
 ä oh window.onerror = function (msg, src, line, col) {
   alert("JS-Fehler: " + msg + " @ Zeile " + line + ":" + col);
 };
-alert("app.js gestartet ✅");
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -202,6 +201,66 @@ function followWhileTyping(el){
   }
 
   // ---------- Typing ----------
+  function wrapTextToLines(text, el) {
+  const style = getComputedStyle(el);
+
+  // nutze die echte Schriftangabe des Elements
+  const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+
+  const canvas = wrapTextToLines._c || (wrapTextToLines._c = document.createElement("canvas"));
+  const ctx = canvas.getContext("2d");
+  ctx.font = font;
+
+  // Breite des Textbereichs (ohne Padding)
+  const paddingLeft = parseFloat(style.paddingLeft || "0");
+  const paddingRight = parseFloat(style.paddingRight || "0");
+  const maxWidth = el.clientWidth - paddingLeft - paddingRight;
+
+  // Zeilenumbrüche aus dem Text respektieren
+  const paragraphs = (text || "").split("\n");
+  const lines = [];
+
+  for (const para of paragraphs) {
+    const words = para.split(/\s+/).filter(Boolean);
+    let line = "";
+
+    for (const w of words) {
+      const test = line ? (line + " " + w) : w;
+      if (ctx.measureText(test).width <= maxWidth) {
+        line = test;
+      } else {
+        if (line) lines.push(line);
+
+        // Falls EIN Wort länger ist als maxWidth -> hart umbrechen (ohne Sprung)
+        if (ctx.measureText(w).width > maxWidth) {
+          let chunk = "";
+          for (const ch of w) {
+            const t = chunk + ch;
+            if (ctx.measureText(t).width <= maxWidth) {
+              chunk = t;
+            } else {
+              if (chunk) lines.push(chunk);
+              chunk = ch;
+            }
+          }
+          line = chunk;
+        } else {
+          line = w;
+        }
+      }
+    }
+
+    if (line) lines.push(line);
+
+    // Absatzwechsel -> leere Zeile (damit "Luft" entsteht)
+    lines.push("");
+  }
+
+  // letzte künstliche Leerzeile entfernen
+  if (lines.length && lines[lines.length - 1] === "") lines.pop();
+
+  return lines;
+}
   async function typeText(el, text, myRun){
     if (!el) return;
 
