@@ -276,16 +276,44 @@ function followWhileTyping(el){
     }
 
     const tokens = text.match(/\n|[^\s]+\s*/g) || [];
+async function typeText(el, text, myRun){
+  if (!el) return;
 
-    for (const token of tokens){
+  el.innerHTML = ""; // wir nutzen <br>, daher innerHTML
+  const lines = wrapTextToLines(text, el);
+
+  // Cursor ans Ende
+  const cursor = document.createElement("span");
+  cursor.className = "cursor";
+  el.appendChild(cursor);
+
+  for (let li = 0; li < lines.length; li++){
+    if (myRun !== runId) return;
+
+    const line = lines[li];
+
+    // Zeile tippen (Buchstabe für Buchstabe)
+    for (let i = 0; i < line.length; i++){
       if (myRun !== runId) return;
-      textNode.textContent += token;
+
+      cursor.insertAdjacentText("beforebegin", line[i]);
+
+      // scroll folgt IMMER sanft beim Tippen
       followWhileTyping(cursor);
-      await sleep(CHAR_DELAY_MS + Math.min(120, token.length * 8));
+
+      await sleep(CHAR_DELAY_MS);
+    }
+
+    // Zeilenumbruch (außer nach letzter Zeile)
+    if (li < lines.length - 1) {
+      cursor.insertAdjacentHTML("beforebegin", "<br>");
+      followWhileTyping(cursor);
+      await sleep(Math.max(120, CHAR_DELAY_MS * 2)); // Mini-Pause pro Zeile
     }
   }
+}
 
-  async function typeList(ul, items, myRun){
+  async function typeList(ul, items, myRunk){
     if (!ul) return;
     ul.innerHTML = "";
 
