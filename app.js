@@ -1,4 +1,4 @@
-window.onerror = function (msg, src, line, col) {
+ä oh window.onerror = function (msg, src, line, col) {
   alert("JS-Fehler: " + msg + " @ Zeile " + line + ":" + col);
 };
 alert("app.js gestartet ✅");
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (r.bottom > targetY){
       const delta = r.bottom - targetY;
-      window.scrollBy({ top: Math.min(14, delta), behavior: "auto" });
+      window.scrollBy({ top: Math.min(10, delta), behavior: "auto" });
     }
   }
 
