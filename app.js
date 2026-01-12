@@ -43,6 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
   window.scrollTo({ top: y, behavior: "auto" });
 }
 
+  function snapToTop(id){
+  const el = $(id);
+  if (!el) return;
+
+  // direkt, ohne Smooth (sonst wirkt es unruhig)
+  const y = window.scrollY + el.getBoundingClientRect().top - 12; 
+  window.scrollTo({ top: y, behavior: "auto" });
+}
+  
   function clearAllBlocks(){
     lockScroll = false; // ✅ bei Neustart wieder erlauben
     ["b1","b2","b3","b4","b5"].forEach(id => {
