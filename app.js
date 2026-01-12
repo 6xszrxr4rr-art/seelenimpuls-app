@@ -347,9 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
     await startBgMusic();
 
     show("b1");
-    autoScrollTo("b1");
-    await typeText($("t1"), ankommenText, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+snapToTop("b1");          // ✅ Ankommen sofort nach oben
+await sleep(80);          // kleiner Puffer gegen iOS “Scroll-Zucken”
+await typeText($("t1"), ankommenText, myRun);
 
     show("b2");
     autoScrollTo("b2");
