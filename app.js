@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "Innere Unruhe entsteht oft dann,\n" +
     "wenn dein Inneres schneller ist als der Moment.\n\n" +
     "Gedanken kreisen,\n" +
-    "der Körper bleibt angespannt,\n" +
-    "auch wenn keine unmittelbare Gefahr da ist.\n\n" +
+    "der Körper bleibt angespannt,auch wenn keine \n" +
+    "unmittelbare Gefahr da ist.\n\n" +
     "Dein Nervensystem sucht nicht nach Antworten.\n" +
     "Es sucht nach Sicherheit.\n\n" +
     "Diese kleinen Impulse laden dich ein,\n" +
