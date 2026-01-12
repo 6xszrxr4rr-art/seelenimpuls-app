@@ -1,4 +1,4 @@
-ä oh window.onerror = function (msg, src, line, col) {
+window.onerror = function (msg, src, line, col) {
   alert("JS-Fehler: " + msg + " @ Zeile " + line + ":" + col);
 };
 
