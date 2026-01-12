@@ -10,21 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- sanftes Mit-Scrollen während des Tippens ---
   let lastScrollTs = 0;
-let lockScroll = false; // wird am Ende gesetzt (wenn Song sichtbar ist)
 
-function followWhileTyping(el){
-  if (!el || lockScroll) return;
+function followWhileTyping(cursorEl){
+  if (!cursorEl) return;
 
   const now = performance.now();
-  if (now - lastScrollTs < 80) return; // ruhig + gleichmäßig
+  if (now - lastScrollTs < 40) return; // ruhig & stabil
   lastScrollTs = now;
 
-  const r = el.getBoundingClientRect();
-  const targetY = window.innerHeight * 0.80; // Cursor soll bei 80% stehen
+  const r = cursorEl.getBoundingClientRect();
 
-  if (r.bottom > targetY){
-    const delta = r.bottom - targetY;
-    window.scrollBy({ top: Math.min(6, delta), behavior: "auto" }); // kleine Schritte
+  // Cursor bleibt immer auf gleicher Bildschirmhöhe
+  const fixedY = window.innerHeight * 0.72;
+
+  const cursorY = r.top + (r.height * 0.6);
+  const diff = cursorY - fixedY;
+
+  if (diff > 0) {
+    window.scrollBy({ top: diff, behavior: "auto" });
   }
 }
 
