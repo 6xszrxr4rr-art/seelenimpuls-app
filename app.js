@@ -37,11 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function autoScrollTo(id){
-    const el = $(id);
-    if (!el) return;
-    const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.18);
-    window.scrollTo({ top: y, behavior: "auto" });
-  }
+  const el = $(id);
+  if (!el) return;
+  const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.18);
+  window.scrollTo({ top: y, behavior: "auto" });
+}
 
   function clearAllBlocks(){
     lockScroll = false; // ✅ bei Neustart wieder erlauben
