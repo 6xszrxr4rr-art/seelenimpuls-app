@@ -270,11 +270,19 @@ function followWhileTyping(el){
       }
 
       if (li < lines.length - 1) {
-        cursor.insertAdjacentHTML("beforebegin", "<br>");
-        followWhileTyping(cursor);
-        await sleep(Math.max(120, CHAR_DELAY_MS * 2));
-      }
+  cursor.insertAdjacentHTML("beforebegin", "<br>");
+
+  // ✅ Falls die nächste Zeile leer ist: sanft "nachlaufen" lassen
+  if (lines[li + 1] === "") {
+    for (let k = 0; k < 8; k++) {
+      followWhileTyping(cursor);
+      await sleep(CHAR_DELAY_MS);
     }
+  } else {
+    followWhileTyping(cursor);
+    await sleep(Math.max(120, CHAR_DELAY_MS * 2));
+  }
+}
   }
 
   async function typeList(ul, items, myRun){
