@@ -39,7 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function autoScrollTo(id){
   const el = $(id);
   if (!el) return;
-  const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.18);
+
+  // wirklich oben platzieren (kleiner Abstand)
+  const y = window.scrollY + el.getBoundingClientRect().top - 12;
   window.scrollTo({ top: y, behavior: "auto" });
 }
 
