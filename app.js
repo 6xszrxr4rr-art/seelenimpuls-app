@@ -10,22 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- sanftes Mit-Scrollen während des Tippens ---
   let lastScrollTs = 0;
+  function followWhileTyping(el){
+    if (!el) return;
 
-function followWhileTyping(el){
-  if (!el) return;
+    const now = performance.now();
+    if (now - lastScrollTs < 90) return; // ruhig
+    lastScrollTs = now;
 
-  const now = performance.now();
-  if (now - lastScrollTs < 80) return; // öfter reagieren, aber nicht nervös
-  lastScrollTs = now;
+    const r = el.getBoundingClientRect();
+    const targetY = window.innerHeight * 0.78; // Start wenn ~78% erreicht
 
-  const r = el.getBoundingClientRect();
-  const targetY = window.innerHeight * 0.62; // früher anfangen zu scrollen
-
-  if (r.bottom > targetY){
-    const delta = r.bottom - targetY;
-    window.scrollBy({ top: Math.min(14, delta), behavior: "auto" });
+    if (r.bottom > targetY){
+      const delta = r.bottom - targetY;
+      window.scrollBy({ top: Math.min(12, delta), behavior: "auto" });
+    }
   }
-}
 
   function show(id){
     const el = $(id);
@@ -36,7 +35,7 @@ function followWhileTyping(el){
   function autoScrollTo(id){
     const el = $(id);
     if (!el) return;
-    const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.20);
+    const y = window.scrollY + el.getBoundingClientRect().top - (window.innerHeight * 0.18);
     window.scrollTo({ top: y, behavior: "auto" });
   }
 
@@ -45,12 +44,10 @@ function followWhileTyping(el){
       const el = $(id);
       if (el) el.classList.add("hidden");
     });
-    if ($("t1")) $("t1").textContent = "";
-    if ($("t2")) $("t2").textContent = "";
+    if ($("t1")) $("t1").innerHTML = "";
+    if ($("t2")) $("t2").innerHTML = "";
     if ($("t3")) $("t3").innerHTML = "";
     if ($("t4")) $("t4").innerHTML = "";
-    if ($("endVisual")) $("endVisual").classList.remove("on");
-    if ($("drops")) $("drops").innerHTML = "";
   }
 
   // ---------- Inhalte ----------
@@ -100,7 +97,7 @@ function followWhileTyping(el){
   ];
 
   // ---------- Timing ----------
-  const CHAR_DELAY_MS = 140;
+  const CHAR_DELAY_MS = 110;
   const BETWEEN_BLOCKS_MS = 3000;
   const AFTER_RITUAL_MS = 5000;
 
@@ -200,112 +197,85 @@ function followWhileTyping(el){
     if (songGain) songGain.gain.value = 0;
   }
 
-  // ---------- Typing ----------
+  // ---------- Typing: Zeilen vorher umbrechen (kein Springen), dann buchstabenweise ----------
   function wrapTextToLines(text, el) {
-  const style = getComputedStyle(el);
+    const style = getComputedStyle(el);
+    const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
 
-  // nutze die echte Schriftangabe des Elements
-  const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    const canvas = wrapTextToLines._c || (wrapTextToLines._c = document.createElement("canvas"));
+    const ctx = canvas.getContext("2d");
+    ctx.font = font;
 
-  const canvas = wrapTextToLines._c || (wrapTextToLines._c = document.createElement("canvas"));
-  const ctx = canvas.getContext("2d");
-  ctx.font = font;
+    const paddingLeft = parseFloat(style.paddingLeft || "0");
+    const paddingRight = parseFloat(style.paddingRight || "0");
+    const maxWidth = el.clientWidth - paddingLeft - paddingRight;
 
-  // Breite des Textbereichs (ohne Padding)
-  const paddingLeft = parseFloat(style.paddingLeft || "0");
-  const paddingRight = parseFloat(style.paddingRight || "0");
-  const maxWidth = el.clientWidth - paddingLeft - paddingRight;
+    const paragraphs = (text || "").split("\n");
+    const lines = [];
 
-  // Zeilenumbrüche aus dem Text respektieren
-  const paragraphs = (text || "").split("\n");
-  const lines = [];
+    for (const para of paragraphs) {
+      if (!para.trim()) { lines.push(""); continue; }
 
-  for (const para of paragraphs) {
-    const words = para.split(/\s+/).filter(Boolean);
-    let line = "";
+      const words = para.split(/\s+/).filter(Boolean);
+      let line = "";
 
-    for (const w of words) {
-      const test = line ? (line + " " + w) : w;
-      if (ctx.measureText(test).width <= maxWidth) {
-        line = test;
-      } else {
-        if (line) lines.push(line);
+      for (const w of words) {
+        const test = line ? (line + " " + w) : w;
 
-        // Falls EIN Wort länger ist als maxWidth -> hart umbrechen (ohne Sprung)
-        if (ctx.measureText(w).width > maxWidth) {
-          let chunk = "";
-          for (const ch of w) {
-            const t = chunk + ch;
-            if (ctx.measureText(t).width <= maxWidth) {
-              chunk = t;
-            } else {
-              if (chunk) lines.push(chunk);
-              chunk = ch;
-            }
-          }
-          line = chunk;
+        if (ctx.measureText(test).width <= maxWidth) {
+          line = test;
         } else {
-          line = w;
+          if (line) lines.push(line);
+
+          if (ctx.measureText(w).width > maxWidth) {
+            let chunk = "";
+            for (const ch of w) {
+              const t = chunk + ch;
+              if (ctx.measureText(t).width <= maxWidth) chunk = t;
+              else { if (chunk) lines.push(chunk); chunk = ch; }
+            }
+            line = chunk;
+          } else {
+            line = w;
+          }
         }
       }
+      if (line) lines.push(line);
     }
 
-    if (line) lines.push(line);
-
-    // Absatzwechsel -> leere Zeile (damit "Luft" entsteht)
-    lines.push("");
+    return lines;
   }
 
-  // letzte künstliche Leerzeile entfernen
-  if (lines.length && lines[lines.length - 1] === "") lines.pop();
-
-  return lines;
-}
   async function typeText(el, text, myRun){
     if (!el) return;
 
-    el.textContent = "";
-    const textNode = document.createTextNode("");
-    el.appendChild(textNode);
+    el.innerHTML = "";
+    const lines = wrapTextToLines(text, el);
 
-    let cursor = el.querySelector(".cursor");
-    if (!cursor) {
-      cursor = document.createElement("span");
-      cursor.className = "cursor";
-      el.appendChild(cursor);
-    }
+    const cursor = document.createElement("span");
+    cursor.className = "cursor";
+    el.appendChild(cursor);
 
-    const tokens = text.match(/\n|[^\s]+\s*/g) || [];
-async function typeText(el, text, myRun){
-  if (!el) return;
+    for (let li = 0; li < lines.length; li++){
+      if (myRun !== runId) return;
+      const line = lines[li];
 
-  el.innerHTML = ""; // wir nutzen <br>, daher innerHTML
-  const lines = wrapTextToLines(text, el);
+      for (let i = 0; i < line.length; i++){
+        if (myRun !== runId) return;
+        cursor.insertAdjacentText("beforebegin", line[i]);
+        followWhileTyping(cursor);
+        await sleep(CHAR_DELAY_MS);
+      }
 
-  // Cursor ans Ende
-  const cursor = document.createElement("span");
-  cursor.className = "cursor";
-  el.appendChild(cursor);
-
-  for (let i = 0; i < item.length; i++){
-  if (myRun !== runId) return;
-
-  li.textContent += item[i];
-  followWhileTyping(li);
-
-  await sleep(CHAR_DELAY_MS);
-}
-
-    // Zeilenumbruch (außer nach letzter Zeile)
-    if (li < lines.length - 1) {
-      cursor.insertAdjacentHTML("beforebegin", "<br>");
-      followWhileTyping(cursor);
-      await sleep(Math.max(120, CHAR_DELAY_MS * 2)); // Mini-Pause pro Zeile
+      if (li < lines.length - 1) {
+        cursor.insertAdjacentHTML("beforebegin", "<br>");
+        followWhileTyping(cursor);
+        await sleep(Math.max(120, CHAR_DELAY_MS * 2));
+      }
     }
   }
-}
 
-  async function typeList(ul, items, myRunk){
+  async function typeList(ul, items, myRun){
     if (!ul) return;
     ul.innerHTML = "";
 
@@ -315,14 +285,11 @@ async function typeText(el, text, myRun){
       const li = document.createElement("li");
       ul.appendChild(li);
 
-      const tokens = item.match(/[^\s]+\s*/g) || [];
-      let tokenCount = 0;
-
-      for (const token of tokens){
+      // BUCHSTABENWEISE, aber Scroll folgt ruhig
+      for (let i = 0; i < item.length; i++){
         if (myRun !== runId) return;
-        li.textContent += token;
-        tokenCount++;
-        if (tokenCount % 2 === 0) followWhileTyping(li);
+        li.textContent += item[i];
+        if (i % 6 === 0) followWhileTyping(li);
         await sleep(CHAR_DELAY_MS);
       }
 
@@ -333,10 +300,10 @@ async function typeText(el, text, myRun){
   }
 
   // ---------- UI Wiring ----------
-  const btnImpuls     = $("btnImpuls");
+  const btnImpuls = $("btnImpuls");
   const btnSituation1 = $("btnSituation1");
-  const btnSong       = $("btnSong");
-  const impulsEl      = $("impuls");
+  const btnSong = $("btnSong");
+  const impulsEl = $("impuls");
 
   if (!btnImpuls || !btnSituation1 || !btnSong || !impulsEl) {
     alert("Fehler: Ein Button/Element fehlt im HTML (IDs prüfen: btnImpuls, btnSituation1, btnSong, impuls).");
