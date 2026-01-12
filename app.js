@@ -351,6 +351,8 @@ function followWhileTyping(el){
     await sleep(AFTER_RITUAL_MS);
 
     show("b5");
+autoScrollTo("b5");   // einmal sauber hinsetzen
+lockScroll = true;    // ✅ ab jetzt NICHT mehr mitscrollen
 
     setTimeout(() => stopBgMusic(true), 45000);
   });
