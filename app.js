@@ -1,3 +1,4 @@
+// Optional: Fehler sofort zeigen
 window.onerror = function (msg, src, line, col) {
   alert("JS-Fehler: " + msg + " @ Zeile " + line + ":" + col);
 };
@@ -8,28 +9,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // --- sanftes Mit-Scrollen während des Tippens ---
+  // ---------- Scroll / Follow ----------
   let lastScrollTs = 0;
+  let lockScroll = false; // ✅ ab Block 5 stoppen wir Mitscrollen
 
-function followWhileTyping(cursorEl){
-  if (!cursorEl) return;
+  function followWhileTyping(cursorEl){
+    if (!cursorEl || lockScroll) return;
 
-  const now = performance.now();
-  if (now - lastScrollTs < 40) return; // ruhig & stabil
-  lastScrollTs = now;
+    const now = performance.now();
+    if (now - lastScrollTs < 80) return;  // ruhiger Takt
+    lastScrollTs = now;
 
-  const r = cursorEl.getBoundingClientRect();
+    const r = cursorEl.getBoundingClientRect();
+    const fixedY = window.innerHeight * 0.72; // Cursor-Höhe (wie Chat)
+    const cursorY = r.top + (r.height * 0.6);
+    const diff = cursorY - fixedY;
 
-  // Cursor bleibt immer auf gleicher Bildschirmhöhe
-  const fixedY = window.innerHeight * 0.72;
-
-  const cursorY = r.top + (r.height * 0.6);
-  const diff = cursorY - fixedY;
-
-  if (diff > 0) {
-    window.scrollBy({ top: diff, behavior: "auto" });
+    if (diff > 0) {
+      window.scrollBy({ top: Math.min(14, diff), behavior: "auto" });
+    }
   }
-}
 
   function show(id){
     const el = $(id);
@@ -45,10 +44,13 @@ function followWhileTyping(cursorEl){
   }
 
   function clearAllBlocks(){
+    lockScroll = false; // ✅ bei Neustart wieder erlauben
     ["b1","b2","b3","b4","b5"].forEach(id => {
       const el = $(id);
       if (el) el.classList.add("hidden");
     });
+
+    // p-Felder (t1/t2) sind <p>, Listen sind <ul>
     if ($("t1")) $("t1").innerHTML = "";
     if ($("t2")) $("t2").innerHTML = "";
     if ($("t3")) $("t3").innerHTML = "";
@@ -102,8 +104,8 @@ function followWhileTyping(cursorEl){
   ];
 
   // ---------- Timing ----------
-  const CHAR_DELAY_MS = 110;
-  const BETWEEN_BLOCKS_MS = 3000;
+  const CHAR_DELAY_MS = 140;          // Tippgeschwindigkeit
+  const BETWEEN_BLOCKS_MS = 3000;     // Pausen zwischen Blöcken
   const AFTER_RITUAL_MS = 5000;
 
   // ---------- Audio ----------
@@ -166,7 +168,7 @@ function followWhileTyping(cursorEl){
     try { bg.pause(); } catch(_) {}
     bg.currentTime = 0;
     bg.loop = false;
-    bg.volume = 0.0001;
+    bg.volume = 0.0001; // iOS: ignoriert oft, Gain regelt wirklich
 
     try{
       await bg.play();
@@ -202,7 +204,7 @@ function followWhileTyping(cursorEl){
     if (songGain) songGain.gain.value = 0;
   }
 
-  // ---------- Typing: Zeilen vorher umbrechen (kein Springen), dann buchstabenweise ----------
+  // ---------- Typing ----------
   function wrapTextToLines(text, el) {
     const style = getComputedStyle(el);
     const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
@@ -247,7 +249,6 @@ function followWhileTyping(cursorEl){
       }
       if (line) lines.push(line);
     }
-
     return lines;
   }
 
@@ -273,19 +274,20 @@ function followWhileTyping(cursorEl){
       }
 
       if (li < lines.length - 1) {
-  cursor.insertAdjacentHTML("beforebegin", "<br>");
+        cursor.insertAdjacentHTML("beforebegin", "<br>");
 
-  // ✅ Falls die nächste Zeile leer ist: sanft "nachlaufen" lassen
-  if (lines[li + 1] === "") {
-    for (let k = 0; k < 8; k++) {
-      followWhileTyping(cursor);
-      await sleep(CHAR_DELAY_MS);
+        // leerzeile: weich nachlaufen
+        if (lines[li + 1] === "") {
+          for (let k = 0; k < 8; k++) {
+            followWhileTyping(cursor);
+            await sleep(CHAR_DELAY_MS);
+          }
+        } else {
+          followWhileTyping(cursor);
+          await sleep(Math.max(120, CHAR_DELAY_MS * 2));
+        }
+      }
     }
-  } else {
-    followWhileTyping(cursor);
-    await sleep(Math.max(120, CHAR_DELAY_MS * 2));
-  }
-}
   }
 
   async function typeList(ul, items, myRun){
@@ -298,7 +300,6 @@ function followWhileTyping(cursorEl){
       const li = document.createElement("li");
       ul.appendChild(li);
 
-      // BUCHSTABENWEISE, aber Scroll folgt ruhig
       for (let i = 0; i < item.length; i++){
         if (myRun !== runId) return;
         li.textContent += item[i];
@@ -342,20 +343,23 @@ function followWhileTyping(cursorEl){
     await sleep(BETWEEN_BLOCKS_MS);
 
     show("b2");
+    autoScrollTo("b2");
     await typeText($("t2"), erklaerungText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     show("b3");
+    autoScrollTo("b3");
     await typeList($("t3"), affirmationItems, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     show("b4");
+    autoScrollTo("b4");
     await typeList($("t4"), ritualItems, myRun);
     await sleep(AFTER_RITUAL_MS);
 
     show("b5");
-autoScrollTo("b5");   // einmal sauber hinsetzen
-lockScroll = true;    // ✅ ab jetzt NICHT mehr mitscrollen
+    autoScrollTo("b5");
+    lockScroll = true; // ✅ ab hier kein Mitscrollen mehr
 
     setTimeout(() => stopBgMusic(true), 45000);
   });
