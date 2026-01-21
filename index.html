@@ -32,9 +32,15 @@
     padding-right: calc(30px + env(safe-area-inset-right));
     position:relative;
     overflow-x:hidden;
-    .cursor{ display:block; height:1px; }
+    
   }
-
+.cursor{
+  display:inline-block;
+  width:1px;
+  height:1em;
+  opacity:0;
+}
+    
     body::before{
       content:"";
       position:fixed;
@@ -209,7 +215,7 @@ li{
 
 /* Scroll-Spielraum für sanftes Mitscrollen */
 .scrollPad{
-  height: r55vh;
+  height: 55vh;
   pointer-events: none;
 }
 
