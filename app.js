@@ -82,15 +82,15 @@ document.addEventListener("DOMContentLoaded", () => {
     "Nichts drängt.\n" +
     "Nichts will gelöst werden.\n\n" +
     "Du darfst für einen Moment anhalten\n" +
-    "und wahrnehmen,\n" +
-    "dass dieser Augenblick gerade genug ist.";
+    "und wahrnehmen,dass dieser Augenblick\n" +
+    "gerade genug ist.";
 
   const erklaerungText =
     "Innere Unruhe entsteht oft dann,\n" +
     "wenn dein Inneres schneller ist als der Moment.\n\n" +
-    "Gedanken kreisen,\n" +
-    "der Körper bleibt angespannt,auch wenn keine \n" +
-    "unmittelbare Gefahr da ist.\n\n" +
+    "Gedanken kreisen,der Körper bleibt \n" +
+    "angespannt,auch wenn keine unmittelbare Gefahr \n" +
+    "da ist.\n\n" +
     "Dein Nervensystem sucht nicht nach Antworten.\n" +
     "Es sucht nach Sicherheit.\n\n" +
     "Diese kleinen Impulse laden dich ein,\n" +
