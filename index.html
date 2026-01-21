@@ -279,4 +279,564 @@ li{
   <!-- Wichtig: app.js ohne ?v=... -->
   <script src="app.js?v=err1" defer></script>
 </body>
+</html><!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Seelenimpuls</title>
+  <style>
+  :root{
+    --bg1:#eef3f6;
+    --bg2:#f7fbff;
+    --card:#ffffffcc;
+    --stroke:#e6edf3;
+    --text:#1b1f24;
+    --muted:#5a6672;
+    --accent:#1f7ae0;
+    --radius:18px;
+  }
+    
+  /* ✅ FIX 1: Box-Sizing GLOBAL */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    color:var(--text);
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+    min-height:100vh;
+    padding:30px;
+    padding-left:  calc(30px + env(safe-area-inset-left));
+    padding-right: calc(30px + env(safe-area-inset-right));
+    position:relative;
+    overflow-x:hidden;
+    .cursor{ display:block; height:1px; }
+  }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(31,122,224,0.10), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(31,122,224,0.07), transparent 50%),
+        radial-gradient(circle at 45% 80%, rgba(31,122,224,0.06), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0));
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        120deg,
+        rgba(31,122,224,0.025) 0px,
+        rgba(31,122,224,0.025) 1px,
+        rgba(255,255,255,0) 14px,
+        rgba(255,255,255,0) 22px
+      );
+      opacity:.55;
+    }
+
+    .wrap{ max-width: 720px; margin:0 auto; position:relative; }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      margin-bottom: 14px;
+    }
+
+    h1{
+      margin:0 0 8px 0;
+      font-size: clamp(28px, 5vw, 40px);
+      letter-spacing:-0.02em;
+    }
+
+    .sub{
+      margin:0 0 14px 0;
+      color:var(--muted);
+      font-size: 18px;
+      line-height:1.35;
+    }
+
+    .btn{
+      width:100%;
+      border:0;
+      border-radius: 16px;
+      padding:14px 16px;
+      font-size: 20px;
+      font-weight: 700;
+      background: rgba(31,122,224,0.12);
+      color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(31,122,224,0.18);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active{ transform: scale(0.99); }
+
+    .situationBtn{
+      width:100%;
+      border:1px solid var(--stroke);
+      border-radius: 18px;
+      padding:16px;
+      background: #ffffffd9;
+      text-align:left;
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .headline{ font-size:22px; font-weight:800; margin-bottom:6px; }
+    .hint{ color:var(--muted); font-size:16px; line-height:1.35; }
+
+    .divider{
+      height:10px;
+      margin: 14px 0 10px 0;
+      background: linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
+      border-radius: 999px;
+      opacity:.7;
+    }
+
+    .block{
+      display:block;
+      margin-top:14px;
+      padding:14px;
+      border-radius: 16px;
+      border:1px solid var(--stroke);
+      background:#ffffffd9;
+      position:relative;
+      overflow:hidden;
+    }
+    .block h3{
+      margin:0 0 10px 0;
+      font-size:20px;
+      letter-spacing:-0.01em;
+    }
+   .typed{
+  font-size:18px;
+  line-height:1.45;
+  margin:0;
+  color:#20262c;
+  overflow-wrap:anywhere;
+}
+
+ul{
+  margin:0 0 12px 18px;
+  padding:0;
+}
+
+li{
+  font-size:18px;
+  line-height:1.45;
+  color:#20262c;
+  margin: 0 0 10px 0;
+  overflow-wrap:anywhere;
+}
+    .muted{ color: var(--muted); font-size: 15px; margin: 10px 0 0 0; }
+
+    .hidden{ display:none; }
+
+    /* Ende-Visuals */
+    #endVisual{
+      display:none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: #ffffffd9;
+      position: relative;
+      overflow:hidden;
+      min-height: 140px;
+    }
+    #endVisual.on{ display:block; }
+
+    .harp{
+      font-size: 28px;
+      opacity: .75;
+      margin-bottom: 6px;
+    }
+    .endText{
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .drops{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.9;
+    }
+    .drop{
+      position:absolute;
+      width:2px;
+      border-radius: 2px;
+      background: rgba(31,122,224,0.22);
+      animation: fall linear infinite;
+      top:-30px;
+    }
+    @keyframes fall{
+  0%{ transform: translateY(-20px); }
+  100%{ transform: translateY(220px); }
+}
+
+/* Scroll-Spielraum für sanftes Mitscrollen */
+.scrollPad{
+  height: r55vh;
+  pointer-events: none;
+}
+
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Kopf / Impuls -->
+    <div class="card">
+      <h1>Dein Seelenimpuls ✨</h1>
+      <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
+      <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
+    </div>
+
+    <!-- Situation auswählen -->
+    <div class="card">
+      <button class="situationBtn" id="btnSituation1" type="button">
+        <div class="headline">Innere Unruhe &amp;<br>Gedankenkarussell</div>
+        <div class="hint">Tippe hier, um sanft zu starten (mit sehr leiser Hintergrundmusik).</div>
+      </button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Blocks -->
+<div class="block hidden" id="b1">
+  <h3>🌿 Ankommen</h3>
+  <p class="typed" id="t1"></p>
+</div>
+
+<div class="block hidden" id="b2">
+  <h3>🌿 Erklärung</h3>
+  <p class="typed" id="t2"></p>
+</div>
+
+<div class="block hidden" id="b3">
+  <h3>✨ Affirmationen</h3>
+  <ul id="t3"></ul>
+</div>
+
+<div class="block hidden" id="b4">
+  <h3>🌙 Mini-Ritual</h3>
+  <ul id="t4"></ul>
+</div>
+
+<div class="block hidden" id="b5">
+  <h3>💡 Gesungene Affirmation</h3>
+  <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
+  <button class="btn" id="btnSong" type="button">Jetzt hören</button>
+</div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" preload="metadata">
+      <source src="audio/stillness-space.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="songPlayer" preload="metadata">
+  <source src="audio/held-within.mp3" type="audio/mpeg">
+</audio>
+
+<div class="scrollPad" aria-hidden="true"></div>
+
+</div>
+
+  <!-- Wichtig: app.js ohne ?v=... -->
+  <!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Seelenimpuls</title>
+  <style>
+  :root{
+    --bg1:#eef3f6;
+    --bg2:#f7fbff;
+    --card:#ffffffcc;
+    --stroke:#e6edf3;
+    --text:#1b1f24;
+    --muted:#5a6672;
+    --accent:#1f7ae0;
+    --radius:18px;
+  }
+    
+  /* ✅ FIX 1: Box-Sizing GLOBAL */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    color:var(--text);
+    background: linear-gradient(180deg, var(--bg1), var(--bg2));
+    min-height:100vh;
+    padding:30px;
+    padding-left:  calc(30px + env(safe-area-inset-left));
+    padding-right: calc(30px + env(safe-area-inset-right));
+    position:relative;
+    overflow-x:hidden;
+    .cursor{ display:block; height:1px; }
+  }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(31,122,224,0.10), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(31,122,224,0.07), transparent 50%),
+        radial-gradient(circle at 45% 80%, rgba(31,122,224,0.06), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0));
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        120deg,
+        rgba(31,122,224,0.025) 0px,
+        rgba(31,122,224,0.025) 1px,
+        rgba(255,255,255,0) 14px,
+        rgba(255,255,255,0) 22px
+      );
+      opacity:.55;
+    }
+
+    .wrap{ max-width: 720px; margin:0 auto; position:relative; }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      margin-bottom: 14px;
+    }
+
+    h1{
+      margin:0 0 8px 0;
+      font-size: clamp(28px, 5vw, 40px);
+      letter-spacing:-0.02em;
+    }
+
+    .sub{
+      margin:0 0 14px 0;
+      color:var(--muted);
+      font-size: 18px;
+      line-height:1.35;
+    }
+
+    .btn{
+      width:100%;
+      border:0;
+      border-radius: 16px;
+      padding:14px 16px;
+      font-size: 20px;
+      font-weight: 700;
+      background: rgba(31,122,224,0.12);
+      color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(31,122,224,0.18);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active{ transform: scale(0.99); }
+
+    .situationBtn{
+      width:100%;
+      border:1px solid var(--stroke);
+      border-radius: 18px;
+      padding:16px;
+      background: #ffffffd9;
+      text-align:left;
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .headline{ font-size:22px; font-weight:800; margin-bottom:6px; }
+    .hint{ color:var(--muted); font-size:16px; line-height:1.35; }
+
+    .divider{
+      height:10px;
+      margin: 14px 0 10px 0;
+      background: linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
+      border-radius: 999px;
+      opacity:.7;
+    }
+
+    .block{
+      display:block;
+      margin-top:14px;
+      padding:14px;
+      border-radius: 16px;
+      border:1px solid var(--stroke);
+      background:#ffffffd9;
+      position:relative;
+      overflow:hidden;
+    }
+    .block h3{
+      margin:0 0 10px 0;
+      font-size:20px;
+      letter-spacing:-0.01em;
+    }
+   .typed{
+  font-size:18px;
+  line-height:1.45;
+  margin:0;
+  color:#20262c;
+  overflow-wrap:anywhere;
+}
+
+ul{
+  margin:0 0 12px 18px;
+  padding:0;
+}
+
+li{
+  font-size:18px;
+  line-height:1.45;
+  color:#20262c;
+  margin: 0 0 10px 0;
+  overflow-wrap:anywhere;
+}
+    .muted{ color: var(--muted); font-size: 15px; margin: 10px 0 0 0; }
+
+    .hidden{ display:none; }
+
+    /* Ende-Visuals */
+    #endVisual{
+      display:none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: #ffffffd9;
+      position: relative;
+      overflow:hidden;
+      min-height: 140px;
+    }
+    #endVisual.on{ display:block; }
+
+    .harp{
+      font-size: 28px;
+      opacity: .75;
+      margin-bottom: 6px;
+    }
+    .endText{
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .drops{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.9;
+    }
+    .drop{
+      position:absolute;
+      width:2px;
+      border-radius: 2px;
+      background: rgba(31,122,224,0.22);
+      animation: fall linear infinite;
+      top:-30px;
+    }
+    @keyframes fall{
+  0%{ transform: translateY(-20px); }
+  100%{ transform: translateY(220px); }
+}
+
+/* Scroll-Spielraum für sanftes Mitscrollen */
+.scrollPad{
+  height: r55vh;
+  pointer-events: none;
+}
+
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Kopf / Impuls -->
+    <div class="card">
+      <h1>Dein Seelenimpuls ✨</h1>
+      <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
+      <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
+    </div>
+
+    <!-- Situation auswählen -->
+    <div class="card">
+      <button class="situationBtn" id="btnSituation1" type="button">
+        <div class="headline">Innere Unruhe &amp;<br>Gedankenkarussell</div>
+        <div class="hint">Tippe hier, um sanft zu starten (mit sehr leiser Hintergrundmusik).</div>
+      </button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Blocks -->
+<div class="block hidden" id="b1">
+  <h3>🌿 Ankommen</h3>
+  <p class="typed" id="t1"></p>
+</div>
+
+<div class="block hidden" id="b2">
+  <h3>🌿 Erklärung</h3>
+  <p class="typed" id="t2"></p>
+</div>
+
+<div class="block hidden" id="b3">
+  <h3>✨ Affirmationen</h3>
+  <ul id="t3"></ul>
+</div>
+
+<div class="block hidden" id="b4">
+  <h3>🌙 Mini-Ritual</h3>
+  <ul id="t4"></ul>
+</div>
+
+<div class="block hidden" id="b5">
+  <h3>💡 Gesungene Affirmation</h3>
+  <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
+  <button class="btn" id="btnSong" type="button">Jetzt hören</button>
+</div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" preload="metadata">
+      <source src="audio/stillness-space.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="songPlayer" preload="metadata">
+  <source src="audio/held-within.mp3" type="audio/mpeg">
+</audio>
+
+<div class="scrollPad" aria-hidden="true"></div>
+
+</div>
+
+  <!-- Wichtig: app.js ohne ?v=... -->
+  <script src="app.js?v=err1" defer></script>
+</body>
 </html>
