@@ -1,7 +1,11 @@
-// Optional: Fehler sofort zeigen
-window.onerror = function (msg, src, line, col) {
-  alert("JS-Fehler: " + msg + " @ Zeile " + line + ":" + col);
-};
+/* ===========================
+   Seelenimpuls – app.js (CLEAN)
+   Stabil auf iPhone/Safari:
+   - Events erst nach DOMContentLoaded
+   - BG + Song Lautstärke via WebAudio Gain
+   - ruhiges Mitscrollen während des Tippens (Cursor bleibt auf fixer Höhe)
+   - keine harten Sprünge zwischen Blöcken
+   =========================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -11,17 +15,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Scroll / Follow ----------
   let lastScrollTs = 0;
-  let lockScroll = false; // ✅ ab Block 5 stoppen wir Mitscrollen
+  let lockScroll = false; // ab Block 5 kein Mitscrollen mehr
 
   function followWhileTyping(cursorEl){
     if (!cursorEl || lockScroll) return;
 
     const now = performance.now();
-    if (now - lastScrollTs < 80) return;  // ruhiger Takt
+    if (now - lastScrollTs < 80) return; // ruhiger Takt
     lastScrollTs = now;
 
     const r = cursorEl.getBoundingClientRect();
-    const fixedY = window.innerHeight * 0.72; // Cursor-Höhe (wie Chat)
+
+    // Cursor bleibt auf fixer Höhe (72% der Bildschirmhöhe)
+    const fixedY = window.innerHeight * 0.72;
     const cursorY = r.top + (r.height * 0.6);
     const diff = cursorY - fixedY;
 
@@ -36,66 +42,54 @@ document.addEventListener("DOMContentLoaded", () => {
     el.classList.remove("hidden");
   }
 
-  function autoScrollTo(id){
-  const el = $(id);
-  if (!el) return;
-
-  // wirklich oben platzieren (kleiner Abstand)
-  const y = window.scrollY + el.getBoundingClientRect().top - 12;
-  window.scrollTo({ top: y, behavior: "auto" });
-}
-
+  // Block 1 soll direkt oben starten
   function snapToTop(id){
-  const el = $(id);
-  if (!el) return;
+    const el = $(id);
+    if (!el) return;
+    const y = window.scrollY + el.getBoundingClientRect().top - 12;
+    window.scrollTo({ top: y, behavior: "auto" });
+  }
 
-  // direkt, ohne Smooth (sonst wirkt es unruhig)
-  const y = window.scrollY + el.getBoundingClientRect().top - 12; 
-  window.scrollTo({ top: y, behavior: "auto" });
-}
-  
   function clearAllBlocks(){
-    lockScroll = false; // ✅ bei Neustart wieder erlauben
+    lockScroll = false;
+
     ["b1","b2","b3","b4","b5"].forEach(id => {
       const el = $(id);
       if (el) el.classList.add("hidden");
     });
 
-    // p-Felder (t1/t2) sind <p>, Listen sind <ul>
     if ($("t1")) $("t1").innerHTML = "";
     if ($("t2")) $("t2").innerHTML = "";
     if ($("t3")) $("t3").innerHTML = "";
     if ($("t4")) $("t4").innerHTML = "";
   }
 
-  // ---------- Inhalte ----------
+  // ---------- Inhalte (ohne Verneinungen) ----------
   const impulses = [
-    "Atme tief ein. Du musst heute nichts halten.",
+    "Atme tief ein. Du darfst gehalten sein.",
     "Du darfst langsam sein.",
     "Dein Herz kennt den Weg.",
-    "Alles darf leicht sein.",
-    "Du musst nicht kämpfen, um sicher zu sein."
+    "Alles darf leicht werden.",
+    "Du darfst in Sicherheit ankommen."
   ];
 
   const ankommenText =
     "Du bist hier.\n\n" +
-    "Nichts drängt.\n" +
-    "Nichts will gelöst werden.\n\n" +
-    "Du darfst für einen Moment anhalten\n" +
-    "und wahrnehmen,dass dieser Augenblick\n" +
-    "gerade genug ist.";
+    "Dieser Moment trägt dich.\n" +
+    "Du darfst weich werden.\n\n" +
+    "Atme ruhig weiter.\n" +
+    "Spüre: Jetzt ist genug.\n" +
+    "Jetzt ist Raum.";
 
   const erklaerungText =
-    "Innere Unruhe entsteht oft dann,\n" +
-    "wenn dein Inneres schneller ist als der Moment.\n\n" +
-    "Gedanken kreisen,der Körper bleibt \n" +
-    "angespannt,auch wenn keine unmittelbare Gefahr \n" +
-    "da ist.\n\n" +
-    "Dein Nervensystem sucht nicht nach Antworten.\n" +
-    "Es sucht nach Sicherheit.\n\n" +
-    "Diese kleinen Impulse laden dich ein,\n" +
-    "wieder in deinem Körper anzukommen\n" +
-    "und dem inneren Tempo sanft zu begegnen.";
+    "Innere Unruhe ist oft ein wertvoller Hinweis.\n\n" +
+    "Gedanken bewegen sich schnell,\n" +
+    "der Körper bleibt aufmerksam.\n\n" +
+    "Dein Nervensystem sucht Sicherheit.\n" +
+    "Es lädt dich ein, wieder im Körper anzukommen.\n\n" +
+    "Diese Impulse unterstützen dich dabei,\n" +
+    "Tempo zu lösen\n" +
+    "und in dir ruhiger zu werden.";
 
   const affirmationItems = [
     "Ich darf langsamer werden.",
@@ -105,29 +99,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const ritualItems = [
     "Lass deinen Atem ruhig einströmen.",
-    "Und lass ihn wieder hinausfließen – ein wenig länger, ein wenig weicher.",
+    "Lass ihn wieder hinausfließen – ein wenig länger, ein wenig weicher.",
     "Spüre, wie dein Körper gehalten wird.",
-    "Der Boden unter dir. Die Fläche, die dich trägt.",
-    "Mit jedem Ausatmen darf ein wenig Spannung gehen.",
-    "Nicht alles. Nur so viel, wie jetzt möglich ist.",
-    "Und dann bleibe hier noch einen Moment.",
-    "Ohne etwas verändern zu müssen."
+    "Spüre den Boden unter dir – die Fläche, die dich trägt.",
+    "Mit jedem Ausatmen darf Spannung weicher werden.",
+    "So viel, wie jetzt möglich ist.",
+    "Bleibe einen Moment bei dir.",
+    "Spüre Ruhe, die sich in dir ausbreitet."
   ];
 
   // ---------- Timing ----------
-  const CHAR_DELAY_MS = 140;          // Tippgeschwindigkeit
-  const BETWEEN_BLOCKS_MS = 3000;     // Pausen zwischen Blöcken
-  const AFTER_RITUAL_MS = 5000;
+  const CHAR_DELAY_MS      = 140;  // Tippgeschwindigkeit (höher = langsamer)
+  const BETWEEN_BLOCKS_MS  = 3000; // Pause zwischen Blöcken
+  const AFTER_RITUAL_MS    = 5000; // Zeit zum Wirken nach Ritual
 
   // ---------- Audio ----------
-  const BG_TARGET_GAIN = 0.0085;
-  const BG_FADE_MS = 2500;
-  const BG_MAX_PLAY_MS = 180000;
-  const SONG_TARGET_GAIN = 0.04;
+  const BG_TARGET_GAIN   = 0.0085; // Hintergrundmusik
+  const BG_FADE_MS       = 2500;
+  const BG_MAX_PLAY_MS   = 180000;
+
+  const SONG_TARGET_GAIN = 0.035;  // Song noch etwas leiser
 
   let runId = 0;
   let bgStopTimer = null;
 
+  // WebAudio Graph
   let audioCtx = null;
   let bgGain = null;
   let bgSource = null;
@@ -136,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function ensureAudioGraph(){
     if (audioCtx) return;
+
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     const bg = $("bgMusic");
@@ -161,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!audioCtx || !bgGain) return;
     const now = audioCtx.currentTime;
     const dur = Math.max(0.05, durationMs / 1000);
+
     bgGain.gain.cancelScheduledValues(now);
     bgGain.gain.setValueAtTime(bgGain.gain.value, now);
     bgGain.gain.linearRampToValueAtTime(targetGain, now + dur);
@@ -179,7 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
     try { bg.pause(); } catch(_) {}
     bg.currentTime = 0;
     bg.loop = false;
-    bg.volume = 0.0001; // iOS: ignoriert oft, Gain regelt wirklich
+
+    // native iOS volume ist unzuverlässig → Gain regelt
+    bg.volume = 0.0001;
 
     try{
       await bg.play();
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (songGain) songGain.gain.value = 0;
   }
 
-  // ---------- Typing ----------
+  // ---------- Typing: Text vorher umbrechen (kein Springen), dann buchstabenweise ----------
   function wrapTextToLines(text, el) {
     const style = getComputedStyle(el);
     const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
@@ -224,10 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ctx = canvas.getContext("2d");
     ctx.font = font;
 
-    const paddingLeft = parseFloat(style.paddingLeft || "0");
-    const paddingRight = parseFloat(style.paddingRight || "0");
-    const maxWidth = el.clientWidth - paddingLeft - paddingRight;
-
+    const maxWidth = el.clientWidth;
     const paragraphs = (text || "").split("\n");
     const lines = [];
 
@@ -244,18 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
           line = test;
         } else {
           if (line) lines.push(line);
-
-          if (ctx.measureText(w).width > maxWidth) {
-            let chunk = "";
-            for (const ch of w) {
-              const t = chunk + ch;
-              if (ctx.measureText(t).width <= maxWidth) chunk = t;
-              else { if (chunk) lines.push(chunk); chunk = ch; }
-            }
-            line = chunk;
-          } else {
-            line = w;
-          }
+          line = w;
         }
       }
       if (line) lines.push(line);
@@ -275,6 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let li = 0; li < lines.length; li++){
       if (myRun !== runId) return;
+
       const line = lines[li];
 
       for (let i = 0; i < line.length; i++){
@@ -287,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (li < lines.length - 1) {
         cursor.insertAdjacentHTML("beforebegin", "<br>");
 
-        // leerzeile: weich nachlaufen
+        // Leerzeile: sanft nachlaufen (damit es ruhig bleibt)
         if (lines[li + 1] === "") {
           for (let k = 0; k < 8; k++) {
             followWhileTyping(cursor);
@@ -348,29 +335,31 @@ document.addEventListener("DOMContentLoaded", () => {
     stopBgMusic(false);
     await startBgMusic();
 
+    // Block 1
     show("b1");
-snapToTop("b1");          // ✅ Ankommen sofort nach oben
-await sleep(80);          // kleiner Puffer gegen iOS “Scroll-Zucken”
-await typeText($("t1"), ankommenText, myRun);
+    snapToTop("b1");
+    await sleep(80);
+    await typeText($("t1"), ankommenText, myRun);
+    await sleep(BETWEEN_BLOCKS_MS);
 
+    // Block 2
     show("b2");
-    autoScrollTo("b2");
     await typeText($("t2"), erklaerungText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
+    // Block 3
     show("b3");
-    autoScrollTo("b3");
     await typeList($("t3"), affirmationItems, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
+    // Block 4
     show("b4");
-    autoScrollTo("b4");
     await typeList($("t4"), ritualItems, myRun);
     await sleep(AFTER_RITUAL_MS);
 
+    // Block 5 (Button sichtbar, Scroll stoppen)
     show("b5");
-    autoScrollTo("b5");
-    lockScroll = true; // ✅ ab hier kein Mitscrollen mehr
+    lockScroll = true;
 
     setTimeout(() => stopBgMusic(true), 45000);
   });
@@ -390,10 +379,9 @@ await typeText($("t1"), ankommenText, myRun);
     try{
       song.pause();
       song.currentTime = 0;
-      song.volume = 1.0;
+      song.volume = 1.0; // Gain regelt
 
-      if (songGain) songGain.gain.value = 0.02;
-
+      if (songGain) songGain.gain.value = 0.01; // Start sehr leise
       await song.play();
 
       if (songGain){
@@ -403,6 +391,7 @@ await typeText($("t1"), ankommenText, myRun);
         songGain.gain.linearRampToValueAtTime(SONG_TARGET_GAIN, now + 1.2);
       }
     } catch(_){
+      // iOS fallback
       try{
         song.muted = true;
         await song.play();
