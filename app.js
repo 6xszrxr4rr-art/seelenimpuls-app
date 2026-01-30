@@ -88,8 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "Dein Nervensystem sucht Sicherheit.\n" +
     "Es lädt dich ein, wieder im Körper anzukommen.\n\n" +
     "Diese Impulse unterstützen dich dabei,\n" +
-    "Tempo zu lösen\n" +
-    "und in dir ruhiger zu werden.";
+    "Tempo zu lösen und in dir ruhiger zu werden.";
 
   const affirmationItems = [
     "Ich darf langsamer werden.",
