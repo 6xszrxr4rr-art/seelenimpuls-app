@@ -306,6 +306,8 @@ function showChooser(){
     const myRun = runId;
 
     clearAllBlocks();
+    hideChooser();
+    
     stopSong();
     stopBgMusic(false);
 
