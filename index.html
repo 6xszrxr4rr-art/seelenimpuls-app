@@ -232,68 +232,84 @@ li{
       <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
     </div>
 
-   <!-- Situationen auswählen -->
-<div class="card">
-  <button class="situationBtn" id="btnSituation1" type="button">
-    <div class="headline">1) Innere Unruhe &amp;<br>Gedankenkarussell</div>
-    <div class="hint">Tippe hier, um sanft zu starten (mit sehr leiser Hintergrundmusik).</div>
-  </button>
+   <!-- Hinweis -->
+<div class="card" id="chooseHintCard">
+  <div class="headline" style="color: var(--text); font-size:18px; font-weight:700;">
+    Wähle die Situation aus, in der du dich gerade befindest:
+  </div>
 </div>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation2" type="button">
-    <div class="headline">2) Überforderung &amp;<br>innerer Druck</div>
-    <div class="hint">Tippe hier, um sanft zu starten (mit sehr leiser Hintergrundmusik).</div>
-  </button>
-</div>
+<!-- Situation auswählen -->
+<div class="card" id="chooseCard">
+  <div id="situationsList">
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation3" type="button">
-    <div class="headline">3) Anspannung &amp;<br>inneres Festhalten</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
-</div>
+    <button class="situationBtn" id="btnSituation1" type="button">
+      <div class="headline">1) Innere Unruhe &amp;<br>Gedankenkarussell</div>
+      <div class="hint">Tippe hier, um sanft zu starten (mit sehr leiser Hintergrundmusik).</div>
+    </button>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation4" type="button">
-    <div class="headline">4) Erschöpfung &amp;<br>fehlende Kraft</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
-</div>
+    <div style="height:12px;"></div>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation5" type="button">
-    <div class="headline">5) Traurigkeit &amp;<br>leise Schwere</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
-</div>
+    <button class="situationBtn" id="btnSituation2" type="button">
+      <div class="headline">2) Überforderung &amp;<br>innerer Druck</div>
+      <div class="hint">Tippe hier, wenn gerade vieles gleichzeitig da ist.</div>
+    </button>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation6" type="button">
-    <div class="headline">6) Innere Leere &amp;<br>Orientierungslosigkeit</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
-</div>
+    <div style="height:12px;"></div>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation7" type="button">
-    <div class="headline">7) Selbstzweifel &amp;<br>innere Unsicherheit</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
-</div>
+    <button class="situationBtn" id="btnSituation3" type="button">
+      <div class="headline">3) Anspannung &amp;<br>inneres Festhalten</div>
+      <div class="hint">Tippe hier, wenn dein Körper nicht loslässt.</div>
+    </button>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation8" type="button">
-    <div class="headline">8) Entscheidungszweifel &amp;<br>inneres Schwanken</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
-</div>
+    <div style="height:12px;"></div>
 
-<div class="card">
-  <button class="situationBtn" id="btnSituation9" type="button">
-    <div class="headline">9) Übergang, Wandel &amp;<br>Neubeginn</div>
-    <div class="hint">Tippe hier, um sanft zu starten.</div>
-  </button>
+    <button class="situationBtn" id="btnSituation4" type="button">
+      <div class="headline">4) Erschöpfung &amp;<br>fehlende Kraft</div>
+      <div class="hint">Tippe hier, wenn du dich leer oder müde fühlst.</div>
+    </button>
+
+    <div style="height:12px;"></div>
+
+    <button class="situationBtn" id="btnSituation5" type="button">
+      <div class="headline">5) Traurigkeit &amp;<br>leise Schwere</div>
+      <div class="hint">Tippe hier, wenn sich alles schwer anfühlt.</div>
+    </button>
+
+    <div style="height:12px;"></div>
+
+    <button class="situationBtn" id="btnSituation6" type="button">
+      <div class="headline">6) Innere Leere &amp;<br>Orientierungslosigkeit</div>
+      <div class="hint">Tippe hier, wenn dir Richtung fehlt.</div>
+    </button>
+
+    <div style="height:12px;"></div>
+
+    <button class="situationBtn" id="btnSituation7" type="button">
+      <div class="headline">7) Selbstzweifel &amp;<br>innere Unsicherheit</div>
+      <div class="hint">Tippe hier, wenn du dich klein oder unsicher fühlst.</div>
+    </button>
+
+    <div style="height:12px;"></div>
+
+    <button class="situationBtn" id="btnSituation8" type="button">
+      <div class="headline">8) Entscheidungszweifel &amp;<br>inneres Schwanken</div>
+      <div class="hint">Tippe hier, wenn du zwischen Optionen pendelst.</div>
+    </button>
+
+    <div style="height:12px;"></div>
+
+    <button class="situationBtn" id="btnSituation9" type="button">
+      <div class="headline">9) Übergang, Wandel &amp;<br>Neubeginn</div>
+      <div class="hint">Tippe hier, wenn etwas Neues beginnt.</div>
+    </button>
+
+  </div>
+
+  <!-- Zurück-Button (erst sichtbar, wenn eine Situation läuft) -->
+  <div id="backWrap" class="hidden" style="margin-top:14px;">
+    <button class="btn" id="btnBack" type="button">Zurück zur Auswahl</button>
+  </div>
 </div>
 
     <div class="divider"></div>
