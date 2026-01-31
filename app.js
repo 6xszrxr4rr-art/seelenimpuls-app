@@ -1,11 +1,4 @@
-/* ===========================
-   Seelenimpuls – app.js (CLEAN)
-   Stabil auf iPhone/Safari:
-   - Events erst nach DOMContentLoaded
-   - BG + Song Lautstärke via WebAudio Gain
-   - ruhiges Mitscrollen während des Tippens (Cursor bleibt auf fixer Höhe)
-   - keine harten Sprünge zwischen Blöcken
-   =========================== */
+// app.js (Controller) – nutzt Situationen aus /situations/situation-1.js ... situation-9.js
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -13,20 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // ---------- Scroll / Follow ----------
+  // ---------- Scroll / Follow (1:1 wie deine aktuelle App) ----------
   let lastScrollTs = 0;
-  let lockScroll = false; // ab Block 5 kein Mitscrollen mehr
+  let lockScroll = false;
 
   function followWhileTyping(cursorEl){
     if (!cursorEl || lockScroll) return;
 
     const now = performance.now();
-    if (now - lastScrollTs < 80) return; // ruhiger Takt
+    if (now - lastScrollTs < 80) return;
     lastScrollTs = now;
 
     const r = cursorEl.getBoundingClientRect();
-
-    // Cursor bleibt auf fixer Höhe (72% der Bildschirmhöhe)
     const fixedY = window.innerHeight * 0.72;
     const cursorY = r.top + (r.height * 0.6);
     const diff = cursorY - fixedY;
@@ -42,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     el.classList.remove("hidden");
   }
 
-  // Block 1 soll direkt oben starten
   function snapToTop(id){
     const el = $(id);
     if (!el) return;
@@ -52,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function clearAllBlocks(){
     lockScroll = false;
-
     ["b1","b2","b3","b4","b5"].forEach(id => {
       const el = $(id);
       if (el) el.classList.add("hidden");
@@ -64,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if ($("t4")) $("t4").innerHTML = "";
   }
 
-  // ---------- Inhalte (ohne Verneinungen) ----------
+  // ---------- Impuls (Kopfkarte) ----------
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
     "Du darfst langsam sein.",
@@ -73,58 +62,20 @@ document.addEventListener("DOMContentLoaded", () => {
     "Du darfst in Sicherheit ankommen."
   ];
 
-  const ankommenText =
-    "Du bist hier.\n\n" +
-    "Dieser Moment trägt dich.\n" +
-    "Du darfst weich werden.\n\n" +
-    "Atme ruhig weiter.\n" +
-    "Spüre: Jetzt ist genug.\n" +
-    "Jetzt ist Raum.";
+  // ---------- Timing (1:1 wie deine aktuelle App) ----------
+  const CHAR_DELAY_MS = 140;
+  const BETWEEN_BLOCKS_MS = 3000;
+  const AFTER_RITUAL_MS = 5000;
 
-  const erklaerungText =
-    "Innere Unruhe ist oft ein wertvoller Hinweis.\n\n" +
-    "Gedanken bewegen sich schnell,\n" +
-    "der Körper bleibt aufmerksam.\n\n" +
-    "Dein Nervensystem sucht Sicherheit.\n" +
-    "Es lädt dich ein, wieder im Körper anzukommen.\n\n" +
-    "Diese Impulse unterstützen dich dabei,\n" +
-    "Tempo zu lösen und in dir ruhiger zu werden.";
-
-  const affirmationItems = [
-    "Ich darf langsamer werden.",
-    "Ich bin jetzt hier.",
-    "Ich bin getragen in diesem Moment."
-  ];
-
- const ritualItems = [
-  "Stelle beide Füße bewusst auf den Boden.",
-  "Spüre den Kontakt zum Boden und das Gewicht deines Körpers.",
-  "Atme ruhig ein.",
-  "Lass das Ausatmen etwas länger werden als das Einatmen.",
-  "Spüre, wo die Unruhe gerade am stärksten ist.",
-  "Lege eine Hand auf diese Stelle oder halte sie dort innerlich.",
-  "Mit dem Ausatmen darf dort ein wenig Weite entstehen.",
-  "Stelle dir vor, du trittst innerlich einen Schritt aus dem Gedankenkarussell heraus.",
-  "Sage innerlich: „Ich komme zurück in diesen Moment.“",
-  "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
-]; 
-
-  // ---------- Timing ----------
-  const CHAR_DELAY_MS      = 140;  // Tippgeschwindigkeit (höher = langsamer)
-  const BETWEEN_BLOCKS_MS  = 3000; // Pause zwischen Blöcken
-  const AFTER_RITUAL_MS    = 5000; // Zeit zum Wirken nach Ritual
-
-  // ---------- Audio ----------
-  const BG_TARGET_GAIN   = 0.0085; // Hintergrundmusik
-  const BG_FADE_MS       = 2500;
-  const BG_MAX_PLAY_MS   = 180000;
-
-  const SONG_TARGET_GAIN = 0.035;  // Song noch etwas leiser
+  // ---------- Audio (1:1 wie deine aktuelle App) ----------
+  const BG_TARGET_GAIN = 0.0085;
+  const BG_FADE_MS = 2500;
+  const BG_MAX_PLAY_MS = 180000;
+  const SONG_TARGET_GAIN = 0.035;
 
   let runId = 0;
   let bgStopTimer = null;
 
-  // WebAudio Graph
   let audioCtx = null;
   let bgGain = null;
   let bgSource = null;
@@ -133,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function ensureAudioGraph(){
     if (audioCtx) return;
-
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
     const bg = $("bgMusic");
@@ -178,8 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try { bg.pause(); } catch(_) {}
     bg.currentTime = 0;
     bg.loop = false;
-
-    // native iOS volume ist unzuverlässig → Gain regelt
     bg.volume = 0.0001;
 
     try{
@@ -216,7 +164,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (songGain) songGain.gain.value = 0;
   }
 
-  // ---------- Typing: Text vorher umbrechen (kein Springen), dann buchstabenweise ----------
+  function setAudio(bgFile, songFile){
+    const bg = $("bgMusic");
+    const song = $("songPlayer");
+    if (!bg || !song) return;
+
+    const bgSrc = bg.querySelector("source");
+    const songSrc = song.querySelector("source");
+    if (bgSrc && bgFile) bgSrc.src = `audio/${bgFile}`;
+    if (songSrc && songFile) songSrc.src = `audio/${songFile}`;
+
+    bg.load();
+    song.load();
+  }
+
+  // ---------- Typing (1:1 wie deine aktuelle App) ----------
   function wrapTextToLines(text, el) {
     const style = getComputedStyle(el);
     const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
@@ -275,7 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (li < lines.length - 1) {
         cursor.insertAdjacentHTML("beforebegin", "<br>");
 
-        // Leerzeile: sanft nachlaufen (damit es ruhig bleibt)
         if (lines[li + 1] === "") {
           for (let k = 0; k < 8; k++) {
             followWhileTyping(cursor);
@@ -312,93 +273,107 @@ document.addEventListener("DOMContentLoaded", () => {
     followWhileTyping(ul);
   }
 
-  // ---------- UI Wiring ----------
-  const btnImpuls = $("btnImpuls");
-  const btnSituation1 = $("btnSituation1");
-  const btnSong = $("btnSong");
-  const impulsEl = $("impuls");
-
-  if (!btnImpuls || !btnSituation1 || !btnSong || !impulsEl) {
-    alert("Fehler: Ein Button/Element fehlt im HTML (IDs prüfen: btnImpuls, btnSituation1, btnSong, impuls).");
-    return;
+  // ---------- Load situation module ----------
+  async function loadSituation(n){
+    const mod = await import(`./situations/situation-${n}.js?v=${Date.now()}`);
+    // jede Datei exportiert: export const situation = { ... }
+    return mod.situation;
   }
 
-  btnImpuls.addEventListener("click", () => {
-    impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
-  });
-
-  btnSituation1.addEventListener("click", async () => {
+  // ---------- Run situation ----------
+  async function runSituation(n){
     runId++;
     const myRun = runId;
 
     clearAllBlocks();
     stopSong();
     stopBgMusic(false);
+
+    const s = await loadSituation(n);
+
+    // Audio je Situation (bgAudio + songAudio)
+    setAudio(s.bgAudio, s.songAudio);
+
     await startBgMusic();
 
     // Block 1
     show("b1");
     snapToTop("b1");
     await sleep(80);
-    await typeText($("t1"), ankommenText, myRun);
+    await typeText($("t1"), s.ankommen, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 2
     show("b2");
-    await typeText($("t2"), erklaerungText, myRun);
+    await typeText($("t2"), s.erklaerung, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 3
     show("b3");
-    await typeList($("t3"), affirmationItems, myRun);
+    await typeList($("t3"), s.affirmationen, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 4
     show("b4");
-    await typeList($("t4"), ritualItems, myRun);
+    await typeList($("t4"), s.ritual, myRun);
     await sleep(AFTER_RITUAL_MS);
 
-    // Block 5 (Button sichtbar, Scroll stoppen)
+    // Block 5
     show("b5");
     lockScroll = true;
 
     setTimeout(() => stopBgMusic(true), 45000);
-  });
+  }
 
-  btnSong.addEventListener("click", async () => {
-    stopBgMusic(false);
+  // ---------- UI Wiring ----------
+  const btnImpuls = $("btnImpuls");
+  const impulsEl = $("impuls");
+  const btnSong = $("btnSong");
 
-    const song = $("songPlayer");
-    if (!song) return;
+  if (btnImpuls && impulsEl) {
+    btnImpuls.addEventListener("click", () => {
+      impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    });
+  }
 
-    ensureAudioGraph();
-
-    if (audioCtx && audioCtx.state === "suspended") {
-      try { await audioCtx.resume(); } catch(_) {}
+  // Situation 1–9 Buttons
+  for (let i = 1; i <= 9; i++){
+    const btn = $(`btnSituation${i}`);
+    if (btn){
+      btn.addEventListener("click", () => runSituation(i));
     }
+  }
 
-    try{
-      song.pause();
-      song.currentTime = 0;
-      song.volume = 1.0; // Gain regelt
+  // Song Button: BG stop + Song Gain Fade-in
+  if (btnSong){
+    btnSong.addEventListener("click", async () => {
+      stopBgMusic(false);
 
-      if (songGain) songGain.gain.value = 0.01; // Start sehr leise
-      await song.play();
+      const song = $("songPlayer");
+      if (!song) return;
 
-      if (songGain){
-        const now = audioCtx.currentTime;
-        songGain.gain.cancelScheduledValues(now);
-        songGain.gain.setValueAtTime(songGain.gain.value, now);
-        songGain.gain.linearRampToValueAtTime(SONG_TARGET_GAIN, now + 1.2);
+      ensureAudioGraph();
+
+      if (audioCtx && audioCtx.state === "suspended") {
+        try { await audioCtx.resume(); } catch(_) {}
       }
-    } catch(_){
-      // iOS fallback
+
       try{
-        song.muted = true;
+        song.pause();
+        song.currentTime = 0;
+        song.volume = 1.0;
+
+        if (songGain) songGain.gain.value = 0.01; // Start sehr leise
         await song.play();
-        song.muted = false;
-      } catch(__) {}
-    }
-  });
+
+        if (songGain){
+          const now = audioCtx.currentTime;
+          songGain.gain.cancelScheduledValues(now);
+          songGain.gain.setValueAtTime(songGain.gain.value, now);
+          songGain.gain.linearRampToValueAtTime(SONG_TARGET_GAIN, now + 1.2);
+        }
+      } catch(_){}
+    });
+  }
 
 });
