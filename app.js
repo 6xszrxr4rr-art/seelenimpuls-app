@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ["b1","b2","b3","b4","b5"].forEach(id => {
       const el = $(id);
       if (el) el.classList.add("hidden");
+      showChooser();
     });
 
     if ($("t1")) $("t1").innerHTML = "";
