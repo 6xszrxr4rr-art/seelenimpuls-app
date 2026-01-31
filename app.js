@@ -53,6 +53,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if ($("t4")) $("t4").innerHTML = "";
   }
 
+  function hideChooser(){
+  const chooseCard = $("chooseCard");
+  const hintCard = $("chooseHintCard");
+  const list = $("situationsList");
+  const backWrap = $("backWrap");
+  if (hintCard) hintCard.classList.add("hidden");
+  if (list) list.classList.add("hidden");
+  if (backWrap) backWrap.classList.remove("hidden");
+}
+
+function showChooser(){
+  const hintCard = $("chooseHintCard");
+  const list = $("situationsList");
+  const backWrap = $("backWrap");
+  if (hintCard) hintCard.classList.remove("hidden");
+  if (list) list.classList.remove("hidden");
+  if (backWrap) backWrap.classList.add("hidden");
+}
+  
   // ---------- Impuls (Kopfkarte) ----------
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
