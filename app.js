@@ -358,6 +358,16 @@ function showChooser(){
     });
   }
 
+  const btnBack = $("btnBack");
+if (btnBack) {
+  btnBack.addEventListener("click", () => {
+    // Stoppe laufende Audio/Sequenzen (wenn du willst)
+    // stopSong(); stopBgMusic(false);
+    clearAllBlocks();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
+}
+  
   // Situation 1–9 Buttons
   for (let i = 1; i <= 9; i++){
     const btn = $(`btnSituation${i}`);
