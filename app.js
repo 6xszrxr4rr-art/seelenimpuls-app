@@ -404,6 +404,7 @@ if (btnBack) {
     // Stoppe laufende Audio/Sequenzen (wenn du willst)
     // stopSong(); stopBgMusic(false);
     clearAllBlocks();
+    showChooser();
     window.scrollTo({ top: 0, behavior: "auto" });
   });
 }
