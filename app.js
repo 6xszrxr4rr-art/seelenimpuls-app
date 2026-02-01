@@ -39,7 +39,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const y = window.scrollY + el.getBoundingClientRect().top - 12;
     window.scrollTo({ top: y, behavior: "auto" });
   }
+function glideToTop(id, durationMs = 900){
+  const el = $(id);
+  if (!el) return;
 
+  const startY = window.scrollY;
+  const targetY = startY + el.getBoundingClientRect().top - 12;
+  const delta = targetY - startY;
+
+  const start = performance.now();
+
+  function easeInOut(t){
+    return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2)/2;
+  }
+
+  function tick(now){
+    const p = Math.min(1, (now - start) / durationMs);
+    window.scrollTo({ top: startY + delta * easeInOut(p), behavior: "auto" });
+    if (p < 1) requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+}
+  
   function clearAllBlocks(){
     lockScroll = false;
     ["b1","b2","b3","b4","b5"].forEach(id => {
