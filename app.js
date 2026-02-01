@@ -352,14 +352,25 @@ function showChooser(){
   const impulsEl = $("impuls");
   const btnSong = $("btnSong");
   const btnContinue = $("btnContinue");
-  // ⏳ „Situation wählen“ erst nach Ankommen einblenden
-if (btnContinue) {
-  btnContinue.classList.add("hidden");
 
-  setTimeout(() => {
-    btnContinue.classList.remove("hidden");
-    btnContinue.classList.add("fadeIn");
-  }, 13000); // 13 Sekunden – fühl dich frei, 15000–20000 zu testen
+  function showChooser() {
+  const hintCard = $("chooseHintCard");
+  const chooseCard = $("chooseCard");
+
+  if (hintCard) hintCard.classList.remove("hidden");
+  if (chooseCard) chooseCard.classList.remove("hidden");
+
+  // sanft in Richtung Auswahl scrollen
+  if (chooseCard) {
+    const y = window.scrollY + chooseCard.getBoundingClientRect().top - 12;
+    window.scrollTo({ top: y, behavior: "auto" });
+  }
+}
+
+if (btnContinue) {
+  btnContinue.addEventListener("click", () => {
+    showChooser();
+  });
 }
   
   if (btnImpuls && impulsEl) {
