@@ -351,7 +351,17 @@ function showChooser(){
   const btnImpuls = $("btnImpuls");
   const impulsEl = $("impuls");
   const btnSong = $("btnSong");
+  const btnContinue = $("btnContinue");
+  // ⏳ „Situation wählen“ erst nach Ankommen einblenden
+if (btnContinue) {
+  btnContinue.classList.add("hidden");
 
+  setTimeout(() => {
+    btnContinue.classList.remove("hidden");
+    btnContinue.classList.add("fadeIn");
+  }, 18000); // 18 Sekunden – fühl dich frei, 15000–20000 zu testen
+}
+  
   if (btnImpuls && impulsEl) {
     btnImpuls.addEventListener("click", () => {
       impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
