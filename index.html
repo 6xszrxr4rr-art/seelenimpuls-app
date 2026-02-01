@@ -171,13 +171,19 @@ li{
     .muted{ color: var(--muted); font-size: 15px; margin: 10px 0 0 0; }
 
     .hidden{ display:none; }
-.fadeIn{
-  animation: fadeIn .6s ease forwards;
+.fadeIn {
+  animation: fadeInSoft 1.4s ease-out forwards;
 }
 
-@keyframes fadeIn{
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
     /* Ende-Visuals */
     #endVisual{
