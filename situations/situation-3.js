@@ -7,15 +7,15 @@ window.SITUATIONS[3] = {
   hint: "Tippe hier, wenn dein Körper nicht loslässt.",
 
   ankommenText:
-    "Du bist hier.\n\n" +
-    "Vielleicht hält dein Körper gerade mehr,\n" +
-    "als er müsste.\n" +
-    "Schultern.\n" +
-    "Kiefer.\n" +
-    "Atem.\n\n" +
-    "Du darfst nichts loslassen – noch nicht.\n" +
-    "Nimm nur wahr, wo du festhältst.\n" +
-    "Und bleibe einen Moment hier.",
+  "Du bist hier.\n\n" +
+  "Vielleicht hält dein Körper gerade mehr,\n" +
+  "als er müsste.\n" +
+  "Schultern.\n" +
+  "Kiefer.\n" +
+  "Atem.\n\n" +
+  "Du darfst nichts loslassen – noch nicht.\n\n" +
+  "Nimm nur wahr, wo du festhältst.\n\n" +
+  "Und bleibe einen Moment hier."
 
   erklaerungText:
     "Innere Anspannung entsteht oft,\n" +
