@@ -359,7 +359,7 @@ if (btnContinue) {
   setTimeout(() => {
     btnContinue.classList.remove("hidden");
     btnContinue.classList.add("fadeIn");
-  }, 18000); // 18 Sekunden – fühl dich frei, 15000–20000 zu testen
+  }, 13000); // 13 Sekunden – fühl dich frei, 15000–20000 zu testen
 }
   
   if (btnImpuls && impulsEl) {
