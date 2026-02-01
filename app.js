@@ -293,13 +293,6 @@ function showChooser(){
     followWhileTyping(ul);
   }
 
-  // ---------- Load situation module ----------
-  async function loadSituation(n){
-    const mod = await import(`./situations/situation-${n}.js?v=${Date.now()}`);
-    // jede Datei exportiert: export const situation = { ... }
-    return mod.situation;
-  }
-
   // ---------- Run situation ----------
   async function runSituation(n){
     runId++;
