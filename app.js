@@ -367,13 +367,20 @@ function showChooser(){
   }
 }
 
-if (btnContinue) {
+// "Situation wählen" Button
+if (!btnContinue) {
+  alert("btnContinue nicht gefunden – prüfe im HTML: id=\"btnContinue\"");
+} else {
+  // beim Laden immer verstecken
   btnContinue.classList.add("hidden");
+  btnContinue.classList.remove("fadeIn");
 
+  // beim Klick Auswahl zeigen
   btnContinue.addEventListener("click", () => {
     showChooser();
   });
 
+  // nach 8 Sekunden sicher einblenden
   setTimeout(() => {
     btnContinue.classList.remove("hidden");
     btnContinue.classList.add("fadeIn");
