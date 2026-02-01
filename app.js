@@ -43,10 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function clearAllBlocks(){
     lockScroll = false;
     ["b1","b2","b3","b4","b5"].forEach(id => {
-      const el = $(id);
-      if (el) el.classList.add("hidden");
-      showChooser();
-    });
+  const el = $(id);
+  if (el) el.classList.add("hidden");
+});
+showChooser();
 
     if ($("t1")) $("t1").innerHTML = "";
     if ($("t2")) $("t2").innerHTML = "";
