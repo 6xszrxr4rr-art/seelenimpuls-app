@@ -15,7 +15,7 @@ window.SITUATIONS[3] = {
   "Atem.\n\n" +
   "Du darfst nichts loslassen – noch nicht.\n\n" +
   "Nimm nur wahr, wo du festhältst.\n\n" +
-  "Und bleibe einen Moment hier."
+  "Und bleibe einen Moment hier.",
 
   erklaerungText:
     "Innere Anspannung entsteht oft,\n" +
