@@ -304,40 +304,52 @@ function showChooser(){
     stopSong();
     stopBgMusic(false);
 
-    const s = await loadSituation(n);
+   const s = window.SITUATIONS && window.SITUATIONS[n];
+if (!s) {
+  alert("Situation " + n + " nicht gefunden. Prüfe: situations/situation-" + n + ".js geladen?");
+  return;
+}
 
-    // Audio je Situation (bgAudio + songAudio)
-    setAudio(s.bgAudio, s.songAudio);
+// Hintergrundmusik bleibt bei dir konstant über HTML → keine bgAudio nötig
+// Song-Datei pro Situation:
+const song = $("songPlayer");
+if (song && s.songFile) {
+  const srcEl = song.querySelector("source");
+  if (srcEl) {
+    srcEl.src = s.songFile;
+    song.load();
+  }
+}
 
-    await startBgMusic();
+await startBgMusic();
 
-    // Block 1
-    show("b1");
-    snapToTop("b1");
-    await sleep(80);
-    await typeText($("t1"), s.ankommen, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+// Block 1
+show("b1");
+snapToTop("b1");
+await sleep(80);
+await typeText($("t1"), s.ankommenText, myRun);
+await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 2
-    show("b2");
-    await typeText($("t2"), s.erklaerung, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+// Block 2
+show("b2");
+await typeText($("t2"), s.erklaerungText, myRun);
+await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 3
-    show("b3");
-    await typeList($("t3"), s.affirmationen, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
+// Block 3
+show("b3");
+await typeList($("t3"), s.affirmations, myRun);
+await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 4
-    show("b4");
-    await typeList($("t4"), s.ritual, myRun);
-    await sleep(AFTER_RITUAL_MS);
+// Block 4
+show("b4");
+await typeList($("t4"), s.ritual, myRun);
+await sleep(AFTER_RITUAL_MS);
 
-    // Block 5
-    show("b5");
-    lockScroll = true;
+// Block 5
+show("b5");
+lockScroll = true;
 
-    setTimeout(() => stopBgMusic(true), 45000);
+setTimeout(() => stopBgMusic(true), 45000); 
   }
 
   // ---------- UI Wiring ----------
