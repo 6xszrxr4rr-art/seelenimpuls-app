@@ -11,20 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let lockScroll = false;
 
   function followWhileTyping(cursorEl){
-    if (!cursorEl || lockScroll) return;
-
-    const now = performance.now();
-    if (now - lastScrollTs < 80) return;
-    lastScrollTs = now;
-
-    const r = cursorEl.getBoundingClientRect();
-    const fixedY = window.innerHeight * 0.72;
-    const cursorY = r.top + (r.height * 0.6);
-    const diff = cursorY - fixedY;
-
-    if (diff > 0) {
-      window.scrollBy({ top: Math.min(14, diff), behavior: "auto" });
-    }
+  return; // ✅ Mitscroll komplett deaktiviert
+}
   }
 
   function show(id){
