@@ -13,10 +13,8 @@ window.SITUATIONS[3] = {
     "Schultern.\n" +
     "Kiefer.\n" +
     "Atem.\n\n" +
-    "Du darfst nichts loslassen.\n" +
-    "Noch nicht.\n\n" +
-    "Nimm nur wahr,\n" +
-    "wo du festhältst.\n\n" +
+    "Du darfst nichts loslassen – noch nicht.\n" +
+    "Nimm nur wahr, wo du festhältst.\n" +
     "Und bleibe einen Moment hier.",
 
   erklaerungText:
