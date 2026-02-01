@@ -368,9 +368,16 @@ function showChooser(){
 }
 
 if (btnContinue) {
+  btnContinue.classList.add("hidden");
+
   btnContinue.addEventListener("click", () => {
     showChooser();
   });
+
+  setTimeout(() => {
+    btnContinue.classList.remove("hidden");
+    btnContinue.classList.add("fadeIn");
+  }, 8000);
 }
   
   if (btnImpuls && impulsEl) {
