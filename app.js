@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function followWhileTyping(cursorEl){
   return; // ✅ Mitscroll komplett deaktiviert
 }
-  }
 
   function show(id){
     const el = $(id);
