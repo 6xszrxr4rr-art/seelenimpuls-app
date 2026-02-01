@@ -1,51 +1,49 @@
-// situations/situation-6.js
+// situations/situation-7.js
 window.SITUATIONS = window.SITUATIONS || {};
 
-window.SITUATIONS[6] = {
-  id: 6,
-  title: "6) Innere Leere & Orientierungslosigkeit",
-  hint: "Tippe hier, wenn innen wenig greifbar ist.",
+window.SITUATIONS[7] = {
+  id: 7,
+  title: "7) Selbstzweifel & innere Unsicherheit",
+  hint: "Tippe hier, wenn du dir selbst gerade wenig vertraust.",
 
   ankommenText:
     "Du bist hier.\n\n" +
-    "Vielleicht fühlt sich innen gerade wenig an.\n" +
-    "Oder gar nichts.\n\n" +
-    "Kein Wunsch.\n" +
-    "Keine Richtung.\n" +
-    "Kein Zug.\n\n" +
-    "Auch das darf sein.",
+    "Vielleicht zweifelst du gerade.\n" +
+    "An dir.\n" +
+    "An deinem Gefühl.\n" +
+    "An deinem Weg.\n\n" +
+    "Du musst dich jetzt nicht überzeugen.\n\n" +
+    "Du darfst hier ankommen.",
 
   erklaerungText:
-    "Innere Leere ist kein Mangel.\n" +
-    "Oft ist sie ein Übergang.\n\n" +
-    "Altes trägt nicht mehr.\n" +
-    "Neues ist noch nicht da.\n\n" +
-    "Das Nervensystem befindet sich\n" +
-    "zwischen zwei Bewegungen.\n\n" +
+    "Selbstzweifel entstehen oft,\n" +
+    "wenn wir uns zu sehr vergleichen.\n" +
+    "Oder uns selbst aus dem Blick verlieren.\n\n" +
+    "Das Nervensystem sucht dann\n" +
+    "Bestätigung von außen.\n\n" +
     "Diese Impulse laden dich ein,\n" +
-    "der Orientierungslosigkeit Raum zu geben,\n" +
-    "ohne sie sofort füllen zu müssen.",
+    "dich wieder mit dir selbst zu verbinden –\n" +
+    "leise und ohne Bewertung.",
 
   affirmations: [
-    "Ich muss gerade nichts wissen.",
-    "Es ist in Ordnung, zwischen den Dingen zu sein.",
-    "Klarheit darf langsam kommen."
+    "Ich darf mir vertrauen.",
+    "Ich bin nicht falsch.",
+    "Mein Empfinden ist gültig."
   ],
 
   ritual: [
     "Stelle beide Füße bewusst auf den Boden.",
-    "Spüre den Kontakt und deine Standfläche.",
+    "Spüre den Halt unter dir.",
     "Atme ruhig ein.",
-    "Lass das Ausatmen langsam und gleichmäßig werden.",
-    "Nimm die Leere wahr, ohne sie füllen zu wollen.",
-    "Lege eine Hand auf deinen Bauch oder dein Herz.",
-    "Spüre deinen Atem dort.",
-    "Stelle dir vor, du bleibst innerlich stehen.",
-    "Du musst gerade nichts wissen.",
-    "Du musst nirgends hin.",
-    "Sage innerlich: „Ich darf mir Zeit lassen.“",
+    "Lass das Ausatmen etwas länger werden.",
+    "Nimm die Unsicherheit wahr, ohne sie zu bewerten.",
+    "Lege eine Hand auf dein Herz.",
+    "Spüre deinen Herzraum.",
+    "Stelle dir vor, du richtest dich innerlich ein wenig auf.",
+    "Nicht nach außen – nur für dich.",
+    "Sage innerlich: „Ich darf mir vertrauen.“",
     "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
   ],
 
-  songFile: "audio/Song-Situation-6.mp3"
+  songFile: "audio/Song-Situation-7.mp3"
 };
