@@ -357,8 +357,16 @@ show("b2");
 await typeText($("t2"), s.erklaerungText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
-// Block 3
+// Block 3 (Affirmationen): einmal ruhig nach oben gleiten, dann Scroll stoppen
 show("b3");
+
+// 1) einmal sanft nach oben "gleiten"
+glideToTop("b3", 1100);
+await sleep(1200); // kurz warten, bis die Bewegung fertig ist
+
+// 2) ab jetzt NICHT mehr mitscrollen (kein Ruckeln mehr bei Ritual/Song)
+lockScroll = true;
+
 await typeList($("t3"), s.affirmations, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
