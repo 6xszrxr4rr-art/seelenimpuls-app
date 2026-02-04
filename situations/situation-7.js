@@ -1,4 +1,3 @@
-// situations/situation-7.js
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[7] = {
@@ -8,42 +7,34 @@ window.SITUATIONS[7] = {
 
   ankommenText:
     "Du bist hier.\n\n" +
-    "Vielleicht zweifelst du gerade.\n" +
-    "An dir.\n" +
-    "An deinem Gefühl.\n" +
-    "An deinem Weg.\n\n" +
-    "Du musst dich jetzt nicht überzeugen.\n\n" +
-    "Du darfst hier ankommen.",
+    "Vielleicht zeigt sich Unsicherheit.\n" +
+    "Auch das darf da sein.\n\n" +
+    "Dein Körper ist anwesend.\n" +
+    "Dein Atem trägt dich.",
 
   erklaerungText:
-    "Selbstzweifel entstehen oft,\n" +
-    "wenn wir uns zu sehr vergleichen.\n" +
-    "Oder uns selbst aus dem Blick verlieren.\n\n" +
-    "Das Nervensystem sucht dann\n" +
-    "Bestätigung von außen.\n\n" +
-    "Diese Impulse laden dich ein,\n" +
-    "dich wieder mit dir selbst zu verbinden –\n" +
-    "leise und ohne Bewertung.",
+    "Selbstzweifel entstehen,\n" +
+    "wenn der Kontakt zu sich selbst leiser wird.\n\n" +
+    "Diese Impulse unterstützen dich dabei,\n" +
+    "dich wieder mit dir zu verbinden.",
 
   affirmations: [
-    "Ich darf mir vertrauen.",
-    "Ich bin nicht falsch.",
-    "Mein Empfinden ist gültig."
+    "Ich vertraue mir.",
+    "Ich bin richtig, so wie ich bin.",
+    "Mein inneres Erleben ist wertvoll."
   ],
 
   ritual: [
     "Stelle beide Füße bewusst auf den Boden.",
-    "Spüre den Halt unter dir.",
-    "Atme ruhig ein.",
-    "Lass das Ausatmen etwas länger werden.",
-    "Nimm die Unsicherheit wahr, ohne sie zu bewerten.",
+    "Spüre den Halt.",
+    "Atme ruhig ein und aus.",
     "Lege eine Hand auf dein Herz.",
     "Spüre deinen Herzraum.",
-    "Stelle dir vor, du richtest dich innerlich ein wenig auf.",
-    "Nicht nach außen – nur für dich.",
-    "Sage innerlich: „Ich darf mir vertrauen.“",
-    "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
+    "Richte dich innerlich sanft auf.",
+    "Sage innerlich: „Ich vertraue mir.“",
+    "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-7.mp3"
+  songFile: "audio/Song-Situation-7.mp3",
+  songOutro: "✨ Dieses Vertrauen darf weiter in dir wirken."
 };
