@@ -377,7 +377,8 @@ if (outro) {
 lockScroll = true;
 
 setTimeout(() => stopBgMusic(true), 45000);
-
+}
+  
   // ---------- UI Wiring ----------
   const btnImpuls = $("btnImpuls");
   const impulsEl = $("impuls");
