@@ -1,4 +1,3 @@
-// situations/situation-6.js
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[6] = {
@@ -9,43 +8,34 @@ window.SITUATIONS[6] = {
   ankommenText:
     "Du bist hier.\n\n" +
     "Vielleicht fühlt sich innen gerade wenig an.\n" +
-    "Oder gar nichts.\n\n" +
-    "Kein Wunsch.\n" +
-    "Keine Richtung.\n" +
-    "Kein Zug.\n\n" +
-    "Auch das darf sein.",
+    "Oder still.\n\n" +
+    "Auch dieser Zustand gehört dazu.",
 
   erklaerungText:
-    "Innere Leere ist kein Mangel.\n" +
-    "Oft ist sie ein Übergang.\n\n" +
-    "Altes trägt nicht mehr.\n" +
-    "Neues ist noch nicht da.\n\n" +
-    "Das Nervensystem befindet sich\n" +
-    "zwischen zwei Bewegungen.\n\n" +
-    "Diese Impulse laden dich ein,\n" +
-    "der Orientierungslosigkeit Raum zu geben,\n" +
-    "ohne sie sofort füllen zu müssen.",
+    "Innere Leere zeigt einen Übergang.\n" +
+    "Altes klingt aus.\n" +
+    "Neues formt sich langsam.\n\n" +
+    "Diese Impulse unterstützen dich dabei,\n" +
+    "im Jetzt zu bleiben\n" +
+    "und dir Zeit zu erlauben.",
 
   affirmations: [
-    "Ich muss gerade nichts wissen.",
-    "Es ist in Ordnung, zwischen den Dingen zu sein.",
-    "Klarheit darf langsam kommen."
+    "Ich bin im Übergang.",
+    "Zeit ist auf meiner Seite.",
+    "Klarheit wächst in mir."
   ],
 
   ritual: [
-    "Stelle beide Füße bewusst auf den Boden.",
-    "Spüre den Kontakt und deine Standfläche.",
-    "Atme ruhig ein.",
-    "Lass das Ausatmen langsam und gleichmäßig werden.",
-    "Nimm die Leere wahr, ohne sie füllen zu wollen.",
-    "Lege eine Hand auf deinen Bauch oder dein Herz.",
+    "Stelle beide Füße auf den Boden.",
+    "Spüre deinen Stand.",
+    "Atme ruhig ein und aus.",
+    "Nimm die Stille wahr.",
+    "Lege eine Hand auf dein Herz oder deinen Bauch.",
     "Spüre deinen Atem dort.",
-    "Stelle dir vor, du bleibst innerlich stehen.",
-    "Du musst gerade nichts wissen.",
-    "Du musst nirgends hin.",
     "Sage innerlich: „Ich darf mir Zeit lassen.“",
-    "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
+    "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-6.mp3"
+  songFile: "audio/Song-Situation-6.mp3",
+  songOutro: "✨ Auch diese Phase darf ihren eigenen Rhythmus haben."
 };
