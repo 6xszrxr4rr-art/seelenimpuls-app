@@ -1,4 +1,3 @@
-// situations/situation-5.js
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[5] = {
@@ -8,45 +7,36 @@ window.SITUATIONS[5] = {
 
   ankommenText:
     "Du bist hier.\n\n" +
-    "Vielleicht liegt etwas Schweres in dir.\n" +
-    "Ohne klare Worte.\n" +
-    "Ohne Grund.\n\n" +
-    "Du darfst es fühlen.\n\n" +
-    "Leise.\n" +
-    "Still.\n" +
-    "So, wie es ist.",
+    "Vielleicht liegt eine leise Schwere in dir.\n" +
+    "Ganz still.\n\n" +
+    "Dein Atem fließt.\n" +
+    "Du darfst fühlen.",
 
   erklaerungText:
-    "Traurigkeit muss nicht laut sein.\n" +
-    "Oft zeigt sie sich als Schwere.\n\n" +
-    "Ein Ziehen.\n" +
-    "Ein Rückzug.\n" +
-    "Ein langsameres Inneres.\n\n" +
-    "Dein Nervensystem sucht in solchen Momenten\n" +
-    "Halt.\n\n" +
-    "Diese Impulse laden dich ein,\n" +
-    "mit der leisen Schwere zu sein\n" +
-    "und dich dabei getragen zu fühlen.",
+    "Traurigkeit zeigt sich oft sanft\n" +
+    "und braucht Halt.\n\n" +
+    "Diese Impulse unterstützen dich dabei,\n" +
+    "dem Gefühl Raum zu geben\n" +
+    "und getragen zu bleiben.",
 
   affirmations: [
-    "Ich darf fühlen, was da ist.",
-    "Ich darf ehrlich bei mir sein.",
-    "Ich bin gehalten in diesem Moment."
+    "Alles, was ich fühle, darf da sein.",
+    "Ich begegne mir mit Sanftheit.",
+    "Ich bin gehalten."
   ],
 
   ritual: [
     "Stelle beide Füße bewusst auf den Boden.",
     "Spüre den Halt unter dir.",
-    "Atme ruhig ein.",
-    "Lass das Ausatmen sanft fließen.",
-    "Nimm die Schwere oder Traurigkeit wahr.",
+    "Atme ruhig ein und aus.",
+    "Nimm die Schwere wahr.",
     "Lege eine Hand auf dein Herz oder deinen Bauch.",
     "Spüre den Kontakt.",
-    "Stelle dir vor, dass dein Atem diese Stelle sanft berührt.",
-    "Lass Raum entstehen – ganz in deinem Tempo.",
+    "Stelle dir vor, dein Atem berührt diese Stelle sanft.",
     "Sage innerlich: „Ich darf fühlen, was da ist.“",
-    "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
+    "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-5.mp3"
+  songFile: "audio/Song-Situation-5.mp3",
+  songOutro: "✨ Du bist mit diesem Gefühl nicht allein."
 };
