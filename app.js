@@ -364,10 +364,19 @@ await sleep(AFTER_RITUAL_MS);
 
 // Block 5
 show("b5");
+
+const outro = s.songOutro;
+if (outro) {
+  const p = document.createElement("p");
+  p.className = "muted fadeIn";
+  p.style.marginTop = "12px";
+  p.textContent = outro;
+  document.getElementById("b5").appendChild(p);
+}
+
 lockScroll = true;
 
-setTimeout(() => stopBgMusic(true), 45000); 
-  }
+setTimeout(() => stopBgMusic(true), 45000);
 
   // ---------- UI Wiring ----------
   const btnImpuls = $("btnImpuls");
