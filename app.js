@@ -368,7 +368,7 @@ show("b5");
 const outro = s.songOutro;
 if (outro) {
   const p = document.createElement("p");
-  p.className = "muted fadeIn";
+  p.className = "songOutro fadeIn";
   p.style.marginTop = "12px";
   p.textContent = outro;
   document.getElementById("b5").appendChild(p);
