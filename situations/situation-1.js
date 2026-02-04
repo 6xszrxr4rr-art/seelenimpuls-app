@@ -1,4 +1,3 @@
-// situations/situation-1.js
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[1] = {
@@ -7,40 +6,38 @@ window.SITUATIONS[1] = {
   hint: "Tippe hier, wenn Gedanken kreisen und Ruhe fehlt.",
 
   ankommenText:
-    "Du bist hier.\n\n" +
-    "Dieser Moment trägt dich.\n" +
-    "Du darfst weich werden.\n\n" +
-    "Atme ruhig weiter.\n" +
-    "Spüre: Jetzt ist genug.\n" +
-    "Jetzt ist Raum.",
+    "Du bist hier.\n" +
+    "Dieser Moment ist für dich.\n\n" +
+    "Dein Körper darf ankommen.\n" +
+    "Dein Atem fließt ruhig.\n\n" +
+    "Jetzt ist Raum.\n" +
+    "Jetzt ist genug.",
 
   erklaerungText:
-    "Innere Unruhe ist oft ein wertvoller Hinweis.\n\n" +
-    "Gedanken bewegen sich schnell,\n" +
-    "der Körper bleibt aufmerksam.\n\n" +
-    "Dein Nervensystem sucht Sicherheit.\n" +
-    "Es lädt dich ein, wieder im Körper anzukommen.\n\n" +
+    "Innere Unruhe zeigt sich,\n" +
+    "wenn Gedanken schneller sind als der Körper.\n\n" +
+    "Dein Nervensystem sucht Sicherheit\n" +
+    "und Orientierung im Jetzt.\n\n" +
     "Diese Impulse unterstützen dich dabei,\n" +
-    "Tempo zu lösen\n" +
-    "und in dir ruhiger zu werden.",
+    "wieder in deinem Körper anzukommen\n" +
+    "und innere Ruhe zuzulassen.",
 
   affirmations: [
-    "Ich darf langsamer werden.",
-    "Ich bin jetzt hier.",
-    "Ich bin getragen in diesem Moment."
+    "Ich werde langsamer.",
+    "Ich bin hier.",
+    "Dieser Moment trägt mich."
   ],
 
   ritual: [
-    "Lass deinen Atem ruhig einströmen.",
-    "Lass ihn wieder hinausfließen – ein wenig länger, ein wenig weicher.",
-    "Spüre, wie dein Körper gehalten wird.",
-    "Spüre den Boden unter dir – die Fläche, die dich trägt.",
-    "Mit jedem Ausatmen darf Spannung sanfter werden.",
-    "So viel, wie jetzt möglich ist.",
-    "Bleibe einen Moment bei dir.",
-    "Spüre Ruhe, die sich in dir ausbreitet."
+    "Atme ruhig durch die Nase ein.",
+    "Atme langsam durch den Mund aus.",
+    "Lass das Ausatmen etwas länger werden.",
+    "Spüre, wie dein Körper schwerer wird.",
+    "Spüre den Boden oder die Unterlage unter dir.",
+    "Mit jedem Ausatmen darf dein Körper ruhiger werden.",
+    "Bleibe noch einen Moment bei diesem Gefühl von Ruhe."
   ],
 
-  // 💡 Gesungene Affirmation
-  songFile: "audio/Song-Situation-1.mp3"
+  songFile: "audio/Song-Situation-1.mp3",
+  songOutro: "✨ Du darfst jetzt in dieser Ruhe bleiben."
 };
