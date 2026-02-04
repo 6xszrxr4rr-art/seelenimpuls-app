@@ -1,4 +1,3 @@
-// situations/situation-4.js
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[4] = {
@@ -8,46 +7,37 @@ window.SITUATIONS[4] = {
 
   ankommenText:
     "Du bist hier.\n\n" +
-    "Vielleicht fühlt sich alles gerade schwer an.\n" +
-    "Nicht dramatisch.\n" +
-    "Nur müde.\n\n" +
-    "Du darfst langsamer werden.\n" +
-    "Du musst nichts leisten.\n\n" +
-    "Dieser Moment verlangt nichts von dir.",
+    "Vielleicht fühlt sich dein Körper müde an.\n" +
+    "Schwer oder langsam.\n\n" +
+    "Dieser Moment ist ruhig.\n" +
+    "Dein Körper darf ankommen.",
 
   erklaerungText:
-    "Erschöpfung entsteht oft,\n" +
-    "wenn wir länger stark waren,\n" +
-    "als es gut war.\n\n" +
-    "Der Körper meldet sich leise.\n" +
-    "Nicht als Fehler.\n" +
-    "Sondern als Schutz.\n\n" +
-    "Dein Nervensystem sucht jetzt\n" +
-    "nicht nach Motivation,\n" +
-    "sondern nach Schonung.\n\n" +
-    "Diese Impulse laden dich ein,\n" +
-    "Kraft nicht zu erzeugen,\n" +
-    "sondern sie sich wieder annähern zu lassen.",
+    "Erschöpfung ist ein Zeichen\n" +
+    "für den Wunsch nach Schonung.\n\n" +
+    "Dein Nervensystem sucht Ruhe\n" +
+    "und sanfte Regeneration.\n\n" +
+    "Diese Impulse unterstützen dich dabei,\n" +
+    "Kraft wieder zuzulassen.",
 
   affirmations: [
     "Ich darf müde sein.",
-    "Ich muss gerade nichts geben.",
-    "Ruhe darf mich erreichen."
+    "Ruhe ist jetzt willkommen.",
+    "Kraft darf mich sanft erreichen."
   ],
 
   ritual: [
-    "Stelle beide Füße bewusst auf den Boden – oder spüre die Unterlage, die dich trägt.",
-    "Nimm wahr, wie dein Körper gehalten wird.",
+    "Spüre den Boden oder die Unterlage unter dir.",
+    "Lass dich innerlich tragen.",
     "Atme ruhig ein.",
-    "Lass das Ausatmen weich und mühelos werden.",
+    "Atme weich aus.",
     "Spüre, wo dein Körper müde ist.",
-    "Lege eine Hand auf diese Stelle oder halte sie dort innerlich.",
-    "Du musst dort nichts verändern.",
-    "Stelle dir vor, du darfst dich innerlich ablegen.",
-    "So, als würdest du Gewicht abgeben.",
-    "Sage innerlich: „Ich darf mich ausruhen.“",
-    "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
+    "Lege eine Hand dorthin.",
+    "Stelle dir vor, wie sich dein Körper ablegt.",
+    "Sage innerlich: „Mein Körper darf sich ausruhen.“",
+    "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-4.mp3"
+  songFile: "audio/Song-Situation-4.mp3",
+  songOutro: "✨ Diese Ruhe darf dich weiter begleiten."
 };
