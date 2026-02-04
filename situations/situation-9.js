@@ -1,48 +1,41 @@
-// situations/situation-9.js
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[9] = {
   id: 9,
   title: "9) Übergang, Wandel & Neubeginn",
-  hint: "Tippe hier, wenn sich etwas Neues ankündigt.",
+  hint: "Tippe hier, wenn sich etwas Neues andeutet.",
 
   ankommenText:
     "Du bist hier.\n\n" +
-    "Vielleicht spürst du,\n" +
-    "dass etwas sich verändert.\n" +
-    "Noch leise.\n" +
-    "Noch unfertig.\n\n" +
-    "Du musst nichts benennen.",
+    "Vielleicht verändert sich etwas.\n" +
+    "Ganz leise.\n\n" +
+    "Dein Körper ist anwesend.\n" +
+    "Dein Atem begleitet dich.",
 
   erklaerungText:
-    "Übergänge sind oft unsicher.\n" +
-    "Nicht mehr alt.\n" +
-    "Noch nicht neu.\n\n" +
-    "Das Nervensystem sucht Halt,\n" +
-    "während sich etwas verschiebt.\n\n" +
-    "Diese Impulse laden dich ein,\n" +
-    "dem Wandel zu vertrauen,\n" +
-    "ohne ihn zu beschleunigen.",
+    "Übergänge bringen Bewegung.\n" +
+    "Veränderung geschieht im eigenen Tempo.\n\n" +
+    "Diese Impulse unterstützen dich dabei,\n" +
+    "dem Wandel ruhig zu begegnen\n" +
+    "und Vertrauen zu spüren.",
 
   affirmations: [
-    "Ich darf mich verändern.",
-    "Ich gehe in meinem Tempo.",
-    "Neues darf entstehen."
+    "Veränderung geschieht in meinem Tempo.",
+    "Ich öffne mich für Neues.",
+    "Mein Weg entfaltet sich."
   ],
 
   ritual: [
     "Stelle beide Füße bewusst auf den Boden.",
-    "Spüre den festen Stand.",
-    "Atme ruhig ein.",
-    "Lass das Ausatmen ruhig und weit werden.",
-    "Stelle dir vor, du stehst in einem inneren Kreis.",
-    "Dieser Kreis steht für das Alte, Vertraute.",
-    "Spüre noch einmal den Boden unter dir.",
-    "Dann stelle dir vor, du machst innerlich einen Schritt aus diesem Kreis heraus.",
-    "Du überschreitest bewusst eine Grenze.",
-    "Sage innerlich: „Ich öffne mich für einen neuen Abschnitt meines Weges.“",
-    "Bleibe noch drei ruhige Atemzüge bei Boden, Atem und diesem Satz."
+    "Spüre deinen festen Stand.",
+    "Atme ruhig ein und aus.",
+    "Stelle dir einen inneren Kreis vor – das Vertraute.",
+    "Mache innerlich einen sanften Schritt hinaus.",
+    "Spüre den neuen Raum.",
+    "Sage innerlich: „Ich öffne mich für einen neuen Abschnitt.“",
+    "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-9.mp3"
+  songFile: "audio/Song-Situation-9.mp3",
+  songOutro: "✨ Nimm dieses Gefühl behutsam mit in deinen weiteren Weg."
 };
