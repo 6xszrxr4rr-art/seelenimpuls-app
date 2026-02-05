@@ -334,8 +334,11 @@ await startBgMusic();
 
 // Block 1
 show("b1");
-snapToTop("b1");
-await sleep(80);
+
+// sanft ganz nach oben, bevor das Tippen startet
+glideToTop("b1", 1400);
+await sleep(1500);
+
 await typeText($("t1"), s.ankommenText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
