@@ -32,8 +32,18 @@
     padding-right: calc(30px + env(safe-area-inset-right));
     position:relative;
     overflow-x:hidden;
-    
   }
+  /* Wenn eine Situation läuft: oben weniger "Luft" */
+body.running{
+  padding-top: 12px;
+  padding-left:  calc(12px + env(safe-area-inset-left));
+  padding-right: calc(12px + env(safe-area-inset-right));
+}
+
+#situationTitleCard .headline{
+  font-size: 22px;
+  font-weight: 800;
+}
 .cursor{
   display:inline-block;
   width:1px;
@@ -80,7 +90,16 @@
       -webkit-backdrop-filter: blur(8px);
       margin-bottom: 14px;
     }
+/* Titel der laufenden Situation */
+#situationTitleCard {
+  margin-bottom: 18px;
+}
 
+#situationTitle {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
     h1{
       margin:0 0 8px 0;
       font-size: clamp(28px, 5vw, 40px);
