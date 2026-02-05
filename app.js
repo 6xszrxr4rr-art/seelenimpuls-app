@@ -335,33 +335,43 @@ await startBgMusic();
 // Block 1
 show("b1");
 
-// sanft ganz nach oben, bevor das Tippen startet
-glideToTop("b1", 1400);
-await sleep(1500);
+// 🌿 Ankommen: erst ruhig ganz nach oben gleiten
+glideToTop("b1", 1600);
+await sleep(1700);
 
+// jetzt erst schreiben
 await typeText($("t1"), s.ankommenText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
     
 // Block 2
 show("b2");
 await typeText($("t2"), s.erklaerungText, myRun);
+
+// nach Erklärung: jetzt ruhig nach oben, damit b3/b4/b5 auf eine Seite passen
+show("b3");  // b3 schon mal einblenden, damit die Höhe berechnet werden kann
+show("b4");
+show("b5");
+
+glideToTop("b1", 1600);   // schiebt den ganzen Bereich hoch (b1 oben am Rand)
+await sleep(1700);
+
+// optional: b4/b5 wieder verstecken, falls du sie erst später einblenden willst
+$("b4").classList.add("hidden");
+$("b5").classList.add("hidden");
+
 await sleep(BETWEEN_BLOCKS_MS);
-
-// 👉 Nach Erklärung: alles ruhig nach oben ziehen
-glideToTop("b1", 1400);
-await sleep(1500);
-
-// Ab jetzt kein Scrollen mehr
-lockScroll = true; 
 
 // Block 3 (Affirmationen)
 show("b3");
+lockScroll = true;  // wir wollen kein nervöses Mitscrollen mehr
 await typeList($("t3"), s.affirmations, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
 // Block 4
 show("b4");
+lockScroll = false; // << nur fürs Ritual erlauben wir "bei Bedarf" Mini-Schub (siehe C)
 await typeList($("t4"), s.ritual, myRun);
+lockScroll = true;
 await sleep(AFTER_RITUAL_MS);
 
 // Block 5
