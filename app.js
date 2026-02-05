@@ -85,30 +85,54 @@ function showChooser(){
  function enterRunUI(s){
   document.body.classList.add("running");
 
-  const topCard = $("topCard");
-  const continueCard = $("continueCard");
-  const titleCard = $("situationTitleCard");
-  const titleEl = $("situationTitle");
+  // Oben aufräumen
+  const topCard = document.getElementById("topCard");
+  const continueCard = document.getElementById("continueCard");
+  if (topCard) topCard.classList.add("hidden");
+  if (continueCard) continueCard.classList.add("hidden");
 
-  if (topCard) topCard.classList.add("hidden");            // Neuer Impuls verschwindet
-  if (continueCard) continueCard.classList.add("hidden");  // Situation wählen verschwindet
+  // Auswahl-Hinweise weg
+  const chooseHintCard = document.getElementById("chooseHintCard");
+  const chooseCard = document.getElementById("chooseCard");
+  if (chooseHintCard) chooseHintCard.classList.add("hidden");
+  if (chooseCard) chooseCard.classList.add("hidden");
 
-  if (titleEl) titleEl.textContent = s?.title || "";
-  if (titleCard) titleCard.classList.remove("hidden");     // Titel erscheint
+  // Back oben an
+  const backTopWrap = document.getElementById("backTopWrap");
+  if (backTopWrap) backTopWrap.classList.remove("hidden");
+
+  // Titel setzen
+  const titleCard = document.getElementById("situationTitleCard");
+  const titleEl = document.getElementById("situationTitle");
+  if (titleEl) titleEl.textContent = s.title;
+  if (titleCard) titleCard.classList.remove("hidden");
+
+  // Back unten erstmal aus
+  const backBottomWrap = document.getElementById("backBottomWrap");
+  if (backBottomWrap) backBottomWrap.classList.add("hidden");
+
+  // Ganz nach oben springen (damit Ankommen wirklich oben startet)
+  window.scrollTo({ top: 0, behavior: "auto" });
 }
 
 function exitRunUI(){
   document.body.classList.remove("running");
 
-  const topCard = $("topCard");
-  const continueCard = $("continueCard");
-  const titleCard = $("situationTitleCard");
-
+  const topCard = document.getElementById("topCard");
+  const continueCard = document.getElementById("continueCard");
   if (topCard) topCard.classList.remove("hidden");
   if (continueCard) continueCard.classList.remove("hidden");
-  if (titleCard) titleCard.classList.add("hidden");
-}
 
+  const titleCard = document.getElementById("situationTitleCard");
+  if (titleCard) titleCard.classList.add("hidden");
+
+  const backTopWrap = document.getElementById("backTopWrap");
+  if (backTopWrap) backTopWrap.classList.add("hidden");
+
+  const backBottomWrap = document.getElementById("backBottomWrap");
+  if (backBottomWrap) backBottomWrap.classList.add("hidden");
+}
+  
 /* Back-Button immer direkt unter den letzten sichtbaren Block setzen */
 function moveBackBelow(el){
   const backWrap = $("backWrap");
