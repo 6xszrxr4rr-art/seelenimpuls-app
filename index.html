@@ -81,15 +81,16 @@ body.running{
     .wrap{ max-width: 720px; margin:0 auto; position:relative; }
 
     .card{
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius: var(--radius);
-      padding:18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      margin-bottom: 14px;
-    }
+  background: var(--card);
+  border:1px solid var(--stroke);
+  border-radius: var(--radius);
+  padding:18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin-bottom: 14px;
+}
+
 /* Titel der laufenden Situation */
 #situationTitleCard {
   margin-bottom: 18px;
@@ -100,11 +101,12 @@ body.running{
   font-weight: 600;
   letter-spacing: -0.01em;
 }
-    h1{
-      margin:0 0 8px 0;
-      font-size: clamp(28px, 5vw, 40px);
-      letter-spacing:-0.02em;
-    }
+
+h1{
+  margin:0 0 8px 0;
+  font-size: clamp(28px, 5vw, 40px);
+  letter-spacing:-0.02em;
+}
 
     .sub{
   margin:16px 0 22px 0;
