@@ -344,8 +344,6 @@ show("b2");
 await typeText($("t2"), s.erklaerungText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
-// Block 3 (Affirmationen)
-show("b3");
 // 👉 Nach Erklärung: alles ruhig nach oben ziehen
 glideToTop("b1", 1400);
 await sleep(1500);
@@ -353,6 +351,8 @@ await sleep(1500);
 // Ab jetzt kein Scrollen mehr
 lockScroll = true; 
 
+// Block 3 (Affirmationen)
+show("b3");
 await typeList($("t3"), s.affirmations, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
