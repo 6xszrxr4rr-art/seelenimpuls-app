@@ -352,7 +352,8 @@ if (!s) {
   alert("Situation " + n + " nicht gefunden. Prüfe: situations/situation-" + n + ".js geladen?");
   return;
 }
-
+enterRunUI(s);
+    
 // Hintergrundmusik bleibt bei dir konstant über HTML → keine bgAudio nötig
 // Song-Datei pro Situation:
 const song = $("songPlayer");
