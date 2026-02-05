@@ -341,7 +341,7 @@ await sleep(1500);
 
 await typeText($("t1"), s.ankommenText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
-
+    
 // Block 2
 show("b2");
 await typeText($("t2"), s.erklaerungText, myRun);
