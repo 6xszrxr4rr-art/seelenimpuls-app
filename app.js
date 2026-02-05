@@ -81,6 +81,40 @@ function showChooser(){
   if (list) list.classList.remove("hidden");
   if (backWrap) backWrap.classList.add("hidden");
 }
+
+ function enterRunUI(s){
+  document.body.classList.add("running");
+
+  const topCard = $("topCard");
+  const continueCard = $("continueCard");
+  const titleCard = $("situationTitleCard");
+  const titleEl = $("situationTitle");
+
+  if (topCard) topCard.classList.add("hidden");            // Neuer Impuls verschwindet
+  if (continueCard) continueCard.classList.add("hidden");  // Situation wählen verschwindet
+
+  if (titleEl) titleEl.textContent = s?.title || "";
+  if (titleCard) titleCard.classList.remove("hidden");     // Titel erscheint
+}
+
+function exitRunUI(){
+  document.body.classList.remove("running");
+
+  const topCard = $("topCard");
+  const continueCard = $("continueCard");
+  const titleCard = $("situationTitleCard");
+
+  if (topCard) topCard.classList.remove("hidden");
+  if (continueCard) continueCard.classList.remove("hidden");
+  if (titleCard) titleCard.classList.add("hidden");
+}
+
+/* Back-Button immer direkt unter den letzten sichtbaren Block setzen */
+function moveBackBelow(el){
+  const backWrap = $("backWrap");
+  if (!backWrap || !el) return;
+  el.insertAdjacentElement("afterend", backWrap);
+}
   
   // ---------- Impuls (Kopfkarte) ----------
   const impulses = [
