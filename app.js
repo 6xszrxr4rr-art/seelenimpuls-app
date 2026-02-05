@@ -370,11 +370,13 @@ await startBgMusic();
 // Block 1
 show("b1");
 
-// 🌿 Ankommen: erst ruhig ganz nach oben gleiten
+// Back-Button soll darunter stehen (nicht oben)
+moveBackBelow($("b1"));
+
+// ganz ruhig nach oben
 glideToTop("b1", 1600);
 await sleep(1700);
 
-// jetzt erst schreiben
 await typeText($("t1"), s.ankommenText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
     
