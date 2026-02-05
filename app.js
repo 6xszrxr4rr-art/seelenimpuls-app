@@ -485,6 +485,7 @@ if (btnBack) {
     // stopSong(); stopBgMusic(false);
     clearAllBlocks();
     showChooser();
+    exitRunUI();
     window.scrollTo({ top: 0, behavior: "auto" });
   });
 }
