@@ -381,6 +381,7 @@ await typeText($("t1"), s.ankommenText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
     
 // Block 2
+moveBackBelow($("b1"));
 show("b2");
 await typeText($("t2"), s.erklaerungText, myRun);
 
@@ -399,12 +400,14 @@ $("b5").classList.add("hidden");
 await sleep(BETWEEN_BLOCKS_MS);
 
 // Block 3 (Affirmationen)
+moveBackBelow($("b2"));
 show("b3");
 lockScroll = true;  // wir wollen kein nervöses Mitscrollen mehr
 await typeList($("t3"), s.affirmations, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
 
 // Block 4
+moveBackBelow($("b3"));
 show("b4");
 lockScroll = false; // << nur fürs Ritual erlauben wir "bei Bedarf" Mini-Schub (siehe C)
 await typeList($("t4"), s.ritual, myRun);
@@ -412,6 +415,7 @@ lockScroll = true;
 await sleep(AFTER_RITUAL_MS);
 
 // Block 5
+moveBackBelow($("b4"));
 show("b5");
 
 const outro = s.songOutro;
