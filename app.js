@@ -536,9 +536,6 @@ if (btnBack) btnBack.addEventListener("click", goBack);
 
 // neuer Zurück-Button oben
 if (btnBackTop) btnBackTop.addEventListener("click", goBack);
-
-// neuer Zurück-Button unten
-if (btnBackBottom) btnBackBottom.addEventListener("click", goBack);
   
   // Situation 1–9 Buttons
   for (let i = 1; i <= 9; i++){
