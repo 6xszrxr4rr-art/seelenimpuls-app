@@ -514,6 +514,9 @@ if (!btnContinue) {
     });
   }
 
+ const btnBackBottom = document.getElementById("btnBackBottom");
+if (btnBackBottom) btnBackBottom.addEventListener("click", goBack);
+  
  const btnBackTop = document.getElementById("btnBackTop");
 const btnBackBottom = document.getElementById("btnBackBottom");
 
