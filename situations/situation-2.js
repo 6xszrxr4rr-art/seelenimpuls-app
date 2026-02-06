@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[2] = {
+  title: "Überforderung & innerer Druck",
   id: 2,
   title: "2) Überforderung & innerer Druck",
   hint: "Tippe hier, wenn gerade vieles gleichzeitig da ist.",
