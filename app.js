@@ -500,14 +500,12 @@ if (!btnContinue) {
 
   // beim Klick Auswahl zeigen
   btnContinue.addEventListener("click", () => {
-    showChooser();
-  });
-
-  // nach 8 Sekunden sicher einblenden
+    
+  // nach 5 Sekunden sicher einblenden
   setTimeout(() => {
     btnContinue.classList.remove("hidden");
     btnContinue.classList.add("fadeIn");
-  }, 8000);
+  }, 5000);
 }
   
   if (btnImpuls && impulsEl) {
