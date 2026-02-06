@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[5] = {
+  title: "Traurigkeit & leise Schwere",
   id: 5,
   title: "5) Traurigkeit & leise Schwere",
   hint: "Tippe hier, wenn sich alles schwer anfühlt.",
