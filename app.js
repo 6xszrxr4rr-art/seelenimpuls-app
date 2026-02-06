@@ -421,8 +421,8 @@ moveBackBelow($("b1"));
 // sanft nach oben schieben, damit Ankommen oben startet
 await glideToElement("b1", 1600, 12);
 
-await typeText($("t1"), s.ankommenText || s.ankommenText, myRun);
-await typeText($("t2"), s.erklaerungText || s.erklaerungText || s.erklaerungText, myRun);
+await typeText($("t1"), s.ankommenText, myRun);
+await typeText($("t2"), s.erklaerungText, myRun);
 
 // nach Erklärung: jetzt ruhig nach oben, damit b3/b4/b5 auf eine Seite passen
 show("b3");  // b3 schon mal einblenden, damit die Höhe berechnet werden kann
