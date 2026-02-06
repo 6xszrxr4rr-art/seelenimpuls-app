@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[9] = {
+  title: "Übergang, Wandel & Neubeginn",
   id: 9,
   title: "9) Übergang, Wandel & Neubeginn",
   hint: "Tippe hier, wenn sich etwas Neues andeutet.",
