@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[3] = {
+  title: "Anspannung & inneres Festhalten",
   id: 3,
   title: "3) Anspannung & inneres Festhalten",
   hint: "Tippe hier, wenn dein Körper nicht loslässt.",
