@@ -415,12 +415,11 @@ await startBgMusic();
 // Block 1
 show("b1");
 
-// Back-Button soll darunter stehen (nicht oben)
+// Back-Button soll drunter stehen
 moveBackBelow($("b1"));
 
-// ganz ruhig nach oben
-glideToTop("b1", 1600);
-await sleep(1700);
+// sanft nach oben schieben, damit Ankommen oben startet
+await glideToElement("b1", 1600, 12);
 
 await typeText($("t1"), s.ankommenText, myRun);
 await sleep(BETWEEN_BLOCKS_MS);
@@ -435,8 +434,7 @@ show("b3");  // b3 schon mal einblenden, damit die Höhe berechnet werden kann
 show("b4");
 show("b5");
 
-glideToTop("b1", 1600);   // schiebt den ganzen Bereich hoch (b1 oben am Rand)
-await sleep(1700);
+await glideToElement("b3", 1600, 12);
 
 // optional: b4/b5 wieder verstecken, falls du sie erst später einblenden willst
 $("b4").classList.add("hidden");
