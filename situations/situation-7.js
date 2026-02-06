@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[7] = {
+  title: "Selbstzweifel & innere Unsicherheit",
   id: 7,
   title: "7) Selbstzweifel & innere Unsicherheit",
   hint: "Tippe hier, wenn du dir selbst gerade wenig vertraust.",
