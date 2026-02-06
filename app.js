@@ -360,6 +360,27 @@ function moveBackBelow(el){
     followWhileTyping(ul);
   }
 
+  function glideToElement(elOrId, duration = 1400, offset = 12){
+  const el = typeof elOrId === "string" ? document.getElementById(elOrId) : elOrId;
+  if (!el) return Promise.resolve();
+
+  const startY = window.scrollY;
+  const rect = el.getBoundingClientRect();
+  const targetY = startY + rect.top - offset;
+
+  const start = performance.now();
+  return new Promise(resolve => {
+    function step(now){
+      const t = Math.min(1, (now - start) / duration);
+      const ease = 1 - Math.pow(1 - t, 3); // weich
+      window.scrollTo(0, startY + (targetY - startY) * ease);
+      if (t < 1) requestAnimationFrame(step);
+      else resolve();
+    }
+    requestAnimationFrame(step);
+  });
+}
+  
   // ---------- Run situation ----------
   async function runSituation(n){
     runId++;
