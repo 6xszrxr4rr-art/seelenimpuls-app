@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[1] = {
+  title: "Innere Unruhe & Gedankenkarussell",
   id: 1,
   title: "1) Innere Unruhe & Gedankenkarussell",
   hint: "Tippe hier, wenn Gedanken kreisen und Ruhe fehlt.",
