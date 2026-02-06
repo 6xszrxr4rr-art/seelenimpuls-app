@@ -133,13 +133,6 @@ function exitRunUI(){
   if (backBottomWrap) backBottomWrap.classList.add("hidden");
 }
   
-/* Back-Button immer direkt unter den letzten sichtbaren Block setzen */
-function moveBackBelow(el){
-  const backWrap = $("backWrap");
-  if (!backWrap || !el) return;
-  el.insertAdjacentElement("afterend", backWrap);
-}
-  
   // ---------- Impuls (Kopfkarte) ----------
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
@@ -520,18 +513,6 @@ if (!btnContinue) {
       impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
     });
   }
-
-  const btnBack = $("btnBack");
-if (btnBack) {
-  btnBack.addEventListener("click", () => {
-    // Stoppe laufende Audio/Sequenzen (wenn du willst)
-    // stopSong(); stopBgMusic(false);
-    clearAllBlocks();
-    showChooser();
-    exitRunUI();
-    window.scrollTo({ top: 0, behavior: "auto" });
-  });
-}
 
  const btnBackTop = document.getElementById("btnBackTop");
 const btnBackBottom = document.getElementById("btnBackBottom");
