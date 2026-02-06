@@ -536,7 +536,7 @@ if (btnBackTop) btnBackTop.addEventListener("click", goBack);
   for (let i = 1; i <= 9; i++){
     const btn = $(`btnSituation${i}`);
     if (btn){
-      btn.addEventListener("click", () => { alert("Klick: " + i); runSituation(i); });
+    btn.addEventListener("click", () => runSituation(i));
     }
   }
 
