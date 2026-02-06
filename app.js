@@ -20,6 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
     el.classList.remove("hidden");
   }
 
+  function moveBackBelow(el){
+  const back = document.getElementById("backBottomWrap");
+  if (!el || !back) return;
+  el.insertAdjacentElement("afterend", back);
+  back.classList.remove("hidden");
+}
+  
   function snapToTop(id){
     const el = $(id);
     if (!el) return;
