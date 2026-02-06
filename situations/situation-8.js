@@ -1,6 +1,7 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[8] = {
+  title: "Entscheidungszweifel & inneres Schwanken",
   id: 8,
   title: "8) Entscheidungszweifel & inneres Schwanken",
   hint: "Tippe hier, wenn du zwischen Optionen pendelst.",
