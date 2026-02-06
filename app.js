@@ -520,9 +520,6 @@ if (!btnContinue) {
       impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
     });
   }
-
- const btnBackBottom = document.getElementById("btnBackBottom");
-if (btnBackBottom) btnBackBottom.addEventListener("click", goBack);
   
  const btnBackTop = document.getElementById("btnBackTop");
 const btnBackBottom = document.getElementById("btnBackBottom");
