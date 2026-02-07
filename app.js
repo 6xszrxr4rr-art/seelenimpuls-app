@@ -267,12 +267,13 @@ document.addEventListener("DOMContentLoaded", () => {
     await typeText($("t2"), s.erklaerungText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 3
+    // Block 3 (Affirmationen)
     show("b3");
-    await glideToElement("b3", 0, 0);
+    // moveBackBelow($("b3"));   // löschen/auskommentieren
+    scrollUnderTopUI("b3");      // statt window.scrollTo + glideToElement
     await typeList($("t3"), s.affirmations, myRun);
-    await sleep(BETWEEN_BLOCKS_MS);
-
+    await sleep(BETWEEN_BLOCKS_MS); // ✅ soll stehen bleiben
+    
     // Block 4
     show("b4");
     await glideToElement("b4", 900, 12);
