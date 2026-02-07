@@ -236,11 +236,11 @@ if (topSpacer) topSpacer.classList.add("hidden");
     });
   }
 
-  // "Situation wählen" früher einblenden (4 Sekunden)
+  // "Situation wählen" früher einblenden (2,5 Sekunden)
   const btnContinue = $("btnContinue");
   if (btnContinue){
     btnContinue.classList.add("hidden");
-    setTimeout(() => btnContinue.classList.remove("hidden"), 4000);
+    setTimeout(() => btnContinue.classList.remove("hidden"), 2500);
     btnContinue.addEventListener("click", () => showChooser());
   }
 
