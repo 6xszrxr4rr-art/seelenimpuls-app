@@ -51,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function exitRunUI(){
+    const topSpacer = document.getElementById("topSpacer");
+if (topSpacer) topSpacer.classList.remove("hidden");
     document.body.classList.remove("running");
     show("topCard");
     show("continueCard");
