@@ -35,9 +35,9 @@
   }
   /* Wenn eine Situation läuft: oben weniger "Luft" */
 body.running{
-  padding-top: 12px;
-  padding-left:  calc(12px + env(safe-area-inset-left));
-  padding-right: calc(12px + env(safe-area-inset-right));
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 #situationTitleCard .headline{
