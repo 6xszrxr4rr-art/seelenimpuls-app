@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Block 1 (Ankommen) – direkt sichtbar unter dem Titel
     show("b1");
-    window.scrollTo({ top: 0, behavior: "auto" }); // Titel + b1 so weit oben wie möglich
+    await glideToElement("b1", 0, 0);
     await typeText($("t1"), s.ankommenText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Block 3
     show("b3");
-    await glideToElement("b3", 900, 12);
+    await glideToElement("b3", 0, 0);
     await typeList($("t3"), s.affirmations, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
