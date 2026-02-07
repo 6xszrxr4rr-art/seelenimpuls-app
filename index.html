@@ -292,7 +292,14 @@ li{
     <div style="height:24px;"></div>
 
   <!-- Zurück (oben) – nur während Run sichtbar -->
-<div id="backTopWrap" class="hidden" style="margin-bottom:14px;">
+<div id="backTopWrap" class="hidden" style="
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 12px;
+">
   <button class="btn" id="btnBackTop" type="button">
     Zurück zur Auswahl
   </button>
