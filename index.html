@@ -5,200 +5,357 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Seelenimpuls</title>
 
-<style>
-:root{
-  --bg1:#eef3f6;
-  --bg2:#f7fbff;
-  --card:#ffffffcc;
-  --stroke:#e6edf3;
-  --text:#1b1f24;
-  --muted:#5a6672;
-  --accent:#1f7ae0;
-  --radius:18px;
-}
+  <style>
+    :root{
+      --bg1:#eef3f6;
+      --bg2:#f7fbff;
+      --card:#ffffffcc;
+      --stroke:#e6edf3;
+      --text:#1b1f24;
+      --muted:#5a6672;
+      --accent:#1f7ae0;
+      --radius:18px;
+    }
 
-*,*::before,*::after{ box-sizing:border-box; }
+    *,*::before,*::after{ box-sizing:border-box; }
 
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg1),var(--bg2));
-  color:var(--text);
-  min-height:100vh;
-  padding:30px;
-  padding-left:calc(30px + env(safe-area-inset-left));
-  padding-right:calc(30px + env(safe-area-inset-right));
-  overflow-x:hidden;
-}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+      padding:30px;
+      padding-left:calc(30px + env(safe-area-inset-left));
+      padding-right:calc(30px + env(safe-area-inset-right));
+      overflow-x:hidden;
+      position:relative;
+    }
 
-body.running{
-  padding-top:env(safe-area-inset-top);
-  padding-left:env(safe-area-inset-left);
-  padding-right:env(safe-area-inset-right);
-}
+    body.running{
+      padding-top: env(safe-area-inset-top);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
 
-.wrap{ max-width:720px; margin:0 auto; }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(31,122,224,0.10), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(31,122,224,0.07), transparent 50%),
+        radial-gradient(circle at 45% 80%, rgba(31,122,224,0.06), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,0.65), rgba(255,255,255,0));
+    }
 
-.card{
-  background:var(--card);
-  border:1px solid var(--stroke);
-  border-radius:var(--radius);
-  padding:18px;
-  margin-bottom:14px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
-  backdrop-filter:blur(8px);
-}
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        120deg,
+        rgba(31,122,224,0.025) 0px,
+        rgba(31,122,224,0.025) 1px,
+        rgba(255,255,255,0) 14px,
+        rgba(255,255,255,0) 22px
+      );
+      opacity:.55;
+    }
 
-.hidden{ display:none; }
+    .wrap{ max-width:720px; margin:0 auto; position:relative; }
 
-h1{
-  margin:0 0 8px;
-  font-size:clamp(28px,5vw,40px);
-}
+    .card{
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      margin-bottom:14px;
+    }
 
-.sub{
-  margin:16px 0 22px;
-  font-size:26px;
-  font-style:italic;
-  text-align:center;
-  color:#1f5fae;
-}
+    h1{
+      margin:0 0 8px 0;
+      font-size:clamp(28px,5vw,40px);
+      letter-spacing:-0.02em;
+    }
 
-.btn{
-  width:100%;
-  border:0;
-  border-radius:16px;
-  padding:14px 16px;
-  font-size:20px;
-  font-weight:700;
-  background:#eaf2ff;
-  color:var(--accent);
-  box-shadow:inset 0 0 0 1px rgba(31,122,224,.25);
-  cursor:pointer;
-}
+    .sub{
+      margin:16px 0 22px 0;
+      font-size:26px;
+      line-height:1.4;
+      font-weight:500;
+      color:#1f5fae;
+      font-style:italic;
+      text-align:center;
+    }
 
-.btn:active{ transform:scale(.99); }
+    .btn{
+      width:100%;
+      border:0;
+      border-radius:16px;
+      padding:14px 16px;
+      font-size:20px;
+      font-weight:700;
+      background:#eaf2ff; /* nicht durchsichtig */
+      color:var(--accent);
+      box-shadow:inset 0 0 0 1px rgba(31,122,224,.25);
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active{ transform:scale(.99); }
 
-#backTopWrap{
-  position:static;
-  margin-bottom:14px;
-  padding:12px;
-}
+    /* WICHTIG: kein padding oben, damit b3 wirklich ganz hoch kann */
+    #backTopWrap{
+      position:static;
+      margin-bottom:14px;
+      padding:0; /* ✅ */
+    }
 
-#backBottomWrap{ margin-top:14px; }
+    #backBottomWrap{ margin-top:14px; }
 
-.situationBtn{
-  width:100%;
-  border:1px solid var(--stroke);
-  border-radius:18px;
-  padding:16px;
-  background:#ffffffd9;
-  text-align:left;
-}
+    .situationBtn{
+      width:100%;
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      padding:16px;
+      background:#ffffffd9;
+      text-align:left;
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-.headline{ font-size:22px; font-weight:800; margin-bottom:6px; }
-.hint{ color:var(--muted); font-size:16px; }
+    .headline{ font-size:22px; font-weight:800; margin-bottom:6px; }
+    .hint{ color:var(--muted); font-size:16px; line-height:1.35; }
 
-.block{
-  margin-top:14px;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid var(--stroke);
-  background:#ffffffd9;
-}
+    .divider{
+      height:10px;
+      margin:14px 0 10px 0;
+      background:linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
+      border-radius:999px;
+      opacity:.7;
+    }
 
-.block h3{ margin:0 0 10px; }
+    .block{
+      display:block;
+      margin-top:14px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--stroke);
+      background:#ffffffd9;
+      position:relative;
+      overflow:hidden;
+    }
 
-.typed, li{
-  font-size:18px;
-  line-height:1.45;
-}
+    .block h3{
+      margin:0 0 10px 0;
+      font-size:20px;
+      letter-spacing:-0.01em;
+    }
 
-ul{ margin:0 0 12px 18px; padding:0; }
+    .typed, li{
+      font-size:18px;
+      line-height:1.45;
+      margin:0;
+      color:#20262c;
+      overflow-wrap:anywhere;
+    }
 
-.scrollPad{
-  height:55vh;
-  pointer-events:none;
-}
-</style>
+    ul{ margin:0 0 12px 18px; padding:0; }
+    li{ margin:0 0 10px 0; }
+
+    .muted{
+      color:var(--muted);
+      font-size:15px;
+      margin:10px 0 0 0;
+    }
+
+    /* Outro: dominanter / besser lesbar */
+    .songOutro{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid rgba(31,122,224,0.25);
+      font-size:20px;
+      line-height:1.5;
+      color:#1f5fae;
+      font-weight:700;
+      text-align:center;
+    }
+
+    .hidden{ display:none; }
+
+    .scrollPad{
+      height:55vh;
+      pointer-events:none;
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-<!-- Kopf -->
-<div class="card" id="topCard">
-  <h1>Dein Seelenimpuls ✨</h1>
-  <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
-  <button class="btn" id="btnImpuls">Neuen Impuls</button>
-</div>
+    <!-- Kopf -->
+    <div class="card" id="topCard">
+      <h1>Dein Seelenimpuls ✨</h1>
+      <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
+      <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
+    </div>
 
-<!-- Zurück oben -->
-<div id="backTopWrap" class="hidden">
-  <button class="btn" id="btnBackTop">Zurück zur Auswahl</button>
-</div>
+    <div style="height:24px;"></div>
 
-<!-- Titel -->
-<div class="card hidden" id="situationTitleCard">
-  <div class="headline" id="situationTitle" style="text-align:center;"></div>
-</div>
+    <!-- Zurück (oben) – nur während Run sichtbar -->
+    <div id="backTopWrap" class="hidden">
+      <button class="btn" id="btnBackTop" type="button">Zurück zur Auswahl</button>
+    </div>
 
-<!-- Weiter -->
-<div class="card" id="continueCard" style="text-align:center;">
-  <button class="btn hidden" id="btnContinue">Situation wählen</button>
-</div>
+    <!-- Titel der laufenden Situation -->
+    <div class="card hidden" id="situationTitleCard">
+      <div class="headline" id="situationTitle" style="text-align:center;"></div>
+    </div>
 
-<!-- Hinweis -->
-<div class="card hidden" id="chooseHintCard">
-  <div class="headline" style="font-size:18px;">Wähle deine Situation:</div>
-</div>
+    <!-- Übergang zur Auswahl -->
+    <div class="card" id="continueCard" style="text-align:center;">
+      <button class="btn hidden" id="btnContinue" type="button">Situation wählen</button>
+    </div>
 
-<!-- Auswahl -->
-<div class="card hidden" id="chooseCard">
-  <div id="situationsList">
-    <button class="situationBtn" id="btnSituation1">
-      <div class="headline">1) Innere Unruhe & Gedankenkarussell</div>
-      <div class="hint">Sanft zur Ruhe kommen</div>
-    </button>
+    <!-- Hinweis -->
+    <div class="card hidden" id="chooseHintCard">
+      <div class="headline" style="color: var(--text); font-size:18px; font-weight:700;">
+        Wähle die Situation aus, in der du dich gerade befindest:
+      </div>
+    </div>
+
+    <!-- Situation auswählen -->
+    <div class="card hidden" id="chooseCard">
+      <div id="situationsList">
+
+        <button class="situationBtn" id="btnSituation1" type="button">
+          <div class="headline">1) Innere Unruhe &amp;<br>Gedankenkarussell</div>
+          <div class="hint">Tippe hier, um sanft zu starten (mit sehr leiser Hintergrundmusik).</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation2" type="button">
+          <div class="headline">2) Überforderung &amp;<br>innerer Druck</div>
+          <div class="hint">Tippe hier, wenn gerade vieles gleichzeitig da ist.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation3" type="button">
+          <div class="headline">3) Anspannung &amp;<br>inneres Festhalten</div>
+          <div class="hint">Tippe hier, wenn dein Körper nicht loslässt.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation4" type="button">
+          <div class="headline">4) Erschöpfung &amp;<br>fehlende Kraft</div>
+          <div class="hint">Tippe hier, wenn du dich leer oder müde fühlst.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation5" type="button">
+          <div class="headline">5) Traurigkeit &amp;<br>leise Schwere</div>
+          <div class="hint">Tippe hier, wenn sich alles schwer anfühlt.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation6" type="button">
+          <div class="headline">6) Innere Leere &amp;<br>Orientierungslosigkeit</div>
+          <div class="hint">Tippe hier, wenn dir Richtung fehlt.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation7" type="button">
+          <div class="headline">7) Selbstzweifel &amp;<br>innere Unsicherheit</div>
+          <div class="hint">Tippe hier, wenn du dich klein oder unsicher fühlst.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation8" type="button">
+          <div class="headline">8) Entscheidungszweifel &amp;<br>inneres Schwanken</div>
+          <div class="hint">Tippe hier, wenn du zwischen Optionen pendelst.</div>
+        </button>
+
+        <div style="height:12px;"></div>
+
+        <button class="situationBtn" id="btnSituation9" type="button">
+          <div class="headline">9) Übergang, Wandel &amp;<br>Neubeginn</div>
+          <div class="hint">Tippe hier, wenn etwas Neues beginnt.</div>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Blocks -->
+    <div class="block hidden" id="b1">
+      <h3>🌿 Ankommen</h3>
+      <p class="typed" id="t1"></p>
+    </div>
+
+    <div class="block hidden" id="b2">
+      <h3>🌿 Erklärung</h3>
+      <p class="typed" id="t2"></p>
+    </div>
+
+    <div class="block hidden" id="b3">
+      <h3>✨ Affirmationen</h3>
+      <ul id="t3"></ul>
+    </div>
+
+    <div class="block hidden" id="b4">
+      <h3>🌙 Mini-Ritual</h3>
+      <ul id="t4"></ul>
+    </div>
+
+    <div class="block hidden" id="b5">
+      <h3>💡 Gesungene Affirmation</h3>
+      <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
+      <button class="btn" id="btnSong" type="button">Jetzt hören</button>
+      <!-- Outro kommt per JS darunter -->
+    </div>
+
+    <!-- Zurück (unten) – nur während Run sichtbar -->
+    <div id="backBottomWrap" class="hidden">
+      <button class="btn" id="btnBackBottom" type="button">Zurück zur Auswahl</button>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" preload="metadata">
+      <source src="audio/stillness-space.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="songPlayer" preload="metadata">
+      <source src="audio/held-within.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="scrollPad" aria-hidden="true"></div>
   </div>
-</div>
 
-<!-- Inhalte -->
-<div class="block hidden" id="b1">
-  <h3>🌿 Ankommen</h3>
-  <p class="typed" id="t1"></p>
-</div>
+  <!-- Situationen -->
+  <script src="situations/situation-1.js?v=1" defer></script>
+  <script src="situations/situation-2.js?v=1" defer></script>
+  <script src="situations/situation-3.js?v=1" defer></script>
+  <script src="situations/situation-4.js?v=1" defer></script>
+  <script src="situations/situation-5.js?v=1" defer></script>
+  <script src="situations/situation-6.js?v=1" defer></script>
+  <script src="situations/situation-7.js?v=1" defer></script>
+  <script src="situations/situation-8.js?v=1" defer></script>
+  <script src="situations/situation-9.js?v=1" defer></script>
 
-<div class="block hidden" id="b2">
-  <h3>🌿 Erklärung</h3>
-  <p class="typed" id="t2"></p>
-</div>
-
-<div class="block hidden" id="b3">
-  <h3>✨ Affirmationen</h3>
-  <ul id="t3"></ul>
-</div>
-
-<div class="block hidden" id="b4">
-  <h3>🌙 Mini-Ritual</h3>
-  <ul id="t4"></ul>
-</div>
-
-<div class="block hidden" id="b5">
-  <h3>💡 Gesungene Affirmation</h3>
-  <button class="btn" id="btnSong">Jetzt hören</button>
-</div>
-
-<!-- Zurück unten -->
-<div id="backBottomWrap" class="hidden">
-  <button class="btn" id="btnBackBottom">Zurück zur Auswahl</button>
-</div>
-
-<div class="scrollPad"></div>
-
-</div>
-
-<script src="situations/situation-1.js" defer></script>
-<script src="app.js?v=999" defer></script>
+  <!-- App -->
+  <script src="app.js?v=7" defer></script>
 </body>
 </html>
