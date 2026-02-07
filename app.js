@@ -334,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Block 1
     show("b1");
+    await glideToElement("b1", 0, 0);
     placeBackBelow($("b1"));
     await glideToElement("b1", 1600, 12);
     await typeText($("t1"), s.ankommenText, myRun);
@@ -346,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // nach Erklärung: b3 hochholen, damit es "oben" weitergeht
     show("b3");
-    await glideToElement("b3", 1600, 12);
+    await glideToElement("b3", 0, 0);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 3
