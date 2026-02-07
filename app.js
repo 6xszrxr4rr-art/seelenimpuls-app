@@ -1,76 +1,25 @@
-// app.js
+// app.js (Controller) – stabil, sanft, Block für Block
+
 document.addEventListener("DOMContentLoaded", () => {
 
+  // ---------- Helper ----------
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  function show(id){ const el=$(id); if(el) el.classList.remove("hidden"); }
-  function hide(id){ const el=$(id); if(el) el.classList.add("hidden"); }
+  // ---------- Timing (sanfter) ----------
+  const BETWEEN_BLOCKS_MS = 2200;
+  const SMALL_PAUSE_MS = 900;
+  const LINE_FADE_STAGGER_MS = 520;     // Textzeilen nacheinander
+  const LIST_ITEM_STAGGER_MS = 700;     // Affirmationen/Ritual einzeln
+  const SCROLL_MS = 1700;               // langsames Gleiten
 
-  // sanftes Scrollen (langsam, kein Ruck)
-  function glideToId(id, duration = 1800, offset = 0){
-    const el = $(id);
-    if (!el) return Promise.resolve();
-
-    const startY = window.scrollY;
-    const targetY = startY + el.getBoundingClientRect().top - offset;
-    const start = performance.now();
-
-    return new Promise(resolve => {
-      function ease(t){ return 1 - Math.pow(1 - t, 3); }
-      function step(now){
-        const t = Math.min(1, (now - start) / duration);
-        window.scrollTo(0, startY + (targetY - startY) * ease(t));
-        if (t < 1) requestAnimationFrame(step);
-        else resolve();
-      }
-      requestAnimationFrame(step);
-    });
-  }
-
-  // Text nicht mehr "Schreibmaschine": Zeilen weich einblenden
-  async function revealText(el, text, gapMs = 380){
-    if (!el) return;
-    el.innerHTML = "";
-    const lines = (text || "").split("\n");
-
-    for (const raw of lines){
-      const line = document.createElement("div");
-      line.className = "line";
-      line.innerHTML = raw.trim() ? raw : "&nbsp;";
-      el.appendChild(line);
-
-      // nächster Frame, dann animieren
-      requestAnimationFrame(() => line.classList.add("on"));
-      await sleep(gapMs);
-    }
-  }
-
-  async function revealList(ul, items, gapMs = 420){
-    if (!ul) return;
-    ul.innerHTML = "";
-
-    for (const item of (items || [])){
-      const li = document.createElement("li");
-      li.className = "line";
-      li.textContent = item;
-      ul.appendChild(li);
-      requestAnimationFrame(() => li.classList.add("on"));
-      await sleep(gapMs);
-    }
-  }
-
-  // ---------- Impuls ----------
-  const impulses = [
-    "Atme tief ein. Du darfst gehalten sein.",
-    "Du darfst langsam sein.",
-    "Dein Herz kennt den Weg.",
-    "Alles darf leicht werden.",
-    "Du darfst in Sicherheit ankommen."
-  ];
-
-  // ---------- Audio (wie gehabt, minimal stabil) ----------
+  // ---------- Audio ----------
+  const BG_TARGET_GAIN = 0.0085;
+  const BG_FADE_MS = 2500;
   const BG_MAX_PLAY_MS = 180000;
+  const SONG_TARGET_GAIN = 0.035;
+
+  let runId = 0;
   let bgStopTimer = null;
 
   let audioCtx = null;
@@ -78,9 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let bgSource = null;
   let songGain = null;
   let songSource = null;
-
-  const BG_TARGET_GAIN = 0.0085;
-  const SONG_TARGET_GAIN = 0.035;
 
   function ensureAudioGraph(){
     if (audioCtx) return;
@@ -105,13 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function fadeGain(gainNode, target, ms){
-    if (!audioCtx || !gainNode) return;
+  function fadeBgTo(targetGain, durationMs){
+    if (!audioCtx || !bgGain) return;
     const now = audioCtx.currentTime;
-    const dur = Math.max(0.05, ms / 1000);
-    gainNode.gain.cancelScheduledValues(now);
-    gainNode.gain.setValueAtTime(gainNode.gain.value, now);
-    gainNode.gain.linearRampToValueAtTime(target, now + dur);
+    const dur = Math.max(0.05, durationMs / 1000);
+
+    bgGain.gain.cancelScheduledValues(now);
+    bgGain.gain.setValueAtTime(bgGain.gain.value, now);
+    bgGain.gain.linearRampToValueAtTime(targetGain, now + dur);
   }
 
   async function startBgMusic(){
@@ -119,16 +66,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!bg) return;
 
     ensureAudioGraph();
-    if (audioCtx && audioCtx.state === "suspended") { try { await audioCtx.resume(); } catch(_){} }
 
-    try { bg.pause(); } catch(_){}
+    if (audioCtx && audioCtx.state === "suspended") {
+      try { await audioCtx.resume(); } catch(_) {}
+    }
+
+    try { bg.pause(); } catch(_) {}
     bg.currentTime = 0;
     bg.loop = false;
     bg.volume = 0.0001;
 
     try{
       await bg.play();
-      fadeGain(bgGain, BG_TARGET_GAIN, 2000);
+      fadeBgTo(BG_TARGET_GAIN, BG_FADE_MS);
 
       if (bgStopTimer) clearTimeout(bgStopTimer);
       bgStopTimer = setTimeout(() => stopBgMusic(true), BG_MAX_PLAY_MS);
@@ -138,69 +88,43 @@ document.addEventListener("DOMContentLoaded", () => {
   function stopBgMusic(fade){
     const bg = $("bgMusic");
     if (!bg) return;
+
     if (bgStopTimer) clearTimeout(bgStopTimer);
     bgStopTimer = null;
 
     if (!fade){
-      fadeGain(bgGain, 0, 50);
-      try { bg.pause(); } catch(_){}
+      fadeBgTo(0, 50);
+      try { bg.pause(); } catch(_) {}
       return;
     }
-    fadeGain(bgGain, 0, 900);
-    setTimeout(() => { try { bg.pause(); } catch(_){} }, 950);
+
+    fadeBgTo(0, 900);
+    setTimeout(() => { try { bg.pause(); } catch(_) {} }, 950);
   }
 
   function stopSong(){
     const song = $("songPlayer");
     if (!song) return;
-    try { song.pause(); } catch(_){}
+    try { song.pause(); } catch(_) {}
     song.currentTime = 0;
     if (songGain) songGain.gain.value = 0;
   }
 
-  // ---------- UI state ----------
-  let runId = 0;
+  // ---------- UI helpers ----------
+  function show(id){ const el = $(id); if (el) el.classList.remove("hidden"); }
+  function hide(id){ const el = $(id); if (el) el.classList.add("hidden"); }
 
-  function clearBlocks(){
-    ["b1","b2","b3","b4","b5"].forEach(hide);
+  function clearAllBlocks(){
+    ["b1","b2","b3","b4","b5"].forEach(id => hide(id));
     if ($("t1")) $("t1").innerHTML = "";
     if ($("t2")) $("t2").innerHTML = "";
     if ($("t3")) $("t3").innerHTML = "";
     if ($("t4")) $("t4").innerHTML = "";
-    // Outro entfernen
-    const b5 = $("b5");
-    if (b5){
-      const old = b5.querySelector(".songOutro");
-      if (old) old.remove();
-    }
   }
 
-  function enterRunUI(s){
-    document.body.classList.add("running");
-
-    hide("topCard");
-    hide("continueCard");
+  function hideChooser(){
     hide("chooseHintCard");
     hide("chooseCard");
-
-    show("backTopWrap");
-    const titleEl = $("situationTitle");
-    if (titleEl) titleEl.textContent = s.title || "";
-    show("situationTitleCard");
-
-    hide("backBottomWrap");
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
-
-  function exitRunUI(){
-    document.body.classList.remove("running");
-
-    show("topCard");
-    show("continueCard");
-
-    hide("situationTitleCard");
-    hide("backTopWrap");
-    hide("backBottomWrap");
   }
 
   function showChooser(){
@@ -208,115 +132,244 @@ document.addEventListener("DOMContentLoaded", () => {
     show("chooseCard");
   }
 
-  function goBack(){
-    runId++;
-    stopSong();
-    stopBgMusic(true);
-    clearBlocks();
-    exitRunUI();
-    showChooser();
-    window.scrollTo({ top: 0, behavior: "auto" });
+  function enterRunUI(s){
+    document.body.classList.add("running");
+    hide("topCard");
+    hide("continueCard");
+    hideChooser();
+
+    show("backTopWrap");
+    show("situationTitleCard");
+    if ($("situationTitle")) $("situationTitle").textContent = s.title;
+
+    hide("backBottomWrap");
   }
 
-  // ---------- Run ----------
+  function exitRunUI(){
+    document.body.classList.remove("running");
+    show("topCard");
+    show("continueCard");
+    hide("situationTitleCard");
+    hide("backTopWrap");
+    hide("backBottomWrap");
+  }
+
+  // ---------- Smooth scroll ----------
+  function glideToElement(elOrId, duration = SCROLL_MS, offset = 0){
+    const el = typeof elOrId === "string" ? document.getElementById(elOrId) : elOrId;
+    if (!el) return Promise.resolve();
+
+    const startY = window.scrollY;
+    const rect = el.getBoundingClientRect();
+    const targetY = startY + rect.top - offset;
+
+    const start = performance.now();
+    return new Promise(resolve => {
+      function step(now){
+        const t = Math.min(1, (now - start) / duration);
+        const ease = 1 - Math.pow(1 - t, 3); // weich
+        window.scrollTo(0, startY + (targetY - startY) * ease);
+        if (t < 1) requestAnimationFrame(step);
+        else resolve();
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  // ---------- Sanftes Einblenden (statt Schreibmaschine) ----------
+  function splitToLines(text){
+    // Absätze + Zeilenbrüche respektieren
+    // Doppelte Umbrüche -> Leerzeile
+    return (text || "")
+      .replace(/\r\n/g, "\n")
+      .split("\n");
+  }
+
+  async function revealTextLines(containerEl, text, myRun){
+    if (!containerEl) return;
+    containerEl.innerHTML = "";
+
+    const lines = splitToLines(text);
+    for (let i = 0; i < lines.length; i++){
+      if (myRun !== runId) return;
+
+      const line = lines[i];
+
+      // Leerzeile = etwas Abstand
+      if (line.trim() === ""){
+        const spacer = document.createElement("div");
+        spacer.style.height = "12px";
+        containerEl.appendChild(spacer);
+        await sleep(Math.max(260, LINE_FADE_STAGGER_MS / 2));
+        continue;
+      }
+
+      const p = document.createElement("div");
+      p.className = "line";
+      p.textContent = line;
+      containerEl.appendChild(p);
+
+      // nächster Frame, dann "on" (für Transition)
+      requestAnimationFrame(() => p.classList.add("on"));
+
+      await sleep(LINE_FADE_STAGGER_MS);
+    }
+  }
+
+  async function revealList(ul, items, myRun){
+    if (!ul) return;
+    ul.innerHTML = "";
+
+    for (let idx = 0; idx < (items || []).length; idx++){
+      if (myRun !== runId) return;
+
+      const li = document.createElement("li");
+      li.textContent = items[idx];
+      ul.appendChild(li);
+
+      requestAnimationFrame(() => li.classList.add("on"));
+      await sleep(LIST_ITEM_STAGGER_MS);
+    }
+  }
+
+  // ---------- Impuls ----------
+  const impulses = [
+    "Atme tief ein. Du darfst gehalten sein.",
+    "Du darfst langsam sein.",
+    "Dein Herz kennt den Weg.",
+    "Alles darf leicht werden.",
+    "Du darfst in Sicherheit ankommen."
+  ];
+
+  // ---------- Run situation ----------
   async function runSituation(n){
     runId++;
     const myRun = runId;
 
-    clearBlocks();
+    clearAllBlocks();
     stopSong();
     stopBgMusic(false);
 
     const s = window.SITUATIONS && window.SITUATIONS[n];
-    if (!s) { alert("Situation " + n + " nicht gefunden."); return; }
+    if (!s) {
+      alert("Situation " + n + " nicht gefunden. Prüfe: situations/situation-" + n + ".js geladen?");
+      return;
+    }
 
     enterRunUI(s);
 
-    // Song pro Situation setzen
+    // Song-Datei pro Situation (optional)
     const song = $("songPlayer");
-    if (song && s.songFile){
+    if (song && s.songFile) {
       const srcEl = song.querySelector("source");
-      if (srcEl){ srcEl.src = s.songFile; song.load(); }
+      if (srcEl) {
+        srcEl.src = s.songFile;
+        song.load();
+      }
     }
 
+    // BG starten
     await startBgMusic();
 
-    // Block 1: soll GANZ oben starten -> wir scrollen b1 an TOP (Back+Titel sind dann per Scroll erreichbar)
+    // -------- Block 1: Ankommen (oben starten: Back+Titel dürfen raus-scrollen) --------
     show("b1");
-    await glideToId("b1", 1700, 0);
-    if (myRun !== runId) return;
-    await revealText($("t1"), s.ankommenText, 360);
-    await sleep(1600);
+    await glideToElement("b1", SCROLL_MS, 0);
+    await revealTextLines($("t1"), s.ankommenText, myRun);
+    await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 2 normal weiter
+    // -------- Block 2: Erklärung --------
     show("b2");
-    await revealText($("t2"), s.erklaerungText, 360);
-    await sleep(1400);
+    // Nicht hart nach oben zerren – nur sanft Richtung Block, damit es ruhig bleibt
+    await glideToElement("b2", SCROLL_MS, 0);
+    await revealTextLines($("t2"), s.erklaerungText, myRun);
+    await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 3: soll GANZ oben starten (wo vorher der Zurück-Button war)
+    // -------- Block 3: Affirmationen (soll oben starten) --------
     show("b3");
-    await glideToId("b3", 1700, 0);
-    if (myRun !== runId) return;
-    await revealList($("t3"), s.affirmations, 420);
-    await sleep(1400);
+    await glideToElement("b3", SCROLL_MS, 0);
+    await revealList($("t3"), s.affirmations, myRun);
+    await sleep(SMALL_PAUSE_MS);
 
-    // Block 4 normal
+    // -------- Block 4: Mini-Ritual (kleine Pause) --------
     show("b4");
-    await revealList($("t4"), s.ritual, 420);
-    await sleep(1400);
+    await glideToElement("b4", SCROLL_MS, 0);
+    await revealList($("t4"), s.ritual, myRun);
+    await sleep(BETWEEN_BLOCKS_MS);
 
-    // Block 5: NICHT hochschieben! -> bleibt unter Ritual stehen
+    // -------- Block 5: Gesungene Affirmation (bleibt UNTEN unter Ritual – NICHT nach oben schieben) --------
     show("b5");
+    // Kein Scroll hier! Damit Ritual lesbar bleibt und Button darunter steht.
 
-    // Outro unter dem Button: dominanter Endimpuls
-    if (s.songOutro){
-      const p = document.createElement("p");
+    // Outro (dominanter)
+    const outro = s.songOutro;
+    if (outro) {
+      const p = document.createElement("div");
       p.className = "songOutro";
-      p.textContent = s.songOutro;
+      p.textContent = outro;
+
+      // unter den Button
       $("b5").appendChild(p);
-      requestAnimationFrame(() => p.classList.add("on"));
     }
 
+    // Back unten an
     show("backBottomWrap");
 
+    // BG später ausblenden
     setTimeout(() => stopBgMusic(true), 45000);
   }
 
   // ---------- Wiring ----------
   const btnImpuls = $("btnImpuls");
   const impulsEl = $("impuls");
-  const btnContinue = $("btnContinue");
   const btnSong = $("btnSong");
+  const btnContinue = $("btnContinue");
 
-  if (btnImpuls && impulsEl){
+  // Situation wählen Button: schneller zeigen (4s statt 8s)
+  if (btnContinue){
+    btnContinue.classList.add("hidden");
+    setTimeout(() => {
+      btnContinue.classList.remove("hidden");
+    }, 4000);
+
+    btnContinue.addEventListener("click", () => {
+      showChooser();
+      // sanft zur Liste
+      const chooseCard = $("chooseCard");
+      if (chooseCard){
+        const y = window.scrollY + chooseCard.getBoundingClientRect().top - 12;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    });
+  }
+
+  if (btnImpuls && impulsEl) {
     btnImpuls.addEventListener("click", () => {
       impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
     });
   }
 
-  // Situation wählen: schneller einblenden (ca. 3–4s)
-  if (btnContinue){
-    btnContinue.classList.add("hidden");
-    setTimeout(() => {
-      btnContinue.classList.remove("hidden");
-    }, 3800);
-
-    btnContinue.addEventListener("click", () => showChooser());
+  function goBack(){
+    runId++; // laufende Animationen stoppen
+    clearAllBlocks();
+    exitRunUI();
+    showChooser();
+    stopSong();
+    stopBgMusic(true);
+    window.scrollTo({ top: 0, behavior: "auto" });
   }
 
-  // Back Buttons
   const btnBackTop = $("btnBackTop");
   const btnBackBottom = $("btnBackBottom");
   if (btnBackTop) btnBackTop.addEventListener("click", goBack);
   if (btnBackBottom) btnBackBottom.addEventListener("click", goBack);
 
-  // Situation Buttons
-  for (let i=1;i<=9;i++){
-    const b = $(`btnSituation${i}`);
-    if (b) b.addEventListener("click", () => runSituation(i));
+  // Situation 1–9 Buttons
+  for (let i = 1; i <= 9; i++){
+    const btn = $(`btnSituation${i}`);
+    if (btn) btn.addEventListener("click", () => runSituation(i));
   }
 
-  // Song Button: BG stop + Song Fade-in
+  // Song Button: BG stop + Song Gain Fade-in
   if (btnSong){
     btnSong.addEventListener("click", async () => {
       stopBgMusic(false);
@@ -325,7 +378,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!song) return;
 
       ensureAudioGraph();
-      if (audioCtx && audioCtx.state === "suspended") { try { await audioCtx.resume(); } catch(_){} }
+
+      if (audioCtx && audioCtx.state === "suspended") {
+        try { await audioCtx.resume(); } catch(_) {}
+      }
 
       try{
         song.pause();
@@ -335,7 +391,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (songGain) songGain.gain.value = 0.01;
         await song.play();
 
-        fadeGain(songGain, SONG_TARGET_GAIN, 1200);
+        if (songGain){
+          const now = audioCtx.currentTime;
+          songGain.gain.cancelScheduledValues(now);
+          songGain.gain.setValueAtTime(songGain.gain.value, now);
+          songGain.gain.linearRampToValueAtTime(SONG_TARGET_GAIN, now + 1.2);
+        }
       } catch(_){}
     });
   }
