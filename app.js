@@ -286,7 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Block 3 (Affirmationen)
     show("b3");
     // moveBackBelow($("b3"));   // löschen/auskommentieren
-    scrollUnderTopUI("b3");      // statt window.scrollTo + glideToElement
     await typeList($("t3"), s.affirmations, myRun);
     await sleep(BETWEEN_BLOCKS_MS); // ✅ soll stehen bleiben
     
