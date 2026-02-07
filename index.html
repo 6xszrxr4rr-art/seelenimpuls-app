@@ -139,6 +139,12 @@ h1{
   font-size: 18px;
 }
 
+#backTopWrap{
+  position: static;   /* wichtig */
+  margin-bottom: 14px;
+  padding: 12px;
+}    
+    
    /* Zurück-Buttons: nicht durchsichtig */
 #backTopWrap .btn,
 #backBottomWrap .btn{
@@ -299,14 +305,10 @@ li{
     <div style="height:24px;"></div>
 
   <!-- Zurück (oben) – nur während Run sichtbar -->
-<div id="backTopWrap" class="hidden" style="
-  position: fixed;
-  top: env(safe-area-inset-top);
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: 12px;
-">
+<div id="backTopWrap" class="hidden">
+  <button class="btn" id="btnBackTop">Zurück zur Auswahl</button>
+</div>
+    
   <button class="btn" id="btnBackTop" type="button">
     Zurück zur Auswahl
   </button>
