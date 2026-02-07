@@ -32,6 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+ function scrollUnderTopUI(targetId, duration = 900){
+  const el = document.getElementById(targetId);
+  if (!el) return;
+
+  const backTop = document.getElementById("backTopWrap");
+  const titleCard = document.getElementById("situationTitleCard");
+
+  const topH =
+    (backTop && !backTop.classList.contains("hidden") ? backTop.offsetHeight : 0) +
+    (titleCard && !titleCard.classList.contains("hidden") ? titleCard.offsetHeight : 0) +
+    12;
+
+  const y = window.scrollY + el.getBoundingClientRect().top - topH;
+  window.scrollTo({ top: y, behavior: "auto" });
+}
+  
   // ---------- Typing (einfach & stabil) ----------
   const CHAR_DELAY_MS = 140;
   const BETWEEN_BLOCKS_MS = 3000;
