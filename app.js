@@ -1,4 +1,4 @@
-// app.js (Controller) – nutzt Situationen aus /situations/situation-1.js ... situation-9.js
+// app.js (Controller)
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -6,19 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  function show(id){
-    const el = $(id);
-    if (el) el.classList.remove("hidden");
-  }
-  function hide(id){
-    const el = $(id);
-    if (el) el.classList.add("hidden");
-  }
+  // ---------- Basic UI helpers ----------
+  function show(id){ const el = $(id); if (el) el.classList.remove("hidden"); }
+  function hide(id){ const el = $(id); if (el) el.classList.add("hidden"); }
 
-  // ---------- Scroll helpers ----------
-  function followWhileTyping(_el){ return; } // komplett aus
-
-  function glideToElement(elOrId, duration = 1400, offset = 12){
+  // Sanftes Scrollen zu Element (ohne "nervöses Mitscrollen")
+  function glideToElement(elOrId, duration = 1200, offset = 12){
     const el = typeof elOrId === "string" ? document.getElementById(elOrId) : elOrId;
     if (!el) return Promise.resolve();
 
@@ -39,86 +32,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------- UI: Auswahl zeigen/verstecken ----------
-  function showChooser(){
-    show("chooseHintCard");
-    show("chooseCard");
-  }
-  function hideChooser(){
-    hide("chooseHintCard");
-    hide("chooseCard");
-  }
-
-  // ---------- Run UI ----------
-  function enterRunUI(s){
-    document.body.classList.add("running");
-
-    hide("topCard");
-    hide("continueCard");
-
-    hideChooser();
-
-    // Titel
-    const titleEl = $("situationTitle");
-    if (titleEl) titleEl.textContent = s.title || "";
-    show("situationTitleCard");
-
-    // Back oben an, Back unten erstmal aus
-    show("backTopWrap");
-    hide("backBottomWrap");
-
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
-
-  function exitRunUI(){
-    document.body.classList.remove("running");
-
-    show("topCard");
-    show("continueCard");
-
-    hide("situationTitleCard");
-    hide("backTopWrap");
-    hide("backBottomWrap");
-
-    showChooser();
-  }
-
-  // ---------- Blocks reset ----------
-  function clearAllBlocks(){
-    ["b1","b2","b3","b4","b5"].forEach(hide);
-
-    if ($("t1")) $("t1").innerHTML = "";
-    if ($("t2")) $("t2").innerHTML = "";
-    if ($("t3")) $("t3").innerHTML = "";
-    if ($("t4")) $("t4").innerHTML = "";
-
-    // Outro ggf. entfernen
-    const b5 = $("b5");
-    if (b5){
-      b5.querySelectorAll(".songOutro").forEach(n => n.remove());
-    }
-  }
-
-  // ---------- Back-Button immer direkt unter letztem sichtbaren Block ----------
-  function placeBackBelow(el){
-    const wrap = $("backBottomWrap");
-    if (!wrap || !el) return;
-    el.insertAdjacentElement("afterend", wrap);
-  }
-
-  // ---------- Impuls (Kopfkarte) ----------
-  const impulses = [
-    "Atme tief ein. Du darfst gehalten sein.",
-    "Du darfst langsam sein.",
-    "Dein Herz kennt den Weg.",
-    "Alles darf leicht werden.",
-    "Du darfst in Sicherheit ankommen."
-  ];
-
-  // ---------- Timing ----------
+  // ---------- Typing (einfach & stabil) ----------
   const CHAR_DELAY_MS = 140;
   const BETWEEN_BLOCKS_MS = 3000;
   const AFTER_RITUAL_MS = 5000;
+
+  let runId = 0;
+
+  async function typeText(el, text, myRun){
+    if (!el) return;
+    el.innerHTML = "";
+    const t = (text || "").toString();
+    for (let i = 0; i < t.length; i++){
+      if (myRun !== runId) return;
+      const ch = t[i];
+      if (ch === "\n") el.insertAdjacentHTML("beforeend", "<br>");
+      else el.insertAdjacentText("beforeend", ch);
+      await sleep(CHAR_DELAY_MS);
+    }
+  }
+
+  async function typeList(ul, items, myRun){
+    if (!ul) return;
+    ul.innerHTML = "";
+    for (const item of (items || [])){
+      if (myRun !== runId) return;
+      const li = document.createElement("li");
+      ul.appendChild(li);
+      const s = (item || "").toString();
+      for (let i = 0; i < s.length; i++){
+        if (myRun !== runId) return;
+        li.textContent += s[i];
+        await sleep(CHAR_DELAY_MS);
+      }
+      await sleep(600);
+    }
+  }
 
   // ---------- Audio ----------
   const BG_TARGET_GAIN = 0.0085;
@@ -126,9 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const BG_MAX_PLAY_MS = 180000;
   const SONG_TARGET_GAIN = 0.035;
 
-  let runId = 0;
   let bgStopTimer = null;
-
   let audioCtx = null;
   let bgGain = null;
   let bgSource = null;
@@ -170,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
   async function startBgMusic(){
     const bg = $("bgMusic");
     if (!bg) return;
-
     ensureAudioGraph();
 
     if (audioCtx && audioCtx.state === "suspended") {
@@ -216,91 +162,73 @@ document.addEventListener("DOMContentLoaded", () => {
     if (songGain) songGain.gain.value = 0;
   }
 
-  // ---------- Typing ----------
-  function wrapTextToLines(text, el) {
-    const style = getComputedStyle(el);
-    const font = style.font || `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+  // ---------- UI State ----------
+  const dividerEl = document.querySelector(".divider");
 
-    const canvas = wrapTextToLines._c || (wrapTextToLines._c = document.createElement("canvas"));
-    const ctx = canvas.getContext("2d");
-    ctx.font = font;
-
-    const maxWidth = el.clientWidth;
-    const paragraphs = (text || "").split("\n");
-    const lines = [];
-
-    for (const para of paragraphs) {
-      if (!para.trim()) { lines.push(""); continue; }
-
-      const words = para.split(/\s+/).filter(Boolean);
-      let line = "";
-
-      for (const w of words) {
-        const test = line ? (line + " " + w) : w;
-
-        if (ctx.measureText(test).width <= maxWidth) {
-          line = test;
-        } else {
-          if (line) lines.push(line);
-          line = w;
-        }
-      }
-      if (line) lines.push(line);
-    }
-    return lines;
-  }
-
-  async function typeText(el, text, myRun){
-    if (!el) return;
-
-    el.innerHTML = "";
-    const lines = wrapTextToLines(text, el);
-
-    const cursor = document.createElement("span");
-    cursor.className = "cursor";
-    el.appendChild(cursor);
-
-    for (let li = 0; li < lines.length; li++){
-      if (myRun !== runId) return;
-
-      const line = lines[li];
-
-      for (let i = 0; i < line.length; i++){
-        if (myRun !== runId) return;
-        cursor.insertAdjacentText("beforebegin", line[i]);
-        followWhileTyping(cursor);
-        await sleep(CHAR_DELAY_MS);
-      }
-
-      if (li < lines.length - 1) {
-        cursor.insertAdjacentHTML("beforebegin", "<br>");
-        followWhileTyping(cursor);
-        await sleep(Math.max(120, CHAR_DELAY_MS * 2));
-      }
+  function clearAllBlocks(){
+    ["b1","b2","b3","b4","b5"].forEach(hide);
+    if ($("t1")) $("t1").innerHTML = "";
+    if ($("t2")) $("t2").innerHTML = "";
+    if ($("t3")) $("t3").innerHTML = "";
+    if ($("t4")) $("t4").innerHTML = "";
+    // Outro in b5 entfernen (falls vorhanden)
+    const b5 = $("b5");
+    if (b5){
+      const outro = b5.querySelector(".songOutro");
+      if (outro) outro.remove();
     }
   }
 
-  async function typeList(ul, items, myRun){
-    if (!ul) return;
-    ul.innerHTML = "";
+  function showChooser(){
+    hide("chooseCard"); // erst sauber
+    show("chooseHintCard");
+    show("chooseCard");
+  }
 
-    for (const item of (items || [])){
-      if (myRun !== runId) return;
+  function hideChooser(){
+    hide("chooseHintCard");
+    hide("chooseCard");
+  }
 
-      const li = document.createElement("li");
-      ul.appendChild(li);
+  function enterRunUI(s){
+    document.body.classList.add("running");
 
-      for (let i = 0; i < item.length; i++){
-        if (myRun !== runId) return;
-        li.textContent += item[i];
-        if (i % 6 === 0) followWhileTyping(li);
-        await sleep(CHAR_DELAY_MS);
-      }
+    hide("topCard");
+    hide("continueCard");
 
-      await sleep(600);
-    }
+    hideChooser();
 
-    followWhileTyping(ul);
+    show("backTopWrap");
+    show("situationTitleCard");
+    if ($("situationTitle")) $("situationTitle").textContent = s.title || "";
+
+    hide("backBottomWrap"); // unten erst am Ende
+    if (dividerEl) dividerEl.classList.add("hidden"); // weniger Luft
+
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function exitRunUI(){
+    document.body.classList.remove("running");
+
+    show("topCard");
+    show("continueCard");
+
+    hide("situationTitleCard");
+    hide("backTopWrap");
+    hide("backBottomWrap");
+
+    if (dividerEl) dividerEl.classList.remove("hidden");
+
+    showChooser();
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function goBack(){
+    clearAllBlocks();
+    stopSong();
+    stopBgMusic(true);
+    exitRunUI();
   }
 
   // ---------- Run situation ----------
@@ -308,75 +236,61 @@ document.addEventListener("DOMContentLoaded", () => {
     runId++;
     const myRun = runId;
 
-    clearAllBlocks();
-    stopSong();
-    stopBgMusic(false);
-
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) {
       alert("Situation " + n + " nicht gefunden. Prüfe: situations/situation-" + n + ".js geladen?");
       return;
     }
 
+    clearAllBlocks();
+    stopSong();
+    stopBgMusic(false);
     enterRunUI(s);
 
-    // Song-Datei pro Situation (wenn du s.songFile hast)
+    // Song-Datei pro Situation (in deinen situation-*.js als s.songFile)
     const song = $("songPlayer");
     if (song && s.songFile) {
       const srcEl = song.querySelector("source");
-      if (srcEl) {
-        srcEl.src = s.songFile;
-        song.load();
-      }
+      if (srcEl) { srcEl.src = s.songFile; song.load(); }
     }
 
     await startBgMusic();
 
-    // Block 1
+    // Block 1 (Ankommen) – direkt sichtbar unter dem Titel
     show("b1");
-    await glideToElement("b1", 0, 0);
-    placeBackBelow($("b1"));
-    await glideToElement("b1", 1600, 12);
+    window.scrollTo({ top: 0, behavior: "auto" }); // Titel + b1 so weit oben wie möglich
     await typeText($("t1"), s.ankommenText, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 2
     show("b2");
-    placeBackBelow($("b2"));
     await typeText($("t2"), s.erklaerungText, myRun);
-
-    // nach Erklärung: b3 hochholen, damit es "oben" weitergeht
-    show("b3");
-    await glideToElement("b3", 0, 0);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 3
-    placeBackBelow($("b3"));
+    show("b3");
+    await glideToElement("b3", 900, 12);
     await typeList($("t3"), s.affirmations, myRun);
     await sleep(BETWEEN_BLOCKS_MS);
 
     // Block 4
     show("b4");
-    placeBackBelow($("b4"));
+    await glideToElement("b4", 900, 12);
     await typeList($("t4"), s.ritual, myRun);
     await sleep(AFTER_RITUAL_MS);
 
-    // Block 5
+    // Block 5 + Outro
     show("b5");
-    placeBackBelow($("b5"));
-
-    const outro = s.songOutro;
-    if (outro) {
+    if (s.songOutro) {
       const p = document.createElement("p");
       p.className = "songOutro fadeIn";
-      p.style.marginTop = "12px";
-      p.textContent = outro;
+      p.textContent = s.songOutro;
       $("b5").appendChild(p);
     }
 
-    // Back unten jetzt EINBLENDEN (am Ende)
+    // Back unten JETZT anzeigen (Ende)
     show("backBottomWrap");
-    placeBackBelow($("b5"));
+    await glideToElement("backBottomWrap", 900, 12);
 
     setTimeout(() => stopBgMusic(true), 45000);
   }
@@ -386,22 +300,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const impulsEl = $("impuls");
   const btnSong = $("btnSong");
   const btnContinue = $("btnContinue");
+  const btnBackTop = $("btnBackTop");
+  const btnBackBottom = $("btnBackBottom");
 
-  // Startzustand
-  hide("chooseHintCard");
-  hide("chooseCard");
-  hide("backTopWrap");
-  hide("backBottomWrap");
-  hide("situationTitleCard");
+  const impulses = [
+    "Atme tief ein. Du darfst gehalten sein.",
+    "Du darfst langsam sein.",
+    "Dein Herz kennt den Weg.",
+    "Alles darf leicht werden.",
+    "Du darfst in Sicherheit ankommen."
+  ];
 
-  // Continue: Auswahl zeigen
+  // Impuls Button
+  if (btnImpuls && impulsEl){
+    btnImpuls.addEventListener("click", () => {
+      impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    });
+  }
+
+  // "Situation wählen"
   if (btnContinue){
     btnContinue.classList.add("hidden");
     btnContinue.classList.remove("fadeIn");
 
-    btnContinue.addEventListener("click", () => {
-      showChooser();
-    });
+    btnContinue.addEventListener("click", () => showChooser());
 
     setTimeout(() => {
       btnContinue.classList.remove("hidden");
@@ -409,23 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 8000);
   }
 
-  // Impuls button
-  if (btnImpuls && impulsEl) {
-    btnImpuls.addEventListener("click", () => {
-      impulsEl.textContent = impulses[Math.floor(Math.random() * impulses.length)];
-    });
-  }
-
-  // Back buttons (oben + unten)
-  const btnBackTop = $("btnBackTop");
-  const btnBackBottom = $("btnBackBottom");
-
-  function goBack(){
-    clearAllBlocks();
-    exitRunUI();
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
-
+  // Back Buttons
   if (btnBackTop) btnBackTop.addEventListener("click", goBack);
   if (btnBackBottom) btnBackBottom.addEventListener("click", goBack);
 
@@ -437,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Song Button: BG stop + Song Gain Fade-in
+  // Song Button
   if (btnSong){
     btnSong.addEventListener("click", async () => {
       stopBgMusic(false);
