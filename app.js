@@ -152,6 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
     runId++;
     const myRun = runId;
 
+    const topSpacer = document.getElementById("topSpacer");
+if (topSpacer) topSpacer.classList.add("hidden");
+    
     clearBlocks();
     stopSong();
     stopBgMusic();
