@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="de">
 <head>
@@ -23,19 +24,21 @@
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       color:var(--text);
-      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
       min-height:100vh;
       padding:30px;
-      padding-left:calc(30px + env(safe-area-inset-left));
-      padding-right:calc(30px + env(safe-area-inset-right));
+      padding-left: calc(30px + env(safe-area-inset-left));
+      padding-right: calc(30px + env(safe-area-inset-right));
       overflow-x:hidden;
       position:relative;
     }
 
+    /* Run: so wenig Luft wie möglich */
     body.running{
       padding-top: env(safe-area-inset-top);
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
+      padding-bottom: 16px;
     }
 
     body::before{
@@ -72,20 +75,22 @@
       border:1px solid var(--stroke);
       border-radius:var(--radius);
       padding:18px;
-      box-shadow:0 6px 18px rgba(0,0,0,.08);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
       margin-bottom:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
+    .hidden{ display:none; }
+
     h1{
-      margin:0 0 8px 0;
+      margin:0 0 8px;
       font-size:clamp(28px,5vw,40px);
       letter-spacing:-0.02em;
     }
 
     .sub{
-      margin:16px 0 22px 0;
+      margin:16px 0 22px;
       font-size:26px;
       line-height:1.4;
       font-weight:500;
@@ -101,22 +106,28 @@
       padding:14px 16px;
       font-size:20px;
       font-weight:700;
-      background:#eaf2ff; /* nicht durchsichtig */
+      background:#eaf2ff;
       color:var(--accent);
-      box-shadow:inset 0 0 0 1px rgba(31,122,224,.25);
+      box-shadow: inset 0 0 0 1px rgba(31,122,224,.25);
       cursor:pointer;
       -webkit-tap-highlight-color: transparent;
     }
     .btn:active{ transform:scale(.99); }
 
-    /* WICHTIG: kein padding oben, damit b3 wirklich ganz hoch kann */
+    /* Zurück-Button oben: NICHT fixed, normal im Flow */
     #backTopWrap{
       position:static;
       margin-bottom:14px;
-      padding:0; /* ✅ */
+      padding:0;
     }
 
-    #backBottomWrap{ margin-top:14px; }
+    /* unten etwas dezenter */
+    #backBottomWrap .btn{
+      background: rgba(31,122,224,0.08);
+      font-weight: 600;
+      font-size: 18px;
+      box-shadow: inset 0 0 0 1px rgba(31,122,224,.18);
+    }
 
     .situationBtn{
       width:100%;
@@ -134,9 +145,9 @@
 
     .divider{
       height:10px;
-      margin:14px 0 10px 0;
-      background:linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
-      border-radius:999px;
+      margin: 14px 0 10px 0;
+      background: linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
+      border-radius: 999px;
       opacity:.7;
     }
 
@@ -147,51 +158,48 @@
       border-radius:16px;
       border:1px solid var(--stroke);
       background:#ffffffd9;
-      position:relative;
-      overflow:hidden;
     }
 
-    .block h3{
-      margin:0 0 10px 0;
-      font-size:20px;
-      letter-spacing:-0.01em;
-    }
+    .block h3{ margin:0 0 10px; font-size:20px; letter-spacing:-0.01em; }
 
     .typed, li{
       font-size:18px;
       line-height:1.45;
-      margin:0;
       color:#20262c;
       overflow-wrap:anywhere;
     }
 
     ul{ margin:0 0 12px 18px; padding:0; }
-    li{ margin:0 0 10px 0; }
+
+    /* sanftes Einblenden pro Zeile / Bullet */
+    .line{
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity 650ms ease, transform 650ms ease;
+    }
+    .line.on{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    .songOutro{
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(31,122,224,0.25);
+      font-size: 20px;          /* dominanter */
+      line-height: 1.5;
+      color: #1f5fae;
+      font-weight: 700;         /* dominanter */
+      text-align: center;
+    }
 
     .muted{
-      color:var(--muted);
-      font-size:15px;
-      margin:10px 0 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      margin: 10px 0 0 0;
     }
 
-    /* Outro: dominanter / besser lesbar */
-    .songOutro{
-      margin-top:18px;
-      padding-top:14px;
-      border-top:1px solid rgba(31,122,224,0.25);
-      font-size:20px;
-      line-height:1.5;
-      color:#1f5fae;
-      font-weight:700;
-      text-align:center;
-    }
-
-    .hidden{ display:none; }
-
-    .scrollPad{
-      height:55vh;
-      pointer-events:none;
-    }
+    .scrollPad{ height:55vh; pointer-events:none; }
   </style>
 </head>
 
@@ -204,8 +212,6 @@
       <p class="sub" id="impuls">Atme tief ein. Du musst heute nichts halten.</p>
       <button class="btn" id="btnImpuls" type="button">Neuen Impuls</button>
     </div>
-
-    <div style="height:24px;"></div>
 
     <!-- Zurück (oben) – nur während Run sichtbar -->
     <div id="backTopWrap" class="hidden">
@@ -302,12 +308,12 @@
     <!-- Blocks -->
     <div class="block hidden" id="b1">
       <h3>🌿 Ankommen</h3>
-      <p class="typed" id="t1"></p>
+      <div class="typed" id="t1"></div>
     </div>
 
     <div class="block hidden" id="b2">
       <h3>🌿 Erklärung</h3>
-      <p class="typed" id="t2"></p>
+      <div class="typed" id="t2"></div>
     </div>
 
     <div class="block hidden" id="b3">
@@ -324,11 +330,11 @@
       <h3>💡 Gesungene Affirmation</h3>
       <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
       <button class="btn" id="btnSong" type="button">Jetzt hören</button>
-      <!-- Outro kommt per JS darunter -->
+      <!-- Outro kommt per JS hier drunter -->
     </div>
 
-    <!-- Zurück (unten) – nur während Run sichtbar -->
-    <div id="backBottomWrap" class="hidden">
+    <!-- Zurück (unten) -->
+    <div id="backBottomWrap" class="hidden" style="margin-top:14px;">
       <button class="btn" id="btnBackBottom" type="button">Zurück zur Auswahl</button>
     </div>
 
@@ -355,7 +361,7 @@
   <script src="situations/situation-8.js?v=1" defer></script>
   <script src="situations/situation-9.js?v=1" defer></script>
 
-  <!-- App -->
-  <script src="app.js?v=7" defer></script>
+  <!-- Controller -->
+  <script src="app.js?v=1000" defer></script>
 </body>
 </html>
