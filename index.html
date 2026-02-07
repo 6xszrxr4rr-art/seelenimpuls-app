@@ -17,22 +17,21 @@
       --radius:18px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; }
+    *,*::before,*::after{ box-sizing:border-box; }
 
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       color:var(--text);
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
       min-height:100vh;
       padding:30px;
-      padding-left:  calc(30px + env(safe-area-inset-left));
-      padding-right: calc(30px + env(safe-area-inset-right));
+      padding-left:calc(30px + env(safe-area-inset-left));
+      padding-right:calc(30px + env(safe-area-inset-right));
       overflow-x:hidden;
       position:relative;
     }
 
-    /* Wenn eine Situation läuft: oben weniger Luft */
     body.running{
       padding-top: env(safe-area-inset-top);
       padding-left: env(safe-area-inset-left);
@@ -66,22 +65,22 @@
       opacity:.55;
     }
 
-    .wrap{ max-width: 720px; margin:0 auto; position:relative; }
+    .wrap{ max-width:720px; margin:0 auto; position:relative; }
 
     .card{
-      background: var(--card);
+      background:var(--card);
       border:1px solid var(--stroke);
-      border-radius: var(--radius);
+      border-radius:var(--radius);
       padding:18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      margin-bottom: 14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      margin-bottom:14px;
     }
 
     h1{
       margin:0 0 8px 0;
-      font-size: clamp(28px, 5vw, 40px);
+      font-size:clamp(28px,5vw,40px);
       letter-spacing:-0.02em;
     }
 
@@ -98,31 +97,33 @@
     .btn{
       width:100%;
       border:0;
-      border-radius: 16px;
+      border-radius:16px;
       padding:14px 16px;
-      font-size: 20px;
-      font-weight: 700;
-      background: rgba(31,122,224,0.12);
-      color: var(--accent);
-      box-shadow: inset 0 0 0 1px rgba(31,122,224,0.18);
+      font-size:20px;
+      font-weight:700;
+      background:#eaf2ff; /* nicht durchsichtig */
+      color:var(--accent);
+      box-shadow:inset 0 0 0 1px rgba(31,122,224,.25);
       cursor:pointer;
       -webkit-tap-highlight-color: transparent;
     }
-    .btn:active{ transform: scale(0.99); }
+    .btn:active{ transform:scale(.99); }
 
-    /* Zurück Buttons: nicht durchsichtig */
-    #backTopWrap .btn,
-    #backBottomWrap .btn{
-      background:#eaf2ff;
-      box-shadow: inset 0 0 0 1px rgba(31,122,224,0.25);
+    /* WICHTIG: kein padding oben, damit b3 wirklich ganz hoch kann */
+    #backTopWrap{
+      position:static;
+      margin-bottom:14px;
+      padding:0; /* ✅ */
     }
+
+    #backBottomWrap{ margin-top:14px; }
 
     .situationBtn{
       width:100%;
       border:1px solid var(--stroke);
-      border-radius: 18px;
+      border-radius:18px;
       padding:16px;
-      background: #ffffffd9;
+      background:#ffffffd9;
       text-align:left;
       cursor:pointer;
       -webkit-tap-highlight-color: transparent;
@@ -133,9 +134,9 @@
 
     .divider{
       height:10px;
-      margin: 14px 0 10px 0;
-      background: linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
-      border-radius: 999px;
+      margin:14px 0 10px 0;
+      background:linear-gradient(90deg, transparent, rgba(31,122,224,0.18), transparent);
+      border-radius:999px;
       opacity:.7;
     }
 
@@ -143,9 +144,10 @@
       display:block;
       margin-top:14px;
       padding:14px;
-      border-radius: 16px;
+      border-radius:16px;
       border:1px solid var(--stroke);
       background:#ffffffd9;
+      position:relative;
       overflow:hidden;
     }
 
@@ -155,7 +157,7 @@
       letter-spacing:-0.01em;
     }
 
-    .typed{
+    .typed, li{
       font-size:18px;
       line-height:1.45;
       margin:0;
@@ -163,61 +165,32 @@
       overflow-wrap:anywhere;
     }
 
-    .line{
-      opacity:0;
-      transform: translateY(6px);
-      transition: opacity 900ms ease, transform 900ms ease;
-      margin: 0 0 10px 0;
-      white-space: pre-wrap;
-    }
-    .line.on{
-      opacity:1;
-      transform: translateY(0);
-    }
-
     ul{ margin:0 0 12px 18px; padding:0; }
-    li{
-      font-size:18px;
-      line-height:1.45;
-      color:#20262c;
-      margin: 0 0 10px 0;
-      overflow-wrap:anywhere;
-
-      opacity:0;
-      transform: translateY(6px);
-      transition: opacity 900ms ease, transform 900ms ease;
-    }
-    li.on{
-      opacity:1;
-      transform: translateY(0);
-    }
+    li{ margin:0 0 10px 0; }
 
     .muted{
-      color: var(--muted);
-      font-size: 15px;
-      margin: 10px 0 10px 0;
+      color:var(--muted);
+      font-size:15px;
+      margin:10px 0 0 0;
     }
 
-    /* Outro stärker / dominanter */
+    /* Outro: dominanter / besser lesbar */
     .songOutro{
-      margin-top: 18px;
-      padding: 16px 14px;
-      border-top: 1px solid rgba(31,122,224,0.25);
-      border-radius: 14px;
-      background: rgba(31,122,224,0.06);
-      font-size: 19px;
-      line-height: 1.5;
-      color: #1f5fae;
-      font-weight: 700;
-      text-align: center;
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid rgba(31,122,224,0.25);
+      font-size:20px;
+      line-height:1.5;
+      color:#1f5fae;
+      font-weight:700;
+      text-align:center;
     }
 
     .hidden{ display:none; }
 
-    /* Scroll-Spielraum */
     .scrollPad{
-      height: 55vh;
-      pointer-events: none;
+      height:55vh;
+      pointer-events:none;
     }
   </style>
 </head>
@@ -234,12 +207,12 @@
 
     <div style="height:24px;"></div>
 
-    <!-- Zurück oben (nur im Run sichtbar) -->
-    <div id="backTopWrap" class="hidden" style="margin-bottom:14px;">
+    <!-- Zurück (oben) – nur während Run sichtbar -->
+    <div id="backTopWrap" class="hidden">
       <button class="btn" id="btnBackTop" type="button">Zurück zur Auswahl</button>
     </div>
 
-    <!-- Titel der Situation (nur im Run sichtbar) -->
+    <!-- Titel der laufenden Situation -->
     <div class="card hidden" id="situationTitleCard">
       <div class="headline" id="situationTitle" style="text-align:center;"></div>
     </div>
@@ -256,7 +229,7 @@
       </div>
     </div>
 
-    <!-- Auswahl -->
+    <!-- Situation auswählen -->
     <div class="card hidden" id="chooseCard">
       <div id="situationsList">
 
@@ -326,15 +299,15 @@
 
     <div class="divider"></div>
 
-    <!-- Blöcke -->
+    <!-- Blocks -->
     <div class="block hidden" id="b1">
       <h3>🌿 Ankommen</h3>
-      <div class="typed" id="t1"></div>
+      <p class="typed" id="t1"></p>
     </div>
 
     <div class="block hidden" id="b2">
       <h3>🌿 Erklärung</h3>
-      <div class="typed" id="t2"></div>
+      <p class="typed" id="t2"></p>
     </div>
 
     <div class="block hidden" id="b3">
@@ -351,10 +324,11 @@
       <h3>💡 Gesungene Affirmation</h3>
       <p class="muted">Startet bewusst nur per Klick – dabei stoppt die Hintergrundmusik.</p>
       <button class="btn" id="btnSong" type="button">Jetzt hören</button>
+      <!-- Outro kommt per JS darunter -->
     </div>
 
-    <!-- Zurück unten (nur im Run sichtbar) -->
-    <div id="backBottomWrap" class="hidden" style="margin-top:14px;">
+    <!-- Zurück (unten) – nur während Run sichtbar -->
+    <div id="backBottomWrap" class="hidden">
       <button class="btn" id="btnBackBottom" type="button">Zurück zur Auswahl</button>
     </div>
 
@@ -368,10 +342,9 @@
     </audio>
 
     <div class="scrollPad" aria-hidden="true"></div>
-
   </div>
 
-  <!-- Situations -->
+  <!-- Situationen -->
   <script src="situations/situation-1.js?v=1" defer></script>
   <script src="situations/situation-2.js?v=1" defer></script>
   <script src="situations/situation-3.js?v=1" defer></script>
@@ -383,6 +356,6 @@
   <script src="situations/situation-9.js?v=1" defer></script>
 
   <!-- App -->
-  <script src="app.js?v=4" defer></script>
+  <script src="app.js?v=7" defer></script>
 </body>
 </html>
