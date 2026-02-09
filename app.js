@@ -34,6 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function enterRunUI(s){
     document.body.classList.add("running");
+    
+    const topSpacer = document.getElementById("topSpacer");
+if (topSpacer) topSpacer.classList.remove("hidden");
+    
     hide("topCard");
     hide("continueCard");
     hideChooser();
