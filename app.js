@@ -52,15 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
   function exitRunUI(){
-    const topSpacer = document.getElementById("topSpacer");
-if (topSpacer) topSpacer.classList.remove("hidden");
-    document.body.classList.remove("running");
-    show("topCard");
-    show("continueCard");
-    hide("situationTitleCard");
-    hide("backTopWrap");
-    hide("backBottomWrap");
-  }
+  const topSpacer = document.getElementById("topSpacer");
+  if (topSpacer) topSpacer.classList.remove("hidden"); // ✅ richtig
+
+  document.body.classList.remove("running");
+  show("topCard");
+  show("continueCard");
+  hide("situationTitleCard");
+  hide("backTopWrap");
+  hide("backBottomWrap");
+}
 
   // ---------------- Smooth scroll ----------------
   function glideToElement(elOrId, duration = 900, offset = 0){
