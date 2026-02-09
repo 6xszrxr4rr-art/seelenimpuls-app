@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!bg) return;
     stopBgMusic();
     bg.currentTime = 0;
-    bg.volume = 0.12; // leise, aber hörbar
+    bg.volume = 0.08; // leise, aber hörbar
     try{
       await bg.play();
       bgStopTimer = setTimeout(() => stopBgMusic(), BG_MAX_PLAY_MS);
