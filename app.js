@@ -33,26 +33,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function enterRunUI(s){
-    document.body.classList.add("running");
-    
-    const topSpacer = document.getElementById("topSpacer");
-if (topSpacer) topSpacer.classList.remove("hidden");
-    
-    hide("topCard");
-    hide("continueCard");
-    hideChooser();
+  document.body.classList.add("running");
 
-    // Back oben sichtbar, Titel sichtbar
-    show("backTopWrap");
-    show("situationTitleCard");
-    if ($("situationTitle")) $("situationTitle").textContent = s.title || "";
+  const topSpacer = document.getElementById("topSpacer");
+  if (topSpacer) topSpacer.classList.add("hidden");   // ✅ statt remove
 
-    // Back unten aus
-    hide("backBottomWrap");
+  hide("topCard");
+  hide("continueCard");
+  hideChooser();
 
-    // Ganz nach oben
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }
+  show("backTopWrap");
+  show("situationTitleCard");
+  if ($("situationTitle")) $("situationTitle").textContent = s.title;
+
+  hide("backBottomWrap");
+
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
 
   function exitRunUI(){
     const topSpacer = document.getElementById("topSpacer");
