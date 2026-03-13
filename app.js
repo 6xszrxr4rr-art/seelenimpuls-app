@@ -1,162 +1,93 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("App initialisiert...");
+
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  let runId = 0;
+  const impulses = [
+    "Atme tief ein. Du darfst gehalten sein.",
+    "Du darfst langsam sein.",
+    "Dein Herz kennt den Weg.",
+    "Alles darf leicht werden.",
+    "Du darfst in Sicherheit ankommen."
+  ];
 
-  // --- Konfiguration ---
-  const CHAR_DELAY = 50; 
-  const PAUSE_LONG = 800; // Pause bei Punkt oder Komma
-  const BLOCK_DELAY = 2000;
-
-  // --- UI Funktionen ---
-  function show(id) { 
-    const el = $(id);
-    if (el) {
-      el.classList.remove("hidden");
-      setTimeout(() => el.classList.add("visible"), 50);
-    }
+  // --- Navigation ---
+  function showView(viewId) {
+    ["ui-home", "ui-chooser", "ui-run"].forEach(id => {
+      $(id).classList.add("hidden");
+    });
+    $(viewId).classList.remove("hidden");
+    window.scrollTo(0, 0);
   }
 
-  function hide(id) {
-    const el = $(id);
-    if (el) {
-      el.classList.remove("visible");
-      el.classList.add("hidden");
-    }
+  // --- Impuls Button ---
+  if ($("btnImpuls")) {
+    $("btnImpuls").addEventListener("click", () => {
+      console.log("Neuer Impuls geklickt");
+      const randomImpuls = impulses[Math.floor(Math.random() * impulses.length)];
+      $("impuls").textContent = randomImpuls;
+    });
   }
 
-  // --- Natürliches Tippen ---
-  async function typeEffect(el, text, myRun) {
-    if (!el) return;
-    el.textContent = "";
-    for (let i = 0; i < text.length; i++) {
-      if (myRun !== runId) return;
-      el.textContent += text[i];
-      
-      // Pause variieren für natürlichen Rhythmus
-      let delay = CHAR_DELAY;
-      if ([".", "!", "?", "\n"].includes(text[i])) delay = PAUSE_LONG;
-      else if ([","].includes(text[i])) delay = 300;
-
-      await sleep(delay);
-    }
+  // --- Auswahl Buttons ---
+  if ($("btnContinue")) {
+    $("btnContinue").addEventListener("click", () => showView("ui-chooser"));
+  }
+  if ($("btnBackFromChooser")) {
+    $("btnBackFromChooser").addEventListener("click", () => showView("ui-home"));
   }
 
-  async function typeList(ul, items, myRun) {
-    if (!ul) return;
-    ul.innerHTML = "";
-    for (const item of items) {
-      if (myRun !== runId) return;
-      const li = document.createElement("li");
-      ul.appendChild(li);
-      await typeEffect(li, item, myRun);
-      await sleep(500);
-    }
-  }
-
-  // --- Audio ---
-  function playBackground() {
-    const bg = $("bgMusic");
-    bg.volume = 0;
-    bg.play();
-    // Fade In
-    let vol = 0;
-    const interval = setInterval(() => {
-      if (vol < 0.1) {
-        vol += 0.01;
-        bg.volume = vol;
-      } else clearInterval(interval);
-    }, 200);
-  }
-
-  function stopBackground() {
-    const bg = $("bgMusic");
-    let vol = bg.volume;
-    const interval = setInterval(() => {
-      if (vol > 0.01) {
-        vol -= 0.01;
-        bg.volume = vol;
-      } else {
-        bg.pause();
-        clearInterval(interval);
-      }
-    }, 100);
-  }
-
-  // --- Haupt-Logik ---
-  window.runSituation = async function(n) {
-    runId++;
-    const myRun = runId;
-    const s = window.SITUATIONS[n];
-    if (!s) return;
-
-    // Reset & Setup
-    document.body.classList.add("running");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  // --- Situationen starten ---
+  async function runSituation(n) {
+    console.log("Starte Situation:", n);
     
-    hide("chooseCard");
-    show("backTopWrap");
-    show("situationTitleCard");
+    const s = window.SITUATIONS && window.SITUATIONS[n];
+    if (!s) {
+      console.error("Situation " + n + " nicht in window.SITUATIONS gefunden!");
+      alert("Fehler: Situation " + n + " konnte nicht geladen werden.");
+      return;
+    }
+
+    showView("ui-run");
     $("situationTitle").textContent = s.title;
     
-    // Song Preload
-    const song = $("songPlayer");
-    song.src = s.songFile;
-    song.load();
-
-    playBackground();
-
-    // Sequenz
-    await sleep(1000);
+    // Blöcke zurücksetzen
+    ["b1", "b2", "b3"].forEach(id => $(id).classList.add("hidden"));
     
-    show("b1");
-    await typeEffect($("t1"), s.ankommenText, myRun);
-    await sleep(BLOCK_DELAY);
+    // Hintergrundmusik starten
+    const bg = $("bgMusic");
+    if(bg) { bg.volume = 0.1; bg.play().catch(e => console.log("Audio Autoplay blockiert")); }
 
-    show("b2");
-    await typeEffect($("t2"), s.erklaerungText, myRun);
-    await sleep(BLOCK_DELAY);
+    // Sequenz abspielen
+    await sleep(500);
+    showBlock("b1", "t1", s.ankommenText);
+  }
 
-    show("b3");
-    await typeList($("t3"), s.affirmations, myRun);
-    await sleep(BLOCK_DELAY);
-
-    show("b4");
-    await typeList($("t4"), s.ritual, myRun);
-    await sleep(BLOCK_DELAY);
-
-    show("b5");
-    $("outroContainer").innerHTML = ""; // Clear old outro
-    if (s.songOutro) {
-      const p = document.createElement("div");
-      p.className = "songOutro";
-      p.textContent = s.songOutro;
-      $("outroContainer").appendChild(p);
+  async function showBlock(blockId, textId, text) {
+    $(blockId).classList.remove("hidden");
+    const el = $(textId);
+    el.textContent = "";
+    for (const char of text) {
+      el.textContent += char;
+      await sleep(50); // Schreibgeschwindigkeit
     }
-    
-    show("backBottomWrap");
-  };
+  }
 
-  // --- Event Listener ---
-  $("btnImpuls").onclick = () => {
-    const impulses = [
-      "Du musst heute nichts mehr erreichen.",
-      "Dein Atem ist dein Anker.",
-      "Alles darf so sein, wie es gerade ist.",
-      "Du bist sicher in diesem Moment."
-    ];
-    $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
-  };
+  // Event-Listener für Situations-Buttons 1 bis 9
+  for (let i = 1; i <= 9; i++) {
+    const btn = $("btnSituation" + i);
+    if (btn) {
+      btn.addEventListener("click", () => runSituation(i));
+    }
+  }
 
-  $("btnContinue").onclick = () => {
-    hide("continueCard");
-    show("chooseCard");
-  };
-
-  $("btnSong").onclick = () => {
-    stopBackground();
-    $("songPlayer").play();
-  };
-
-  const go
+  // Zurück-Button im Run
+  if ($("btnBackBottom")) {
+    $("btnBackBottom").addEventListener("click", () => {
+      const bg = $("bgMusic");
+      if(bg) bg.pause();
+      showView("ui-chooser");
+    });
+  }
+});
