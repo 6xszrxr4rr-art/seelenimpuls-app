@@ -2,54 +2,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // --- Konfiguration ---
-  const TYPING_SPEED = 60; // Sanftes Tempo
-  const PAUSE_BETWEEN_BLOCKS = 3000; // Zeit zum Atmen
+  // --- Meditative Konfiguration ---
+  const WORD_SPEED = 280; // Zeit pro Wort (langsamer für sanftes Lesen)
+  const PAUSE_SENTENCE = 1200; // Lange Pause nach einem Punkt
+  const PAUSE_COMMA = 600; // Kurze Pause zum Luftholen
+  const PAUSE_BETWEEN_BLOCKS = 3500; // Viel Zeit zwischen den Abschnitten
 
-  const impulses = [
-    "Atme tief ein. Du darfst gehalten sein.",
-    "Du darfst langsam sein.",
-    "Dein Herz kennt den Weg.",
-    "Alles darf leicht werden.",
-    "Du darfst in Sicherheit ankommen.",
-    "Dein Atem ist dein Anker."
-  ];
-
-  // --- Hilfsfunktionen ---
-  function showView(viewId) {
-    ["ui-home", "ui-chooser", "ui-run"].forEach(id => {
-      if($(id)) $(id).classList.add("hidden");
-    });
-    $(viewId).classList.remove("hidden");
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function scrollToBottom() {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth'
-    });
-  }
-
-  // Verbessertes Tippen: Scrollt während des Schreibens mit
   async function typeEffect(elementId, text) {
     const el = $(elementId);
     if (!el) return;
     el.textContent = "";
+    el.style.opacity = "1";
     
     const words = text.split(" ");
     for (let i = 0; i < words.length; i++) {
-      el.textContent += words[i] + " ";
+      const word = words[i];
+      el.textContent += word + " ";
       
-      // Alle 4 Wörter sanft nachscrollen, damit der Text im Blick bleibt
-      if (i % 4 === 0) scrollToBottom();
-      
-      // Pause bei Satzzeichen für natürlichen Rhythmus
-      const char = words[i].slice(-1);
-      const extraWait = [".", "!", "?", "—"].includes(char) ? 450 : 0;
-      await sleep(TYPING_SPEED + extraWait);
+      // Sanftes Mit-Scrollen bei jedem Wort
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+      // Rhythmus-Check: Wie endet das Wort?
+      let delay = WORD_SPEED;
+      if (word.includes(".")) delay = PAUSE_SENTENCE;
+      else if (word.includes("!") || word.includes("?")) delay = PAUSE_SENTENCE;
+      else if (word.includes(",")) delay = PAUSE_COMMA;
+
+      await sleep(delay);
     }
-    scrollToBottom();
+    // Kurzes Verweilen am Ende des Textes
+    await sleep(1000);
   }
 
   async function typeListEffect(listId, items) {
@@ -59,59 +41,66 @@ document.addEventListener("DOMContentLoaded", () => {
     
     for (const item of items) {
       const li = document.createElement("li");
+      li.style.opacity = "0"; // Startet unsichtbar
       listEl.appendChild(li);
       
+      // Sanftes Einblenden des Listenpunkts
+      li.style.transition = "opacity 1.5s ease";
+      setTimeout(() => li.style.opacity = "1", 50);
+
       const words = item.split(" ");
       for (const word of words) {
         li.textContent += word + " ";
-        await sleep(TYPING_SPEED);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        
+        let delay = WORD_SPEED;
+        if (word.includes(".")) delay = PAUSE_SENTENCE;
+        await sleep(delay);
       }
-      scrollToBottom();
-      await sleep(1000); // Pause nach jedem Punkt
+      await sleep(1500); // Pause nach jedem Punkt
     }
   }
 
-  // --- Kern-Logik: Die Übung ---
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
-    if (!s) {
-      alert("Inhalt für Situation " + n + " wurde nicht gefunden.");
-      return;
-    }
+    if (!s) return;
 
-    showView("ui-run");
+    // View wechseln & Titel setzen
+    ["ui-home", "ui-chooser"].forEach(id => $(id).classList.add("hidden"));
+    $("ui-run").classList.remove("hidden");
     $("situationTitle").textContent = s.title;
     
-    // Alles auf Anfang setzen
+    // Reset
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
     $("breathBox").classList.add("hidden");
     $("audioContainer").innerHTML = "";
+    window.scrollTo(0,0);
 
     const bg = $("bgMusic");
     if(bg) { bg.volume = 0.15; bg.play().catch(() => {}); }
 
+    // Ablauf mit viel Raum zum Wirken
+    
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
     await typeEffect("t1", s.ankommenText);
     await sleep(PAUSE_BETWEEN_BLOCKS);
 
-    // 2. ERKLÄRUNG
+    // 2. EINBLICK (ERKLÄRUNG)
     if (s.erklaerungText) {
       $("b2").classList.remove("hidden");
       await typeEffect("t2", s.erklaerungText);
       await sleep(PAUSE_BETWEEN_BLOCKS);
     }
 
-    // --- NEU: ATEM-GUIDE (z.B. bei Situation 10 oder 1) ---
-    // Wir aktivieren ihn automatisch, wenn es eine stressige Situation ist
+    // --- ATEM-GUIDE ---
     if (n == 1 || n == 2 || n == 10) {
       $("breathBox").classList.remove("hidden");
-      scrollToBottom();
-      await sleep(10000); // 10 Sekunden atmen lassen
-      // Optional: Nach dem Atmen wieder ausblenden oder lassen
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      await sleep(12000); // Zeit zum Atmen
     }
 
-    // 3. AFFIRMATIONEN
+    // 3. KRAFTSÄTZE
     if (s.affirmations) {
       $("b3").classList.remove("hidden");
       await typeListEffect("t3", s.affirmations);
@@ -134,42 +123,36 @@ document.addEventListener("DOMContentLoaded", () => {
         const songBtn = document.createElement("button");
         songBtn.className = "btn btn-primary";
         songBtn.style.marginTop = "20px";
-        songBtn.innerHTML = "🎵 Gesungene Affirmation hören";
+        songBtn.innerHTML = "<span>🎵 Gesungene Affirmation hören</span>";
         songBtn.onclick = () => {
           if(bg) bg.pause();
           const audio = new Audio(s.songFile);
           audio.play();
           songBtn.disabled = true;
-          songBtn.textContent = "Wird abgespielt...";
+          songBtn.innerHTML = "<span>Spielt...</span>";
         };
         $("audioContainer").appendChild(songBtn);
-        scrollToBottom();
+        setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 300);
       }
     }
   }
 
-  // --- Event Listener ---
-
-  // Neuer Impuls Button
+  // Navigation & Impuls
   $("btnImpuls").onclick = () => {
-    const text = impulses[Math.floor(Math.random() * impulses.length)];
-    $("impuls").textContent = text;
+    $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
   };
-
-  // Navigation
-  $("btnContinue").onclick = () => showView("ui-chooser");
-  $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick = () => {
-    const bg = $("bgMusic");
-    if(bg) bg.pause();
-    showView("ui-chooser");
+  $("btnContinue").onclick = () => {
+    $("ui-home").classList.add("hidden");
+    $("ui-chooser").classList.remove("hidden");
   };
+  $("btnBackFromChooser").onclick = () => {
+    $("ui-chooser").classList.add("hidden");
+    $("ui-home").classList.remove("hidden");
+  };
+  $("btnBackBottom").onclick = () => location.reload();
 
-  // Die 10 Buttons aktivieren
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
-    if (btn) {
-      btn.onclick = () => runSituation(i);
-    }
+    if (btn) btn.onclick = () => runSituation(i);
   }
 });
