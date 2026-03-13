@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // --- Deine gewünschten Einstellungen ---
-  const TYPING_SPEED = 85; // Schön ruhig, wie du es magst
+  // --- Zurück zum perfekten Tempo vom Anfang ---
+  const TYPING_SPEED = 50; // Zeit pro Buchstabe (ms)
   const PAUSE_BLOCKS = 3000;
 
   const impulses = [
@@ -29,37 +29,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Die Schreib-Funktion, die NICHT springt ---
+  // --- Der bewährte Zeichen-für-Zeichen Effekt ---
   async function typeEffect(elementId, text) {
     const el = $(elementId);
     if (!el) return;
-    
-    // TRICK: Wir schreiben den Text erst komplett hin, aber in der Hintergrundfarbe
-    // So reserviert der Browser den Platz in der Zeile und nichts hüpft mehr.
-    el.innerHTML = "";
-    el.style.color = "transparent"; 
-    el.textContent = text;
-    
-    // Jetzt holen wir uns den Text zurück und färben ihn Wort für Wort ein
-    const words = text.split(" ");
     el.textContent = "";
-    el.style.color = "var(--text)"; // Farbe wieder auf normal
-
-    for (let i = 0; i < words.length; i++) {
-      const span = document.createElement("span");
-      span.textContent = words[i] + " ";
-      el.appendChild(span);
+    
+    for (let i = 0; i < text.length; i++) {
+      el.textContent += text[i];
       
-      // Während des Schreibens sanft mitrollen
-      scrollToBottom();
+      // Nur alle paar Zeichen scrollen, um das "Rasen" zu verhindern
+      if (i % 5 === 0) scrollToBottom();
       
       let wait = TYPING_SPEED;
-      // Pause bei Satzzeichen für natürlichen Rhythmus
-      if (words[i].includes(".") || words[i].includes("!") || words[i].includes("?")) {
-        wait += 600;
+      // Kurze Pause bei Satzzeichen für natürlichen Rhythmus
+      if ([".", "!", "?", ","].includes(text[i])) {
+        wait = 800;
+        scrollToBottom(); 
       }
       await sleep(wait);
     }
+    scrollToBottom();
   }
 
   async function typeListEffect(listId, items) {
@@ -71,13 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       listEl.appendChild(li);
       
-      const words = item.split(" ");
-      for (let word of words) {
-        li.textContent += word + " ";
-        scrollToBottom();
+      for (let i = 0; i < item.length; i++) {
+        li.textContent += item[i];
+        if (i % 5 === 0) scrollToBottom();
         await sleep(TYPING_SPEED);
       }
-      await sleep(1200); 
+      await sleep(1500); // Zeit zum Lesen nach jedem Punkt
     }
   }
 
@@ -105,28 +94,28 @@ document.addEventListener("DOMContentLoaded", () => {
       await sleep(PAUSE_BLOCKS);
     }
 
-    // ATEM-GUIDE
+    // 3. ATEM-GUIDE (Optional bei Stress-Situationen)
     if (n == 1 || n == 2 || n == 10) {
       $("breathBox").classList.remove("hidden");
       scrollToBottom();
       await sleep(12000); 
     }
 
-    // 3. KRAFTSÄTZE
+    // 4. KRAFTSÄTZE
     if (s.affirmations) {
       $("b3").classList.remove("hidden");
       await typeListEffect("t3", s.affirmations);
       await sleep(PAUSE_BLOCKS);
     }
 
-    // 4. MINI-RITUAL
+    // 5. MINI-RITUAL
     if (s.ritual) {
       $("b4").classList.remove("hidden");
       await typeListEffect("t4", s.ritual);
       await sleep(PAUSE_BLOCKS);
     }
 
-    // 5. ABSCHLUSS & GESUNGENE AFFIRMATION
+    // 6. ABSCHLUSS & GESUNGENE AFFIRMATION
     if (s.songOutro) {
       $("b5").classList.remove("hidden");
       await typeEffect("t5", s.songOutro);
@@ -152,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- Buttons ---
+  // --- Navigation & Buttons ---
   $("btnImpuls").onclick = () => {
     $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
   };
