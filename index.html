@@ -10,32 +10,29 @@
       --bg1: #eef3f6;
       --bg2: #f7fbff;
       --card: rgba(255, 255, 255, 0.85);
-      --stroke: rgba(230, 237, 243, 0.8);
+      --stroke: #e6edf3;
       --text: #1b1f24;
       --muted: #5a6672;
       --accent: #1f7ae0;
-      --radius: 22px;
+      --radius: 18px;
     }
-
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       color: var(--text);
       background: linear-gradient(180deg, var(--bg1), var(--bg2));
       min-height: 100vh;
       padding: 20px;
       overflow-x: hidden;
-      line-height: 1.5;
     }
 
-    /* Sanfter Hintergrund-Effekt */
-    body::before {
+    /* Fix für klickbare Hintergründe */
+    body::before, body::after {
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 10% 10%, rgba(31,122,224,0.05) 0%, transparent 40%);
+      pointer-events: none; /* WICHTIG: Klicks durchlassen */
       z-index: -1;
     }
 
@@ -45,196 +42,123 @@
       background: var(--card);
       border: 1px solid var(--stroke);
       border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      margin-bottom: 20px;
-      transition: all 0.4s ease;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
     }
 
-    h1 { font-size: 32px; margin: 0 0 10px; letter-spacing: -0.03em; text-align: center; }
-    
-    .sub {
-      font-size: 22px;
-      color: var(--accent);
-      font-style: italic;
-      text-align: center;
-      margin: 20px 0;
-      min-height: 2em;
-    }
+    h1 { font-size: 32px; text-align: center; margin-bottom: 10px; }
+    .sub { font-size: 22px; color: var(--accent); text-align: center; font-style: italic; margin-bottom: 20px; }
 
-    .btn {
+    /* Button Optimierung */
+    .btn, .situationBtn {
+      display: block;
       width: 100%;
       border: none;
-      border-radius: 18px;
-      padding: 18px;
+      border-radius: 14px;
+      padding: 16px;
       font-size: 18px;
-      font-weight: 600;
-      background: #fff;
-      color: var(--accent);
-      box-shadow: 0 4px 12px rgba(31,122,224,0.15);
+      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.1s;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 10; /* Über den Hintergrund */
+      text-decoration: none;
+      text-align: center;
     }
+
+    .btn { background: #eaf2ff; color: var(--accent); border: 1px solid rgba(31,122,224,0.2); }
+    .btn-primary { background: var(--accent); color: white; margin-top: 10px; }
     .btn:active { transform: scale(0.98); }
 
-    .btn-primary { background: var(--accent); color: white; }
-
     .situationBtn {
-      width: 100%;
-      border: 1px solid var(--stroke);
-      border-radius: 18px;
-      padding: 20px;
-      background: rgba(255,255,255,0.6);
-      text-align: left;
-      margin-bottom: 12px;
-      cursor: pointer;
-    }
-    .situationBtn .headline { font-size: 19px; font-weight: 700; display: block; margin-bottom: 4px; }
-    .situationBtn .hint { font-size: 14px; color: var(--muted); }
-
-    /* Animation für die Blöcke */
-    .block {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
       background: white;
-      padding: 24px;
-      border-radius: var(--radius);
-      margin-bottom: 20px;
+      text-align: left;
       border: 1px solid var(--stroke);
-    }
-    .block.visible { opacity: 1; transform: translateY(0); }
-
-    .block h3 { margin-top: 0; color: var(--accent); font-size: 16px; text-transform: uppercase; letter-spacing: 0.1em; }
-
-    /* Atem-Guide */
-    .breath-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 30px 0;
-    }
-    .breath-circle {
-      width: 80px;
-      height: 80px;
-      background: var(--accent);
-      border-radius: 50%;
-      opacity: 0.2;
-      animation: breathe 8s infinite ease-in-out;
-    }
-    @keyframes breathe {
-      0%, 100% { transform: scale(1); opacity: 0.2; }
-      50% { transform: scale(1.8); opacity: 0.5; }
+      margin-bottom: 12px;
     }
 
-    .songOutro {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-      font-size: 20px;
-      font-weight: 600;
-      text-align: center;
-      color: var(--accent);
+    .headline { font-size: 20px; font-weight: 800; display: block; }
+    .hint { font-size: 14px; color: var(--muted); font-weight: 400; }
+
+    .block {
+      background: white;
+      padding: 20px;
+      border-radius: var(--radius);
+      margin-top: 15px;
+      border: 1px solid var(--stroke);
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .hidden { display: none !important; }
-    .typed { white-space: pre-wrap; font-size: 18px; }
-    ul { padding-left: 20px; }
-    li { margin-bottom: 15px; font-size: 18px; list-style-type: none; position: relative; }
-    li::before { content: "•"; color: var(--accent); position: absolute; left: -15px; }
-
-    #topSpacer { transition: height 0.5s; }
-    body.running #topCard, body.running #continueCard { display: none; }
+    .typed { white-space: pre-wrap; line-height: 1.5; font-size: 18px; }
+    
+    #topSpacer { height: 20px; }
   </style>
 </head>
 <body>
+
   <div class="wrap">
-    
-    <div id="topCard" class="card">
-      <h1>Seelenimpuls ✨</h1>
-      <p class="sub" id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
-      <button class="btn" id="btnImpuls">Neuer Impuls</button>
-    </div>
-
-    <div id="continueCard" class="card">
-      <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
-    </div>
-
-    <div id="backTopWrap" class="hidden" style="margin-bottom: 20px;">
-      <button class="btn" id="btnBackTop">← Zurück zur Auswahl</button>
-    </div>
-
-    <div id="situationTitleCard" class="card hidden">
-      <div id="situationTitle" style="font-size: 22px; font-weight: 800; text-align: center;"></div>
-    </div>
-
-    <div id="chooseCard" class="hidden">
-      <p style="font-weight: 600; margin-bottom: 15px;">Was beschäftigt dich gerade?</p>
-      <div id="situationsList">
-        <button class="situationBtn" onclick="runSituation(1)">
-          <span class="headline">1) Innere Unruhe</span>
-          <span class="hint">Gedankenkarussell & Getriebenheit</span>
-        </button>
-        <button class="situationBtn" onclick="runSituation(2)">
-          <span class="headline">2) Überforderung</span>
-          <span class="hint">Wenn alles gerade zu viel wird</span>
-        </button>
-        </div>
-    </div>
-
-    <div id="b1" class="block">
-      <h3>Ankommen</h3>
-      <div id="t1" class="typed"></div>
-    </div>
-
-    <div id="b2" class="block">
-      <h3>Reflektion</h3>
-      <div id="t2" class="typed"></div>
-    </div>
-
-    <div id="b3" class="block">
-      <h3>Affirmationen</h3>
-      <ul id="t3"></ul>
-    </div>
-
-    <div id="b4" class="block">
-      <h3>Ritual</h3>
-      <div class="breath-container" id="breathGuide">
-        <div class="breath-circle"></div>
-        <p style="color: var(--muted); font-size: 14px; margin-top: 15px;">Atme mit dem Kreis...</p>
+    <div id="ui-home">
+      <div class="card" id="topCard">
+        <h1>Seelenimpuls ✨</h1>
+        <p class="sub" id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
+        <button class="btn" id="btnImpuls">Neuer Impuls</button>
       </div>
-      <ul id="t4"></ul>
+
+      <div id="topSpacer"></div>
+
+      <div class="card" id="continueCard">
+        <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
+      </div>
     </div>
 
-    <div id="b5" class="block">
-      <h3>Klang & Abschluss</h3>
-      <p style="font-size: 15px; color: var(--muted); margin-bottom: 20px;">
-        Höre nun die gesungene Affirmation. Die Hintergrundmusik verstummt dabei.
-      </p>
-      <button class="btn btn-primary" id="btnSong">Gesang starten</button>
-      <div id="outroContainer"></div>
+    <div id="ui-chooser" class="hidden">
+      <div class="card">
+        <p style="font-weight:700;">Was brauchst du gerade?</p>
+        <div id="situationsList">
+          <button class="situationBtn" id="btnSituation1">
+            <span class="headline">1) Innere Unruhe</span>
+            <span class="hint">Wenn die Gedanken kreisen.</span>
+          </button>
+          <button class="situationBtn" id="btnSituation2">
+            <span class="headline">2) Überforderung</span>
+            <span class="hint">Wenn alles zu viel wird.</span>
+          </button>
+          </div>
+        <button class="btn" id="btnBackFromChooser">Zurück</button>
+      </div>
     </div>
 
-    <div id="backBottomWrap" class="hidden" style="margin-top: 30px; padding-bottom: 50px;">
-      <button class="btn" id="btnBackBottom">Übung beenden</button>
+    <div id="ui-run" class="hidden">
+      <div class="card">
+        <div class="headline" id="situationTitle" style="text-align:center;"></div>
+      </div>
+      
+      <div id="blocksContainer">
+        <div class="block hidden" id="b1"><p class="typed" id="t1"></p></div>
+        <div class="block hidden" id="b2"><p class="typed" id="t2"></p></div>
+        <div class="block hidden" id="b3"><ul id="t3"></ul></div>
+      </div>
+
+      <button class="btn" id="btnBackBottom" style="margin-top:20px;">Abbrechen & Zurück</button>
     </div>
 
-    <audio id="bgMusic" loop preload="metadata">
-      <source src="audio/stillness-space.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="songPlayer" preload="auto">
-      <source src="" type="audio/mpeg">
-    </audio>
-
+    <audio id="bgMusic" loop><source src="audio/stillness-space.mp3" type="audio/mpeg"></audio>
   </div>
 
-  <script src="situations/situation-1.js?v=1"></script>
-  <script src="situations/situation-2.js?v=1"></script>
-  <script src="app.js?v=1001"></script>
+  <script src="situations/situation-1.js?v=1" defer></script>
+  <script src="situations/situation-2.js?v=1" defer></script>
+  <script src="app.js?v=1002" defer></script>
 </body>
 </html>
-
-
-    
