@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
   // --- Konfiguration ---
-  const TYPING_SPEED = 75; // Sanftes, ruhiges Tempo
-  const PAUSE_BLOCKS = 3000; // Zeit zum Nachspüren zwischen Abschnitten
+  const TYPING_SPEED = 80; // Etwas langsamer für mehr Sanftheit
+  const PAUSE_BLOCKS = 3000;
 
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
@@ -30,26 +30,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Verbesserter Schreibeffekt (Verhindert das Wort-Springen) ---
+  // --- NEU: Absolut stabiler Schreibeffekt ohne Springen ---
   async function typeEffect(elementId, text) {
     const el = $(elementId);
     if (!el) return;
     
-    el.textContent = "";
+    // Wir füllen den Text sofort ein, aber machen ihn unsichtbar
+    // So reserviert der Browser den Platz und nichts springt später um
+    el.innerHTML = "";
     const words = text.split(" ");
     
-    for (let i = 0; i < words.length; i++) {
-      const wordSpan = document.createElement("span");
-      wordSpan.textContent = words[i] + " ";
-      el.appendChild(wordSpan);
+    // Wir erstellen für jedes Wort ein unsichtbares Element
+    const spans = words.map(word => {
+      const span = document.createElement("span");
+      span.textContent = word + " ";
+      span.style.opacity = "0"; // Startet unsichtbar
+      span.style.transition = "opacity 0.5s ease"; // Sanftes Einblenden
+      el.appendChild(span);
+      return { span, word };
+    });
+
+    // Jetzt machen wir sie nacheinander sichtbar
+    for (let i = 0; i < spans.length; i++) {
+      spans[i].span.style.opacity = "1";
       
-      // Sofort nach dem Hinzufügen des Wortes scrollen
+      // Fokus halten
       scrollToBottom();
       
-      // Rhythmus-Pause
       let wait = TYPING_SPEED;
-      if (words[i].includes(".") || words[i].includes("!") || words[i].includes("?")) {
-        wait += 500;
+      if (spans[i].word.includes(".") || spans[i].word.includes("!")) {
+        wait += 600; // Längere Pause am Satzende
       }
       await sleep(wait);
     }
@@ -62,15 +72,24 @@ document.addEventListener("DOMContentLoaded", () => {
     
     for (const item of items) {
       const li = document.createElement("li");
+      li.style.marginBottom = "20px";
       listEl.appendChild(li);
       
       const words = item.split(" ");
       for (let word of words) {
-        li.textContent += word + " ";
+        const span = document.createElement("span");
+        span.textContent = word + " ";
+        span.style.opacity = "0";
+        span.style.transition = "opacity 0.5s ease";
+        li.appendChild(span);
+        
+        // Wort sichtbar machen
+        setTimeout(() => { span.style.opacity = "1"; }, 10);
+        
         scrollToBottom();
         await sleep(TYPING_SPEED);
       }
-      await sleep(1000); // Pause nach jedem Listenpunkt
+      await sleep(1200); 
     }
   }
 
@@ -81,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showView("ui-run");
     
-    // Reset der Ansicht
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
     $("breathBox").classList.add("hidden");
     $("audioContainer").innerHTML = "";
@@ -94,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await typeEffect("t1", s.ankommenText);
     await sleep(PAUSE_BLOCKS);
 
-    // 2. EINBLICK / ERKLÄRUNG
+    // 2. EINBLICK
     if (s.erklaerungText) {
       $("b2").classList.remove("hidden");
       await typeEffect("t2", s.erklaerungText);
@@ -108,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await sleep(12000); 
     }
 
-    // 3. KRAFTSÄTZE (AFFIRMATIONEN)
+    // 3. KRAFTSÄTZE
     if (s.affirmations) {
       $("b3").classList.remove("hidden");
       await typeListEffect("t3", s.affirmations);
@@ -129,8 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
       
       if(s.songFile) {
         const container = $("audioContainer");
-        
-        // Button mit der neuen Beschriftung
         const songBtn = document.createElement("button");
         songBtn.className = "btn-primary";
         songBtn.style.marginTop = "20px";
@@ -151,22 +167,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Event Listener ---
-
   $("btnImpuls").onclick = () => {
     $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
   };
 
   $("btnContinue").onclick = () => showView("ui-chooser");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  
-  // Übung beenden lädt die Seite neu für einen sauberen Reset
   $("btnBackBottom").onclick = () => location.reload();
 
-  // Die 10 Buttons aktivieren
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
-    if (btn) {
-      btn.onclick = () => runSituation(i);
-    }
+    if (btn) { btn.onclick = () => runSituation(i); }
   }
 });
