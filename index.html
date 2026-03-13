@@ -7,109 +7,106 @@
 
   <style>
     :root {
-      --bg-gradient: linear-gradient(-45deg, #e3f2fd, #f5f5f5, #e8f5e9, #f3e5f5);
-      --card-bg: rgba(255, 255, 255, 0.94);
+      --bg: #f8fbfe;
       --accent: #4a90e2;
-      --text-main: #2c3e50;
-      --text-muted: #7f8c8d;
-      --radius: 28px;
+      --text: #2c3e50;
+      --card: #ffffff;
     }
 
     body {
       margin: 0;
       font-family: -apple-system, system-ui, sans-serif;
-      color: var(--text-main);
-      background: var(--bg-gradient);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      min-height: 100vh;
+      color: var(--text);
+      background: var(--bg);
       padding: 20px;
-      overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .wrap { max-width: 500px; margin: 0 auto; }
+
+    /* Überschriften in den Blöcken */
+    .block-header {
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      display: block;
     }
 
-    .wrap { max-width: 500px; margin: 0 auto; position: relative; }
-
-    /* Header & Startseite */
-    h1 { font-size: 24px; text-align: center; margin-top: 40px; font-weight: 300; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
-    
-    .impuls-card { padding: 40px 20px; text-align: center; min-height: 150px; display: flex; align-items: center; justify-content: center; }
-    #impuls { font-size: 26px; line-height: 1.5; font-style: italic; color: var(--text-main); font-weight: 400; }
-
-    /* Buttons Optimierung */
-    .btn { display: block; width: 100%; border: none; border-radius: 20px; padding: 18px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; touch-action: manipulation; }
-    
-    .btn-primary { background: var(--accent); color: white; margin-top: 20px; box-shadow: 0 10px 20px rgba(74, 144, 226, 0.2); }
-    
-    /* "Neuer Impuls" jetzt präsenter */
-    .btn-ghost { 
-      background: white; 
-      color: var(--accent); 
-      border: 2px solid var(--accent); 
-      font-size: 16px; 
-      width: auto; 
-      margin: 0 auto; 
-      padding: 12px 30px; 
-    }
-    
-    .btn:active { transform: scale(0.98); }
-
-    /* Übungs-Blöcke */
     .block {
-      background: var(--card-bg); padding: 30px; border-radius: var(--radius); margin-bottom: 50px; 
-      box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.6);
-      overflow-wrap: break-word; /* Verhindert Hüpfen */
+      background: var(--card);
+      padding: 30px;
+      border-radius: 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid #edf2f7;
+      /* Animation entfernt, damit nichts springt oder rast */
     }
 
-    .block-header { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 20px; }
+    /* Viel größere Schrift für bessere Lesbarkeit */
+    .typed { 
+      font-size: 22px; 
+      white-space: pre-wrap; 
+      word-wrap: break-word; 
+    }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-    .typed { font-size: 20px; line-height: 1.8; white-space: pre-wrap; color: #34495e; }
-    
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { margin-bottom: 20px; padding-left: 35px; position: relative; font-size: 19px; line-height: 1.6; }
+    ul { padding: 0; list-style: none; }
+    li { 
+      font-size: 21px; 
+      margin-bottom: 20px; 
+      padding-left: 35px; 
+      position: relative; 
+    }
     li::before { content: '✨'; position: absolute; left: 0; }
 
+    /* Situations-Buttons: Groß und gut lesbar */
+    .situationBtn {
+      width: 100%;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 15px;
+      text-align: left;
+      display: block;
+      cursor: pointer;
+    }
+
+    .headline { 
+      font-size: 22px; /* Deutlich größer */
+      font-weight: 800; 
+      display: block; 
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .hint { font-size: 16px; color: #718096; }
+
     /* Atem-Kreis */
-    .breath-container { display: none; text-align: center; padding: 40px 0; margin-bottom: 50px; }
-    .breath-circle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent); margin: 0 auto; animation: breathe 8s infinite ease-in-out; }
-    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.6); opacity: 1; } }
+    .breath-container { display: none; text-align: center; padding: 30px; }
+    .breath-circle {
+      width: 120px; height: 120px; border-radius: 50%;
+      border: 5px solid var(--accent); margin: 0 auto;
+      animation: breathe 8s infinite ease-in-out;
+    }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.5); } }
 
     .hidden { display: none !important; }
-    #blocksContainer { padding-bottom: 150px; }
-
-    /* Situations-Buttons volle Breite */
-    .situationBtn { 
-        background: white; 
-        text-align: left; 
-        border: 1px solid #eee; 
-        margin-bottom: 12px; 
-        padding: 22px; 
-        border-radius: 20px; 
-        width: 100%; /* Zeile ausfüllen */
-        display: block;
-        box-sizing: border-box;
+    
+    /* Haupt-Buttons */
+    .btn-primary { 
+      background: var(--accent); color: white; border: none; 
+      padding: 22px; border-radius: 20px; width: 100%; font-size: 20px; font-weight: bold;
     }
-    .headline { font-size: 18px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--accent); }
-    .hint { font-size: 14px; color: var(--text-muted); }
+    .btn-ghost { 
+      background: none; border: 1px solid #cbd5e0; color: #718096; 
+      padding: 15px; border-radius: 15px; font-size: 16px; margin-top: 20px;
+    }
 
-    /* "Übung beenden" auffälliger */
     #btnBackBottom { 
-        background: rgba(255,255,255,0.9); 
-        border: 1px solid #ddd; 
-        color: #e74c3c !important; 
-        width: 100%; 
-        padding: 20px; 
-        font-weight: bold;
-        border-radius: 20px;
-        margin-top: 40px;
-        cursor: pointer;
+      color: #e53e3e; font-weight: bold; margin-top: 50px; border: 1px solid #fed7d7; 
+      background: #fff5f5; padding: 20px; border-radius: 15px; width: 100%;
     }
   </style>
 </head>
@@ -117,70 +114,53 @@
 
   <div class="wrap">
     <div id="ui-home">
-      <h1>Seelenimpuls</h1>
-      <div class="impuls-card">
-        <p id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
+      <h1 style="text-align:center; font-weight: 300;">Seelenimpuls</h1>
+      <div style="padding: 50px 10px; text-align:center;">
+        <p id="impuls" style="font-size: 28px; font-style: italic;">Atme tief ein.</p>
+        <button class="btn-ghost" id="btnImpuls" style="border: none;">Neuer Impuls</button>
       </div>
-      <div style="text-align: center;">
-        <button class="btn btn-ghost" id="btnImpuls">Neu inspirieren</button>
-      </div>
-      <button class="btn btn-primary" id="btnContinue" style="margin-top: 60px;">Situation wählen</button>
+      <button class="btn-primary" id="btnContinue">Übung wählen</button>
     </div>
 
     <div id="ui-chooser" class="hidden">
-      <div class="block">
-        <p style="text-align:center; color: var(--text-muted); margin-bottom: 25px;">Was brauchst du gerade?</p>
-        <div id="situationsList">
-          <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Gedanken kreisen.</span></button>
-          <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Alles zu viel.</span></button>
-          <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Körperlich loslassen.</span></button>
-          <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Keine Kraft mehr haben.</span></button>
-          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Dem Gefühl Raum geben.</span></button>
-          <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Halt in dir finden.</span></button>
-          <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Wieder an dich glauben.</span></button>
-          <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Klarheit finden.</span></button>
-          <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Neues willkommen heißen.</span></button>
-          <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Dich geborgen fühlen.</span></button>
-        </div>
-        <button class="btn btn-ghost" id="btnBackFromChooser" style="margin-top: 20px; width:100%;">Zurück</button>
+      <div id="situationsList">
+        <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Gedanken kreisen</span></button>
+        <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Alles zu viel</span></button>
+        <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Körperlich loslassen</span></button>
+        <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Kraft tanken</span></button>
+        <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Gefühle annehmen</span></button>
+        <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Halt finden</span></button>
+        <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Wieder vertrauen</span></button>
+        <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Klarheit finden</span></button>
+        <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Neues beginnen</span></button>
+        <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Geborgen sein</span></button>
       </div>
+      <button class="btn-ghost" id="btnBackFromChooser" style="width:100%;">Zurück</button>
     </div>
 
     <div id="ui-run" class="hidden">
-      <div id="situationTitle" style="text-align:center; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 30px;"></div>
-      
       <div id="blocksContainer">
-        <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><p class="typed" id="t1"></p></div>
-        <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><p class="typed" id="t2"></p></div>
-        
-        <div id="breathBox" class="breath-container">
-          <div class="breath-circle"></div>
-          <p style="margin-top:20px; color: var(--accent); font-weight: 300;">Einatmen ... Ausatmen</p>
-        </div>
-
-        <div class="block hidden" id="b3"><div class="block-header">✨ Kraftsätze</div><ul id="t3"></ul></div>
-        <div class="block hidden" id="b4"><div class="block-header">🌙 Mini-Ritual</div><ul id="t4"></ul></div>
-        <div class="block hidden" id="b5">
-            <div class="block-header">🎶 Abschluss</div>
-            <p class="typed" id="t5"></p>
-            <div id="audioContainer" style="margin-top:20px;"></div>
-        </div>
+        <div class="block hidden" id="b1"><span class="block-header">🌿 Ankommen</span><p class="typed" id="t1"></p></div>
+        <div class="block hidden" id="b2"><span class="block-header">💡 Einblick</span><p class="typed" id="t2"></p></div>
+        <div id="breathBox" class="breath-container"><div class="breath-circle"></div><p>Atme tief ein... und aus...</p></div>
+        <div class="block hidden" id="b3"><span class="block-header">✨ Kraftsätze</span><ul id="t3"></ul></div>
+        <div class="block hidden" id="b4"><span class="block-header">🌙 Mini-Ritual</span><ul id="t4"></ul></div>
+        <div class="block hidden" id="b5"><span class="block-header">🎶 Abschluss</span><p class="typed" id="t5"></p><div id="audioContainer"></div></div>
       </div>
       <button id="btnBackBottom">ÜBUNG BEENDEN</button>
     </div>
   </div>
 
-  <script src="situations/situation-1.js" defer></script>
-  <script src="situations/situation-2.js" defer></script>
-  <script src="situations/situation-3.js" defer></script>
-  <script src="situations/situation-4.js" defer></script>
-  <script src="situations/situation-5.js" defer></script>
-  <script src="situations/situation-6.js" defer></script>
-  <script src="situations/situation-7.js" defer></script>
-  <script src="situations/situation-8.js" defer></script>
-  <script src="situations/situation-9.js" defer></script>
-  <script src="situations/situation-10.js" defer></script>
-
-  <script src="app.js" defer></script>
+  <script src="situations/situation-1.js"></script>
+  <script src="situations/situation-2.js"></script>
+  <script src="situations/situation-3.js"></script>
+  <script src="situations/situation-4.js"></script>
+  <script src="situations/situation-5.js"></script>
+  <script src="situations/situation-6.js"></script>
+  <script src="situations/situation-7.js"></script>
+  <script src="situations/situation-8.js"></script>
+  <script src="situations/situation-9.js"></script>
+  <script src="situations/situation-10.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
