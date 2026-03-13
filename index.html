@@ -7,209 +7,145 @@
 
   <style>
     :root {
-      --bg1: #eef3f6;
-      --bg2: #f7fbff;
-      --card: rgba(255, 255, 255, 0.85);
-      --stroke: #e6edf3;
-      --text: #1b1f24;
-      --muted: #5a6672;
-      --accent: #1f7ae0;
-      --radius: 18px;
+      --bg-color: #f8fbfe;
+      --text-color: #2c3e50;
+      --accent-color: #4a90e2;
+      --muted-color: #7f8c8d;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --border-color: #e1e8ed;
     }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
-      min-height: 100vh;
-      padding: 20px;
-      padding-bottom: 60px;
-      overflow-x: hidden;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden; /* Verhindert Scrollen der ganzen Seite */
     }
 
-    body::before, body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .wrap { max-width: 600px; margin: 0 auto; position: relative; }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      margin-bottom: 16px;
-      position: relative;
-    }
-
-    h1 { font-size: 32px; text-align: center; margin: 0 0 10px 0; }
-    .sub { font-size: 20px; color: var(--accent); text-align: center; font-style: italic; margin-bottom: 20px; min-height: 3em; }
-
-    .btn, .situationBtn {
-      display: block;
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
       width: 100%;
-      border: none;
-      border-radius: 14px;
-      padding: 16px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s;
-      touch-action: manipulation;
-      text-align: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    .btn { background: #eaf2ff; color: var(--accent); border: 1px solid rgba(31,122,224,0.2); }
-    .btn-primary { background: var(--accent); color: white; margin-top: 10px; }
-    .btn:active { transform: scale(0.98); }
-
-    /* Liste der Situationen */
-    .situationBtn {
-      background: white;
-      text-align: left;
-      border: 1px solid var(--stroke);
-      margin-bottom: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-    }
-    .situationBtn:active { background: #f0f7ff; transform: scale(0.99); }
-
-    .headline { font-size: 19px; font-weight: 800; display: block; color: var(--text); margin-bottom: 4px; }
-    .hint { font-size: 14px; color: var(--muted); font-weight: 400; display: block; line-height: 1.3; }
-
-    /* Run-Modus Blöcke */
-    .block {
-      background: white;
-      padding: 24px;
-      border-radius: var(--radius);
-      margin-top: 15px;
-      border: 1px solid var(--stroke);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    /* Ansichten */
+    .view {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
     .hidden { display: none !important; }
-    .typed { white-space: pre-wrap; line-height: 1.6; font-size: 19px; color: #2c3e50; }
-    
-    ul#t3 { padding-left: 20px; margin: 0; }
-    ul#t3 li { margin-bottom: 15px; font-size: 18px; color: #2c3e50; line-height: 1.4; list-style-type: '✨ '; }
 
-    #situationTitleBox { background: #f8fbff; border-bottom: 2px solid var(--accent); padding: 12px; margin-bottom: 20px; border-radius: 12px; }
+    /* Header & Titel */
+    h1 { font-weight: 300; font-size: 1.8rem; text-align: center; margin-bottom: 10px; }
+    .situation-title { font-weight: 600; font-size: 1.2rem; color: var(--accent-color); text-align: center; margin-bottom: 20px; }
+
+    /* Textbereich (Das Herzstück) */
+    .content-area {
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Hält Text mittig im Sichtfeld */
+      padding-bottom: 40px;
+    }
+
+    .text-block {
+      font-size: 1.3rem; /* Größerer Text */
+      line-height: 1.6;
+      margin-bottom: 25px;
+      animation: fadeIn 1.2s ease-in-out;
+      white-space: pre-wrap;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Dezentere Buttons */
+    .btn-group { display: grid; gap: 10px; margin-top: auto; }
+
+    .btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { background: #f0f4f8; transform: scale(0.98); }
+    .btn-main { border: 1px solid var(--accent-color); color: var(--accent-color); font-weight: 600; }
+    
+    .btn-back { 
+      background: transparent; 
+      border: none; 
+      color: var(--muted-color); 
+      font-size: 0.9rem; 
+      margin-bottom: 10px;
+      text-decoration: underline;
+    }
+
+    /* Listen-Styling */
+    ul { padding-left: 20px; list-style-type: '✨ '; }
+    li { margin-bottom: 15px; }
+
+    .outro { font-style: italic; color: var(--accent-color); font-weight: 600; margin-top: 20px; text-align: center; }
   </style>
 </head>
 <body>
 
-  <div class="wrap">
-    <div id="ui-home">
-      <div class="card">
-        <h1>Seelenimpuls ✨</h1>
-        <p class="sub" id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
-        <button class="btn" id="btnImpuls">Neuer Impuls</button>
+  <div class="container">
+    
+    <div id="ui-home" class="view">
+      <h1>Seelenimpuls</h1>
+      <div class="content-area">
+        <p id="impuls" class="text-block" style="text-align: center;">Atme tief ein. Du darfst jetzt ankommen.</p>
       </div>
-      <div class="card">
-        <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
-      </div>
-    </div>
-
-    <div id="ui-chooser" class="hidden">
-      <div class="card">
-        <p style="font-weight:700; font-size: 1.1em; margin-bottom: 20px; text-align:center;">Was brauchst du gerade?</p>
-        
-        <div id="situationsList">
-          <button class="situationBtn" id="btnSituation1">
-            <span class="headline">1) Innere Unruhe</span>
-            <span class="hint">Wenn die Gedanken kreisen und Ruhe fehlt.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation2">
-            <span class="headline">2) Überforderung</span>
-            <span class="hint">Wenn gerade alles gleichzeitig da ist.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation3">
-            <span class="headline">3) Anspannung</span>
-            <span class="hint">Wenn der Körper nicht loslassen kann.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation4">
-            <span class="headline">4) Erschöpfung</span>
-            <span class="hint">Wenn du dich leer oder kraftlos fühlst.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation5">
-            <span class="headline">5) Traurigkeit</span>
-            <span class="hint">Wenn sich alles schwer anfühlt.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation6">
-            <span class="headline">6) Innere Leere</span>
-            <span class="hint">Wenn dir Richtung und Halt fehlen.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation7">
-            <span class="headline">7) Selbstzweifel</span>
-            <span class="hint">Wenn du dich unsicher oder klein fühlst.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation8">
-            <span class="headline">8) Entscheidungszweifel</span>
-            <span class="hint">Wenn du zwischen Optionen schwankst.</span>
-          </button>
-
-          <button class="situationBtn" id="btnSituation9">
-            <span class="headline">9) Übergang & Wandel</span>
-            <span class="hint">Wenn etwas Neues beginnt.</span>
-          </button>
-        </div>
-
-        <button class="btn" id="btnBackFromChooser" style="margin-top: 10px;">Zurück</button>
+      <div class="btn-group">
+        <button class="btn" onclick="nextImpuls()">Neuer Impuls</button>
+        <button class="btn btn-main" onclick="showView('ui-chooser')">Situation wählen</button>
       </div>
     </div>
 
-    <div id="ui-run" class="hidden">
-      <div id="situationTitleBox">
-        <div class="headline" id="situationTitle" style="text-align:center; color: var(--accent);"></div>
+    <div id="ui-chooser" class="view hidden">
+      <button class="btn-back" onclick="showView('ui-home')">← Zurück</button>
+      <h1 style="font-size: 1.4rem;">Was brauchst du gerade?</h1>
+      <div class="content-area" style="justify-content: flex-start;">
+        <div id="situationsList" class="btn-group" style="margin-top: 10px;">
+          </div>
       </div>
-      
-      <div id="blocksContainer">
-        <div class="block hidden" id="b1">
-          <p class="typed" id="t1"></p>
-        </div>
-        
-        <div class="block hidden" id="b2">
-          <p class="typed" id="t2"></p>
-        </div>
-        
-        <div class="block hidden" id="b3">
-          <ul id="t3"></ul>
-        </div>
-      </div>
-
-      <button class="btn" id="btnBackBottom" style="margin-top:30px; opacity: 0.7;">Übung abbrechen</button>
     </div>
 
-    <audio id="bgMusic" loop preload="auto">
-      <source src="audio/stillness-space.mp3" type="audio/mpeg">
-    </audio>
+    <div id="ui-run" class="view hidden">
+      <div class="situation-title" id="displayTitle"></div>
+      <div class="content-area" id="mainContent">
+        </div>
+      <div id="actionArea" class="btn-group hidden">
+        <button class="btn btn-main" id="btnSong">Gesungene Affirmation hören</button>
+        <button class="btn-back" onclick="stopRun()">Übung beenden</button>
+      </div>
+    </div>
+
   </div>
 
-  <script src="situations/situation-1.js?v=1" defer></script>
-  <script src="situations/situation-2.js?v=1" defer></script>
-  <script src="situations/situation-3.js?v=1" defer></script>
-  <script src="situations/situation-4.js?v=1" defer></script>
-  <script src="situations/situation-5.js?v=1" defer></script>
-  <script src="situations/situation-6.js?v=1" defer></script>
-  <script src="situations/situation-7.js?v=1" defer></script>
-  <script src="situations/situation-8.js?v=1" defer></script>
-  <script src="situations/situation-9.js?v=1" defer></script>
-  <script src="situations/situation-10.js?v=1" defer></script>
+  <audio id="bgMusic" loop><source src="audio/stillness-space.mp3" type="audio/mpeg"></audio>
+  <audio id="songPlayer"></audio>
 
-  <script src="app.js?v=1005" defer></script>
+  <script src="situations/situation-1.js" defer></script>
+  <script src="situations/situation-2.js" defer></script>
+  <script src="situations/situation-10.js" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
