@@ -9,7 +9,6 @@
       --accent: #4a90e2;
       --text: #2c3e50;
       --muted: #7f8c8d;
-      /* Sanfter, beruhigender Farbverlauf */
       --bg-gradient: linear-gradient(-45deg, #eef2f3, #e3f2fd, #e8f5e9, #f3e5f5);
     }
 
@@ -17,12 +16,12 @@
       margin: 0;
       font-family: -apple-system, system-ui, sans-serif;
       color: var(--text);
-      /* Hintergrund mit sanfter Animation */
       background: var(--bg-gradient);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       min-height: 100vh;
       padding: 20px;
+      line-height: 1.6;
     }
 
     @keyframes gradientBG {
@@ -34,22 +33,43 @@
     .wrap { max-width: 500px; margin: 0 auto; }
     
     .block {
-      background: rgba(255, 255, 255, 0.9); /* Leicht transparent für den Hintergrund-Effekt */
+      background: rgba(255, 255, 255, 0.9);
       padding: 30px; border-radius: 28px; margin-bottom: 40px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.03);
       border: 1px solid rgba(255,255,255,0.6);
     }
 
     .block-header {
-      display: flex; align-items: center; gap: 8px; font-weight: 700;
-      font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px;
-      color: var(--accent); margin-bottom: 20px;
+      font-weight: 700; font-size: 14px; text-transform: uppercase; 
+      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 15px;
     }
 
-    .typed { font-size: 22px; line-height: 1.7; white-space: pre-wrap; }
+    /* WICHTIG: Erzwungener Zeilenumbruch und große Schrift */
+    .typed { 
+      font-size: 22px; 
+      white-space: pre-wrap; 
+      overflow-wrap: break-word;
+      display: block;
+    }
+
     ul { list-style: none; padding: 0; }
     li { font-size: 21px; margin-bottom: 18px; padding-left: 35px; position: relative; }
     li::before { content: '✨'; position: absolute; left: 0; }
+
+    /* Neuer Impuls Button - VERGRÖSSERT */
+    #btnImpuls {
+      background: white;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      padding: 18px 40px;
+      border-radius: 35px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      display: inline-block;
+    }
 
     .btn-primary { 
       background: var(--accent); color: white; border: none; padding: 22px; 
@@ -61,19 +81,14 @@
       padding: 25px; border-radius: 20px; margin-bottom: 15px; text-align: left;
     }
 
-    .headline { font-size: 20px; font-weight: bold; display: block; margin-bottom: 4px; color: var(--accent); }
+    .headline { font-size: 20px; font-weight: bold; display: block; color: var(--accent); }
     .hint { font-size: 15px; color: var(--muted); }
 
-    /* Der neue, sanfte "Beenden"-Button (kein aggressives Rot mehr) */
     #btnBackBottom { 
-      background: rgba(255, 255, 255, 0.6); 
-      border: 1px solid #d1d5db; 
-      color: #718096; 
-      width: 100%; padding: 20px; border-radius: 20px; 
+      background: rgba(255, 255, 255, 0.6); border: 1px solid #d1d5db; 
+      color: #718096; width: 100%; padding: 20px; border-radius: 20px; 
       font-weight: bold; margin-top: 40px; cursor: pointer;
-      transition: all 0.3s ease;
     }
-    #btnBackBottom:active { background: #edf2f7; }
 
     .hidden { display: none !important; }
     .breath-container { display: none; text-align: center; padding: 40px 0; }
@@ -87,10 +102,10 @@
 <body>
   <div class="wrap">
     <div id="ui-home">
-      <h1 style="text-align: center; font-weight: 300; letter-spacing: 2px;">SEELENIMPULS</h1>
+      <h1 style="text-align: center; font-weight: 300;">SEELENIMPULS</h1>
       <div style="padding: 60px 10px; text-align: center;">
         <p id="impuls" style="font-size: 26px; font-style: italic;">Atme tief ein. Du darfst ankommen.</p>
-        <button id="btnImpuls" style="background:none; border:none; color:var(--accent); font-size:16px; cursor:pointer;">Neuer Impuls</button>
+        <button id="btnImpuls">Neuer Impuls</button>
       </div>
       <button class="btn-primary" id="btnContinue">Situation wählen</button>
     </div>
@@ -113,17 +128,16 @@
 
     <div id="ui-run" class="hidden">
       <div id="blocksContainer">
-        <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><p class="typed" id="t1"></p></div>
-        <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><p class="typed" id="t2"></p></div>
+        <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><div class="typed" id="t1"></div></div>
+        <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><div class="typed" id="t2"></div></div>
         <div id="breathBox" class="breath-container"><div class="breath-circle"></div><p style="margin-top:15px; color:var(--accent)">Einatmen... Ausatmen...</p></div>
         <div class="block hidden" id="b3"><div class="block-header">✨ Kraftsätze</div><ul id="t3"></ul></div>
         <div class="block hidden" id="b4"><div class="block-header">🌙 Mini-Ritual</div><ul id="t4"></ul></div>
-        <div class="block hidden" id="b5"><div class="block-header">🎶 Abschluss</div><p class="typed" id="t5"></p><div id="audioContainer"></div></div>
+        <div class="block hidden" id="b5"><div class="block-header">🎶 Abschluss</div><div class="typed" id="t5"></div><div id="audioContainer"></div></div>
       </div>
       <button id="btnBackBottom">ÜBUNG BEENDEN</button>
     </div>
   </div>
-
   <script src="situations/situation-1.js"></script>
   <script src="situations/situation-2.js"></script>
   <script src="situations/situation-3.js"></script>
