@@ -36,23 +36,35 @@
     .wrap { max-width: 500px; margin: 0 auto; position: relative; }
 
     /* Header & Startseite */
-    h1 { font-size: 22px; text-align: center; margin-top: 40px; font-weight: 300; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+    h1 { font-size: 24px; text-align: center; margin-top: 40px; font-weight: 300; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
     
-    .impuls-card { padding: 60px 20px; text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+    .impuls-card { padding: 40px 20px; text-align: center; min-height: 150px; display: flex; align-items: center; justify-content: center; }
     #impuls { font-size: 26px; line-height: 1.5; font-style: italic; color: var(--text-main); font-weight: 400; }
 
-    /* Buttons */
+    /* Buttons Optimierung */
     .btn { display: block; width: 100%; border: none; border-radius: 20px; padding: 18px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; touch-action: manipulation; }
+    
     .btn-primary { background: var(--accent); color: white; margin-top: 20px; box-shadow: 0 10px 20px rgba(74, 144, 226, 0.2); }
-    .btn-ghost { background: white; color: var(--text-muted); border: 1px solid #ddd; font-size: 14px; width: auto; margin: 0 auto; padding: 10px 20px; }
+    
+    /* "Neuer Impuls" jetzt präsenter */
+    .btn-ghost { 
+      background: white; 
+      color: var(--accent); 
+      border: 2px solid var(--accent); 
+      font-size: 16px; 
+      width: auto; 
+      margin: 0 auto; 
+      padding: 12px 30px; 
+    }
+    
     .btn:active { transform: scale(0.98); }
 
     /* Übungs-Blöcke */
     .block {
-      background: var(--card-bg); padding: 30px; border-radius: var(--radius); margin-bottom: 50px; /* Großer Abstand */
+      background: var(--card-bg); padding: 30px; border-radius: var(--radius); margin-bottom: 50px; 
       box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.6);
       animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-      overflow-wrap: break-word;
+      overflow-wrap: break-word; /* Verhindert Hüpfen */
     }
 
     .block-header { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 20px; }
@@ -73,9 +85,33 @@
     .hidden { display: none !important; }
     #blocksContainer { padding-bottom: 150px; }
 
-    .situationBtn { background: white; text-align: left; border: 1px solid #eee; margin-bottom: 12px; padding: 22px; border-radius: 20px; }
-    .headline { font-size: 18px; font-weight: 700; display: block; margin-bottom: 4px; }
+    /* Situations-Buttons volle Breite */
+    .situationBtn { 
+        background: white; 
+        text-align: left; 
+        border: 1px solid #eee; 
+        margin-bottom: 12px; 
+        padding: 22px; 
+        border-radius: 20px; 
+        width: 100%; /* Zeile ausfüllen */
+        display: block;
+        box-sizing: border-box;
+    }
+    .headline { font-size: 18px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--accent); }
     .hint { font-size: 14px; color: var(--text-muted); }
+
+    /* "Übung beenden" auffälliger */
+    #btnBackBottom { 
+        background: rgba(255,255,255,0.9); 
+        border: 1px solid #ddd; 
+        color: #e74c3c !important; 
+        width: 100%; 
+        padding: 20px; 
+        font-weight: bold;
+        border-radius: 20px;
+        margin-top: 40px;
+        cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -89,7 +125,7 @@
       <div style="text-align: center;">
         <button class="btn btn-ghost" id="btnImpuls">Neu inspirieren</button>
       </div>
-      <button class="btn btn-primary" id="btnContinue" style="margin-top: 60px;">Übung wählen</button>
+      <button class="btn btn-primary" id="btnContinue" style="margin-top: 60px;">Situation wählen</button>
     </div>
 
     <div id="ui-chooser" class="hidden">
@@ -98,16 +134,16 @@
         <div id="situationsList">
           <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Gedanken kreisen.</span></button>
           <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Alles zu viel.</span></button>
-          <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Körper ist fest.</span></button>
-          <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Keine Kraft mehr.</span></button>
-          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Es fühlt sich schwer an.</span></button>
-          <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Es fehlt der Halt.</span></button>
-          <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Du bist unsicher.</span></button>
-          <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Du schwankst.</span></button>
-          <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Etwas Neues beginnt.</span></button>
-          <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Schutz suchen.</span></button>
+          <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Körperlich loslassen.</span></button>
+          <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Keine Kraft mehr haben.</span></button>
+          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Dem Gefühl Raum geben.</span></button>
+          <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Halt in dir finden.</span></button>
+          <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Wieder an dich glauben.</span></button>
+          <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Klarheit finden.</span></button>
+          <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Neues willkommen heißen.</span></button>
+          <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Dich geborgen fühlen.</span></button>
         </div>
-        <button class="btn btn-ghost" id="btnBackFromChooser" style="margin-top: 20px; border:none;">Zurück</button>
+        <button class="btn btn-ghost" id="btnBackFromChooser" style="margin-top: 20px; width:100%;">Zurück</button>
       </div>
     </div>
 
@@ -128,10 +164,10 @@
         <div class="block hidden" id="b5">
             <div class="block-header">🎶 Abschluss</div>
             <p class="typed" id="t5"></p>
-            <div id="audioContainer" style="margin-top:20px; text-align: center;"></div>
+            <div id="audioContainer" style="margin-top:20px;"></div>
         </div>
       </div>
-      <button id="btnBackBottom" style="background:none; border:none; color:var(--text-muted); width:100%; padding:40px; text-decoration:underline; font-size: 13px;">ÜBUNG BEENDEN</button>
+      <button id="btnBackBottom">ÜBUNG BEENDEN</button>
     </div>
   </div>
 
