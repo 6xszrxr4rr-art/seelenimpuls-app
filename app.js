@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("App initialisiert...");
-
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+  // --- Konfiguration ---
+  const TYPING_SPEED = 80;      // Langsamer (vorher 50)
+  const PAUSE_BETWEEN_BLOCKS = 3000; // 3 Sekunden Pause zum Atmen
 
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
@@ -15,79 +17,96 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Navigation ---
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => {
-      $(id).classList.add("hidden");
+      if($(id)) $(id).classList.add("hidden");
     });
     $(viewId).classList.remove("hidden");
     window.scrollTo(0, 0);
   }
 
-  // --- Impuls Button ---
-  if ($("btnImpuls")) {
-    $("btnImpuls").addEventListener("click", () => {
-      console.log("Neuer Impuls geklickt");
-      const randomImpuls = impulses[Math.floor(Math.random() * impulses.length)];
-      $("impuls").textContent = randomImpuls;
-    });
+  // --- Buttons im Chooser generieren (Damit alle 9 da sind) ---
+  const list = $("situationsList");
+  if (list) {
+    list.innerHTML = ""; // Leeren
+    for (let i = 1; i <= 9; i++) {
+      const btn = document.createElement("button");
+      btn.className = "situationBtn";
+      btn.id = `btnSituation${i}`;
+      btn.innerHTML = `
+        <span class="headline">${i}) Situation ${i}</span>
+        <span class="hint">Tippe hier, um die Übung zu starten.</span>
+      `;
+      btn.onclick = () => runSituation(i);
+      list.appendChild(btn);
+    }
   }
 
-  // --- Auswahl Buttons ---
-  if ($("btnContinue")) {
-    $("btnContinue").addEventListener("click", () => showView("ui-chooser"));
-  }
-  if ($("btnBackFromChooser")) {
-    $("btnBackFromChooser").addEventListener("click", () => showView("ui-home"));
+  // --- Schreibeffekt mit Rhythmus ---
+  async function typeEffect(elementId, text) {
+    const el = $(elementId);
+    if (!el) return;
+    el.textContent = "";
+    for (const char of text) {
+      el.textContent += char;
+      // Bei Satzzeichen etwas länger warten für besseren Lesefluss
+      const extraWait = [".", "!", "?"].includes(char) ? 400 : 0;
+      await sleep(TYPING_SPEED + extraWait);
+    }
   }
 
-  // --- Situationen starten ---
+  // --- Die Haupt-Sequenz ---
   async function runSituation(n) {
-    console.log("Starte Situation:", n);
-    
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) {
-      console.error("Situation " + n + " nicht in window.SITUATIONS gefunden!");
-      alert("Fehler: Situation " + n + " konnte nicht geladen werden.");
+      alert("Inhalt für Situation " + n + " wird noch geladen oder fehlt.");
       return;
     }
 
     showView("ui-run");
     $("situationTitle").textContent = s.title;
     
-    // Blöcke zurücksetzen
+    // Alles verstecken
     ["b1", "b2", "b3"].forEach(id => $(id).classList.add("hidden"));
     
-    // Hintergrundmusik starten
-    const bg = $("bgMusic");
-    if(bg) { bg.volume = 0.1; bg.play().catch(e => console.log("Audio Autoplay blockiert")); }
+    // 1. Block: Ankommen
+    $( "b1").classList.remove("hidden");
+    await typeEffect("t1", s.ankommenText);
+    await sleep(PAUSE_BETWEEN_BLOCKS);
 
-    // Sequenz abspielen
-    await sleep(500);
-    showBlock("b1", "t1", s.ankommenText);
-  }
-
-  async function showBlock(blockId, textId, text) {
-    $(blockId).classList.remove("hidden");
-    const el = $(textId);
-    el.textContent = "";
-    for (const char of text) {
-      el.textContent += char;
-      await sleep(50); // Schreibgeschwindigkeit
+    // 2. Block: Erklärung (Falls vorhanden)
+    if (s.erklaerungText) {
+      $("b2").classList.remove("hidden");
+      await typeEffect("t2", s.erklaerungText);
+      await sleep(PAUSE_BETWEEN_BLOCKS);
     }
-  }
 
-  // Event-Listener für Situations-Buttons 1 bis 9
-  for (let i = 1; i <= 9; i++) {
-    const btn = $("btnSituation" + i);
-    if (btn) {
-      btn.addEventListener("click", () => runSituation(i));
+    // 3. Block: Affirmationen / Ritual
+    if (s.affirmations || s.ritual) {
+      $("b3").classList.remove("hidden");
+      const listEl = $("t3");
+      listEl.innerHTML = "";
+      
+      const items = s.affirmations || s.ritual;
+      for (const item of items) {
+        const li = document.createElement("li");
+        li.style.marginBottom = "10px";
+        listEl.appendChild(li);
+        // Jede Affirmation einzeln tippen
+        for (const char of item) {
+          li.textContent += char;
+          await sleep(TYPING_SPEED);
+        }
+        await sleep(1000);
+      }
     }
+    
+    console.log("Sequenz beendet.");
   }
 
-  // Zurück-Button im Run
-  if ($("btnBackBottom")) {
-    $("btnBackBottom").addEventListener("click", () => {
-      const bg = $("bgMusic");
-      if(bg) bg.pause();
-      showView("ui-chooser");
-    });
-  }
+  // --- Home Events ---
+  $("btnImpuls").onclick = () => {
+    $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
+  };
+  $("btnContinue").onclick = () => showView("ui-chooser");
+  $("btnBackFromChooser").onclick = () => showView("ui-home");
+  $("btnBackBottom").onclick = () => showView("ui-chooser");
 });
