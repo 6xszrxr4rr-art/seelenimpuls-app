@@ -2,33 +2,58 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // --- Sanftes Schreibtempo wie am Anfang ---
-  const SPEED = 65; 
+  const TYPING_SPEED = 70; // Meditatives, sanftes Tempo
+  const PAUSE_BETWEEN_BLOCKS = 3000;
 
+  const impulses = [
+    "Atme tief ein. Du darfst gehalten sein.",
+    "Du darfst langsam sein.",
+    "Dein Herz kennt den Weg.",
+    "Alles darf leicht werden.",
+    "Du darfst in Sicherheit ankommen."
+  ];
+
+  function showView(viewId) {
+    ["ui-home", "ui-chooser", "ui-run"].forEach(id => {
+      if($(id)) $(id).classList.add("hidden");
+    });
+    $(viewId).classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  // Sanfter Schreibeffekt: Scrollt bei JEDEM Wort mit
   async function typeEffect(elementId, text) {
     const el = $(elementId);
     if (!el) return;
     el.textContent = "";
-    for (let char of text) {
-      el.textContent += char;
-      // Scrollt bei jedem Zeichen sanft nach unten
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-      await sleep(SPEED);
-      if ([".", "!", "?"].includes(char)) await sleep(800);
+    const words = text.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      el.textContent += words[i] + " ";
+      scrollToBottom(); // Wichtig: Schiebt den Text beim Einblick aktiv hoch
+      
+      let pause = TYPING_SPEED;
+      if (words[i].includes(".") || words[i].includes("!")) pause += 400;
+      await sleep(pause);
     }
+    scrollToBottom();
   }
 
   async function typeListEffect(listId, items) {
     const listEl = $(listId);
-    if (!listEl) return;
+    if (!listEl || !items) return;
     listEl.innerHTML = "";
-    for (let item of items) {
+    for (const item of items) {
       const li = document.createElement("li");
       listEl.appendChild(li);
-      for (let char of item) {
-        li.textContent += char;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        await sleep(SPEED);
+      const words = item.split(" ");
+      for (let word of words) {
+        li.textContent += word + " ";
+        scrollToBottom();
+        await sleep(TYPING_SPEED);
       }
       await sleep(1000);
     }
@@ -38,67 +63,66 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
 
-    $("ui-home").classList.add("hidden");
-    $("ui-chooser").classList.add("hidden");
-    $("ui-run").classList.remove("hidden");
-    
+    showView("ui-run");
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
     $("breathBox").classList.add("hidden");
     $("audioContainer").innerHTML = "";
 
+    const bg = $("bgMusic");
+    if(bg) { bg.volume = 0.1; bg.play().catch(() => {}); }
+
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
     await typeEffect("t1", s.ankommenText);
-    await sleep(2000);
+    await sleep(PAUSE_BETWEEN_BLOCKS);
 
     // 2. EINBLICK
     if (s.erklaerungText) {
       $("b2").classList.remove("hidden");
       await typeEffect("t2", s.erklaerungText);
-      await sleep(2000);
+      await sleep(PAUSE_BETWEEN_BLOCKS);
     }
 
     // 3. KRAFTSÄTZE
     if (s.affirmations) {
       $("b3").classList.remove("hidden");
       await typeListEffect("t3", s.affirmations);
-      await sleep(2000);
+      await sleep(PAUSE_BETWEEN_BLOCKS);
     }
 
-    // 4. RITUAL
+    // 4. MINI-RITUAL
     if (s.ritual) {
       $("b4").classList.remove("hidden");
       await typeListEffect("t4", s.ritual);
-      await sleep(2000);
+      await sleep(PAUSE_BETWEEN_BLOCKS);
     }
 
-    // 5. ABSCHLUSS
+    // 5. ABSCHLUSS & SONG
     if (s.songOutro) {
       $("b5").classList.remove("hidden");
       await typeEffect("t5", s.songOutro);
-      
-      if (s.songFile) {
+      if(s.songFile) {
         const btn = document.createElement("button");
         btn.className = "btn-primary";
+        btn.style.marginTop = "20px";
         btn.innerHTML = "🎵 Affirmation hören";
-        btn.onclick = () => { new Audio(s.songFile).play(); btn.disabled = true; };
+        btn.onclick = () => { if(bg) bg.pause(); new Audio(s.songFile).play(); btn.disabled = true; };
         $("audioContainer").appendChild(btn);
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        scrollToBottom();
       }
     }
   }
 
-  // Menü-Logik
+  // Events
   $("btnImpuls").onclick = () => {
-    const list = ["Atme tief ein.", "Du darfst langsam sein.", "Alles wird gut."];
-    $("impuls").textContent = list[Math.floor(Math.random()*list.length)];
+    $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
   };
-  $("btnContinue").onclick = () => $("ui-chooser").classList.remove("hidden") + $("ui-home").classList.add("hidden");
-  $("btnBackFromChooser").onclick = () => $("ui-home").classList.remove("hidden") + $("ui-chooser").classList.add("hidden");
-  $("btnBackBottom").onclick = () => location.reload();
+  $("btnContinue").onclick = () => showView("ui-chooser");
+  $("btnBackFromChooser").onclick = () => showView("ui-home");
+  $("btnBackBottom").onclick = () => { if($("bgMusic")) $("bgMusic").pause(); showView("ui-chooser"); };
 
   for (let i = 1; i <= 10; i++) {
-    const b = $("btnSituation" + i);
-    if (b) b.onclick = () => runSituation(i);
+    const btn = $("btnSituation" + i);
+    if (btn) btn.onclick = () => runSituation(i);
   }
 });
