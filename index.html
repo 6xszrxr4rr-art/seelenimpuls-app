@@ -7,14 +7,14 @@
 
   <style>
     :root {
-      --bg1: #eef3f6;
-      --bg2: #f7fbff;
-      --card: rgba(255, 255, 255, 0.9);
-      --stroke: #e6edf3;
-      --text: #1b1f24;
-      --muted: #5a6672;
-      --accent: #1f7ae0;
-      --radius: 20px;
+      --bg1: #fdfeff;
+      --bg2: #f4f8fb;
+      --card: rgba(255, 255, 255, 0.95);
+      --stroke: #eef2f5;
+      --text: #2c3e50;
+      --muted: #7f8c8d;
+      --accent: #3498db;
+      --radius: 24px;
     }
 
     body {
@@ -25,159 +25,153 @@
       min-height: 100vh;
       padding: 20px;
       overflow-x: hidden;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Hintergrund-Layer */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      background: radial-gradient(circle at top right, rgba(31,122,224,0.05), transparent);
+      scroll-behavior: smooth;
     }
 
     .wrap { max-width: 500px; margin: 0 auto; position: relative; }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      margin-bottom: 16px;
+    /* Fokus auf den Impuls */
+    h1 { font-size: 24px; text-align: center; margin: 20px 0 10px 0; font-weight: 300; letter-spacing: 1px; color: var(--muted); }
+    
+    .impuls-card {
+      background: transparent;
+      padding: 40px 20px;
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    h1 { font-size: 32px; text-align: center; margin: 0 0 10px 0; font-weight: 800; }
-    .sub { font-size: 20px; color: var(--accent); text-align: center; font-style: italic; margin-bottom: 24px; min-height: 2.5em; line-height: 1.4; }
+    .sub { 
+      font-size: 26px; 
+      color: var(--text); 
+      font-weight: 400;
+      line-height: 1.5;
+      font-style: italic;
+      min-height: 4em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Dezente Buttons auf der Startseite */
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      opacity: 0.7;
+      font-size: 16px;
+      padding: 12px;
+      width: auto;
+      margin: 0 auto;
+      display: inline-block;
+      min-width: 160px;
+    }
+
+    .btn-container { text-align: center; margin-top: 20px; }
 
     .btn, .situationBtn {
-      display: block;
-      width: 100%;
-      border: none;
-      border-radius: 16px;
-      padding: 18px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: block; width: 100%; border: none; border-radius: var(--radius); padding: 18px;
+      font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
       touch-action: manipulation;
-      text-align: center;
-      position: relative;
-      z-index: 10;
     }
 
-    .btn { background: #f0f7ff; color: var(--accent); border: 1px solid rgba(31,122,224,0.1); }
-    .btn-primary { background: var(--accent); color: white; margin-top: 10px; box-shadow: 0 4px 12px rgba(31,122,224,0.3); }
-    .btn:active { transform: scale(0.97); opacity: 0.9; }
+    .btn-primary { background: var(--accent); color: white; margin-top: 40px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2); }
+    .btn:active { transform: scale(0.98); }
 
-    /* Situations-Liste */
-    .situationBtn {
-      background: white;
-      text-align: left;
-      border: 1px solid var(--stroke);
-      margin-bottom: 12px;
-      padding: 20px;
-    }
-    .headline { font-size: 19px; font-weight: 800; display: block; color: var(--text); margin-bottom: 4px; }
+    /* Situations-Auswahl */
+    .situationBtn { background: var(--card); text-align: left; border: 1px solid var(--stroke); margin-bottom: 12px; padding: 22px; }
+    .headline { font-size: 19px; font-weight: 700; display: block; color: var(--text); margin-bottom: 4px; }
     .hint { font-size: 14px; color: var(--muted); font-weight: 400; display: block; }
 
-    /* Animation für das sanfte Einblenden der Blöcke */
+    /* Sanftes Einblenden der Übungs-Blöcke */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(25px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .block {
-      background: white;
-      padding: 28px;
-      border-radius: var(--radius);
-      margin-top: 20px;
-      border: 1px solid var(--stroke);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-      animation: fadeInUp 0.8s ease-out forwards; /* Sanftes Erscheinen */
+      background: var(--card); padding: 30px; border-radius: var(--radius); margin-top: 20px;
+      border: 1px solid var(--stroke); box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     .hidden { display: none !important; }
-    .typed { white-space: pre-wrap; line-height: 1.7; font-size: 19px; color: #2c3e50; }
+    .typed { white-space: pre-wrap; line-height: 1.8; font-size: 20px; color: #34495e; }
     
-    ul#t3 { padding-left: 20px; margin: 0; list-style-type: '✨ '; }
-    ul#t3 li { margin-bottom: 18px; font-size: 18px; line-height: 1.5; color: #34495e; }
+    ul { padding-left: 20px; margin: 0; list-style-type: '✨ '; }
+    li { margin-bottom: 20px; font-size: 19px; line-height: 1.6; color: #445a70; }
 
-    /* Run-Modus Header & Footer */
-    #situationTitleBox { padding: 12px; border-bottom: 2px solid var(--accent); margin-bottom: 20px; border-radius: 12px; background: rgba(31,122,224,0.03); }
-    
-    #blocksContainer { 
-      padding-bottom: 120px; /* Viel Abstand am Ende für entspanntes Scrollen */
-    }
+    #situationTitleBox { padding: 15px; border-bottom: 1px solid var(--stroke); margin-bottom: 25px; text-align: center; }
+    #blocksContainer { padding-bottom: 160px; } 
+
+    #btnBackBottom { background: transparent; color: var(--muted); font-size: 14px; text-decoration: underline; margin-top: 40px; }
   </style>
 </head>
 <body>
 
   <div class="wrap">
     <div id="ui-home">
-      <div class="card">
-        <h1>Seelenimpuls ✨</h1>
-        <p class="sub" id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
-        <button class="btn" id="btnImpuls">Neuer Impuls</button>
+      <h1>Seelenimpuls</h1>
+      <div class="impuls-card">
+        <p class="sub" id="impuls">Atme tief ein. Du darfst gehalten sein.</p>
+        <div class="btn-container">
+            <button class="btn btn-ghost" id="btnImpuls">Neu inspirieren</button>
+        </div>
       </div>
-      <div class="card">
-        <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
-      </div>
+      <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
     </div>
 
     <div id="ui-chooser" class="hidden">
       <div class="card">
-        <p style="font-weight:700; font-size: 1.1em; margin-bottom: 20px; text-align:center;">Was brauchst du gerade?</p>
-        
+        <p style="font-weight:400; font-size: 1.2em; margin-bottom: 25px; text-align:center; color: var(--muted);">Wähle eine Situation</p>
         <div id="situationsList">
           <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Wenn die Gedanken kreisen.</span></button>
           <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Wenn alles zu viel wird.</span></button>
           <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Wenn der Körper fest ist.</span></button>
           <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Wenn die Kraft fehlt.</span></button>
-          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Wenn es sich schwer anfühlt.</span></button>
+          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Wenn es schwer ist.</span></button>
           <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Wenn der Halt fehlt.</span></button>
           <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Wenn du unsicher bist.</span></button>
           <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Wenn du zweifelst.</span></button>
           <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Wenn Neues beginnt.</span></button>
           <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Wenn du Schutz suchst.</span></button>
         </div>
-
-        <button class="btn" id="btnBackFromChooser" style="margin-top: 20px;">Zurück</button>
+        <button class="btn btn-ghost" id="btnBackFromChooser" style="margin-top: 20px; display: block; border: none;">Zurück</button>
       </div>
     </div>
 
     <div id="ui-run" class="hidden">
       <div id="situationTitleBox">
-        <div class="headline" id="situationTitle" style="text-align:center; color: var(--accent);"></div>
+        <div class="headline" id="situationTitle" style="color: var(--accent); font-weight: 300; letter-spacing: 1px;"></div>
       </div>
       
       <div id="blocksContainer">
         <div class="block hidden" id="b1"><p class="typed" id="t1"></p></div>
         <div class="block hidden" id="b2"><p class="typed" id="t2"></p></div>
         <div class="block hidden" id="b3"><ul id="t3"></ul></div>
+        <div class="block hidden" id="b4">
+            <p style="font-weight:600; color:var(--accent); margin-bottom:15px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">🌙 Mini-Ritual</p>
+            <ul id="t4"></ul>
+        </div>
+        <div class="block hidden" id="b5"><p class="typed" id="t5" style="font-style: italic; text-align: center; color: var(--muted);"></p></div>
       </div>
 
-      <button class="btn" id="btnBackBottom" style="margin-top:30px; opacity: 0.6; font-size: 16px;">Übung abbrechen</button>
+      <button class="btn" id="btnBackBottom">Übung abbrechen</button>
     </div>
 
     <audio id="bgMusic" loop preload="auto"><source src="audio/stillness-space.mp3" type="audio/mpeg"></audio>
   </div>
 
-  <script src="situations/situation-1.js?v=1" defer></script>
-  <script src="situations/situation-2.js?v=1" defer></script>
-  <script src="situations/situation-3.js?v=1" defer></script>
-  <script src="situations/situation-4.js?v=1" defer></script>
-  <script src="situations/situation-5.js?v=1" defer></script>
-  <script src="situations/situation-6.js?v=1" defer></script>
-  <script src="situations/situation-7.js?v=1" defer></script>
-  <script src="situations/situation-8.js?v=1" defer></script>
-  <script src="situations/situation-9.js?v=1" defer></script>
-  <script src="situations/situation-10.js?v=1" defer></script>
+  <script src="situations/situation-1.js" defer></script>
+  <script src="situations/situation-2.js" defer></script>
+  <script src="situations/situation-3.js" defer></script>
+  <script src="situations/situation-4.js" defer></script>
+  <script src="situations/situation-5.js" defer></script>
+  <script src="situations/situation-6.js" defer></script>
+  <script src="situations/situation-7.js" defer></script>
+  <script src="situations/situation-8.js" defer></script>
+  <script src="situations/situation-9.js" defer></script>
+  <script src="situations/situation-10.js" defer></script>
 
-  <script src="app.js?v=1005" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
