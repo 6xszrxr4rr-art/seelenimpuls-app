@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // --- Konfiguration ---
-  const TYPING_SPEED = 80; // Etwas langsamer für mehr Sanftheit
+  // --- Deine gewünschten Einstellungen ---
+  const TYPING_SPEED = 85; // Schön ruhig, wie du es magst
   const PAUSE_BLOCKS = 3000;
 
   const impulses = [
@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "Du darfst in Sicherheit ankommen."
   ];
 
-  // --- Hilfsfunktionen ---
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => {
       if($(id)) $(id).classList.add("hidden");
@@ -30,36 +29,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- NEU: Absolut stabiler Schreibeffekt ohne Springen ---
+  // --- Die Schreib-Funktion, die NICHT springt ---
   async function typeEffect(elementId, text) {
     const el = $(elementId);
     if (!el) return;
     
-    // Wir füllen den Text sofort ein, aber machen ihn unsichtbar
-    // So reserviert der Browser den Platz und nichts springt später um
+    // TRICK: Wir schreiben den Text erst komplett hin, aber in der Hintergrundfarbe
+    // So reserviert der Browser den Platz in der Zeile und nichts hüpft mehr.
     el.innerHTML = "";
-    const words = text.split(" ");
+    el.style.color = "transparent"; 
+    el.textContent = text;
     
-    // Wir erstellen für jedes Wort ein unsichtbares Element
-    const spans = words.map(word => {
-      const span = document.createElement("span");
-      span.textContent = word + " ";
-      span.style.opacity = "0"; // Startet unsichtbar
-      span.style.transition = "opacity 0.5s ease"; // Sanftes Einblenden
-      el.appendChild(span);
-      return { span, word };
-    });
+    // Jetzt holen wir uns den Text zurück und färben ihn Wort für Wort ein
+    const words = text.split(" ");
+    el.textContent = "";
+    el.style.color = "var(--text)"; // Farbe wieder auf normal
 
-    // Jetzt machen wir sie nacheinander sichtbar
-    for (let i = 0; i < spans.length; i++) {
-      spans[i].span.style.opacity = "1";
+    for (let i = 0; i < words.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = words[i] + " ";
+      el.appendChild(span);
       
-      // Fokus halten
+      // Während des Schreibens sanft mitrollen
       scrollToBottom();
       
       let wait = TYPING_SPEED;
-      if (spans[i].word.includes(".") || spans[i].word.includes("!")) {
-        wait += 600; // Längere Pause am Satzende
+      // Pause bei Satzzeichen für natürlichen Rhythmus
+      if (words[i].includes(".") || words[i].includes("!") || words[i].includes("?")) {
+        wait += 600;
       }
       await sleep(wait);
     }
@@ -72,20 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
     for (const item of items) {
       const li = document.createElement("li");
-      li.style.marginBottom = "20px";
       listEl.appendChild(li);
       
       const words = item.split(" ");
       for (let word of words) {
-        const span = document.createElement("span");
-        span.textContent = word + " ";
-        span.style.opacity = "0";
-        span.style.transition = "opacity 0.5s ease";
-        li.appendChild(span);
-        
-        // Wort sichtbar machen
-        setTimeout(() => { span.style.opacity = "1"; }, 10);
-        
+        li.textContent += word + " ";
         scrollToBottom();
         await sleep(TYPING_SPEED);
       }
@@ -93,13 +81,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- Kern-Logik: Die Übung ---
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
 
     showView("ui-run");
-    
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
     $("breathBox").classList.add("hidden");
     $("audioContainer").innerHTML = "";
@@ -119,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await sleep(PAUSE_BLOCKS);
     }
 
-    // --- ATEM-GUIDE ---
+    // ATEM-GUIDE
     if (n == 1 || n == 2 || n == 10) {
       $("breathBox").classList.remove("hidden");
       scrollToBottom();
@@ -166,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- Event Listener ---
+  // --- Buttons ---
   $("btnImpuls").onclick = () => {
     $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
   };
@@ -177,6 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
-    if (btn) { btn.onclick = () => runSituation(i); }
+    if (btn) btn.onclick = () => runSituation(i);
   }
 });
