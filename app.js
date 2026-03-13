@@ -100,26 +100,31 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollToBottom();
       await sleep(PAUSE_BETWEEN_BLOCKS);
     }
-
+    
     // 5. ABSCHLUSS / SONG-OUTRO
     if (s.songOutro) {
       $("b5").classList.remove("hidden");
-      // Hier setzen wir den Text UND einen Button für den Song ein
-      $("t5").innerHTML = `<p>${s.songOutro}</p>`;
+      await typeEffect("t1", s.songOutro); // Wir nutzen den Effekt für das Outro
       
+      const container = $("audioContainer");
+      container.innerHTML = ""; // Vorherige Buttons leeren
+
       if(s.songFile) {
           const songBtn = document.createElement("button");
-          songBtn.className = "btn btn-primary";
-          songBtn.style.marginTop = "20px";
-          songBtn.textContent = "🎵 Gesungene Affirmation hören";
+          songBtn.className = "btn btn-primary"; 
+          songBtn.style.width = "auto";
+          songBtn.style.padding = "15px 30px";
+          songBtn.innerHTML = "<span>🎵 Gesungene Affirmation hören</span>";
+          
           songBtn.onclick = () => {
               if(bg) bg.pause(); // Hintergrundmusik stoppen
               const audio = new Audio(s.songFile);
               audio.play();
               songBtn.disabled = true;
-              songBtn.textContent = "Spiele...";
+              songBtn.style.opacity = "0.5";
+              songBtn.innerHTML = "<span>Wird abgespielt...</span>";
           };
-          $("t5").appendChild(songBtn);
+          container.appendChild(songBtn);
       }
       scrollToBottom();
     }
