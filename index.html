@@ -7,145 +7,177 @@
 
   <style>
     :root {
-      --bg-color: #f8fbfe;
-      --text-color: #2c3e50;
-      --accent-color: #4a90e2;
-      --muted-color: #7f8c8d;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --border-color: #e1e8ed;
+      --bg1: #eef3f6;
+      --bg2: #f7fbff;
+      --card: rgba(255, 255, 255, 0.9);
+      --stroke: #e6edf3;
+      --text: #1b1f24;
+      --muted: #5a6672;
+      --accent: #1f7ae0;
+      --radius: 20px;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden; /* Verhindert Scrollen der ganzen Seite */
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+      font-family: -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
       padding: 20px;
-      box-sizing: border-box;
-    }
-
-    /* Ansichten */
-    .view {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .hidden { display: none !important; }
-
-    /* Header & Titel */
-    h1 { font-weight: 300; font-size: 1.8rem; text-align: center; margin-bottom: 10px; }
-    .situation-title { font-weight: 600; font-size: 1.2rem; color: var(--accent-color); text-align: center; margin-bottom: 20px; }
-
-    /* Textbereich (Das Herzstück) */
-    .content-area {
-      flex-grow: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* Hält Text mittig im Sichtfeld */
-      padding-bottom: 40px;
-    }
-
-    .text-block {
-      font-size: 1.3rem; /* Größerer Text */
-      line-height: 1.6;
-      margin-bottom: 25px;
-      animation: fadeIn 1.2s ease-in-out;
-      white-space: pre-wrap;
-    }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Dezentere Buttons */
-    .btn-group { display: grid; gap: 10px; margin-top: auto; }
-
-    .btn {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      color: var(--text-color);
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
+      overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .btn:active { background: #f0f4f8; transform: scale(0.98); }
-    .btn-main { border: 1px solid var(--accent-color); color: var(--accent-color); font-weight: 600; }
-    
-    .btn-back { 
-      background: transparent; 
-      border: none; 
-      color: var(--muted-color); 
-      font-size: 0.9rem; 
-      margin-bottom: 10px;
-      text-decoration: underline;
+    /* Hintergrund-Layer */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle at top right, rgba(31,122,224,0.05), transparent);
     }
 
-    /* Listen-Styling */
-    ul { padding-left: 20px; list-style-type: '✨ '; }
-    li { margin-bottom: 15px; }
+    .wrap { max-width: 500px; margin: 0 auto; position: relative; }
 
-    .outro { font-style: italic; color: var(--accent-color); font-weight: 600; margin-top: 20px; text-align: center; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 16px;
+    }
+
+    h1 { font-size: 32px; text-align: center; margin: 0 0 10px 0; font-weight: 800; }
+    .sub { font-size: 20px; color: var(--accent); text-align: center; font-style: italic; margin-bottom: 24px; min-height: 2.5em; line-height: 1.4; }
+
+    .btn, .situationBtn {
+      display: block;
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      touch-action: manipulation;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .btn { background: #f0f7ff; color: var(--accent); border: 1px solid rgba(31,122,224,0.1); }
+    .btn-primary { background: var(--accent); color: white; margin-top: 10px; box-shadow: 0 4px 12px rgba(31,122,224,0.3); }
+    .btn:active { transform: scale(0.97); opacity: 0.9; }
+
+    /* Situations-Liste */
+    .situationBtn {
+      background: white;
+      text-align: left;
+      border: 1px solid var(--stroke);
+      margin-bottom: 12px;
+      padding: 20px;
+    }
+    .headline { font-size: 19px; font-weight: 800; display: block; color: var(--text); margin-bottom: 4px; }
+    .hint { font-size: 14px; color: var(--muted); font-weight: 400; display: block; }
+
+    /* Animation für das sanfte Einblenden der Blöcke */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .block {
+      background: white;
+      padding: 28px;
+      border-radius: var(--radius);
+      margin-top: 20px;
+      border: 1px solid var(--stroke);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      animation: fadeInUp 0.8s ease-out forwards; /* Sanftes Erscheinen */
+    }
+
+    .hidden { display: none !important; }
+    .typed { white-space: pre-wrap; line-height: 1.7; font-size: 19px; color: #2c3e50; }
+    
+    ul#t3 { padding-left: 20px; margin: 0; list-style-type: '✨ '; }
+    ul#t3 li { margin-bottom: 18px; font-size: 18px; line-height: 1.5; color: #34495e; }
+
+    /* Run-Modus Header & Footer */
+    #situationTitleBox { padding: 12px; border-bottom: 2px solid var(--accent); margin-bottom: 20px; border-radius: 12px; background: rgba(31,122,224,0.03); }
+    
+    #blocksContainer { 
+      padding-bottom: 120px; /* Viel Abstand am Ende für entspanntes Scrollen */
+    }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    
-    <div id="ui-home" class="view">
-      <h1>Seelenimpuls</h1>
-      <div class="content-area">
-        <p id="impuls" class="text-block" style="text-align: center;">Atme tief ein. Du darfst jetzt ankommen.</p>
+  <div class="wrap">
+    <div id="ui-home">
+      <div class="card">
+        <h1>Seelenimpuls ✨</h1>
+        <p class="sub" id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
+        <button class="btn" id="btnImpuls">Neuer Impuls</button>
       </div>
-      <div class="btn-group">
-        <button class="btn" onclick="nextImpuls()">Neuer Impuls</button>
-        <button class="btn btn-main" onclick="showView('ui-chooser')">Situation wählen</button>
-      </div>
-    </div>
-
-    <div id="ui-chooser" class="view hidden">
-      <button class="btn-back" onclick="showView('ui-home')">← Zurück</button>
-      <h1 style="font-size: 1.4rem;">Was brauchst du gerade?</h1>
-      <div class="content-area" style="justify-content: flex-start;">
-        <div id="situationsList" class="btn-group" style="margin-top: 10px;">
-          </div>
+      <div class="card">
+        <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
       </div>
     </div>
 
-    <div id="ui-run" class="view hidden">
-      <div class="situation-title" id="displayTitle"></div>
-      <div class="content-area" id="mainContent">
+    <div id="ui-chooser" class="hidden">
+      <div class="card">
+        <p style="font-weight:700; font-size: 1.1em; margin-bottom: 20px; text-align:center;">Was brauchst du gerade?</p>
+        
+        <div id="situationsList">
+          <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Wenn die Gedanken kreisen.</span></button>
+          <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Wenn alles zu viel wird.</span></button>
+          <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Wenn der Körper fest ist.</span></button>
+          <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Wenn die Kraft fehlt.</span></button>
+          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Wenn es sich schwer anfühlt.</span></button>
+          <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Wenn der Halt fehlt.</span></button>
+          <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Wenn du unsicher bist.</span></button>
+          <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Wenn du zweifelst.</span></button>
+          <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Wenn Neues beginnt.</span></button>
+          <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Wenn du Schutz suchst.</span></button>
         </div>
-      <div id="actionArea" class="btn-group hidden">
-        <button class="btn btn-main" id="btnSong">Gesungene Affirmation hören</button>
-        <button class="btn-back" onclick="stopRun()">Übung beenden</button>
+
+        <button class="btn" id="btnBackFromChooser" style="margin-top: 20px;">Zurück</button>
       </div>
     </div>
 
+    <div id="ui-run" class="hidden">
+      <div id="situationTitleBox">
+        <div class="headline" id="situationTitle" style="text-align:center; color: var(--accent);"></div>
+      </div>
+      
+      <div id="blocksContainer">
+        <div class="block hidden" id="b1"><p class="typed" id="t1"></p></div>
+        <div class="block hidden" id="b2"><p class="typed" id="t2"></p></div>
+        <div class="block hidden" id="b3"><ul id="t3"></ul></div>
+      </div>
+
+      <button class="btn" id="btnBackBottom" style="margin-top:30px; opacity: 0.6; font-size: 16px;">Übung abbrechen</button>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto"><source src="audio/stillness-space.mp3" type="audio/mpeg"></audio>
   </div>
 
-  <audio id="bgMusic" loop><source src="audio/stillness-space.mp3" type="audio/mpeg"></audio>
-  <audio id="songPlayer"></audio>
+  <script src="situations/situation-1.js?v=1" defer></script>
+  <script src="situations/situation-2.js?v=1" defer></script>
+  <script src="situations/situation-3.js?v=1" defer></script>
+  <script src="situations/situation-4.js?v=1" defer></script>
+  <script src="situations/situation-5.js?v=1" defer></script>
+  <script src="situations/situation-6.js?v=1" defer></script>
+  <script src="situations/situation-7.js?v=1" defer></script>
+  <script src="situations/situation-8.js?v=1" defer></script>
+  <script src="situations/situation-9.js?v=1" defer></script>
+  <script src="situations/situation-10.js?v=1" defer></script>
 
-  <script src="situations/situation-1.js" defer></script>
-  <script src="situations/situation-2.js" defer></script>
-  <script src="situations/situation-10.js" defer></script>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=1005" defer></script>
 </body>
 </html>
