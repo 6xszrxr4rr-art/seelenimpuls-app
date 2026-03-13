@@ -2,8 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  const TYPING_SPEED = 60; 
-  const PAUSE_BETWEEN_BLOCKS = 3000;
+  const TYPING_SPEED = 50; 
+  const PAUSE_BETWEEN_BLOCKS = 2500;
+
+  const impulses = [
+    "Atme tief ein. Du darfst gehalten sein.",
+    "Du darfst langsam sein.",
+    "Dein Herz kennt den Weg.",
+    "Alles darf leicht werden.",
+    "Du darfst in Sicherheit ankommen."
+  ];
 
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => {
@@ -13,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Automatischer Scroll nach unten
   function scrollToBottom() {
     window.scrollTo({
       top: document.body.scrollHeight,
@@ -43,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
         li.textContent += char;
         await sleep(TYPING_SPEED);
       }
-      scrollToBottom(); // Scrollt nach jeder Zeile mit
-      await sleep(1000);
+      scrollToBottom();
+      await sleep(800);
     }
   }
 
@@ -55,10 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
     showView("ui-run");
     $("situationTitle").textContent = s.title;
     
-    // Alle Blöcke leeren und verstecken
+    // Alle Blöcke zurücksetzen
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => {
       if($(id)) $(id).classList.add("hidden");
     });
+    $("t3").innerHTML = "";
+    $("t4").innerHTML = "";
 
     const bg = $("bgMusic");
     if(bg) { bg.volume = 0.1; bg.play().catch(() => {}); }
@@ -78,38 +87,60 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 3. AFFIRMATIONEN
-    if (s.affirmations) {
+    if (s.affirmations && s.affirmations.length > 0) {
       $("b3").classList.remove("hidden");
       await typeListEffect("t3", s.affirmations);
       await sleep(PAUSE_BETWEEN_BLOCKS);
     }
 
-    // 4. RITUAL (Neu: Block b4)
-    if (s.ritual) {
+    // 4. MINI-RITUAL (Wichtig: Greift auf s.ritual zu)
+    if (s.ritual && s.ritual.length > 0) {
       $("b4").classList.remove("hidden");
       await typeListEffect("t4", s.ritual);
+      scrollToBottom();
       await sleep(PAUSE_BETWEEN_BLOCKS);
     }
 
-    // 5. AUDIO OUTRO (Neu: Block b5)
+    // 5. ABSCHLUSS / SONG-OUTRO
     if (s.songOutro) {
       $("b5").classList.remove("hidden");
-      await typeEffect("t5", s.songOutro);
+      // Hier setzen wir den Text UND einen Button für den Song ein
+      $("t5").innerHTML = `<p>${s.songOutro}</p>`;
+      
+      if(s.songFile) {
+          const songBtn = document.createElement("button");
+          songBtn.className = "btn btn-primary";
+          songBtn.style.marginTop = "20px";
+          songBtn.textContent = "🎵 Gesungene Affirmation hören";
+          songBtn.onclick = () => {
+              if(bg) bg.pause(); // Hintergrundmusik stoppen
+              const audio = new Audio(s.songFile);
+              audio.play();
+              songBtn.disabled = true;
+              songBtn.textContent = "Spiele...";
+          };
+          $("t5").appendChild(songBtn);
+      }
       scrollToBottom();
     }
   }
 
-  // Event Listener (Schleife bis 10)
+  // Event Listener
+  if($("btnImpuls")) {
+    $("btnImpuls").onclick = () => {
+      $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    };
+  }
+
+  if($("btnContinue")) $("btnContinue").onclick = () => showView("ui-chooser");
+  if($("btnBackFromChooser")) $("btnBackFromChooser").onclick = () => showView("ui-home");
+  if($("btnBackBottom")) $("btnBackBottom").onclick = () => {
+    if($("bgMusic")) $("bgMusic").pause();
+    showView("ui-chooser");
+  };
+
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
     if (btn) btn.onclick = () => runSituation(i);
   }
-
-  $("btnImpuls").onclick = () => { /* Impuls Logik */ };
-  $("btnContinue").onclick = () => showView("ui-chooser");
-  $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick = () => {
-    if($("bgMusic")) $("bgMusic").pause();
-    showView("ui-chooser");
-  };
 });
