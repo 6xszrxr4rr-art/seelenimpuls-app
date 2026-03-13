@@ -7,103 +7,75 @@
 
   <style>
     :root {
-      --bg1: #fdfeff;
-      --bg2: #f4f8fb;
-      --card: rgba(255, 255, 255, 0.95);
-      --stroke: #eef2f5;
-      --text: #2c3e50;
-      --muted: #7f8c8d;
-      --accent: #3498db;
-      --radius: 24px;
+      --bg-gradient: linear-gradient(-45deg, #e3f2fd, #f5f5f5, #e8f5e9, #f3e5f5);
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --accent: #4a90e2;
+      --text-main: #2c3e50;
+      --text-muted: #7f8c8d;
+      --radius: 28px;
     }
 
     body {
       margin: 0;
       font-family: -apple-system, system-ui, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      color: var(--text-main);
+      background: var(--bg-gradient);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       min-height: 100vh;
       padding: 20px;
       overflow-x: hidden;
-      scroll-behavior: smooth;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .wrap { max-width: 500px; margin: 0 auto; position: relative; }
 
-    /* Fokus auf den Impuls */
-    h1 { font-size: 24px; text-align: center; margin: 20px 0 10px 0; font-weight: 300; letter-spacing: 1px; color: var(--muted); }
+    /* Header & Startseite */
+    h1 { font-size: 22px; text-align: center; margin-top: 40px; font-weight: 300; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
     
-    .impuls-card {
-      background: transparent;
-      padding: 40px 20px;
-      text-align: center;
-      margin-bottom: 30px;
-    }
+    .impuls-card { padding: 60px 20px; text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+    #impuls { font-size: 26px; line-height: 1.5; font-style: italic; color: var(--text-main); font-weight: 400; }
 
-    .sub { 
-      font-size: 26px; 
-      color: var(--text); 
-      font-weight: 400;
-      line-height: 1.5;
-      font-style: italic;
-      min-height: 4em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Dezente Buttons auf der Startseite */
-    .btn-ghost {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      opacity: 0.7;
-      font-size: 16px;
-      padding: 12px;
-      width: auto;
-      margin: 0 auto;
-      display: inline-block;
-      min-width: 160px;
-    }
-
-    .btn-container { text-align: center; margin-top: 20px; }
-
-    .btn, .situationBtn {
-      display: block; width: 100%; border: none; border-radius: var(--radius); padding: 18px;
-      font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-      touch-action: manipulation;
-    }
-
-    .btn-primary { background: var(--accent); color: white; margin-top: 40px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2); }
+    /* Buttons */
+    .btn { display: block; width: 100%; border: none; border-radius: 20px; padding: 18px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; touch-action: manipulation; }
+    .btn-primary { background: var(--accent); color: white; margin-top: 20px; box-shadow: 0 10px 20px rgba(74, 144, 226, 0.2); }
+    .btn-ghost { background: white; color: var(--text-muted); border: 1px solid #ddd; font-size: 14px; width: auto; margin: 0 auto; padding: 10px 20px; }
     .btn:active { transform: scale(0.98); }
 
-    /* Situations-Auswahl */
-    .situationBtn { background: var(--card); text-align: left; border: 1px solid var(--stroke); margin-bottom: 12px; padding: 22px; }
-    .headline { font-size: 19px; font-weight: 700; display: block; color: var(--text); margin-bottom: 4px; }
-    .hint { font-size: 14px; color: var(--muted); font-weight: 400; display: block; }
-
-    /* Sanftes Einblenden der Übungs-Blöcke */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(25px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    /* Übungs-Blöcke */
     .block {
-      background: var(--card); padding: 30px; border-radius: var(--radius); margin-top: 20px;
-      border: 1px solid var(--stroke); box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      background: var(--card-bg); padding: 30px; border-radius: var(--radius); margin-bottom: 50px; /* Großer Abstand */
+      box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.6);
       animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      overflow-wrap: break-word;
     }
+
+    .block-header { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 20px; }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .typed { font-size: 20px; line-height: 1.8; white-space: pre-wrap; color: #34495e; }
+    
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { margin-bottom: 20px; padding-left: 35px; position: relative; font-size: 19px; line-height: 1.6; }
+    li::before { content: '✨'; position: absolute; left: 0; }
+
+    /* Atem-Kreis */
+    .breath-container { display: none; text-align: center; padding: 40px 0; margin-bottom: 50px; }
+    .breath-circle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent); margin: 0 auto; animation: breathe 8s infinite ease-in-out; }
+    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.6); opacity: 1; } }
 
     .hidden { display: none !important; }
-    .typed { white-space: pre-wrap; line-height: 1.8; font-size: 20px; color: #34495e; }
-    
-    ul { padding-left: 20px; margin: 0; list-style-type: '✨ '; }
-    li { margin-bottom: 20px; font-size: 19px; line-height: 1.6; color: #445a70; }
+    #blocksContainer { padding-bottom: 150px; }
 
-    #situationTitleBox { padding: 15px; border-bottom: 1px solid var(--stroke); margin-bottom: 25px; text-align: center; }
-    #blocksContainer { padding-bottom: 160px; } 
-
-    #btnBackBottom { background: transparent; color: var(--muted); font-size: 14px; text-decoration: underline; margin-top: 40px; }
+    .situationBtn { background: white; text-align: left; border: 1px solid #eee; margin-bottom: 12px; padding: 22px; border-radius: 20px; }
+    .headline { font-size: 18px; font-weight: 700; display: block; margin-bottom: 4px; }
+    .hint { font-size: 14px; color: var(--text-muted); }
   </style>
 </head>
 <body>
@@ -112,55 +84,55 @@
     <div id="ui-home">
       <h1>Seelenimpuls</h1>
       <div class="impuls-card">
-        <p class="sub" id="impuls">Atme tief ein. Du darfst gehalten sein.</p>
-        <div class="btn-container">
-            <button class="btn btn-ghost" id="btnImpuls">Neu inspirieren</button>
-        </div>
+        <p id="impuls">Atme tief ein. Du darfst jetzt ankommen.</p>
       </div>
-      <button class="btn btn-primary" id="btnContinue">Situation wählen</button>
+      <div style="text-align: center;">
+        <button class="btn btn-ghost" id="btnImpuls">Neu inspirieren</button>
+      </div>
+      <button class="btn btn-primary" id="btnContinue" style="margin-top: 60px;">Übung wählen</button>
     </div>
 
     <div id="ui-chooser" class="hidden">
-      <div class="card">
-        <p style="font-weight:400; font-size: 1.2em; margin-bottom: 25px; text-align:center; color: var(--muted);">Wähle eine Situation</p>
+      <div class="block">
+        <p style="text-align:center; color: var(--text-muted); margin-bottom: 25px;">Was brauchst du gerade?</p>
         <div id="situationsList">
-          <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Wenn die Gedanken kreisen.</span></button>
-          <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Wenn alles zu viel wird.</span></button>
-          <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Wenn der Körper fest ist.</span></button>
-          <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Wenn die Kraft fehlt.</span></button>
-          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Wenn es schwer ist.</span></button>
-          <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Wenn der Halt fehlt.</span></button>
-          <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Wenn du unsicher bist.</span></button>
-          <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Wenn du zweifelst.</span></button>
-          <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Wenn Neues beginnt.</span></button>
-          <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Wenn du Schutz suchst.</span></button>
+          <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Gedanken kreisen.</span></button>
+          <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Alles zu viel.</span></button>
+          <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Körper ist fest.</span></button>
+          <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Keine Kraft mehr.</span></button>
+          <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Es fühlt sich schwer an.</span></button>
+          <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Es fehlt der Halt.</span></button>
+          <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Du bist unsicher.</span></button>
+          <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Du schwankst.</span></button>
+          <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Etwas Neues beginnt.</span></button>
+          <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Schutz suchen.</span></button>
         </div>
-        <button class="btn btn-ghost" id="btnBackFromChooser" style="margin-top: 20px; display: block; border: none;">Zurück</button>
+        <button class="btn btn-ghost" id="btnBackFromChooser" style="margin-top: 20px; border:none;">Zurück</button>
       </div>
     </div>
 
     <div id="ui-run" class="hidden">
-      <div id="situationTitleBox">
-        <div class="headline" id="situationTitle" style="color: var(--accent); font-weight: 300; letter-spacing: 1px;"></div>
-      </div>
+      <div id="situationTitle" style="text-align:center; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 30px;"></div>
       
       <div id="blocksContainer">
-        <div class="block hidden" id="b1"><p class="typed" id="t1"></p></div>
-        <div class="block hidden" id="b2"><p class="typed" id="t2"></p></div>
-        <div class="block hidden" id="b3"><ul id="t3"></ul></div>
-        <div class="block hidden" id="b4">
-            <p style="font-weight:600; color:var(--accent); margin-bottom:15px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">🌙 Mini-Ritual</p>
-            <ul id="t4"></ul>
+        <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><p class="typed" id="t1"></p></div>
+        <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><p class="typed" id="t2"></p></div>
+        
+        <div id="breathBox" class="breath-container">
+          <div class="breath-circle"></div>
+          <p style="margin-top:20px; color: var(--accent); font-weight: 300;">Einatmen ... Ausatmen</p>
         </div>
+
+        <div class="block hidden" id="b3"><div class="block-header">✨ Kraftsätze</div><ul id="t3"></ul></div>
+        <div class="block hidden" id="b4"><div class="block-header">🌙 Mini-Ritual</div><ul id="t4"></ul></div>
         <div class="block hidden" id="b5">
-  <p class="typed" id="t5" style="font-style: italic; text-align: center; color: var(--muted); margin-bottom: 20px;"></p>
-  <div id="audioContainer" style="text-align: center;"></div> 
-</div>
-
-      <button class="btn" id="btnBackBottom">Übung abbrechen</button>
+            <div class="block-header">🎶 Abschluss</div>
+            <p class="typed" id="t5"></p>
+            <div id="audioContainer" style="margin-top:20px; text-align: center;"></div>
+        </div>
+      </div>
+      <button id="btnBackBottom" style="background:none; border:none; color:var(--text-muted); width:100%; padding:40px; text-decoration:underline; font-size: 13px;">ÜBUNG BEENDEN</button>
     </div>
-
-    <audio id="bgMusic" loop preload="auto"><source src="audio/stillness-space.mp3" type="audio/mpeg"></audio>
   </div>
 
   <script src="situations/situation-1.js" defer></script>
