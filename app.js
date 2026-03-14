@@ -20,10 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo(0, 0);
   }
 
-  // Scrollt nur am Ende eines Abschnitts sanft nach unten
   function softScroll() {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }
+  // Eine Verzögerung von 150ms lässt den Browser den Text erst "setzen",
+  // bevor er seidenweich nach unten gleitet.
+  setTimeout(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth' 
+    });
+  }, 150);
+}
+
 
   // --- DIE STABILE SCHREIB-LOGIK (Kein Springen) ---
   async function typeEffect(id, text) {
