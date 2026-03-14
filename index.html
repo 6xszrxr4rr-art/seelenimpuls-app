@@ -8,7 +8,6 @@
     :root {
       --accent: #4a90e2;
       --text: #2c3e50;
-      --muted: #7f8c8d;
       --bg-gradient: linear-gradient(-45deg, #eef2f3, #e3f2fd, #e8f5e9, #f3e5f5);
     }
 
@@ -17,6 +16,7 @@
       color: var(--text); background: var(--bg-gradient);
       background-size: 400% 400%; animation: gradientBG 15s ease infinite;
       min-height: 100vh; padding: 20px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
     @keyframes gradientBG {
@@ -28,62 +28,70 @@
     .wrap { max-width: 500px; margin: 0 auto; padding-bottom: 100px; }
     
     .block {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 30px; border-radius: 28px; margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-      border: 1px solid rgba(255,255,255,0.6);
+      background: rgba(255, 255, 255, 0.94); padding: 30px; border-radius: 28px; 
+      margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      border: 1px solid rgba(255,255,255,0.7);
+      transition: all 0.5s ease;
     }
 
     .block-header {
-      font-weight: 700; font-size: 14px; text-transform: uppercase; 
-      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 15px;
+      font-weight: 700; font-size: 13px; text-transform: uppercase; 
+      letter-spacing: 2px; color: var(--accent); margin-bottom: 15px;
     }
 
-    .typed { 
-      font-size: 22px; white-space: pre-wrap; display: block;
+    /* Der Anker für die Schrift */
+    .typed-anchor { 
+      font-size: 22px; line-height: 1.6; position: relative; display: block;
     }
 
-    /* Der Button "Neuer Impuls" - Jetzt groß und klar */
+    /* NEU: Großer, präsenter Impuls-Button */
     #btnImpuls {
-      background: white; border: 2px solid var(--accent); color: var(--accent);
-      padding: 18px 40px; border-radius: 35px; font-size: 18px; font-weight: 600;
-      cursor: pointer; margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      background: white; border: 2.5px solid var(--accent); color: var(--accent);
+      padding: 20px 45px; border-radius: 40px; font-size: 20px; font-weight: 700;
+      cursor: pointer; margin: 30px 0; transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.15);
     }
+    #btnImpuls:hover { background: #f8fbff; transform: translateY(-2px); }
+    #btnImpuls:active { transform: scale(0.96); }
 
     .btn-primary { 
       background: var(--accent); color: white; border: none; padding: 22px; 
-      border-radius: 20px; width: 100%; font-size: 20px; font-weight: bold;
+      border-radius: 20px; width: 100%; font-size: 20px; font-weight: bold; cursor: pointer;
     }
 
     .situationBtn {
       width: 100%; background: rgba(255, 255, 255, 0.8); border: 1px solid #eee; 
-      padding: 25px; border-radius: 20px; margin-bottom: 15px; text-align: left;
+      padding: 25px; border-radius: 22px; margin-bottom: 15px; text-align: left;
     }
 
     .headline { font-size: 20px; font-weight: bold; display: block; color: var(--accent); }
-    .hint { font-size: 15px; color: var(--muted); }
+    .hint { font-size: 15px; color: #7f8c8d; }
 
-    /* Beenden-Button - Sanft statt Rot */
     #btnBackBottom { 
       background: rgba(255, 255, 255, 0.6); border: 1px solid #d1d5db; 
       color: #718096; width: 100%; padding: 20px; border-radius: 20px; 
-      font-weight: bold; margin-top: 40px; cursor: pointer;
+      font-weight: bold; margin-top: 50px; cursor: pointer;
     }
 
     .hidden { display: none !important; }
+    
     .breath-container { display: none; text-align: center; padding: 40px 0; }
     .breath-circle {
-      width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--accent);
+      width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--accent);
       margin: 0 auto; animation: breathe 8s infinite ease-in-out;
     }
-    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.5); opacity: 1; } }
+    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.4); opacity: 1; } }
+
+    ul { list-style: none; padding: 0; }
+    li { font-size: 21px; margin-bottom: 20px; padding-left: 35px; position: relative; }
+    li::before { content: '✨'; position: absolute; left: 0; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div id="ui-home">
-      <h1 style="text-align: center; font-weight: 300;">SEELENIMPULS</h1>
-      <div style="padding: 60px 10px; text-align: center;">
+      <h1 style="text-align: center; font-weight: 300; letter-spacing: 2px;">SEELENIMPULS</h1>
+      <div style="padding: 50px 10px; text-align: center;">
         <p id="impuls" style="font-size: 26px; font-style: italic;">Atme tief ein.</p>
         <button id="btnImpuls">Neuer Impuls</button>
       </div>
@@ -103,17 +111,17 @@
         <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Neues begrüßen</span></button>
         <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Geborgen sein</span></button>
       </div>
-      <button id="btnBackFromChooser" style="width:100%; border:none; background:none; color:var(--muted); padding:20px;">Zurück</button>
+      <button id="btnBackFromChooser" style="width:100%; border:none; background:none; color:#95a5a6; padding:20px;">Zurück</button>
     </div>
 
     <div id="ui-run" class="hidden">
       <div id="blocksContainer">
-        <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><div class="typed" id="t1"></div></div>
-        <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><div class="typed" id="t2"></div></div>
+        <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><div class="typed-anchor" id="t1"></div></div>
+        <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><div class="typed-anchor" id="t2"></div></div>
         <div id="breathBox" class="breath-container"><div class="breath-circle"></div><p style="margin-top:15px; color:var(--accent)">Einatmen... Ausatmen...</p></div>
         <div class="block hidden" id="b3"><div class="block-header">✨ Kraftsätze</div><ul id="t3"></ul></div>
         <div class="block hidden" id="b4"><div class="block-header">🌙 Mini-Ritual</div><ul id="t4"></ul></div>
-        <div class="block hidden" id="b5"><div class="block-header">🎶 Abschluss</div><div class="typed" id="t5"></div><div id="audioContainer"></div></div>
+        <div class="block hidden" id="b5"><div class="block-header">🎶 Abschluss</div><div class="typed-anchor" id="t5"></div><div id="audioContainer"></div></div>
       </div>
       <button id="btnBackBottom">ÜBUNG BEENDEN</button>
     </div>
