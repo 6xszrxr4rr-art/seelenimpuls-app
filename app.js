@@ -112,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showView("ui-run");
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
-    $("breathBox").classList.add("hidden");
     $("audioContainer").innerHTML = "";
 
     // 1. ANKOMMEN
