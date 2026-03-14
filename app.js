@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
           setTimeout(() => { 
             box.style.transition = "opacity 2s"; 
             box.style.opacity = "1";
-            startBreathingText(); // Startet den EIN/AUS Wechsel
+            if (typeof startBreathingText === "function") startBreathingText();
           }, 100);
         }
       }
