@@ -119,6 +119,27 @@
 
     .hidden { display: none !important; }
     
+    /* NEU: Der Container, der am Anfang unsichtbar ist */
+.breath-container { 
+  display: none; 
+  text-align: center; 
+  padding: 20px 0; 
+  width: 100%; 
+}
+
+.breath-circle {
+  width: 120px; 
+  height: 120px; 
+  border-radius: 50%; 
+  margin: 0 auto; 
+  border: 4px solid #4a90e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  animation: breatheCycle 8s infinite ease-in-out;
+}
+
     .breath-circle {
   width: 120px; height: 120px; border-radius: 50%; 
   margin: 0 auto; 
