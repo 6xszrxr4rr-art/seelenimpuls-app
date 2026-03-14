@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 150);
 }
 
-
   // --- DIE STABILE SCHREIB-LOGIK (Kein Springen) ---
   async function typeEffect(id, text) {
     const el = $(id);
