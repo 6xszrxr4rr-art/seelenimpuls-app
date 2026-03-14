@@ -188,4 +188,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = $("btnSituation" + i);
     if (btn) btn.onclick = () => runSituation(i);
   }
+  
+    // Diese Funktion steuert den Textwechsel im Atemkreis
+  function startBreathingText() {
+    const label = $("breathLabel");
+    if (!label) return;
+
+    const colorEin = "#0056b3"; // Barrierefreies Blau
+    const colorAus = "#2d5a27"; // Barrierefreies Grün
+
+    const updateText = () => {
+      label.textContent = "EIN";
+      label.style.color = colorEin;
+      
+      setTimeout(() => {
+        label.textContent = "AUS";
+        label.style.color = colorAus;
+      }, 4000); // Wechsel nach 4 Sekunden
+    };
+
+    updateText();
+    setInterval(updateText, 8000); // Gesamtrhythmus 8 Sekunden
+  }
+
 });
