@@ -50,9 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let current = "";
     for (let char of text) {
       current += char;
+      
+
             visibleLayer.textContent = current;
 
-      // NEU: Kreis erst einblenden, wenn das Wort "Atme" erscheint
+      // Wenn das Wort "Atme" im Text erscheint, wird der Kreis aktiviert
       if (current.includes("Atme")) {
         const box = $("breathBox");
         if (box && box.style.display !== "block") {
@@ -61,11 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
           setTimeout(() => { 
             box.style.transition = "opacity 2s"; 
             box.style.opacity = "1";
-            startBreathingText(); // Startet den Text-Wechsel EIN/AUS
+            startBreathingText(); // Startet den EIN/AUS Wechsel
           }, 100);
         }
       }
-
       
       // Bei Satzzeichen kurz innehalten
       if ([".", "!", "?"].includes(char)) {
