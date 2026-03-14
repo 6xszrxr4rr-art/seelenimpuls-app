@@ -155,9 +155,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Startseite ---
-  $("btnImpuls").onclick = () => {
-    $("impuls").textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    // Event Listener für den Impuls-Wechsel
+  $("btnImpuls").onclick = async () => {
+    const el = $("impuls");
+    el.style.opacity = "0"; 
+    await sleep(500);
+    el.textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    el.style.opacity = "1";
   };
+
 
   $("btnContinue").onclick = () => showView("ui-chooser");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
