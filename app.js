@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
   // Sanfte, gleichmäßige Schreibgeschwindigkeit
-  const SPEED = 55; 
+  const SPEED = 85; 
   const PAUSE_BLOCKS = 3500;
 
   const impulses = [
