@@ -135,7 +135,6 @@ if (current.toLowerCase().includes("atme")) {
 
     // ATEM-GUIDE (für bestimmte Situationen)
     if ([1, 2, 10].includes(n)) {
-      $("breathBox").classList.remove("hidden");
       softScroll();
       await sleep(10000); 
     }
