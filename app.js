@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Sanfte, gleichmäßige Schreibgeschwindigkeit
   const SPEED = 85; 
-  const PAUSE_BLOCKS = 3500;
+  const PAUSE_BLOCKS = 5000;
 
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
