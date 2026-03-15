@@ -129,13 +129,13 @@ if (current.toLowerCase().includes("atme")) {
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
     await typeEffect("t1", s.ankommenText);
-    await sleep(PAUSE_BLOCKS);
+    await sleep(2000);
 
     // 2. EINBLICK
     if (s.erklaerungText) {
       $("b2").classList.remove("hidden");
       await typeEffect("t2", s.erklaerungText);
-      await sleep(PAUSE_BLOCKS);
+      await sleep(2000);
     }
 
     // ATEM-GUIDE (für bestimmte Situationen)
