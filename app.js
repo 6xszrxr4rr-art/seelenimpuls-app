@@ -54,19 +54,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
             visibleLayer.textContent = current;
 
-      // Wenn das Wort "Atme" im Text erscheint, wird der Kreis aktiviert
-      if (current.includes("Atme")) {
-        const box = $("breathBox");
-        if (box && box.style.display !== "block") {
-          box.style.display = "block";
-          box.style.opacity = "0";
-          setTimeout(() => { 
-            box.style.transition = "opacity 2s"; 
-            box.style.opacity = "1";
-            if (typeof startBreathingText === "function") startBreathingText();
-          }, 100);
-        }
+      // Prüft auf "Atme" oder "atme"
+if (current.toLowerCase().includes("atme")) {
+  const box = document.getElementById("breathBox");
+  // Prüfe ob die Box existiert und noch versteckt ist
+  if (box && (box.style.display === "" || box.style.display === "none")) {
+    box.style.display = "block";
+    box.style.opacity = "0";
+    
+    // Kleiner Timeout, damit der Browser das display:block registriert
+    setTimeout(() => {
+      box.style.transition = "opacity 2s ease-in-out";
+      box.style.opacity = "1";
+      // Starte den Text-Wechsel (EIN/AUS)
+      if (typeof startBreathingText === "function") {
+        startBreathingText();
       }
+    }, 50);
+  }
+}
+
       
       // Bei Satzzeichen kurz innehalten
       if ([".", "!", "?"].includes(char)) {
