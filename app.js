@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 if (current.toLowerCase().includes("atme")) {
   const box = document.getElementById("breathBox");
   // Prüfe ob die Box existiert und noch versteckt ist
-  if (box && (box.style.display === "" || box.style.display === "none")) {
+  if (box && getComputedStyle(box).display === "none") {
     box.style.display = "block";
     box.style.opacity = "0";
     
