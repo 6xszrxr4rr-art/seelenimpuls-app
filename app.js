@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Sanfte, gleichmäßige Schreibgeschwindigkeit
   const SPEED = 85; 
-  const PAUSE_BLOCKS = 5000;
+  const PAUSE_BLOCKS = 2000;
 
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
@@ -109,7 +109,7 @@ if (current.toLowerCase().includes("atme")) {
         await sleep(SPEED);
       }
       softScroll();
-      await sleep(1500);
+      await sleep(3500);
     }
   }
 
