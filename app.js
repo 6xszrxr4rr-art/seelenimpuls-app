@@ -73,7 +73,6 @@ if (current.toLowerCase().includes("atme")) {
     }, 50);
   }
 }
-
       
       // Bei Satzzeichen kurz innehalten
       if ([".", "!", "?"].includes(char)) {
@@ -129,33 +128,33 @@ if (current.toLowerCase().includes("atme")) {
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
     await typeEffect("t1", s.ankommenText);
-    await sleep(2000);
+    await sleep(1000);
 
     // 2. EINBLICK
     if (s.erklaerungText) {
       $("b2").classList.remove("hidden");
       await typeEffect("t2", s.erklaerungText);
-      await sleep(2000);
+      await sleep(1000);
     }
 
     // ATEM-GUIDE (für bestimmte Situationen)
     if ([1, 2, 10].includes(n)) {
       softScroll();
-      await sleep(10000); 
+      await sleep(1000); 
     }
 
     // 3. KRAFTSÄTZE
     if (s.affirmations) {
       $("b3").classList.remove("hidden");
       await typeListEffect("t3", s.affirmations);
-      await sleep(PAUSE_BLOCKS);
+      await sleep(1000);
     }
 
     // 4. MINI-RITUAL
     if (s.ritual) {
       $("b4").classList.remove("hidden");
       await typeListEffect("t4", s.ritual);
-      await sleep(PAUSE_BLOCKS);
+      await sleep(1000);
     }
 
     // 5. ABSCHLUSS & GESUNGENE AFFIRMATION
