@@ -175,12 +175,22 @@ if (current.toLowerCase().includes("atme")) {
         btn.className = "btn-primary";
         btn.style.marginTop = "25px";
         btn.innerHTML = "<span>🎵 Gesungene Affirmation hören</span>";
-        btn.onclick = () => {
+                btn.onclick = () => {
           const audio = new Audio(s.songFile);
           audio.play();
           btn.disabled = true;
           btn.innerHTML = "<span>Wird abgespielt...</span>";
+
+          // NEU: Lyrics Box finden und befüllen
+          const lBox = document.getElementById("lyricsBox");
+          const lCont = document.getElementById("lyricsContent");
+          if (lBox && lCont && s.lyrics) {
+            lBox.style.display = "block";
+            lCont.innerText = s.lyrics;
+            softScroll(); // Scrollt sanft nach unten, damit man den Text sieht
+          }
         };
+
         $("audioContainer").appendChild(btn);
         softScroll();
       }
