@@ -121,9 +121,17 @@ if (current.toLowerCase().includes("atme")) {
     bgAudio.play().catch(e => console.log("Musik-Autoplay blockiert"));
   }
 
-    showView("ui-run");
+        showView("ui-run");
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
     $("audioContainer").innerHTML = "";
+    
+    // ZUSÄTZLICH EINFÜGEN: Kreis für neue Runde verstecken
+    const bBox = $("breathBox");
+    if (bBox) {
+        bBox.style.display = "none";
+        bBox.style.opacity = "0";
+    }
+
 
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
