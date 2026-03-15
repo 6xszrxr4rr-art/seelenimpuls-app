@@ -116,6 +116,11 @@ if (current.toLowerCase().includes("atme")) {
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
+  if (s.songFile) {
+    const bgAudio = new Audio(s.songFile);
+    bgAudio.volume = 0.4; // Etwas leiser, damit es im Hintergrund bleibt
+    bgAudio.play().catch(e => console.log("Musik-Autoplay blockiert"));
+  }
 
     showView("ui-run");
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
