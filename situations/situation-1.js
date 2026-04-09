@@ -1,7 +1,6 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[1] = {
-  title: "Innere Unruhe & Gedankenkarussell",
   id: 1,
   title: "1) Innere Unruhe & Gedankenkarussell",
   hint: "Tippe hier, wenn Gedanken kreisen und Ruhe fehlt.",
@@ -40,5 +39,40 @@ window.SITUATIONS[1] = {
   ],
 
   songFile: "audio/Song-Situation-1.mp3",
-  songOutro: "✨ Du darfst jetzt in dieser Ruhe bleiben."
+  songOutro: "✨ Du darfst jetzt in dieser Ruhe bleiben.",
+
+  ankommenText_en:
+    "You are here.\n" +
+    "This moment is for you.\n\n" +
+    "Your body may arrive.\n" +
+    "Your breath flows calmly.\n\n" +
+    "Now there is space.\n" +
+    "Now there is enough.",
+
+  erklaerungText_en:
+    "Inner restlessness appears\n" +
+    "when thoughts move faster than the body.\n\n" +
+    "Your nervous system seeks safety\n" +
+    "and orientation in the present moment.\n\n" +
+    "These impulses support you\n" +
+    "in returning to your body\n" +
+    "and allowing inner calm.",
+
+  affirmations_en: [
+    "I am slowing down.",
+    "I am here.",
+    "This moment holds me."
+  ],
+
+  ritual_en: [
+    "Breathe calmly in through your nose.",
+    "Breathe slowly out through your mouth.",
+    "Let the exhale become a little longer.",
+    "Feel how your body grows heavier.",
+    "Feel the floor or surface beneath you.",
+    "With each exhale, your body may grow calmer.",
+    "Stay a moment longer with this feeling of peace."
+  ],
+
+  songOutro_en: "✨ You may remain in this stillness now."
 };

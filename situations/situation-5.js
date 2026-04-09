@@ -1,7 +1,6 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[5] = {
-  title: "Traurigkeit & leise Schwere",
   id: 5,
   title: "5) Traurigkeit & leise Schwere",
   hint: "Tippe hier, wenn sich alles schwer anfühlt.",
@@ -39,5 +38,39 @@ window.SITUATIONS[5] = {
   ],
 
   songFile: "audio/Song-Situation-5.mp3",
-  songOutro: "✨ Du bist mit diesem Gefühl nicht allein."
+  songOutro: "✨ Du bist mit diesem Gefühl nicht allein.",
+
+  ankommenText_en:
+    "You are here.\n\n" +
+    "Perhaps there is a quiet heaviness in you.\n" +
+    "Very still.\n\n" +
+    "Your breath flows.\n" +
+    "You may feel.",
+
+  erklaerungText_en:
+    "Sadness often shows itself gently\n" +
+    "and needs holding.\n\n" +
+    "These impulses support you\n" +
+    "in giving the feeling space\n" +
+    "and staying held.",
+
+  affirmations_en: [
+    "Everything I feel may be here.",
+    "I meet myself with gentleness.",
+    "I am held."
+  ],
+
+  ritual_en: [
+    "Place both feet consciously on the floor.",
+    "Feel the support beneath you.",
+    "Breathe calmly in and out.",
+    "Notice the heaviness.",
+    "Place one hand on your heart or belly.",
+    "Feel the contact.",
+    "Imagine your breath gently touching that spot.",
+    "Say inwardly: \"I may feel what is here.\"",
+    "Stay with this for three calm breaths."
+  ],
+
+  songOutro_en: "✨ You are not alone with this feeling."
 };

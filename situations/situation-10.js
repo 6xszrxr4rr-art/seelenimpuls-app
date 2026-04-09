@@ -33,6 +33,37 @@ window.SITUATIONS[10] = {
     "Bleibe noch drei tiefe, bewusste Atemzüge bei diesem Gefühl von Halt."
   ],
 
-  songFile: "audio/Song-Situation-10.mp3",
-  songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen."
+  // songFile und songOutro werden ergänzt, sobald Song-Situation-10.mp3 vorliegt
+  // songFile: "audio/Song-Situation-10.mp3",
+  // songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen.",
+  // songOutro_en: "✨ You may carry this inner safety with you into your day.",
+
+  ankommenText_en:
+    "You are here.\n\n" +
+    "Perhaps fear is present. Noticeable or very quiet in the background.\n\n" +
+    "You are not alone with this feeling.\n" +
+    "Your body is here. Your breath is here.\n" +
+    "You may simply breathe for now.",
+
+  erklaerungText_en:
+    "Fear is a protective signal from your nervous system. It wants to make you attentive.\n\n" +
+    "We often try to push it away, but it really just wants to be seen.\n\n" +
+    "These impulses help you meet fear with calm and find safety within yourself, step by step.",
+
+  affirmations_en: [
+    "I am here in safety now.",
+    "I am lovingly present with myself.",
+    "I allow myself to grow calm."
+  ],
+
+  ritual_en: [
+    "Place both hands gently on your chest, one on top of the other.",
+    "Feel the warmth and weight of your hands.",
+    "Breathe deeply in through your nose and very slowly out through your mouth.",
+    "Say inwardly: \"I love myself, just as I am.\"",
+    "Repeat this phrase three times, very gently.",
+    "Feel how a small space for holding opens in your chest.",
+    "Notice the fear like a guest who is here right now, but does not need to stay.",
+    "Stay with this feeling of support for three deep, conscious breaths."
+  ]
 };

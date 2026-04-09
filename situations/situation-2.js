@@ -1,7 +1,6 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[2] = {
-  title: "Überforderung & innerer Druck",
   id: 2,
   title: "2) Überforderung & innerer Druck",
   hint: "Tippe hier, wenn gerade vieles gleichzeitig da ist.",
@@ -42,5 +41,42 @@ window.SITUATIONS[2] = {
   ],
 
   songFile: "audio/Song-Situation-2.mp3",
-  songOutro: "✨ Du kannst dieses Gefühl von Weite mitnehmen."
+  songOutro: "✨ Du kannst dieses Gefühl von Weite mitnehmen.",
+
+  ankommenText_en:
+    "You are here.\n" +
+    "Your body may pause.\n\n" +
+    "Perhaps there is much happening at once.\n" +
+    "Thoughts. Tasks. Impressions.\n\n" +
+    "Now space is opening.\n" +
+    "You may be here.",
+
+  erklaerungText_en:
+    "Overwhelm arises\n" +
+    "when too many impressions act at once.\n\n" +
+    "Your nervous system seeks overview\n" +
+    "and relief at its own pace.\n\n" +
+    "These impulses support you\n" +
+    "in gently releasing inner pressure\n" +
+    "and feeling more spaciousness again.",
+
+  affirmations_en: [
+    "I go step by step.",
+    "I carry exactly what feels right now.",
+    "I allow myself space."
+  ],
+
+  ritual_en: [
+    "Place both feet consciously on the floor.",
+    "Feel your weight and the support beneath you.",
+    "Breathe calmly in.",
+    "Breathe slowly out.",
+    "Notice where pressure or tightness appears.",
+    "Place one hand on that spot.",
+    "With each exhale, more spaciousness may arise there.",
+    "Say inwardly: \"Relief is growing within me.\"",
+    "Stay with this for three calm breaths."
+  ],
+
+  songOutro_en: "✨ You can carry this feeling of spaciousness with you."
 };

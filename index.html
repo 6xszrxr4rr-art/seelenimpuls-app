@@ -26,28 +26,35 @@
     }
 
     .wrap { max-width: 500px; margin: 0 auto; padding-bottom: 100px; }
-    
+
     .block {
-      background: rgba(255, 255, 255, 0.94); padding: 30px; border-radius: 28px; 
+      background: rgba(255, 255, 255, 0.94); padding: 30px; border-radius: 28px;
       margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.04);
       border: 1px solid rgba(255,255,255,0.7);
       transition: all 0.5s ease;
     }
 
     .block-header {
-      font-weight: 700; font-size: 13px; text-transform: uppercase; 
+      font-weight: 700; font-size: 13px; text-transform: uppercase;
       letter-spacing: 2px; color: var(--accent); margin-bottom: 15px;
     }
 
-    .typed-anchor { 
+    .typed-anchor {
       font-size: 22px; line-height: 1.6; position: relative; display: block;
+      white-space: pre-wrap;
     }
 
     .lang-switch {
       text-align: right; font-size: 14px; margin-bottom: 20px;
     }
-    .lang-switch span { cursor: pointer; padding: 5px; transition: color 0.3s; }
-    .lang-switch span.active { color: var(--accent); font-weight: bold; }
+    .lang-switch span {
+      cursor: pointer; padding: 5px 8px; border-radius: 8px;
+      transition: all 0.3s; font-size: 22px; opacity: 0.45;
+    }
+    .lang-switch span.active {
+      opacity: 1; transform: scale(1.15);
+    }
+    .lang-switch span:hover { opacity: 0.85; }
 
     #impuls {
       font-size: 30px; font-weight: 300; color: var(--text);
@@ -55,6 +62,7 @@
       display: flex; align-items: center; justify-content: center;
       text-align: center; padding: 20px;
       background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 75%);
+      transition: opacity 0.5s ease;
     }
 
     #btnImpuls {
@@ -64,34 +72,35 @@
     }
     #btnImpuls:hover { opacity: 1; background: rgba(74, 144, 226, 0.05); }
 
-    .btn-primary { 
-      background: var(--accent); color: white; border: none; padding: 22px; 
+    .btn-primary {
+      background: var(--accent); color: white; border: none; padding: 22px;
       border-radius: 20px; width: 100%; font-size: 20px; font-weight: bold; cursor: pointer;
     }
 
     .situationBtn {
-      width: 100%; background: rgba(255, 255, 255, 0.8); border: 1px solid #eee; 
+      width: 100%; background: rgba(255, 255, 255, 0.8); border: 1px solid #eee;
       padding: 25px; border-radius: 22px; margin-bottom: 15px; text-align: left;
+      cursor: pointer;
     }
 
     .headline { font-size: 20px; font-weight: bold; display: block; color: var(--accent); }
     .hint { font-size: 15px; color: #7f8c8d; }
 
-    #btnBackBottom { 
-      background: rgba(255, 255, 255, 0.6); border: 1px solid #d1d5db; 
-      color: #718096; width: 100%; padding: 20px; border-radius: 20px; 
+    #btnBackBottom {
+      background: rgba(255, 255, 255, 0.6); border: 1px solid #d1d5db;
+      color: #718096; width: 100%; padding: 20px; border-radius: 20px;
       font-weight: bold; margin-top: 50px; cursor: pointer;
     }
 
     .hidden { display: none !important; }
-    
-    .breath-container { 
-      display: none; text-align: center; padding: 30px 0; 
+
+    .breath-container {
+      display: none; text-align: center; padding: 30px 0;
       width: 100%; opacity: 0; transition: opacity 2s ease-in-out;
     }
 
     .breath-circle {
-      width: 120px; height: 120px; border-radius: 50%; 
+      width: 120px; height: 120px; border-radius: 50%;
       margin: 0 auto; border: 4px solid #4a90e2;
       display: flex; align-items: center; justify-content: center;
       background: rgba(255, 255, 255, 0.2);
@@ -110,10 +119,11 @@
 </head>
 <body>
   <div class="wrap">
-    
+
     <div id="ui-home">
       <div class="lang-switch">
-        <span id="lang-de" class="active">DE</span> | <span id="lang-en">EN</span>
+        <span id="lang-de" class="active" title="Deutsch">🇩🇪</span>
+        <span id="lang-en" title="English">🇬🇧</span>
       </div>
       <h1 style="text-align: center; font-weight: 300; letter-spacing: 2px; margin-top: 10px;">SEELENIMPULS</h1>
       <div style="padding: 50px 10px; text-align: center;">
@@ -125,16 +135,46 @@
 
     <div id="ui-chooser" class="hidden">
       <div id="situationsList">
-        <button class="situationBtn" id="btnSituation1"><span class="headline">1) Innere Unruhe</span><span class="hint">Gedanken kreisen</span></button>
-        <button class="situationBtn" id="btnSituation2"><span class="headline">2) Überforderung</span><span class="hint">Alles zu viel</span></button>
-        <button class="situationBtn" id="btnSituation3"><span class="headline">3) Anspannung</span><span class="hint">Körperlich loslassen</span></button>
-        <button class="situationBtn" id="btnSituation4"><span class="headline">4) Erschöpfung</span><span class="hint">Kraft tanken</span></button>
-        <button class="situationBtn" id="btnSituation5"><span class="headline">5) Traurigkeit</span><span class="hint">Gefühle zulassen</span></button>
-        <button class="situationBtn" id="btnSituation6"><span class="headline">6) Innere Leere</span><span class="hint">Halt finden</span></button>
-        <button class="situationBtn" id="btnSituation7"><span class="headline">7) Selbstzweifel</span><span class="hint">Vertrauen finden</span></button>
-        <button class="situationBtn" id="btnSituation8"><span class="headline">8) Entscheidung</span><span class="hint">Klarheit gewinnen</span></button>
-        <button class="situationBtn" id="btnSituation9"><span class="headline">9) Übergang</span><span class="hint">Neues begrüßen</span></button>
-        <button class="situationBtn" id="btnSituation10"><span class="headline">10) Angst & Sicherheit</span><span class="hint">Geborgen sein</span></button>
+        <button class="situationBtn" id="btnSituation1">
+          <span class="headline" data-de="1) Innere Unruhe" data-en="1) Inner Restlessness">1) Innere Unruhe</span>
+          <span class="hint" data-de="Gedanken kreisen" data-en="Thoughts spinning">Gedanken kreisen</span>
+        </button>
+        <button class="situationBtn" id="btnSituation2">
+          <span class="headline" data-de="2) Überforderung" data-en="2) Overwhelm">2) Überforderung</span>
+          <span class="hint" data-de="Alles zu viel" data-en="Too much at once">Alles zu viel</span>
+        </button>
+        <button class="situationBtn" id="btnSituation3">
+          <span class="headline" data-de="3) Anspannung" data-en="3) Tension">3) Anspannung</span>
+          <span class="hint" data-de="Körperlich loslassen" data-en="Letting go physically">Körperlich loslassen</span>
+        </button>
+        <button class="situationBtn" id="btnSituation4">
+          <span class="headline" data-de="4) Erschöpfung" data-en="4) Exhaustion">4) Erschöpfung</span>
+          <span class="hint" data-de="Kraft tanken" data-en="Recharging">Kraft tanken</span>
+        </button>
+        <button class="situationBtn" id="btnSituation5">
+          <span class="headline" data-de="5) Traurigkeit" data-en="5) Sadness">5) Traurigkeit</span>
+          <span class="hint" data-de="Gefühle zulassen" data-en="Allowing feelings">Gefühle zulassen</span>
+        </button>
+        <button class="situationBtn" id="btnSituation6">
+          <span class="headline" data-de="6) Innere Leere" data-en="6) Inner Emptiness">6) Innere Leere</span>
+          <span class="hint" data-de="Halt finden" data-en="Finding grounding">Halt finden</span>
+        </button>
+        <button class="situationBtn" id="btnSituation7">
+          <span class="headline" data-de="7) Selbstzweifel" data-en="7) Self-Doubt">7) Selbstzweifel</span>
+          <span class="hint" data-de="Vertrauen finden" data-en="Finding trust">Vertrauen finden</span>
+        </button>
+        <button class="situationBtn" id="btnSituation8">
+          <span class="headline" data-de="8) Entscheidung" data-en="8) Decision">8) Entscheidung</span>
+          <span class="hint" data-de="Klarheit gewinnen" data-en="Gaining clarity">Klarheit gewinnen</span>
+        </button>
+        <button class="situationBtn" id="btnSituation9">
+          <span class="headline" data-de="9) Übergang" data-en="9) Transition">9) Übergang</span>
+          <span class="hint" data-de="Neues begrüßen" data-en="Welcoming the new">Neues begrüßen</span>
+        </button>
+        <button class="situationBtn" id="btnSituation10">
+          <span class="headline" data-de="10) Angst & Sicherheit" data-en="10) Fear & Safety">10) Angst & Sicherheit</span>
+          <span class="hint" data-de="Geborgen sein" data-en="Feeling held">Geborgen sein</span>
+        </button>
       </div>
       <button id="btnBackFromChooser" style="width:100%; border:none; background:none; color:#95a5a6; padding:20px;">Zurück</button>
     </div>
@@ -143,7 +183,7 @@
       <div id="blocksContainer">
         <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><div class="typed-anchor" id="t1"></div></div>
         <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><div class="typed-anchor" id="t2"></div></div>
-        
+
         <div id="breathBox" class="breath-container">
           <div class="breath-circle">
             <span id="breathLabel" style="font-weight: bold; letter-spacing: 1px;">ATME</span>

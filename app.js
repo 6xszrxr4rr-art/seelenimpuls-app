@@ -2,17 +2,92 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // Sanfte, gleichmäßige Schreibgeschwindigkeit
-  const SPEED = 85; 
-  const PAUSE_BLOCKS = 2000;
+  const SPEED = 85;
+  let lang = "de";
+  let breathInterval = null;
+  let bgAudio = null;
 
-  const impulses = [
-    "Atme tief ein. Du darfst gehalten sein.",
-    "Du darfst langsam sein.",
-    "Dein Herz kennt den Weg.",
-    "Alles darf leicht werden.",
-    "Du darfst in Sicherheit ankommen."
-  ];
+  const impulses = {
+    de: [
+      "Atme tief ein. Du darfst gehalten sein.",
+      "Du darfst langsam sein.",
+      "Dein Herz kennt den Weg.",
+      "Alles darf leicht werden.",
+      "Du darfst in Sicherheit ankommen."
+    ],
+    en: [
+      "Breathe deeply in. You may be held.",
+      "You may be slow.",
+      "Your heart knows the way.",
+      "Everything may become light.",
+      "You may arrive in safety."
+    ]
+  };
+
+  const ui = {
+    de: {
+      btnImpuls: "Neuer Impuls",
+      btnContinue: "Situation wählen",
+      btnBack: "Zurück",
+      btnBackBottom: "ÜBUNG BEENDEN",
+      impulsStart: "Atme tief ein.",
+      headers: {
+        b1: "🌿 Ankommen",
+        b2: "💡 Einblick",
+        b3: "✨ Kraftsätze",
+        b4: "🌙 Mini-Ritual",
+        b5: "🎶 Abschluss"
+      },
+      breathLabels: { ein: "EIN", aus: "AUS" },
+      songBtn: "🎵 Gesungene Affirmation hören",
+      songPlaying: "Wird abgespielt..."
+    },
+    en: {
+      btnImpuls: "New Impulse",
+      btnContinue: "Choose a Situation",
+      btnBack: "Back",
+      btnBackBottom: "END EXERCISE",
+      impulsStart: "Breathe deeply in.",
+      headers: {
+        b1: "🌿 Arriving",
+        b2: "💡 Insight",
+        b3: "✨ Power Phrases",
+        b4: "🌙 Mini Ritual",
+        b5: "🎶 Closing"
+      },
+      breathLabels: { ein: "IN", aus: "OUT" },
+      songBtn: "🎵 Listen to Sung Affirmation",
+      songPlaying: "Playing..."
+    }
+  };
+
+  function setLang(newLang) {
+    lang = newLang;
+
+    $("lang-de").classList.toggle("active", lang === "de");
+    $("lang-en").classList.toggle("active", lang === "en");
+
+    // Alle data-de / data-en Elemente aktualisieren
+    document.querySelectorAll("[data-de]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
+
+    // Feste UI-Elemente
+    const t = ui[lang];
+    $("btnImpuls").textContent = t.btnImpuls;
+    $("btnContinue").textContent = t.btnContinue;
+    $("btnBackFromChooser").textContent = t.btnBack;
+    $("btnBackBottom").textContent = t.btnBackBottom;
+
+    // Startimpuls zurücksetzen wenn noch Standardtext
+    const impulsEl = $("impuls");
+    if (
+      impulsEl.textContent === ui.de.impulsStart ||
+      impulsEl.textContent === ui.en.impulsStart
+    ) {
+      impulsEl.textContent = t.impulsStart;
+    }
+  }
 
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => $(id).classList.add("hidden"));
@@ -21,26 +96,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function softScroll() {
-  // Eine Verzögerung von 150ms lässt den Browser den Text erst "setzen",
-  // bevor er seidenweich nach unten gleitet.
-  setTimeout(() => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth' 
-    });
-  }, 150);
-}
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }, 150);
+  }
 
-  // --- DIE STABILE SCHREIB-LOGIK (Kein Springen) ---
   async function typeEffect(id, text) {
     const el = $(id);
     if (!el) return;
 
-    // 1. Platzhalter setzen: Text ist da, aber unsichtbar (opacity: 0)
-    // Das verhindert das Springen der Zeilen.
     el.innerHTML = `<span style="opacity:0">${text}</span>`;
-    
-    // 2. Wir erstellen eine sichtbare Ebene darüber
     const visibleLayer = document.createElement("span");
     visibleLayer.style.position = "absolute";
     visibleLayer.style.left = "0";
@@ -50,31 +115,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let current = "";
     for (let char of text) {
       current += char;
-      
+      visibleLayer.textContent = current;
 
-            visibleLayer.textContent = current;
-
-      // Prüft auf "Atme" oder "atme"
-if (current.toLowerCase().includes("atme")) {
-  const box = document.getElementById("breathBox");
-  // Prüfe ob die Box existiert und noch versteckt ist
-  if (box && getComputedStyle(box).display === "none") {
-    box.style.display = "block";
-    box.style.opacity = "0";
-    
-    // Kleiner Timeout, damit der Browser das display:block registriert
-    setTimeout(() => {
-      box.style.transition = "opacity 2s ease-in-out";
-      box.style.opacity = "1";
-      // Starte den Text-Wechsel (EIN/AUS)
-      if (typeof startBreathingText === "function") {
-        startBreathingText();
+      const lower = current.toLowerCase();
+      if (lower.includes("atme") || lower.includes("breath")) {
+        const box = document.getElementById("breathBox");
+        if (box && getComputedStyle(box).display === "none") {
+          box.style.display = "block";
+          box.style.opacity = "0";
+          setTimeout(() => {
+            box.style.transition = "opacity 2s ease-in-out";
+            box.style.opacity = "1";
+            startBreathingText();
+          }, 50);
+        }
       }
-    }, 50);
-  }
-}
-      
-      // Bei Satzzeichen kurz innehalten
+
       if ([".", "!", "?"].includes(char)) {
         softScroll();
         await sleep(700);
@@ -88,16 +144,15 @@ if (current.toLowerCase().includes("atme")) {
     const list = $(id);
     if (!list) return;
     list.innerHTML = "";
-    
+
     for (let item of items) {
       const li = document.createElement("li");
       list.appendChild(li);
-      
-      // Auch hier: Platzhalter-Trick für die Liste
+
       li.innerHTML = `<span style="opacity:0">${item}</span>`;
       const vis = document.createElement("span");
       vis.style.position = "absolute";
-      vis.style.left = "35px"; // Wegen des Icons
+      vis.style.left = "35px";
       vis.style.top = "0";
       li.appendChild(vis);
 
@@ -115,82 +170,96 @@ if (current.toLowerCase().includes("atme")) {
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
-  if (s.songFile) {
-    const bgAudio = new Audio(s.songFile);
-    bgAudio.volume = 0.4; // Etwas leiser, damit es im Hintergrund bleibt
-    bgAudio.play().catch(e => console.log("Musik-Autoplay blockiert"));
-  }
 
-        showView("ui-run");
-    ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
-    $("audioContainer").innerHTML = "";
-    
-    // ZUSÄTZLICH EINFÜGEN: Kreis für neue Runde verstecken
-    const bBox = $("breathBox");
-    if (bBox) {
-        bBox.style.display = "none";
-        bBox.style.opacity = "0";
+    // Sprachabhängiges Feld auslesen (EN wenn vorhanden, sonst DE)
+    const t = (field) => (lang === "en" && s[field + "_en"]) ? s[field + "_en"] : s[field];
+    const headers = ui[lang].headers;
+
+    if (breathInterval) {
+      clearInterval(breathInterval);
+      breathInterval = null;
+    }
+    if (bgAudio) {
+      bgAudio.pause();
+      bgAudio = null;
     }
 
+    bgAudio = new Audio("audio/stillness-space.mp3");
+    bgAudio.loop = true;
+    bgAudio.volume = 0.35;
+    bgAudio.play().catch(() => {});
+
+    showView("ui-run");
+    ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
+    $("audioContainer").innerHTML = "";
+
+    const bBox = $("breathBox");
+    if (bBox) {
+      bBox.style.display = "none";
+      bBox.style.opacity = "0";
+    }
+
+    // Block-Header sprachabhängig setzen
+    ["b1", "b2", "b3", "b4", "b5"].forEach(id => {
+      $(id).querySelector(".block-header").textContent = headers[id];
+    });
 
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
-    await typeEffect("t1", s.ankommenText);
+    await typeEffect("t1", t("ankommenText"));
     await sleep(1000);
 
     // 2. EINBLICK
-    if (s.erklaerungText) {
+    if (t("erklaerungText")) {
       $("b2").classList.remove("hidden");
-      await typeEffect("t2", s.erklaerungText);
+      await typeEffect("t2", t("erklaerungText"));
       await sleep(1000);
     }
 
-    // ATEM-GUIDE (für bestimmte Situationen)
+    // ATEM-GUIDE
     if ([1, 2, 10].includes(n)) {
       softScroll();
-      await sleep(1000); 
+      await sleep(1000);
     }
 
-    // 3. KRAFTSÄTZE
-    if (s.affirmations) {
+    // 3. KRAFTSÄTZE / POWER PHRASES
+    if (t("affirmations")) {
       $("b3").classList.remove("hidden");
-      await typeListEffect("t3", s.affirmations);
+      await typeListEffect("t3", t("affirmations"));
       await sleep(1000);
     }
 
     // 4. MINI-RITUAL
-    if (s.ritual) {
+    if (t("ritual")) {
       $("b4").classList.remove("hidden");
-      await typeListEffect("t4", s.ritual);
+      await typeListEffect("t4", t("ritual"));
       await sleep(1000);
     }
 
-    // 5. ABSCHLUSS & GESUNGENE AFFIRMATION
-    if (s.songOutro) {
+    // 5. ABSCHLUSS
+    if (t("songOutro")) {
       $("b5").classList.remove("hidden");
-      await typeEffect("t5", s.songOutro);
-      
-      if(s.songFile) {
+      await typeEffect("t5", t("songOutro"));
+
+      if (s.songFile) {
         const btn = document.createElement("button");
         btn.className = "btn-primary";
         btn.style.marginTop = "25px";
-        btn.innerHTML = "<span>🎵 Gesungene Affirmation hören</span>";
-                btn.onclick = () => {
+        btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
+        btn.onclick = () => {
           const audio = new Audio(s.songFile);
           audio.play();
           btn.disabled = true;
-          btn.innerHTML = "<span>Wird abgespielt...</span>";
+          btn.innerHTML = `<span>${ui[lang].songPlaying}</span>`;
 
-          // NEU: Lyrics Box finden und befüllen
           const lBox = document.getElementById("lyricsBox");
           const lCont = document.getElementById("lyricsContent");
           if (lBox && lCont && s.lyrics) {
             lBox.style.display = "block";
             lCont.innerText = s.lyrics;
-            softScroll(); // Scrollt sanft nach unten, damit man den Text sieht
+            softScroll();
           }
         };
-
         $("audioContainer").appendChild(btn);
         softScroll();
       }
@@ -198,45 +267,55 @@ if (current.toLowerCase().includes("atme")) {
   }
 
   // --- Startseite ---
-    // Event Listener für den Impuls-Wechsel
   $("btnImpuls").onclick = async () => {
     const el = $("impuls");
-    el.style.opacity = "0"; 
+    el.style.opacity = "0";
     await sleep(500);
-    el.textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    const list = impulses[lang];
+    el.textContent = list[Math.floor(Math.random() * list.length)];
     el.style.opacity = "1";
   };
 
+  $("lang-de").onclick = () => setLang("de");
+  $("lang-en").onclick = () => setLang("en");
 
   $("btnContinue").onclick = () => showView("ui-chooser");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick = () => location.reload();
+  $("btnBackBottom").onclick = () => {
+    if (breathInterval) {
+      clearInterval(breathInterval);
+      breathInterval = null;
+    }
+    if (bgAudio) {
+      bgAudio.pause();
+      bgAudio = null;
+    }
+    showView("ui-home");
+  };
 
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
     if (btn) btn.onclick = () => runSituation(i);
   }
-  
-    // Diese Funktion steuert den Textwechsel im Atemkreis
+
   function startBreathingText() {
     const label = $("breathLabel");
     if (!label) return;
 
-    const colorEin = "#0056b3"; // Barrierefreies Blau
-    const colorAus = "#2d5a27"; // Barrierefreies Grün
+    const colorEin = "#0056b3";
+    const colorAus = "#2d5a27";
 
     const updateText = () => {
-      label.textContent = "EIN";
+      label.textContent = ui[lang].breathLabels.ein;
       label.style.color = colorEin;
-      
       setTimeout(() => {
-        label.textContent = "AUS";
+        label.textContent = ui[lang].breathLabels.aus;
         label.style.color = colorAus;
-      }, 4000); // Wechsel nach 4 Sekunden
+      }, 4000);
     };
 
     updateText();
-    setInterval(updateText, 8000); // Gesamtrhythmus 8 Sekunden
+    breathInterval = setInterval(updateText, 8000);
   }
 
 });
