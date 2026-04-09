@@ -184,11 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
       bgAudio = null;
     }
 
-    bgAudio = new Audio("audio/stillness-space.mp3");
-    bgAudio.loop = true;
-    bgAudio.volume = 0.35;
-    bgAudio.play().catch(() => {});
-
     showView("ui-run");
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
     $("audioContainer").innerHTML = "";
