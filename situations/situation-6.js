@@ -1,7 +1,6 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[6] = {
-  title: "Innere Leere & Orientierungslosigkeit",
   id: 6,
   title: "6) Innere Leere & Orientierungslosigkeit",
   hint: "Tippe hier, wenn innen wenig greifbar ist.",

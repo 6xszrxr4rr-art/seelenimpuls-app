@@ -2,9 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  // Sanfte, gleichmäßige Schreibgeschwindigkeit
-  const SPEED = 85; 
-  const PAUSE_BLOCKS = 2000;
+  const SPEED = 85;
 
   const impulses = [
     "Atme tief ein. Du darfst gehalten sein.",
@@ -14,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "Du darfst in Sicherheit ankommen."
   ];
 
+  let breathInterval = null;
+
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => $(id).classList.add("hidden"));
     $(viewId).classList.remove("hidden");
@@ -21,26 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function softScroll() {
-  // Eine Verzögerung von 150ms lässt den Browser den Text erst "setzen",
-  // bevor er seidenweich nach unten gleitet.
-  setTimeout(() => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth' 
-    });
-  }, 150);
-}
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }, 150);
+  }
 
-  // --- DIE STABILE SCHREIB-LOGIK (Kein Springen) ---
   async function typeEffect(id, text) {
     const el = $(id);
     if (!el) return;
 
-    // 1. Platzhalter setzen: Text ist da, aber unsichtbar (opacity: 0)
-    // Das verhindert das Springen der Zeilen.
     el.innerHTML = `<span style="opacity:0">${text}</span>`;
-    
-    // 2. Wir erstellen eine sichtbare Ebene darüber
     const visibleLayer = document.createElement("span");
     visibleLayer.style.position = "absolute";
     visibleLayer.style.left = "0";
@@ -50,31 +40,21 @@ document.addEventListener("DOMContentLoaded", () => {
     let current = "";
     for (let char of text) {
       current += char;
-      
+      visibleLayer.textContent = current;
 
-            visibleLayer.textContent = current;
-
-      // Prüft auf "Atme" oder "atme"
-if (current.toLowerCase().includes("atme")) {
-  const box = document.getElementById("breathBox");
-  // Prüfe ob die Box existiert und noch versteckt ist
-  if (box && getComputedStyle(box).display === "none") {
-    box.style.display = "block";
-    box.style.opacity = "0";
-    
-    // Kleiner Timeout, damit der Browser das display:block registriert
-    setTimeout(() => {
-      box.style.transition = "opacity 2s ease-in-out";
-      box.style.opacity = "1";
-      // Starte den Text-Wechsel (EIN/AUS)
-      if (typeof startBreathingText === "function") {
-        startBreathingText();
+      if (current.toLowerCase().includes("atme")) {
+        const box = document.getElementById("breathBox");
+        if (box && getComputedStyle(box).display === "none") {
+          box.style.display = "block";
+          box.style.opacity = "0";
+          setTimeout(() => {
+            box.style.transition = "opacity 2s ease-in-out";
+            box.style.opacity = "1";
+            startBreathingText();
+          }, 50);
+        }
       }
-    }, 50);
-  }
-}
-      
-      // Bei Satzzeichen kurz innehalten
+
       if ([".", "!", "?"].includes(char)) {
         softScroll();
         await sleep(700);
@@ -88,16 +68,15 @@ if (current.toLowerCase().includes("atme")) {
     const list = $(id);
     if (!list) return;
     list.innerHTML = "";
-    
+
     for (let item of items) {
       const li = document.createElement("li");
       list.appendChild(li);
-      
-      // Auch hier: Platzhalter-Trick für die Liste
+
       li.innerHTML = `<span style="opacity:0">${item}</span>`;
       const vis = document.createElement("span");
       vis.style.position = "absolute";
-      vis.style.left = "35px"; // Wegen des Icons
+      vis.style.left = "35px";
       vis.style.top = "0";
       li.appendChild(vis);
 
@@ -115,23 +94,22 @@ if (current.toLowerCase().includes("atme")) {
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
-  if (s.songFile) {
-    const bgAudio = new Audio(s.songFile);
-    bgAudio.volume = 0.4; // Etwas leiser, damit es im Hintergrund bleibt
-    bgAudio.play().catch(e => console.log("Musik-Autoplay blockiert"));
-  }
 
-        showView("ui-run");
-    ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
-    $("audioContainer").innerHTML = "";
-    
-    // ZUSÄTZLICH EINFÜGEN: Kreis für neue Runde verstecken
-    const bBox = $("breathBox");
-    if (bBox) {
-        bBox.style.display = "none";
-        bBox.style.opacity = "0";
+    // Altes Atem-Interval stoppen, bevor eine neue Runde beginnt
+    if (breathInterval) {
+      clearInterval(breathInterval);
+      breathInterval = null;
     }
 
+    showView("ui-run");
+    ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
+    $("audioContainer").innerHTML = "";
+
+    const bBox = $("breathBox");
+    if (bBox) {
+      bBox.style.display = "none";
+      bBox.style.opacity = "0";
+    }
 
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
@@ -145,10 +123,10 @@ if (current.toLowerCase().includes("atme")) {
       await sleep(1000);
     }
 
-    // ATEM-GUIDE (für bestimmte Situationen)
+    // ATEM-GUIDE
     if ([1, 2, 10].includes(n)) {
       softScroll();
-      await sleep(1000); 
+      await sleep(1000);
     }
 
     // 3. KRAFTSÄTZE
@@ -169,25 +147,24 @@ if (current.toLowerCase().includes("atme")) {
     if (s.songOutro) {
       $("b5").classList.remove("hidden");
       await typeEffect("t5", s.songOutro);
-      
-      if(s.songFile) {
+
+      if (s.songFile) {
         const btn = document.createElement("button");
         btn.className = "btn-primary";
         btn.style.marginTop = "25px";
         btn.innerHTML = "<span>🎵 Gesungene Affirmation hören</span>";
-                btn.onclick = () => {
+        btn.onclick = () => {
           const audio = new Audio(s.songFile);
           audio.play();
           btn.disabled = true;
           btn.innerHTML = "<span>Wird abgespielt...</span>";
 
-          // NEU: Lyrics Box finden und befüllen
           const lBox = document.getElementById("lyricsBox");
           const lCont = document.getElementById("lyricsContent");
           if (lBox && lCont && s.lyrics) {
             lBox.style.display = "block";
             lCont.innerText = s.lyrics;
-            softScroll(); // Scrollt sanft nach unten, damit man den Text sieht
+            softScroll();
           }
         };
 
@@ -198,45 +175,47 @@ if (current.toLowerCase().includes("atme")) {
   }
 
   // --- Startseite ---
-    // Event Listener für den Impuls-Wechsel
   $("btnImpuls").onclick = async () => {
     const el = $("impuls");
-    el.style.opacity = "0"; 
+    el.style.opacity = "0";
     await sleep(500);
     el.textContent = impulses[Math.floor(Math.random() * impulses.length)];
     el.style.opacity = "1";
   };
 
-
   $("btnContinue").onclick = () => showView("ui-chooser");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick = () => location.reload();
+  $("btnBackBottom").onclick = () => {
+    if (breathInterval) {
+      clearInterval(breathInterval);
+      breathInterval = null;
+    }
+    showView("ui-home");
+  };
 
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
     if (btn) btn.onclick = () => runSituation(i);
   }
-  
-    // Diese Funktion steuert den Textwechsel im Atemkreis
+
   function startBreathingText() {
     const label = $("breathLabel");
     if (!label) return;
 
-    const colorEin = "#0056b3"; // Barrierefreies Blau
-    const colorAus = "#2d5a27"; // Barrierefreies Grün
+    const colorEin = "#0056b3";
+    const colorAus = "#2d5a27";
 
     const updateText = () => {
       label.textContent = "EIN";
       label.style.color = colorEin;
-      
       setTimeout(() => {
         label.textContent = "AUS";
         label.style.color = colorAus;
-      }, 4000); // Wechsel nach 4 Sekunden
+      }, 4000);
     };
 
     updateText();
-    setInterval(updateText, 8000); // Gesamtrhythmus 8 Sekunden
+    breathInterval = setInterval(updateText, 8000);
   }
 
 });

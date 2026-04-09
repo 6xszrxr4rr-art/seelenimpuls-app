@@ -1,7 +1,6 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[4] = {
-  title: "Erschöpfung & fehlende Kraft",
   id: 4,
   title: "4) Erschöpfung & fehlende Kraft",
   hint: "Tippe hier, wenn du dich leer oder müde fühlst.",
