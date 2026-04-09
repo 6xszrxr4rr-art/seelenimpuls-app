@@ -33,6 +33,7 @@ window.SITUATIONS[10] = {
     "Bleibe noch drei tiefe, bewusste Atemzüge bei diesem Gefühl von Halt."
   ],
 
-  songFile: "audio/Song-Situation-10.mp3",
-  songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen."
+  // songFile und songOutro werden ergänzt, sobald Song-Situation-10.mp3 vorliegt
+  // songFile: "audio/Song-Situation-10.mp3",
+  // songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen."
 };

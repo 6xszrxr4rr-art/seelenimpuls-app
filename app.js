@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   let breathInterval = null;
+  let bgAudio = null;
 
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => $(id).classList.add("hidden"));
@@ -95,11 +96,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
 
-    // Altes Atem-Interval stoppen, bevor eine neue Runde beginnt
+    // Altes Atem-Interval und Hintergrundmusik stoppen
     if (breathInterval) {
       clearInterval(breathInterval);
       breathInterval = null;
     }
+    if (bgAudio) {
+      bgAudio.pause();
+      bgAudio = null;
+    }
+
+    // Hintergrundmusik starten
+    bgAudio = new Audio("audio/stillness-space.mp3");
+    bgAudio.loop = true;
+    bgAudio.volume = 0.35;
+    bgAudio.play().catch(() => {});
 
     showView("ui-run");
     ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
@@ -189,6 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (breathInterval) {
       clearInterval(breathInterval);
       breathInterval = null;
+    }
+    if (bgAudio) {
+      bgAudio.pause();
+      bgAudio = null;
     }
     showView("ui-home");
   };
