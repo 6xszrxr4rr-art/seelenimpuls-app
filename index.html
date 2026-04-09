@@ -133,6 +133,8 @@
         <button id="btnImpuls">Neuer Impuls</button>
       </div>
       <button class="btn-primary" id="btnContinue">Situation wählen</button>
+      <button class="btn-primary" id="btnGoGeburtstag" style="margin-top:14px;background:#e8a0c0;">🎂 Geburtstagslied personalisieren</button>
+      <button class="btn-primary" id="btnGoTierOrakel" style="margin-top:14px;background:#7fbc8c;">🐾 Tier-Orakel</button>
     </div>
 
     <div id="ui-chooser" class="hidden">
@@ -181,6 +183,24 @@
       <button id="btnBackFromChooser" style="width:100%; border:none; background:none; color:#95a5a6; padding:20px;">Zurück</button>
     </div>
 
+    <!-- Mini-App: Geburtstagslied -->
+    <div id="ui-geburtstag" class="hidden">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <button id="btnBackGeburtstag" style="background:none;border:none;font-size:22px;cursor:pointer;padding:8px;color:#718096;">←</button>
+        <h2 style="margin:0;font-weight:300;letter-spacing:1px;font-size:20px;">🎂 Geburtstagslied</h2>
+      </div>
+      <div id="geburtstag-song-container"></div>
+    </div>
+
+    <!-- Mini-App: Tier-Orakel -->
+    <div id="ui-tier-orakel" class="hidden">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <button id="btnBackTierOrakel" style="background:none;border:none;font-size:22px;cursor:pointer;padding:8px;color:#718096;">←</button>
+        <h2 style="margin:0;font-weight:300;letter-spacing:1px;font-size:20px;">🐾 Tier-Orakel</h2>
+      </div>
+      <div id="tier-orakel-container"></div>
+    </div>
+
     <div id="ui-run" class="hidden">
       <div id="blocksContainer">
         <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><div class="typed-anchor" id="t1"></div></div>
@@ -220,6 +240,8 @@
   <script src="situations/situation-8.js"></script>
   <script src="situations/situation-9.js"></script>
   <script src="situations/situation-10.js"></script>
+  <script src="mini-geburtstag.js"></script>
+  <script src="mini-tier-orakel.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

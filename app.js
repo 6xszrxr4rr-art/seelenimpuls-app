@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showView(viewId) {
-    ["ui-home", "ui-chooser", "ui-run"].forEach(id => $(id).classList.add("hidden"));
+    ["ui-home", "ui-chooser", "ui-run", "ui-geburtstag", "ui-tier-orakel"].forEach(id => $(id).classList.add("hidden"));
     $(viewId).classList.remove("hidden");
     window.scrollTo(0, 0);
   }
@@ -280,6 +280,19 @@ document.addEventListener("DOMContentLoaded", () => {
   $("lang-en").onclick = () => setLang("en");
 
   $("btnContinue").onclick = () => showView("ui-chooser");
+
+  $("btnGoGeburtstag").onclick = () => {
+    showView("ui-geburtstag");
+    if (window.GEBURTSTAG) window.GEBURTSTAG.init();
+  };
+
+  $("btnGoTierOrakel").onclick = () => {
+    showView("ui-tier-orakel");
+    if (window.TIER_ORAKEL) window.TIER_ORAKEL.init();
+  };
+
+  $("btnBackGeburtstag").onclick = () => showView("ui-home");
+  $("btnBackTierOrakel").onclick = () => showView("ui-home");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
   $("btnBackBottom").onclick = () => {
     if (breathInterval) {
