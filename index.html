@@ -45,16 +45,18 @@
     }
 
     .lang-switch {
-      text-align: right; font-size: 14px; margin-bottom: 20px;
+      text-align: right; margin-bottom: 20px;
     }
-    .lang-switch span {
-      cursor: pointer; padding: 5px 8px; border-radius: 8px;
-      transition: all 0.3s; font-size: 22px; opacity: 0.45;
+    .lang-switch button {
+      background: none; border: none; cursor: pointer;
+      padding: 6px 10px; border-radius: 8px; font-size: 24px;
+      opacity: 0.4; transition: opacity 0.25s, transform 0.25s;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
     }
-    .lang-switch span.active {
-      opacity: 1; transform: scale(1.15);
+    .lang-switch button.active {
+      opacity: 1; transform: scale(1.2);
     }
-    .lang-switch span:hover { opacity: 0.85; }
+    .lang-switch button:hover { opacity: 0.8; }
 
     #impuls {
       font-size: 30px; font-weight: 300; color: var(--text);
@@ -122,8 +124,8 @@
 
     <div id="ui-home">
       <div class="lang-switch">
-        <span id="lang-de" class="active" title="Deutsch">🇩🇪</span>
-        <span id="lang-en" title="English">🇬🇧</span>
+        <button id="lang-de" class="active" title="Deutsch">🇩🇪</button>
+        <button id="lang-en" title="English">🇬🇧</button>
       </div>
       <h1 style="text-align: center; font-weight: 300; letter-spacing: 2px; margin-top: 10px;">SEELENIMPULS</h1>
       <div style="padding: 50px 10px; text-align: center;">
