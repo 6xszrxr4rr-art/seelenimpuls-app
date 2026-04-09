@@ -36,5 +36,37 @@ window.SITUATIONS[7] = {
   ],
 
   songFile: "audio/Song-Situation-7.mp3",
-  songOutro: "✨ Dieses Vertrauen darf weiter in dir wirken."
+  songOutro: "✨ Dieses Vertrauen darf weiter in dir wirken.",
+
+  ankommenText_en:
+    "You are here.\n\n" +
+    "Perhaps uncertainty is showing itself.\n" +
+    "This too may be here.\n\n" +
+    "Your body is present.\n" +
+    "Your breath carries you.",
+
+  erklaerungText_en:
+    "Self-doubt arises\n" +
+    "when the connection to yourself grows quieter.\n\n" +
+    "These impulses support you\n" +
+    "in reconnecting with yourself.",
+
+  affirmations_en: [
+    "I trust myself.",
+    "I am right, just as I am.",
+    "My inner experience has value."
+  ],
+
+  ritual_en: [
+    "Place both feet consciously on the floor.",
+    "Feel the support.",
+    "Breathe calmly in and out.",
+    "Place one hand on your heart.",
+    "Feel your heart space.",
+    "Gently gather yourself inwardly.",
+    "Say inwardly: \"I trust myself.\"",
+    "Stay with this for three calm breaths."
+  ],
+
+  songOutro_en: "✨ This trust may continue to work within you."
 };

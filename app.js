@@ -3,17 +3,91 @@ document.addEventListener("DOMContentLoaded", () => {
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
   const SPEED = 85;
-
-  const impulses = [
-    "Atme tief ein. Du darfst gehalten sein.",
-    "Du darfst langsam sein.",
-    "Dein Herz kennt den Weg.",
-    "Alles darf leicht werden.",
-    "Du darfst in Sicherheit ankommen."
-  ];
-
+  let lang = "de";
   let breathInterval = null;
   let bgAudio = null;
+
+  const impulses = {
+    de: [
+      "Atme tief ein. Du darfst gehalten sein.",
+      "Du darfst langsam sein.",
+      "Dein Herz kennt den Weg.",
+      "Alles darf leicht werden.",
+      "Du darfst in Sicherheit ankommen."
+    ],
+    en: [
+      "Breathe deeply in. You may be held.",
+      "You may be slow.",
+      "Your heart knows the way.",
+      "Everything may become light.",
+      "You may arrive in safety."
+    ]
+  };
+
+  const ui = {
+    de: {
+      btnImpuls: "Neuer Impuls",
+      btnContinue: "Situation wählen",
+      btnBack: "Zurück",
+      btnBackBottom: "ÜBUNG BEENDEN",
+      impulsStart: "Atme tief ein.",
+      headers: {
+        b1: "🌿 Ankommen",
+        b2: "💡 Einblick",
+        b3: "✨ Kraftsätze",
+        b4: "🌙 Mini-Ritual",
+        b5: "🎶 Abschluss"
+      },
+      breathLabels: { ein: "EIN", aus: "AUS" },
+      songBtn: "🎵 Gesungene Affirmation hören",
+      songPlaying: "Wird abgespielt..."
+    },
+    en: {
+      btnImpuls: "New Impulse",
+      btnContinue: "Choose a Situation",
+      btnBack: "Back",
+      btnBackBottom: "END EXERCISE",
+      impulsStart: "Breathe deeply in.",
+      headers: {
+        b1: "🌿 Arriving",
+        b2: "💡 Insight",
+        b3: "✨ Power Phrases",
+        b4: "🌙 Mini Ritual",
+        b5: "🎶 Closing"
+      },
+      breathLabels: { ein: "IN", aus: "OUT" },
+      songBtn: "🎵 Listen to Sung Affirmation",
+      songPlaying: "Playing..."
+    }
+  };
+
+  function setLang(newLang) {
+    lang = newLang;
+
+    $("lang-de").classList.toggle("active", lang === "de");
+    $("lang-en").classList.toggle("active", lang === "en");
+
+    // Alle data-de / data-en Elemente aktualisieren
+    document.querySelectorAll("[data-de]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
+
+    // Feste UI-Elemente
+    const t = ui[lang];
+    $("btnImpuls").textContent = t.btnImpuls;
+    $("btnContinue").textContent = t.btnContinue;
+    $("btnBackFromChooser").textContent = t.btnBack;
+    $("btnBackBottom").textContent = t.btnBackBottom;
+
+    // Startimpuls zurücksetzen wenn noch Standardtext
+    const impulsEl = $("impuls");
+    if (
+      impulsEl.textContent === ui.de.impulsStart ||
+      impulsEl.textContent === ui.en.impulsStart
+    ) {
+      impulsEl.textContent = t.impulsStart;
+    }
+  }
 
   function showView(viewId) {
     ["ui-home", "ui-chooser", "ui-run"].forEach(id => $(id).classList.add("hidden"));
@@ -43,7 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
       current += char;
       visibleLayer.textContent = current;
 
-      if (current.toLowerCase().includes("atme")) {
+      const lower = current.toLowerCase();
+      if (lower.includes("atme") || lower.includes("breath")) {
         const box = document.getElementById("breathBox");
         if (box && getComputedStyle(box).display === "none") {
           box.style.display = "block";
@@ -96,7 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
 
-    // Altes Atem-Interval und Hintergrundmusik stoppen
+    // Sprachabhängiges Feld auslesen (EN wenn vorhanden, sonst DE)
+    const t = (field) => (lang === "en" && s[field + "_en"]) ? s[field + "_en"] : s[field];
+    const headers = ui[lang].headers;
+
     if (breathInterval) {
       clearInterval(breathInterval);
       breathInterval = null;
@@ -106,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
       bgAudio = null;
     }
 
-    // Hintergrundmusik starten
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
     bgAudio.volume = 0.35;
@@ -122,15 +199,20 @@ document.addEventListener("DOMContentLoaded", () => {
       bBox.style.opacity = "0";
     }
 
+    // Block-Header sprachabhängig setzen
+    ["b1", "b2", "b3", "b4", "b5"].forEach(id => {
+      $(id).querySelector(".block-header").textContent = headers[id];
+    });
+
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
-    await typeEffect("t1", s.ankommenText);
+    await typeEffect("t1", t("ankommenText"));
     await sleep(1000);
 
     // 2. EINBLICK
-    if (s.erklaerungText) {
+    if (t("erklaerungText")) {
       $("b2").classList.remove("hidden");
-      await typeEffect("t2", s.erklaerungText);
+      await typeEffect("t2", t("erklaerungText"));
       await sleep(1000);
     }
 
@@ -140,35 +222,35 @@ document.addEventListener("DOMContentLoaded", () => {
       await sleep(1000);
     }
 
-    // 3. KRAFTSÄTZE
-    if (s.affirmations) {
+    // 3. KRAFTSÄTZE / POWER PHRASES
+    if (t("affirmations")) {
       $("b3").classList.remove("hidden");
-      await typeListEffect("t3", s.affirmations);
+      await typeListEffect("t3", t("affirmations"));
       await sleep(1000);
     }
 
     // 4. MINI-RITUAL
-    if (s.ritual) {
+    if (t("ritual")) {
       $("b4").classList.remove("hidden");
-      await typeListEffect("t4", s.ritual);
+      await typeListEffect("t4", t("ritual"));
       await sleep(1000);
     }
 
-    // 5. ABSCHLUSS & GESUNGENE AFFIRMATION
-    if (s.songOutro) {
+    // 5. ABSCHLUSS
+    if (t("songOutro")) {
       $("b5").classList.remove("hidden");
-      await typeEffect("t5", s.songOutro);
+      await typeEffect("t5", t("songOutro"));
 
       if (s.songFile) {
         const btn = document.createElement("button");
         btn.className = "btn-primary";
         btn.style.marginTop = "25px";
-        btn.innerHTML = "<span>🎵 Gesungene Affirmation hören</span>";
+        btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
         btn.onclick = () => {
           const audio = new Audio(s.songFile);
           audio.play();
           btn.disabled = true;
-          btn.innerHTML = "<span>Wird abgespielt...</span>";
+          btn.innerHTML = `<span>${ui[lang].songPlaying}</span>`;
 
           const lBox = document.getElementById("lyricsBox");
           const lCont = document.getElementById("lyricsContent");
@@ -178,7 +260,6 @@ document.addEventListener("DOMContentLoaded", () => {
             softScroll();
           }
         };
-
         $("audioContainer").appendChild(btn);
         softScroll();
       }
@@ -190,9 +271,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const el = $("impuls");
     el.style.opacity = "0";
     await sleep(500);
-    el.textContent = impulses[Math.floor(Math.random() * impulses.length)];
+    const list = impulses[lang];
+    el.textContent = list[Math.floor(Math.random() * list.length)];
     el.style.opacity = "1";
   };
+
+  $("lang-de").onclick = () => setLang("de");
+  $("lang-en").onclick = () => setLang("en");
 
   $("btnContinue").onclick = () => showView("ui-chooser");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
@@ -221,10 +306,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const colorAus = "#2d5a27";
 
     const updateText = () => {
-      label.textContent = "EIN";
+      label.textContent = ui[lang].breathLabels.ein;
       label.style.color = colorEin;
       setTimeout(() => {
-        label.textContent = "AUS";
+        label.textContent = ui[lang].breathLabels.aus;
         label.style.color = colorAus;
       }, 4000);
     };

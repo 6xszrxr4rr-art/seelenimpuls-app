@@ -39,5 +39,40 @@ window.SITUATIONS[3] = {
   ],
 
   songFile: "audio/Song-Situation-3.mp3",
-  songOutro: "✨ Dein Körper darf sich an dieses Nachlassen erinnern."
+  songOutro: "✨ Dein Körper darf sich an dieses Nachlassen erinnern.",
+
+  ankommenText_en:
+    "You are here.\n\n" +
+    "Perhaps tension shows itself\n" +
+    "in your shoulders, jaw, or breath.\n\n" +
+    "Your body may be noticed.\n" +
+    "Everything may be here.",
+
+  erklaerungText_en:
+    "Tension arises\n" +
+    "when the body stays alert.\n\n" +
+    "Release happens gently\n" +
+    "and in its own rhythm.\n\n" +
+    "These impulses support you\n" +
+    "in letting tension ease, step by step.",
+
+  affirmations_en: [
+    "Release may happen.",
+    "My body finds relaxation.",
+    "I am becoming softer."
+  ],
+
+  ritual_en: [
+    "Place both feet consciously on the floor.",
+    "Feel stability beneath you.",
+    "Breathe calmly in.",
+    "Breathe slowly out.",
+    "Notice where your body is holding on.",
+    "Place one hand on that spot.",
+    "With each exhale, something may release there.",
+    "Say inwardly: \"I am becoming softer.\"",
+    "Stay with this for three calm breaths."
+  ],
+
+  songOutro_en: "✨ Your body may remember this feeling of release."
 };
