@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let bgAudio = null;
   let quickTimerInterval = null;
   let recommendedSituation = null;
+  let sessionGen = 0; // incremented on every stopSession to abort stale async runs
 
   // ── IMPULSES (14 pro Sprache, tagesbasiert rotierend) ─────────────────
   const impulses = {
@@ -157,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function stopSession() {
+    sessionGen++;
     if (breathInterval)    { clearInterval(breathInterval); breathInterval = null; }
     if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
     if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
@@ -277,25 +279,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const t = ui[lang];
-    $("impulsLabel").textContent     = t.impulsLabel;
-    $("btnImpuls").textContent      = t.btnImpuls;
-    $("btnMood").textContent         = t.btnMood;
-    $("btnContinue").textContent     = t.btnContinue;
-    $("btnQuick").textContent        = t.btnQuick;
-    $("btnFavorites").textContent    = t.btnFavorites;
+    $("impulsLabel").textContent        = t.impulsLabel;
+    $("btnImpuls").textContent          = t.btnImpuls;
+    $("btnMood").textContent            = t.btnMood;
+    $("btnContinue").textContent        = t.btnContinue;
+    $("btnQuick").textContent           = t.btnQuick;
+    $("btnFavorites").textContent       = t.btnFavorites;
     $("btnBackFromChooser").textContent = t.btnBack;
-    $("btnBackFromMood").textContent = t.btnBack;
+    $("btnBackFromMood").textContent    = t.btnBack;
     $("btnBackFromFavorites").textContent = t.btnBack;
-    $("btnBackBottom").textContent   = t.btnBackBottom;
-    $("moodTitle").textContent       = t.moodTitle;
-    $("recLabel").textContent        = t.recLabel;
-    $("btnStartRec").textContent     = t.startRec;
-    $("btnShowAll").textContent      = t.showAll;
-    $("quickTitle").textContent      = t.quickTitle;
-    $("quickSub").textContent        = t.quickSub;
-    $("btnStopQuick").textContent    = t.quickStop;
-    $("onboardingSub").innerHTML     = t.onboardingSub;
-    $("btnOnboarding").textContent   = t.onboardingBtn;
+    $("btnBackBottom").textContent      = t.btnBackBottom;
+    $("moodTitle").textContent          = t.moodTitle;
+    $("recLabel").textContent           = t.recLabel;
+    $("btnStartRec").textContent        = t.startRec;
+    $("btnShowAll").textContent         = t.showAll;
+    $("quickTitle").textContent         = t.quickTitle;
+    $("quickSub").textContent           = t.quickSub;
+    $("btnStopQuick").textContent       = t.quickStop;
+    $("onboardingSub").innerHTML        = t.onboardingSub;
+    $("btnOnboarding").textContent      = t.onboardingBtn;
 
     $("impuls").textContent = getDailyImpulse();
     renderMoodGrid();
@@ -335,7 +337,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── TYPE EFFECTS ──────────────────────────────────────────────────────
-  async function typeEffect(id, text) {
+  // alive() = function that returns false when the session has been cancelled.
+  // Breath detection is intentionally absent here – prose text never triggers the circle.
+  async function typeEffect(id, text, alive) {
     const el = $(id);
     if (!el) return;
     el.innerHTML = `<span style="opacity:0">${text}</span>`;
@@ -345,26 +349,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let current = "";
     for (let char of text) {
+      if (!alive()) return;
       current += char;
       vis.textContent = current;
-
-      if (hasBreathKW(current)) {
-        showBreathBox();
-        if (!breathInterval) startBreathingText();
-      }
-
       if ([".", "!", "?"].includes(char)) { softScroll(); await sleep(700); }
       await sleep(SPEED);
     }
     softScroll();
   }
 
-  async function typeListEffect(id, items, opts = {}) {
+  // opts.breath = true  → show breath circle when an item contains breath keywords (ritual only)
+  // opts.hearts = true  → show ❤️ save button (affirmations only)
+  async function typeListEffect(id, items, opts = {}, alive) {
     const list = $(id);
     if (!list) return;
     list.innerHTML = "";
 
     for (let item of items) {
+      if (!alive()) return;
       const li = document.createElement("li");
       list.appendChild(li);
 
@@ -375,13 +377,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let current = "";
       for (let char of item) {
+        if (!alive()) return;
         current += char;
         vis.textContent = current;
         await sleep(SPEED);
       }
 
-      // Atemkreis bei Atemschlüsselwörtern
-      if (hasBreathKW(item)) {
+      // Atemkreis nur beim Ritual (opts.breath), nicht bei Affirmationen
+      if (opts.breath && hasBreathKW(item)) {
         showBreathBox();
         if (!breathInterval) startBreathingText();
         softScroll();
@@ -409,15 +412,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
 
+    // stopSession() increments sessionGen – capture AFTER so alive() tracks this run
+    stopSession();
+    const myGen = sessionGen;
+    const alive = () => sessionGen === myGen;
+
     const t = (field) => (lang === "en" && s[field + "_en"]) ? s[field + "_en"] : s[field];
     const headers = ui[lang].headers;
 
-    stopSession();
     showView("ui-run");
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.28;
+    bgAudio.volume = 0.15;
     bgAudio.play().catch(() => {});
 
     ["b1","b2","b3","b4","b5"].forEach(id => $(id).classList.add("hidden"));
@@ -432,36 +439,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
-    await typeEffect("t1", t("ankommenText"));
+    await typeEffect("t1", t("ankommenText"), alive);
+    if (!alive()) return;
     await sleep(1000);
 
     // 2. EINBLICK
     if (t("erklaerungText")) {
+      if (!alive()) return;
       $("b2").classList.remove("hidden");
-      await typeEffect("t2", t("erklaerungText"));
+      await typeEffect("t2", t("erklaerungText"), alive);
+      if (!alive()) return;
       await sleep(1000);
     }
 
-    if ([1,2,10].includes(n)) { softScroll(); await sleep(1000); }
+    if ([1,2,10].includes(n)) { softScroll(); if (!alive()) return; await sleep(1000); }
 
     // 3. KRAFTSÄTZE
     if (t("affirmations")) {
+      if (!alive()) return;
       $("b3").classList.remove("hidden");
-      await typeListEffect("t3", t("affirmations"), { hearts: true });
+      await typeListEffect("t3", t("affirmations"), { hearts: true }, alive);
+      if (!alive()) return;
       await sleep(1000);
     }
 
-    // 4. MINI-RITUAL (Atemkreis erscheint bei Atemschritten)
+    // 4. MINI-RITUAL – Atemkreis erscheint nur hier
     if (t("ritual")) {
+      if (!alive()) return;
       $("b4").classList.remove("hidden");
-      await typeListEffect("t4", t("ritual"));
+      await typeListEffect("t4", t("ritual"), { breath: true }, alive);
+      if (!alive()) return;
       await sleep(1000);
     }
 
     // 5. ABSCHLUSS
+    if (!alive()) return;
     if (t("songOutro")) {
       $("b5").classList.remove("hidden");
-      await typeEffect("t5", t("songOutro"));
+      await typeEffect("t5", t("songOutro"), alive);
+      if (!alive()) return;
 
       if (s.songFile) {
         $("volumeRow").classList.remove("hidden");
@@ -487,7 +503,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    showCompletion();
+    if (alive()) showCompletion();
   }
 
   // ── QUICK MODE ────────────────────────────────────────────────────────
@@ -499,7 +515,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.28;
+    bgAudio.volume = 0.15;
     bgAudio.play().catch(() => {});
 
     let remaining = 180;
