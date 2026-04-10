@@ -154,6 +154,31 @@
       transition: opacity 0.5s ease;
     }
 
+    /* ── Support & Premium Buttons ── */
+    .support-divider {
+      border: none; border-top: 1px solid var(--block-border);
+      margin: 22px 0 10px;
+    }
+    .btn-premium {
+      display: block; text-align: center; text-decoration: none;
+      width: 100%; padding: 17px; border-radius: 20px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white; font-size: 16px; font-weight: 600;
+      font-family: 'Lora', serif; cursor: pointer;
+      box-shadow: 0 6px 18px rgba(245,158,11,0.28);
+      touch-action: manipulation; transition: opacity 0.2s;
+      box-sizing: border-box;
+    }
+    .btn-premium:active { opacity: 0.85; }
+    .btn-coffee {
+      display: block; text-align: center; text-decoration: none;
+      width: 100%; padding: 14px; border-radius: 18px; margin-top: 10px;
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      color: var(--btn-ghost-color); font-size: 14px;
+      font-family: -apple-system, system-ui, sans-serif;
+      cursor: pointer; touch-action: manipulation; box-sizing: border-box;
+    }
+
     /* ── Buttons ── */
     #btnImpuls {
       background: transparent; border: 1px solid var(--accent);
@@ -388,6 +413,16 @@
       <button class="btn-secondary" id="btnContinue">Alle Situationen</button>
       <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
       <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
+
+      <hr class="support-divider">
+      <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
+         class="btn-premium"
+         data-de="✨ Exklusive Inhalte freischalten"
+         data-en="✨ Unlock Exclusive Content">✨ Exklusive Inhalte freischalten</a>
+      <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
+         class="btn-coffee"
+         data-de="☕ Einen Kaffee spendieren"
+         data-en="☕ Buy Me a Coffee">☕ Einen Kaffee spendieren</a>
     </div>
 
     <!-- ── MOOD CHECK ── -->
