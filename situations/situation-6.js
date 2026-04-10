@@ -1,7 +1,6 @@
 window.SITUATIONS = window.SITUATIONS || {};
 
 window.SITUATIONS[6] = {
-  title: "Innere Leere & Orientierungslosigkeit",
   id: 6,
   title: "6) Innere Leere & Orientierungslosigkeit",
   hint: "Tippe hier, wenn innen wenig greifbar ist.",
@@ -38,5 +37,38 @@ window.SITUATIONS[6] = {
   ],
 
   songFile: "audio/Song-Situation-6.mp3",
-  songOutro: "✨ Auch diese Phase darf ihren eigenen Rhythmus haben."
+  songOutro: "✨ Auch diese Phase darf ihren eigenen Rhythmus haben.",
+
+  ankommenText_en:
+    "You are here.\n\n" +
+    "Perhaps there is little to feel inside right now.\n" +
+    "Or stillness.\n\n" +
+    "This state belongs too.",
+
+  erklaerungText_en:
+    "Inner emptiness signals a transition.\n" +
+    "The old is fading.\n" +
+    "Something new is slowly forming.\n\n" +
+    "These impulses support you\n" +
+    "in staying in the present\n" +
+    "and allowing yourself time.",
+
+  affirmations_en: [
+    "I am in transition.",
+    "Time is on my side.",
+    "Clarity is growing within me."
+  ],
+
+  ritual_en: [
+    "Place both feet on the floor.",
+    "Feel your grounding.",
+    "Breathe calmly in and out.",
+    "Notice the stillness.",
+    "Place one hand on your heart or belly.",
+    "Feel your breath there.",
+    "Say inwardly: \"I may allow myself time.\"",
+    "Stay with this for three calm breaths."
+  ],
+
+  songOutro_en: "✨ This phase too may have its own rhythm."
 };
