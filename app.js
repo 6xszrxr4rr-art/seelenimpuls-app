@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-geburtstag","ui-tier-orakel"];
+  const VIEWS = ["ui-onboarding","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites"];
 
   function showView(id) {
     VIEWS.forEach(v => $(v).classList.add("hidden"));
@@ -562,16 +562,6 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnShowAll").onclick       = () => showView("ui-chooser");
   $("btnStartRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
 
-  $("btnGoGeburtstag").onclick = () => {
-    showView("ui-geburtstag");
-    if (window.GEBURTSTAG) window.GEBURTSTAG.init();
-  };
-  $("btnGoTierOrakel").onclick = () => {
-    showView("ui-tier-orakel");
-    if (window.TIER_ORAKEL) window.TIER_ORAKEL.init();
-  };
-  $("btnBackGeburtstag").onclick = () => showView("ui-home");
-  $("btnBackTierOrakel").onclick = () => showView("ui-home");
   $("btnBackFromChooser").onclick = () => showView("ui-home");
   $("btnBackBottom").onclick    = () => { stopSession(); showView("ui-home"); showStreak(); };
   $("btnStopQuick").onclick     = () => { stopSession(); showView("ui-home"); showStreak(); };

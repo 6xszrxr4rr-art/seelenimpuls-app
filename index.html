@@ -373,8 +373,6 @@
       <button class="btn-secondary" id="btnContinue">Alle Situationen</button>
       <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
       <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
-      <button class="btn-ghost" id="btnGoGeburtstag" style="margin-top:4px;">🎵 Herzton – Persönliches Lied</button>
-      <button class="btn-ghost" id="btnGoTierOrakel" style="margin-top:4px;">🌿 Sechs Sinne – Tier-Botschaft</button>
     </div>
 
     <!-- ── MOOD CHECK ── -->
@@ -439,24 +437,6 @@
       <button class="btn-ghost" id="btnBackFromChooser">Zurück</button>
     </div>
 
-    <!-- Mini-App: Herzton -->
-    <div id="ui-geburtstag" class="hidden">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-        <button id="btnBackGeburtstag" style="background:none;border:none;font-size:22px;cursor:pointer;padding:8px;color:#718096;">←</button>
-        <h2 style="margin:0;font-weight:300;letter-spacing:1px;font-size:20px;">🎵 Herzton</h2>
-      </div>
-      <div id="geburtstag-song-container"></div>
-    </div>
-
-    <!-- Mini-App: Sechs Sinne -->
-    <div id="ui-tier-orakel" class="hidden">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-        <button id="btnBackTierOrakel" style="background:none;border:none;font-size:22px;cursor:pointer;padding:8px;color:#718096;">←</button>
-        <h2 style="margin:0;font-weight:300;letter-spacing:1px;font-size:20px;">🌿 Sechs Sinne</h2>
-      </div>
-      <div id="tier-orakel-container"></div>
-    </div>
-
     <!-- ── RUN ── -->
     <div id="ui-run" class="hidden">
       <div id="blocksContainer">
@@ -518,8 +498,6 @@
   <script src="situations/situation-8.js"></script>
   <script src="situations/situation-9.js"></script>
   <script src="situations/situation-10.js"></script>
-  <script src="mini-geburtstag.js"></script>
-  <script src="mini-tier-orakel.js"></script>
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
