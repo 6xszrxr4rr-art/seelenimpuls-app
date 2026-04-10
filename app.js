@@ -368,12 +368,13 @@ document.addEventListener("DOMContentLoaded", () => {
     softScroll();
   }
 
-  // opts.breath = true  → show breath circle when an item contains breath keywords (ritual only)
-  // opts.hearts = true  → show ❤️ save button (affirmations only)
+  // opts.breath = true  → einmal pro Ritual den Atemkreis zeigen (beim ersten Atemschritt)
+  // opts.hearts = true  → ❤️ Speichern-Button (nur Affirmationen)
   async function typeListEffect(id, items, opts = {}, alive) {
     const list = $(id);
     if (!list) return;
     list.innerHTML = "";
+    let breathShown = false; // nur ein Kreis pro Ritual
 
     for (let item of items) {
       if (!alive()) return;
@@ -393,8 +394,9 @@ document.addEventListener("DOMContentLoaded", () => {
         await sleep(SPEED);
       }
 
-      // Inline-Atemkreis direkt unter dem Ritual-Schritt (nur bei Atemschlüsselwörtern)
-      if (opts.breath && hasBreathKW(item)) {
+      // Inline-Atemkreis: nur beim ersten Atemschritt im Ritual
+      if (opts.breath && !breathShown && hasBreathKW(item)) {
+        breathShown = true;
         const breathDiv = document.createElement("div");
         breathDiv.className = "inline-breath";
         breathDiv.innerHTML =
@@ -504,6 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.style.marginTop = "16px";
         btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
         btn.onclick = () => {
+          if (bgAudio) { bgAudio.pause(); bgAudio = null; }
           currentSongAudio = new Audio(s.songFile);
           currentSongAudio.volume = parseFloat($("volumeSlider").value);
           currentSongAudio.play();
