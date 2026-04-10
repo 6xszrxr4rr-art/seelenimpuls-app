@@ -33,10 +33,9 @@ window.SITUATIONS[10] = {
     "Bleibe noch drei tiefe, bewusste Atemzüge bei diesem Gefühl von Halt."
   ],
 
-  // songFile und songOutro werden ergänzt, sobald Song-Situation-10.mp3 vorliegt
-  // songFile: "audio/Song-Situation-10.mp3",
-  // songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen.",
-  // songOutro_en: "✨ You may carry this inner safety with you into your day.",
+  songFile: "audio/Song-Situation-10.mp3",
+  songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen.",
+  songOutro_en: "✨ You may carry this inner safety with you into your day.",
 
   ankommenText_en:
     "You are here.\n\n" +
