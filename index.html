@@ -104,21 +104,54 @@
     .lang-switch button.active { opacity: 1; transform: scale(1.2); }
     .lang-switch button:hover { opacity: 0.8; }
 
-    /* ── Impulse ── */
-    #impuls {
-      font-size: 26px; font-weight: 400; font-style: italic;
-      color: var(--text); line-height: 1.65; margin: 24px 0;
-      min-height: 110px; display: flex; align-items: center;
-      justify-content: center; text-align: center; padding: 20px;
-      background: radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 75%);
-      transition: opacity 0.5s ease;
+    /* ── Home Hero ── */
+    .home-hero {
+      text-align: center;
+      padding: 10px 0 4px;
+    }
+    .home-logo {
+      width: 76px; height: 76px;
+      border-radius: 20px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.16);
+      margin: 0 auto 12px;
+      display: block;
+    }
+    .home-title {
+      font-size: 20px; font-weight: 400; letter-spacing: 5px;
+      margin: 0 0 6px; color: var(--text);
+      font-family: 'Lora', serif;
     }
 
     /* ── Streak ── */
     .streak-display {
       text-align: center; font-size: 14px; color: var(--text-muted);
-      margin-bottom: 8px; letter-spacing: 0.5px;
+      margin-bottom: 6px; letter-spacing: 0.5px;
       font-family: -apple-system, system-ui, sans-serif;
+    }
+
+    /* ── Impulse Card ── */
+    .impulse-card {
+      background: var(--block-bg);
+      border: 1px solid var(--block-border);
+      border-radius: 28px;
+      padding: 22px 24px 18px;
+      margin: 14px 0 18px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    }
+    .impulse-label {
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 2.5px; color: var(--accent);
+      margin-bottom: 14px;
+      font-family: -apple-system, system-ui, sans-serif;
+      font-weight: 700;
+    }
+    #impuls {
+      font-size: 22px; font-weight: 400; font-style: italic;
+      color: var(--text); line-height: 1.65;
+      margin: 0 0 16px;
+      display: block;
+      transition: opacity 0.5s ease;
     }
 
     /* ── Buttons ── */
@@ -323,12 +356,19 @@
         <button id="lang-de" class="active" title="Deutsch">🇩🇪</button>
         <button id="lang-en" title="English">🇬🇧</button>
       </div>
-      <h1 style="text-align:center; font-weight:400; letter-spacing:3px; margin:0 0 6px; font-size:24px;">SEELENIMPULS</h1>
-      <div id="streakDisplay" class="streak-display hidden"></div>
-      <div style="padding:10px; text-align:center;">
+
+      <div class="home-hero">
+        <img src="icons/icon-192.png" class="home-logo" alt="Seelenimpuls">
+        <h1 class="home-title">SEELENIMPULS</h1>
+        <div id="streakDisplay" class="streak-display hidden"></div>
+      </div>
+
+      <div class="impulse-card">
+        <div class="impulse-label" id="impulsLabel">✨ Tagesimpuls</div>
         <p id="impuls">Atme tief ein.</p>
         <button id="btnImpuls">Neuer Impuls</button>
       </div>
+
       <button class="btn-primary" id="btnMood">Wie geht es dir gerade?</button>
       <button class="btn-secondary" id="btnContinue">Alle Situationen</button>
       <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>

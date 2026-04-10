@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let lang = "de";
   let breathInterval = null;
   let currentSongAudio = null;
+  let bgAudio = null;
   let quickTimerInterval = null;
   let recommendedSituation = null;
 
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ── UI STRINGS ────────────────────────────────────────────────────────
   const ui = {
     de: {
+      impulsLabel: "✨ Tagesimpuls",
       btnImpuls: "Neuer Impuls",
       btnMood: "Wie geht es dir gerade?",
       btnContinue: "Alle Situationen",
@@ -84,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       streak: (n) => `🔥 ${n} Tag${n === 1 ? "" : "e"} dabei`
     },
     en: {
+      impulsLabel: "✨ Daily Impulse",
       btnImpuls: "New Impulse",
       btnMood: "How are you feeling?",
       btnContinue: "All Situations",
@@ -157,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (breathInterval)    { clearInterval(breathInterval); breathInterval = null; }
     if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
     if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
+    if (bgAudio)           { bgAudio.pause(); bgAudio = null; }
   }
 
   // ── STREAK ────────────────────────────────────────────────────────────
@@ -273,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const t = ui[lang];
+    $("impulsLabel").textContent     = t.impulsLabel;
     $("btnImpuls").textContent      = t.btnImpuls;
     $("btnMood").textContent         = t.btnMood;
     $("btnContinue").textContent     = t.btnContinue;
@@ -410,6 +415,11 @@ document.addEventListener("DOMContentLoaded", () => {
     stopSession();
     showView("ui-run");
 
+    bgAudio = new Audio("audio/stillness-space.mp3");
+    bgAudio.loop = true;
+    bgAudio.volume = 0.28;
+    bgAudio.play().catch(() => {});
+
     ["b1","b2","b3","b4","b5"].forEach(id => $(id).classList.add("hidden"));
     $("audioContainer").innerHTML = "";
     $("volumeRow").classList.add("hidden");
@@ -486,6 +496,11 @@ document.addEventListener("DOMContentLoaded", () => {
     showView("ui-quick");
     $("quickTitle").textContent = ui[lang].quickTitle;
     $("quickSub").textContent   = ui[lang].quickSub;
+
+    bgAudio = new Audio("audio/stillness-space.mp3");
+    bgAudio.loop = true;
+    bgAudio.volume = 0.28;
+    bgAudio.play().catch(() => {});
 
     let remaining = 180;
     const fmt = s => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,"0")}`;
