@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v2';
+const CACHE = 'seelenimpuls-v3';
 
 const FILES = [
   './',
