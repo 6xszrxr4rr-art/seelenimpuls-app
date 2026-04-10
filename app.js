@@ -5,142 +5,356 @@ document.addEventListener("DOMContentLoaded", () => {
   const SPEED = 85;
   let lang = "de";
   let breathInterval = null;
-  let bgAudio = null;
+  let currentSongAudio = null;
+  let quickTimerInterval = null;
+  let recommendedSituation = null;
 
+  // ── IMPULSES (14 pro Sprache, tagesbasiert rotierend) ─────────────────
   const impulses = {
     de: [
       "Atme tief ein. Du darfst gehalten sein.",
       "Du darfst langsam sein.",
       "Dein Herz kennt den Weg.",
       "Alles darf leicht werden.",
-      "Du darfst in Sicherheit ankommen."
+      "Du darfst in Sicherheit ankommen.",
+      "Dieser Atemzug trägt dich.",
+      "Du bist genug, genau so.",
+      "Ruhe ist kein Luxus. Sie ist dein Recht.",
+      "Vertrauen darf wachsen.",
+      "Du bist nicht allein.",
+      "Dieser Moment gehört dir.",
+      "Sanftheit beginnt bei dir selbst.",
+      "Alles findet seinen Weg.",
+      "Du darfst ankommen."
     ],
     en: [
       "Breathe deeply in. You may be held.",
       "You may be slow.",
       "Your heart knows the way.",
       "Everything may become light.",
-      "You may arrive in safety."
+      "You may arrive in safety.",
+      "This breath holds you.",
+      "You are enough, exactly as you are.",
+      "Rest is not a luxury. It is your right.",
+      "Trust may grow.",
+      "You are not alone.",
+      "This moment belongs to you.",
+      "Gentleness begins with yourself.",
+      "Everything finds its way.",
+      "You may arrive."
     ]
   };
 
+  // ── SITUATION TITLES (für Mood-Empfehlung) ────────────────────────────
+  const situationTitles = {
+    de: { 1:"Innere Unruhe", 2:"Überforderung", 3:"Anspannung", 4:"Erschöpfung",
+          5:"Traurigkeit", 6:"Innere Leere", 7:"Selbstzweifel",
+          8:"Entscheidung", 9:"Übergang", 10:"Angst & Sicherheit" },
+    en: { 1:"Inner Restlessness", 2:"Overwhelm", 3:"Tension", 4:"Exhaustion",
+          5:"Sadness", 6:"Inner Emptiness", 7:"Self-Doubt",
+          8:"Decision", 9:"Transition", 10:"Fear & Safety" }
+  };
+
+  // ── UI STRINGS ────────────────────────────────────────────────────────
   const ui = {
     de: {
       btnImpuls: "Neuer Impuls",
-      btnContinue: "Situation wählen",
+      btnMood: "Wie geht es dir gerade?",
+      btnContinue: "Alle Situationen",
+      btnQuick: "💨 Atemübung (3 min)",
+      btnFavorites: "❤️ Meine Affirmationen",
       btnBack: "Zurück",
       btnBackBottom: "ÜBUNG BEENDEN",
-      impulsStart: "Atme tief ein.",
-      headers: {
-        b1: "🌿 Ankommen",
-        b2: "💡 Einblick",
-        b3: "✨ Kraftsätze",
-        b4: "🌙 Mini-Ritual",
-        b5: "🎶 Abschluss"
-      },
-      breathLabels: { ein: "EIN", aus: "AUS" },
+      impulsDefault: "Atme tief ein.",
+      headers: { b1:"🌿 Ankommen", b2:"💡 Einblick", b3:"✨ Kraftsätze", b4:"🌙 Mini-Ritual", b5:"🎶 Abschluss" },
+      breathLabels: { ein:"EIN", aus:"AUS" },
       songBtn: "🎵 Gesungene Affirmation hören",
-      songPlaying: "Wird abgespielt..."
+      songPlaying: "Wird abgespielt...",
+      onboardingSub: "Dein persönlicher Begleiter<br>für innere Ruhe.",
+      onboardingBtn: "Beginnen",
+      moodTitle: "Wie fühlst du dich gerade?",
+      recLabel: "Für dich empfohlen",
+      startRec: "Übung starten",
+      showAll: "Alle Situationen",
+      quickTitle: "Atemübung",
+      quickSub: "3 Minuten bewusstes Atmen",
+      quickStop: "Beenden",
+      favTitle: "❤️ Meine Affirmationen",
+      favEmpty: "Noch keine gespeichert.<br>Tippe ♡ bei einer Affirmation.",
+      streak: (n) => `🔥 ${n} Tag${n === 1 ? "" : "e"} dabei`
     },
     en: {
       btnImpuls: "New Impulse",
-      btnContinue: "Choose a Situation",
+      btnMood: "How are you feeling?",
+      btnContinue: "All Situations",
+      btnQuick: "💨 Breathing (3 min)",
+      btnFavorites: "❤️ My Affirmations",
       btnBack: "Back",
       btnBackBottom: "END EXERCISE",
-      impulsStart: "Breathe deeply in.",
-      headers: {
-        b1: "🌿 Arriving",
-        b2: "💡 Insight",
-        b3: "✨ Power Phrases",
-        b4: "🌙 Mini Ritual",
-        b5: "🎶 Closing"
-      },
-      breathLabels: { ein: "IN", aus: "OUT" },
+      impulsDefault: "Breathe deeply in.",
+      headers: { b1:"🌿 Arriving", b2:"💡 Insight", b3:"✨ Power Phrases", b4:"🌙 Mini Ritual", b5:"🎶 Closing" },
+      breathLabels: { ein:"IN", aus:"OUT" },
       songBtn: "🎵 Listen to Sung Affirmation",
-      songPlaying: "Playing..."
+      songPlaying: "Playing...",
+      onboardingSub: "Your personal companion<br>for inner calm.",
+      onboardingBtn: "Begin",
+      moodTitle: "How are you feeling?",
+      recLabel: "Recommended for you",
+      startRec: "Start Exercise",
+      showAll: "All Situations",
+      quickTitle: "Breathing Exercise",
+      quickSub: "3 minutes of conscious breathing",
+      quickStop: "Stop",
+      favTitle: "❤️ My Affirmations",
+      favEmpty: "None saved yet.<br>Tap ♡ on an affirmation.",
+      streak: (n) => `🔥 ${n} day${n === 1 ? "" : "s"} with you`
     }
   };
 
-  function setLang(newLang) {
-    lang = newLang;
+  // ── MOODS ─────────────────────────────────────────────────────────────
+  const moods = {
+    de: [
+      { emoji:"😔", label:"Traurig",   situation:5  },
+      { emoji:"😰", label:"Ängstlich", situation:10 },
+      { emoji:"😤", label:"Gestresst", situation:2  },
+      { emoji:"😓", label:"Erschöpft", situation:4  },
+      { emoji:"😶", label:"Leer",      situation:6  },
+      { emoji:"🌊", label:"Unruhig",   situation:1  }
+    ],
+    en: [
+      { emoji:"😔", label:"Sad",       situation:5  },
+      { emoji:"😰", label:"Anxious",   situation:10 },
+      { emoji:"😤", label:"Stressed",  situation:2  },
+      { emoji:"😓", label:"Exhausted", situation:4  },
+      { emoji:"😶", label:"Empty",     situation:6  },
+      { emoji:"🌊", label:"Restless",  situation:1  }
+    ]
+  };
 
-    $("lang-de").classList.toggle("active", lang === "de");
-    $("lang-en").classList.toggle("active", lang === "en");
+  // Atemkreis-Schlüsselwörter (DE + EN)
+  const BREATH_KW = ["atme","atem","einatmen","ausatmen","atemzüge","atemzug",
+                     "breath","breathe","inhale","exhale","breathing","atemzügen"];
 
-    // Alle data-de / data-en Elemente aktualisieren
-    document.querySelectorAll("[data-de]").forEach(el => {
-      el.textContent = el.getAttribute("data-" + lang);
-    });
-
-    // Feste UI-Elemente
-    const t = ui[lang];
-    $("btnImpuls").textContent = t.btnImpuls;
-    $("btnContinue").textContent = t.btnContinue;
-    $("btnBackFromChooser").textContent = t.btnBack;
-    $("btnBackBottom").textContent = t.btnBackBottom;
-
-    // Startimpuls zurücksetzen wenn noch Standardtext
-    const impulsEl = $("impuls");
-    if (
-      impulsEl.textContent === ui.de.impulsStart ||
-      impulsEl.textContent === ui.en.impulsStart
-    ) {
-      impulsEl.textContent = t.impulsStart;
-    }
+  function hasBreathKW(text) {
+    const lower = text.toLowerCase();
+    return BREATH_KW.some(kw => lower.includes(kw));
   }
 
-  function showView(viewId) {
-    ["ui-home", "ui-chooser", "ui-run"].forEach(id => $(id).classList.add("hidden"));
-    $(viewId).classList.remove("hidden");
+  // ── NAVIGATION ────────────────────────────────────────────────────────
+  const VIEWS = ["ui-onboarding","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites"];
+
+  function showView(id) {
+    VIEWS.forEach(v => $(v).classList.add("hidden"));
+    $(id).classList.remove("hidden");
     window.scrollTo(0, 0);
   }
 
   function softScroll() {
-    setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 150);
+    setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior:"smooth" }), 150);
   }
 
+  function stopSession() {
+    if (breathInterval)    { clearInterval(breathInterval); breathInterval = null; }
+    if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
+    if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
+  }
+
+  // ── STREAK ────────────────────────────────────────────────────────────
+  function updateStreak() {
+    const today     = new Date().toDateString();
+    const lastVisit = localStorage.getItem("si_lastVisit");
+    let   streak    = parseInt(localStorage.getItem("si_streak") || "0");
+    if (lastVisit !== today) {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      streak = (lastVisit === yesterday) ? streak + 1 : 1;
+      localStorage.setItem("si_lastVisit", today);
+      localStorage.setItem("si_streak", streak);
+    }
+    return streak;
+  }
+
+  function showStreak() {
+    const streak = updateStreak();
+    const el = $("streakDisplay");
+    if (streak > 1) { el.textContent = ui[lang].streak(streak); el.classList.remove("hidden"); }
+    else            { el.classList.add("hidden"); }
+  }
+
+  // ── DAILY IMPULSE ─────────────────────────────────────────────────────
+  function getDailyImpulse() {
+    const dayIdx = Math.floor(Date.now() / 86400000);
+    const list   = impulses[lang];
+    return list[dayIdx % list.length];
+  }
+
+  // ── FAVORITES ─────────────────────────────────────────────────────────
+  function getFavorites() { return JSON.parse(localStorage.getItem("si_favorites") || "[]"); }
+
+  function toggleFavorite(text) {
+    const favs = getFavorites();
+    const idx  = favs.indexOf(text);
+    if (idx === -1) favs.push(text); else favs.splice(idx, 1);
+    localStorage.setItem("si_favorites", JSON.stringify(favs));
+    updateFavBtn();
+  }
+
+  function updateFavBtn() {
+    $("btnFavorites").style.display = getFavorites().length > 0 ? "" : "none";
+  }
+
+  function renderFavorites() {
+    const favs      = getFavorites();
+    const container = $("favoritesList");
+    $("favTitle").innerHTML = ui[lang].favTitle;
+    if (favs.length === 0) {
+      container.innerHTML = `<p class="fav-empty">${ui[lang].favEmpty}</p>`;
+      return;
+    }
+    container.innerHTML = "";
+    favs.forEach(text => {
+      const div = document.createElement("div");
+      div.className = "fav-item";
+      const span = document.createElement("span");
+      span.textContent = text;
+      const btn = document.createElement("button");
+      btn.className = "fav-delete";
+      btn.textContent = "🗑️";
+      btn.onclick = () => { toggleFavorite(text); renderFavorites(); };
+      div.appendChild(span);
+      div.appendChild(btn);
+      container.appendChild(div);
+    });
+  }
+
+  // ── COMPLETION ANIMATION ──────────────────────────────────────────────
+  function showCompletion() {
+    const overlay  = $("completionOverlay");
+    overlay.innerHTML = "";
+    const sparkles = ["✨","🌸","💫","⭐","🌟","✨","💫","🌸","⭐","✨","🌟","💫"];
+    sparkles.forEach((s, i) => {
+      const el = document.createElement("span");
+      el.className = "sparkle";
+      el.textContent = s;
+      el.style.left  = (10 + Math.random() * 80) + "%";
+      el.style.bottom = (15 + Math.random() * 35) + "%";
+      el.style.animationDelay = (i * 0.15) + "s";
+      overlay.appendChild(el);
+    });
+    setTimeout(() => { overlay.innerHTML = ""; }, 3800);
+  }
+
+  // ── MOOD GRID ─────────────────────────────────────────────────────────
+  function renderMoodGrid() {
+    const grid = $("moodGrid");
+    grid.innerHTML = "";
+    moods[lang].forEach(mood => {
+      const btn = document.createElement("button");
+      btn.className = "mood-btn";
+      btn.innerHTML = `<span class="mood-emoji">${mood.emoji}</span><span class="mood-label">${mood.label}</span>`;
+      btn.onclick = () => {
+        document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        recommendedSituation = mood.situation;
+        $("recTitle").textContent = situationTitles[lang][mood.situation];
+        $("moodRecommendation").classList.remove("hidden");
+      };
+      grid.appendChild(btn);
+    });
+  }
+
+  // ── LANGUAGE ──────────────────────────────────────────────────────────
+  function setLang(newLang) {
+    lang = newLang;
+    $("lang-de").classList.toggle("active", lang === "de");
+    $("lang-en").classList.toggle("active", lang === "en");
+
+    document.querySelectorAll("[data-de]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
+
+    const t = ui[lang];
+    $("btnImpuls").textContent      = t.btnImpuls;
+    $("btnMood").textContent         = t.btnMood;
+    $("btnContinue").textContent     = t.btnContinue;
+    $("btnQuick").textContent        = t.btnQuick;
+    $("btnFavorites").textContent    = t.btnFavorites;
+    $("btnBackFromChooser").textContent = t.btnBack;
+    $("btnBackFromMood").textContent = t.btnBack;
+    $("btnBackFromFavorites").textContent = t.btnBack;
+    $("btnBackBottom").textContent   = t.btnBackBottom;
+    $("moodTitle").textContent       = t.moodTitle;
+    $("recLabel").textContent        = t.recLabel;
+    $("btnStartRec").textContent     = t.startRec;
+    $("btnShowAll").textContent      = t.showAll;
+    $("quickTitle").textContent      = t.quickTitle;
+    $("quickSub").textContent        = t.quickSub;
+    $("btnStopQuick").textContent    = t.quickStop;
+    $("onboardingSub").innerHTML     = t.onboardingSub;
+    $("btnOnboarding").textContent   = t.onboardingBtn;
+
+    $("impuls").textContent = getDailyImpulse();
+    renderMoodGrid();
+    showStreak();
+  }
+
+  // ── BREATHING TEXT ────────────────────────────────────────────────────
+  function showBreathBox() {
+    const box = $("breathBox");
+    if (!box || getComputedStyle(box).display !== "none") return;
+    box.style.display  = "block";
+    box.style.opacity  = "0";
+    setTimeout(() => {
+      box.style.transition = "opacity 2s ease-in-out";
+      box.style.opacity    = "1";
+    }, 50);
+  }
+
+  function startBreathingText() {
+    if (breathInterval) { clearInterval(breathInterval); breathInterval = null; }
+    const colorEin = "#0056b3";
+    const colorAus = "#2d5a27";
+
+    const update = () => {
+      ["breathLabel","quickBreathLabel"].forEach(id => {
+        const el = $(id);
+        if (!el) return;
+        el.textContent  = ui[lang].breathLabels.ein;
+        el.style.color  = colorEin;
+        setTimeout(() => {
+          if (el) { el.textContent = ui[lang].breathLabels.aus; el.style.color = colorAus; }
+        }, 4000);
+      });
+    };
+    update();
+    breathInterval = setInterval(update, 8000);
+  }
+
+  // ── TYPE EFFECTS ──────────────────────────────────────────────────────
   async function typeEffect(id, text) {
     const el = $(id);
     if (!el) return;
-
     el.innerHTML = `<span style="opacity:0">${text}</span>`;
-    const visibleLayer = document.createElement("span");
-    visibleLayer.style.position = "absolute";
-    visibleLayer.style.left = "0";
-    visibleLayer.style.top = "0";
-    el.appendChild(visibleLayer);
+    const vis = document.createElement("span");
+    vis.style.cssText = "position:absolute; left:0; top:0;";
+    el.appendChild(vis);
 
     let current = "";
     for (let char of text) {
       current += char;
-      visibleLayer.textContent = current;
+      vis.textContent = current;
 
-      const lower = current.toLowerCase();
-      if (lower.includes("atme") || lower.includes("breath")) {
-        const box = document.getElementById("breathBox");
-        if (box && getComputedStyle(box).display === "none") {
-          box.style.display = "block";
-          box.style.opacity = "0";
-          setTimeout(() => {
-            box.style.transition = "opacity 2s ease-in-out";
-            box.style.opacity = "1";
-            startBreathingText();
-          }, 50);
-        }
+      if (hasBreathKW(current)) {
+        showBreathBox();
+        if (!breathInterval) startBreathingText();
       }
 
-      if ([".", "!", "?"].includes(char)) {
-        softScroll();
-        await sleep(700);
-      }
+      if ([".", "!", "?"].includes(char)) { softScroll(); await sleep(700); }
       await sleep(SPEED);
     }
     softScroll();
   }
 
-  async function typeListEffect(id, items) {
+  async function typeListEffect(id, items, opts = {}) {
     const list = $(id);
     if (!list) return;
     list.innerHTML = "";
@@ -151,9 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       li.innerHTML = `<span style="opacity:0">${item}</span>`;
       const vis = document.createElement("span");
-      vis.style.position = "absolute";
-      vis.style.left = "35px";
-      vis.style.top = "0";
+      vis.style.cssText = "position:absolute; left:35px; top:0;";
       li.appendChild(vis);
 
       let current = "";
@@ -162,42 +374,51 @@ document.addEventListener("DOMContentLoaded", () => {
         vis.textContent = current;
         await sleep(SPEED);
       }
+
+      // Atemkreis bei Atemschlüsselwörtern
+      if (hasBreathKW(item)) {
+        showBreathBox();
+        if (!breathInterval) startBreathingText();
+        softScroll();
+      }
+
+      // Herzchen für Affirmationen (b3)
+      if (opts.hearts) {
+        const heart = document.createElement("button");
+        heart.className   = "heart-btn";
+        heart.textContent = getFavorites().includes(item) ? "❤️" : "🤍";
+        heart.onclick     = () => {
+          toggleFavorite(item);
+          heart.textContent = getFavorites().includes(item) ? "❤️" : "🤍";
+        };
+        li.appendChild(heart);
+      }
+
       softScroll();
       await sleep(3500);
     }
   }
 
+  // ── RUN SITUATION ─────────────────────────────────────────────────────
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
     if (!s) return;
 
-    // Sprachabhängiges Feld auslesen (EN wenn vorhanden, sonst DE)
     const t = (field) => (lang === "en" && s[field + "_en"]) ? s[field + "_en"] : s[field];
     const headers = ui[lang].headers;
 
-    if (breathInterval) {
-      clearInterval(breathInterval);
-      breathInterval = null;
-    }
-    if (bgAudio) {
-      bgAudio.pause();
-      bgAudio = null;
-    }
-
+    stopSession();
     showView("ui-run");
-    ["b1", "b2", "b3", "b4", "b5"].forEach(id => $(id).classList.add("hidden"));
+
+    ["b1","b2","b3","b4","b5"].forEach(id => $(id).classList.add("hidden"));
     $("audioContainer").innerHTML = "";
+    $("volumeRow").classList.add("hidden");
+    $("lyricsBox").style.display = "none";
 
     const bBox = $("breathBox");
-    if (bBox) {
-      bBox.style.display = "none";
-      bBox.style.opacity = "0";
-    }
+    bBox.style.display = "none"; bBox.style.opacity = "0"; bBox.style.transition = "";
 
-    // Block-Header sprachabhängig setzen
-    ["b1", "b2", "b3", "b4", "b5"].forEach(id => {
-      $(id).querySelector(".block-header").textContent = headers[id];
-    });
+    ["b1","b2","b3","b4","b5"].forEach(id => $(id).querySelector(".block-header").textContent = headers[id]);
 
     // 1. ANKOMMEN
     $("b1").classList.remove("hidden");
@@ -211,20 +432,16 @@ document.addEventListener("DOMContentLoaded", () => {
       await sleep(1000);
     }
 
-    // ATEM-GUIDE
-    if ([1, 2, 10].includes(n)) {
-      softScroll();
-      await sleep(1000);
-    }
+    if ([1,2,10].includes(n)) { softScroll(); await sleep(1000); }
 
-    // 3. KRAFTSÄTZE / POWER PHRASES
+    // 3. KRAFTSÄTZE
     if (t("affirmations")) {
       $("b3").classList.remove("hidden");
-      await typeListEffect("t3", t("affirmations"));
+      await typeListEffect("t3", t("affirmations"), { hearts: true });
       await sleep(1000);
     }
 
-    // 4. MINI-RITUAL
+    // 4. MINI-RITUAL (Atemkreis erscheint bei Atemschritten)
     if (t("ritual")) {
       $("b4").classList.remove("hidden");
       await typeListEffect("t4", t("ritual"));
@@ -237,21 +454,21 @@ document.addEventListener("DOMContentLoaded", () => {
       await typeEffect("t5", t("songOutro"));
 
       if (s.songFile) {
+        $("volumeRow").classList.remove("hidden");
         const btn = document.createElement("button");
         btn.className = "btn-primary";
-        btn.style.marginTop = "25px";
+        btn.style.marginTop = "16px";
         btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
         btn.onclick = () => {
-          const audio = new Audio(s.songFile);
-          audio.play();
+          currentSongAudio = new Audio(s.songFile);
+          currentSongAudio.volume = parseFloat($("volumeSlider").value);
+          currentSongAudio.play();
           btn.disabled = true;
           btn.innerHTML = `<span>${ui[lang].songPlaying}</span>`;
 
-          const lBox = document.getElementById("lyricsBox");
-          const lCont = document.getElementById("lyricsContent");
-          if (lBox && lCont && s.lyrics) {
-            lBox.style.display = "block";
-            lCont.innerText = s.lyrics;
+          if (s.lyrics) {
+            $("lyricsBox").style.display = "block";
+            $("lyricsContent").innerText = s.lyrics;
             softScroll();
           }
         };
@@ -259,58 +476,88 @@ document.addEventListener("DOMContentLoaded", () => {
         softScroll();
       }
     }
+
+    showCompletion();
   }
 
-  // --- Startseite ---
+  // ── QUICK MODE ────────────────────────────────────────────────────────
+  function startQuickMode() {
+    stopSession();
+    showView("ui-quick");
+    $("quickTitle").textContent = ui[lang].quickTitle;
+    $("quickSub").textContent   = ui[lang].quickSub;
+
+    let remaining = 180;
+    const fmt = s => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,"0")}`;
+    $("quickTimer").textContent = fmt(remaining);
+
+    startBreathingText();
+
+    quickTimerInterval = setInterval(() => {
+      remaining--;
+      $("quickTimer").textContent = fmt(remaining);
+      if (remaining <= 0) {
+        stopSession();
+        showCompletion();
+        showView("ui-home");
+        showStreak();
+      }
+    }, 1000);
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────────
+  renderMoodGrid();
+  updateFavBtn();
+  $("impuls").textContent = getDailyImpulse();
+
+  if (!localStorage.getItem("si_visited")) {
+    localStorage.setItem("si_visited", "1");
+    showView("ui-onboarding");
+  } else {
+    showView("ui-home");
+    showStreak();
+  }
+
+  // ── EVENT LISTENERS ───────────────────────────────────────────────────
+  $("lang-de").onclick = () => setLang("de");
+  $("lang-en").onclick = () => setLang("en");
+
+  $("btnOnboarding").onclick = () => { showView("ui-home"); showStreak(); };
+
   $("btnImpuls").onclick = async () => {
     const el = $("impuls");
     el.style.opacity = "0";
     await sleep(500);
     const list = impulses[lang];
-    el.textContent = list[Math.floor(Math.random() * list.length)];
+    el.textContent   = list[Math.floor(Math.random() * list.length)];
     el.style.opacity = "1";
   };
 
-  $("lang-de").onclick = () => setLang("de");
-  $("lang-en").onclick = () => setLang("en");
+  $("btnMood").onclick = () => {
+    renderMoodGrid();
+    $("moodRecommendation").classList.add("hidden");
+    recommendedSituation = null;
+    showView("ui-mood");
+  };
+  $("btnContinue").onclick      = () => showView("ui-chooser");
+  $("btnQuick").onclick         = () => startQuickMode();
+  $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 
-  $("btnContinue").onclick = () => showView("ui-chooser");
+  $("btnBackFromMood").onclick  = () => showView("ui-home");
+  $("btnShowAll").onclick       = () => showView("ui-chooser");
+  $("btnStartRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick = () => {
-    if (breathInterval) {
-      clearInterval(breathInterval);
-      breathInterval = null;
-    }
-    if (bgAudio) {
-      bgAudio.pause();
-      bgAudio = null;
-    }
-    showView("ui-home");
+  $("btnBackBottom").onclick    = () => { stopSession(); showView("ui-home"); showStreak(); };
+  $("btnStopQuick").onclick     = () => { stopSession(); showView("ui-home"); showStreak(); };
+  $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
+
+  $("volumeSlider").oninput = (e) => {
+    if (currentSongAudio) currentSongAudio.volume = parseFloat(e.target.value);
   };
 
   for (let i = 1; i <= 10; i++) {
     const btn = $("btnSituation" + i);
     if (btn) btn.onclick = () => runSituation(i);
-  }
-
-  function startBreathingText() {
-    const label = $("breathLabel");
-    if (!label) return;
-
-    const colorEin = "#0056b3";
-    const colorAus = "#2d5a27";
-
-    const updateText = () => {
-      label.textContent = ui[lang].breathLabels.ein;
-      label.style.color = colorEin;
-      setTimeout(() => {
-        label.textContent = ui[lang].breathLabels.aus;
-        label.style.color = colorAus;
-      }, 4000);
-    };
-
-    updateText();
-    breathInterval = setInterval(updateText, 8000);
   }
 
 });
