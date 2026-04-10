@@ -408,6 +408,11 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => { breathDiv.style.opacity = "1"; }, 80);
         startBreathingText();
         softScroll();
+        // 3 vollständige Atemzyklen pausieren (3 × 8s = EIN + AUS je Zyklus)
+        for (let cycle = 0; cycle < 3; cycle++) {
+          await sleep(8000);
+          if (!alive()) return;
+        }
       }
 
       // Herzchen für Affirmationen (b3)
