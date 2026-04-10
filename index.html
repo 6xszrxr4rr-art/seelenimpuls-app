@@ -262,6 +262,21 @@
       50%      { transform: scale(1.2);  border-color: #0056b3; box-shadow: 0 0 30px rgba(0,86,179,0.3); }
     }
 
+    /* ── Inline Atemkreis (Ritual) ── */
+    .inline-breath-circle-sm {
+      width: 68px; height: 68px; border-radius: 50%;
+      margin: 0 auto;
+      border: 3px solid var(--accent);
+      background: var(--accent-soft);
+      display: flex; align-items: center; justify-content: center;
+      animation: breatheCycle 8s infinite ease-in-out;
+    }
+    .inline-breath-lbl {
+      font-weight: 700; letter-spacing: 1px; font-size: 12px;
+      font-family: -apple-system, system-ui, sans-serif;
+      color: #0056b3;
+    }
+
     /* ── Lists ── */
     ul { list-style: none; padding: 0; }
     li { font-size: 20px; margin-bottom: 22px; padding: 0 36px 0 35px; position: relative; line-height: 1.6; }

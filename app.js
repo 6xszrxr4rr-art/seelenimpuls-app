@@ -322,6 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const colorAus = "#2d5a27";
 
     const update = () => {
+      // Feste Atemkreise (Quick-Mode & breathBox)
       ["breathLabel","quickBreathLabel"].forEach(id => {
         const el = $(id);
         if (!el) return;
@@ -329,6 +330,15 @@ document.addEventListener("DOMContentLoaded", () => {
         el.style.color  = colorEin;
         setTimeout(() => {
           if (el) { el.textContent = ui[lang].breathLabels.aus; el.style.color = colorAus; }
+        }, 4000);
+      });
+      // Inline-Atemkreise im Ritual
+      document.querySelectorAll(".inline-breath-lbl").forEach(el => {
+        el.textContent = ui[lang].breathLabels.ein;
+        el.style.color = colorEin;
+        setTimeout(() => {
+          el.textContent = ui[lang].breathLabels.aus;
+          el.style.color = colorAus;
         }, 4000);
       });
     };
@@ -383,10 +393,18 @@ document.addEventListener("DOMContentLoaded", () => {
         await sleep(SPEED);
       }
 
-      // Atemkreis nur beim Ritual (opts.breath), nicht bei Affirmationen
+      // Inline-Atemkreis direkt unter dem Ritual-Schritt (nur bei Atemschlüsselwörtern)
       if (opts.breath && hasBreathKW(item)) {
-        showBreathBox();
-        if (!breathInterval) startBreathingText();
+        const breathDiv = document.createElement("div");
+        breathDiv.className = "inline-breath";
+        breathDiv.innerHTML =
+          `<div class="inline-breath-circle-sm">` +
+          `<span class="inline-breath-lbl">${ui[lang].breathLabels.ein}</span>` +
+          `</div>`;
+        breathDiv.style.cssText = "opacity:0; transition:opacity 1.5s ease-in-out; padding:14px 0 6px; text-align:center;";
+        li.appendChild(breathDiv);
+        setTimeout(() => { breathDiv.style.opacity = "1"; }, 80);
+        startBreathingText();
         softScroll();
       }
 
