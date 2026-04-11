@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites"];
+  const VIEWS = ["ui-onboarding","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => $(v).classList.add("hidden"));
@@ -608,6 +608,8 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackBottom").onclick    = () => { stopSession(); showView("ui-home"); showStreak(); };
   $("btnStopQuick").onclick     = () => { stopSession(); showView("ui-home"); showStreak(); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
+  $("btnLegal").onclick             = () => showView("ui-legal");
+  $("btnBackFromLegal").onclick     = () => showView("ui-home");
 
   $("volumeSlider").oninput = (e) => {
     if (currentSongAudio) currentSongAudio.volume = parseFloat(e.target.value);

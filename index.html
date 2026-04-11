@@ -374,6 +374,41 @@
       background: var(--accent-soft); border-radius: 15px;
       font-style: italic; color: var(--accent); line-height: 1.7; text-align: center;
     }
+
+    /* ── Legal View ── */
+    .legal-footer {
+      text-align: center; margin-top: 24px; padding-bottom: 10px;
+    }
+    .legal-link {
+      background: none; border: none; cursor: pointer;
+      font-size: 12px; color: var(--text-muted);
+      font-family: -apple-system, system-ui, sans-serif;
+      text-decoration: underline; padding: 8px;
+      touch-action: manipulation;
+    }
+    .legal-content h2 {
+      font-size: 20px; font-weight: 600; margin: 28px 0 10px;
+      color: var(--text); font-family: 'Lora', serif;
+    }
+    .legal-content h2:first-child { margin-top: 0; }
+    .legal-content h3 {
+      font-size: 16px; font-weight: 600; margin: 20px 0 6px;
+      color: var(--accent); font-family: -apple-system, system-ui, sans-serif;
+    }
+    .legal-content p, .legal-content li {
+      font-size: 15px; line-height: 1.7; color: var(--text);
+      font-family: -apple-system, system-ui, sans-serif;
+      margin-bottom: 10px;
+    }
+    .legal-content li { padding: 0; margin-bottom: 6px; }
+    .legal-content li::before { content: none; }
+    .legal-content ul { list-style: disc; padding-left: 20px; }
+    .disclaimer-box {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 16px; padding: 18px 20px; margin-bottom: 24px;
+    }
+    .disclaimer-box p { margin: 0; font-size: 15px; line-height: 1.7; }
   </style>
 </head>
 <body>
@@ -423,6 +458,10 @@
          class="btn-coffee"
          data-de="☕ Einen Kaffee spendieren"
          data-en="☕ Buy Me a Coffee">☕ Einen Kaffee spendieren</a>
+
+      <div class="legal-footer">
+        <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
+      </div>
     </div>
 
     <!-- ── MOOD CHECK ── -->
@@ -534,6 +573,60 @@
       <h2 id="favTitle" style="font-weight:400; text-align:center; margin-bottom:24px;">❤️ Meine Affirmationen</h2>
       <div id="favoritesList"></div>
       <button class="btn-ghost" id="btnBackFromFavorites">Zurück</button>
+    </div>
+
+    <!-- ── LEGAL ── -->
+    <div id="ui-legal" class="hidden">
+      <button class="btn-ghost" id="btnBackFromLegal" style="margin-bottom:28px;">← Zurück</button>
+      <div class="legal-content">
+
+        <!-- GESUNDHEITLICHER HINWEIS -->
+        <div class="disclaimer-box">
+          <p>⚕️ <strong>Kein ärztlicher Rat.</strong> Diese App dient ausschließlich der allgemeinen Entspannung und Achtsamkeit. Sie ersetzt keine medizinische, psychologische oder therapeutische Beratung. Bei gesundheitlichen Beschwerden wende dich bitte an eine qualifizierte Fachkraft.</p>
+        </div>
+
+        <!-- DATENSCHUTZERKLÄRUNG -->
+        <h2>Datenschutzerklärung</h2>
+
+        <h3>Verantwortliche Person</h3>
+        <p>
+          <strong>[DEIN VOLLSTÄNDIGER NAME]</strong><br>
+          [STRASSE UND HAUSNUMMER]<br>
+          [PLZ ORT]<br>
+          E-Mail: [DEINE E-MAIL-ADRESSE]
+        </p>
+
+        <h3>Welche Daten werden gespeichert?</h3>
+        <p>Diese App speichert ausschließlich folgende Daten <strong>lokal auf deinem Gerät</strong> (im Browser-Speicher / localStorage). Es werden keine Daten an uns oder Dritte übermittelt:</p>
+        <ul>
+          <li>Tages-Streak (wie viele Tage du die App genutzt hast)</li>
+          <li>Gespeicherte Lieblingsaffirmationen</li>
+          <li>Spracheinstellung (Deutsch / Englisch)</li>
+          <li>Ob du die App schon einmal geöffnet hast</li>
+        </ul>
+        <p>Diese Daten bleiben nur auf deinem Gerät und können jederzeit durch Löschen des Browser-Caches entfernt werden.</p>
+
+        <h3>Hosting (GitHub Pages)</h3>
+        <p>Diese App wird über GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf der App kann GitHub technische Verbindungsdaten (z. B. IP-Adresse) verarbeiten. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">Datenschutzerklärung von GitHub</a>.</p>
+
+        <h3>Externe Links (Ko-fi)</h3>
+        <p>Die App enthält Links zur Plattform Ko-fi (Ko-fi Labs Limited). Wenn du auf diese Links klickst, gelangst du auf eine externe Website. Für deren Datenschutz ist Ko-fi verantwortlich. Weitere Informationen: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
+
+        <h3>Deine Rechte</h3>
+        <p>Da wir keine personenbezogenen Daten erheben oder verarbeiten, entstehen keine datenschutzrechtlichen Ansprüche gegenüber uns. Alle lokal gespeicherten Daten kannst du jederzeit selbst löschen (Browser-Einstellungen → Websitedaten löschen).</p>
+
+        <!-- IMPRESSUM -->
+        <h2>Impressum</h2>
+        <p>Angaben gemäß § 5 TMG:</p>
+        <p>
+          <strong>[DEIN VOLLSTÄNDIGER NAME]</strong><br>
+          [STRASSE UND HAUSNUMMER]<br>
+          [PLZ ORT]<br>
+          E-Mail: [DEINE E-MAIL-ADRESSE]
+        </p>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Stand: April 2025</p>
+
+      </div>
     </div>
 
   </div><!-- /wrap -->
