@@ -620,4 +620,33 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) btn.onclick = () => runSituation(i);
   }
 
+  // ── PWA Install Button ──────────────────────────────────────────────────
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  let deferredInstallPrompt = null;
+
+  if (!isStandalone) {
+    if (isIOS) {
+      $("btnInstall").style.display = "block";
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      $("btnInstall").style.display = "block";
+    });
+  }
+
+  $("btnInstall").onclick = async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      $("btnInstall").style.display = "none";
+    } else if (isIOS) {
+      $("iosInstallModal").classList.add("visible");
+    }
+  };
+
+  $("btnCloseIosModal").onclick = () => $("iosInstallModal").classList.remove("visible");
+
 });
