@@ -88,10 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const situationTitles = {
     de: { 1:"Innere Unruhe", 2:"Überforderung", 3:"Anspannung", 4:"Erschöpfung",
           5:"Traurigkeit", 6:"Innere Leere", 7:"Selbstzweifel",
-          8:"Entscheidung", 9:"Übergang", 10:"Angst & Sicherheit" },
+          8:"Entscheidung", 9:"Übergang", 10:"Angst & Sicherheit",
+          11:"Konflikte & innerer Frieden" },
     en: { 1:"Inner Restlessness", 2:"Overwhelm", 3:"Tension", 4:"Exhaustion",
           5:"Sadness", 6:"Inner Emptiness", 7:"Self-Doubt",
-          8:"Decision", 9:"Transition", 10:"Fear & Safety" }
+          8:"Decision", 9:"Transition", 10:"Fear & Safety",
+          11:"Conflict & Inner Peace" }
   };
 
   // ── UI STRINGS ────────────────────────────────────────────────────────
@@ -549,6 +551,72 @@ document.addEventListener("DOMContentLoaded", () => {
           ]
         }
       ]
+    },
+
+    11: {
+      title: "Konflikte & innerer Frieden",
+      quote: "„Hinter jedem Vorwurf steckt ein unerfülltes Bedürfnis." – Marshall Rosenberg",
+      sections: [
+        {
+          heading: "Mein aktueller Konflikt",
+          body: "Beschreibe die Situation in wenigen Worten – ohne Wertung:",
+          fields: [
+            { type:'textarea', label:'Worum geht es?', key:'s11_f0', rows:3 },
+            { type:'input',    label:'Mit wem (oder womit) bin ich im Konflikt?', key:'s11_f1' },
+          ]
+        },
+        {
+          heading: "Was fühle ich wirklich?",
+          body: "Unter dem Ärger liegt oft noch mehr. Was spürst du?",
+          fields: [
+            { type:'checklist', label:'', options:['Ärger','Trauer','Enttäuschung','Angst','Scham','Einsamkeit','Hilflosigkeit','Sehnsucht','Erschöpfung','Verwirrung'], key:'s11_f2' },
+            { type:'textarea', label:'Unter dem Ärger liegt eigentlich:', key:'s11_f3', rows:3 },
+          ]
+        },
+        {
+          heading: "Was brauche ich?",
+          body: "Hinter jedem Gefühl steckt ein Bedürfnis. Was brauchst du wirklich?",
+          fields: [
+            { type:'checklist', label:'', options:['Gehört werden','Respekt','Verständnis','Sicherheit','Verbindung','Anerkennung','Ruhe','Klarheit','Fairness','Raum'], key:'s11_f4' },
+            { type:'textarea', label:'Mein tiefstes Bedürfnis in diesem Konflikt:', key:'s11_f5', rows:3 },
+          ]
+        },
+        {
+          heading: "Rosenberg-Übersetzung",
+          body: "Übersetze Vorwürfe in Bedürfnisse – vom Angriff zur Bitte:",
+          fields: [
+            { type:'note', text:'Statt „Du hörst mir nie zu!" sage ich: „Ich brauche das Gefühl, dass ich dir wichtig bin."' },
+            { type:'statt', key1:'s11_f6a', key2:'s11_f6b' },
+            { type:'statt', key1:'s11_f7a', key2:'s11_f7b' },
+            { type:'statt', key1:'s11_f8a', key2:'s11_f8b' },
+          ]
+        },
+        {
+          heading: "90-Sekunden-Regel",
+          body: "Ein Gefühl dauert neurobiologisch nur 90 Sekunden – wenn wir es nicht befeuern. Beobachte dich beim nächsten Konfliktmoment:",
+          fields: [
+            { type:'note', text:'Atme, zähle bis 90, beobachte nur. Was verändert sich?' },
+            { type:'textarea', label:'Was bemerke ich, wenn ich 90 Sekunden warte?', key:'s11_f9', rows:3 },
+          ]
+        },
+        {
+          heading: "Körper-Check",
+          body: "Wo trägt dein Körper diesen Konflikt?",
+          fields: [
+            { type:'input', label:'Kopf / Gedanken:', key:'s11_f10' },
+            { type:'input', label:'Brust / Herz:', key:'s11_f11' },
+            { type:'input', label:'Bauch:', key:'s11_f12' },
+            { type:'input', label:'Schultern / Nacken:', key:'s11_f13' },
+          ]
+        },
+        {
+          heading: "Mein Friedens-Satz",
+          body: "Ein Satz, den du dir selbst sagen kannst – aus der Ruhe heraus:",
+          fields: [
+            { type:'textarea', label:'', key:'s11_f14', rows:3 },
+          ]
+        }
+      ]
     }
   };
 
@@ -658,7 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderWorksheetList() {
     const list = $("worksheetsList");
     list.innerHTML = "";
-    [6, 7, 8, 9, 10].forEach(n => {
+    [6, 7, 8, 9, 10, 11].forEach(n => {
       const ws = WORKSHEETS[n];
       const hasData = Object.keys(localStorage).some(k => k.startsWith('ws_s' + n + '_'));
       const btn = document.createElement("button");
@@ -797,7 +865,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const list = $("homeSituationsList");
     list.innerHTML = "";
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 11; i++) {
       if (i === situationN) continue;
       const btn = document.createElement("button");
       btn.className   = "home-situation-btn";
@@ -1165,7 +1233,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentSongAudio) currentSongAudio.volume = parseFloat(e.target.value);
   };
 
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 11; i++) {
     const btn = $("btnSituation" + i);
     if (btn) btn.onclick = () => runSituation(i);
   }
