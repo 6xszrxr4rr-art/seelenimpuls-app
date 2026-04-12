@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => $(v).classList.add("hidden"));
@@ -282,7 +282,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $("impulsLabel").textContent        = t.impulsLabel;
     $("btnImpuls").textContent          = t.btnImpuls;
     $("btnMood").textContent            = t.btnMood;
-    $("btnContinue").textContent        = t.btnContinue;
     $("btnQuick").textContent           = t.btnQuick;
     $("btnFavorites").textContent       = t.btnFavorites;
     $("btnBackFromChooser").textContent = t.btnBack;
@@ -571,7 +570,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("si_visited", "1");
     showView("ui-onboarding");
   } else {
-    showView("ui-home");
+    showView("ui-welcome");
     showStreak();
   }
 
@@ -579,7 +578,8 @@ document.addEventListener("DOMContentLoaded", () => {
   $("lang-de").onclick = () => setLang("de");
   $("lang-en").onclick = () => setLang("en");
 
-  $("btnOnboarding").onclick = () => { showView("ui-home"); showStreak(); };
+  $("btnOnboarding").onclick = () => { showView("ui-welcome"); showStreak(); };
+  $("btnBeginnen").onclick   = () => { showView("ui-home"); updateFavBtn(); };
 
   $("btnImpuls").onclick = async () => {
     const el = $("impuls");
@@ -596,7 +596,6 @@ document.addEventListener("DOMContentLoaded", () => {
     recommendedSituation = null;
     showView("ui-mood");
   };
-  $("btnContinue").onclick      = () => showView("ui-chooser");
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 

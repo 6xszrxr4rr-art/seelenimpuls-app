@@ -442,6 +442,23 @@
     .ios-install-sheet .share-icon {
       font-size: 28px; display: block; margin-bottom: 8px;
     }
+
+    /* ── Home nav & small support links ── */
+    .home-nav-greeting {
+      text-align: center; font-family: 'Lora', serif; font-size: 17px;
+      color: var(--text-muted); font-style: italic; margin: 24px 0 20px;
+    }
+    .support-links-sm {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin-top: 24px; flex-wrap: wrap;
+    }
+    .support-link-sm {
+      font-size: 14px; color: var(--text-muted); text-decoration: none;
+      font-family: -apple-system, system-ui, sans-serif;
+      padding: 4px 0; transition: opacity 0.2s; opacity: 0.75;
+    }
+    .support-link-sm:hover { opacity: 1; }
+    .support-sep { color: var(--text-muted); opacity: 0.3; font-size: 16px; }
   </style>
 </head>
 <body>
@@ -458,8 +475,8 @@
       </div>
     </div>
 
-    <!-- ── HOME ── -->
-    <div id="ui-home" class="hidden">
+    <!-- ── WELCOME ── -->
+    <div id="ui-welcome" class="hidden">
       <div class="lang-switch">
         <button id="lang-de" class="active" title="Deutsch">🇩🇪</button>
         <button id="lang-en" title="English">🇬🇧</button>
@@ -477,23 +494,33 @@
         <button id="btnImpuls">Neuer Impuls</button>
       </div>
 
+      <button class="btn-primary" id="btnBeginnen"
+              data-de="Beginnen" data-en="Begin">Beginnen</button>
+    </div>
+
+    <!-- ── HOME ── -->
+    <div id="ui-home" class="hidden">
+      <p class="home-nav-greeting" data-de="Womit möchtest du beginnen?"
+         data-en="What would you like to do?">Womit möchtest du beginnen?</p>
+
       <button class="btn-primary" id="btnMood">Wie geht es dir gerade?</button>
-      <button class="btn-secondary" id="btnContinue">Alle Situationen</button>
       <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
       <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
       <button class="btn-install" id="btnInstall"
               data-de="📲 App auf dem Handy installieren"
               data-en="📲 Install App on your phone">📲 App auf dem Handy installieren</button>
 
-      <hr class="support-divider">
-      <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
-         class="btn-premium"
-         data-de="✨ Exklusive Inhalte freischalten"
-         data-en="✨ Unlock Exclusive Content">✨ Exklusive Inhalte freischalten</a>
-      <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
-         class="btn-coffee"
-         data-de="☕ Einen Kaffee spendieren"
-         data-en="☕ Buy Me a Coffee">☕ Einen Kaffee spendieren</a>
+      <div class="support-links-sm">
+        <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
+           class="support-link-sm"
+           data-de="✨ Exklusive Inhalte"
+           data-en="✨ Exclusive Content">✨ Exklusive Inhalte</a>
+        <span class="support-sep">·</span>
+        <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
+           class="support-link-sm"
+           data-de="☕ Energieausgleich"
+           data-en="☕ Energy Exchange">☕ Energieausgleich</a>
+      </div>
 
       <div class="legal-footer">
         <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
@@ -520,43 +547,43 @@
       <div id="situationsList">
         <button class="situationBtn" id="btnSituation1">
           <span class="headline" data-de="1) Innere Unruhe" data-en="1) Inner Restlessness">1) Innere Unruhe</span>
-          <span class="hint" data-de="Gedanken kreisen" data-en="Thoughts spinning">Gedanken kreisen</span>
+          <span class="hint" data-de="Wenn Gedanken nicht aufhören" data-en="When thoughts won't stop">Wenn Gedanken nicht aufhören</span>
         </button>
         <button class="situationBtn" id="btnSituation2">
           <span class="headline" data-de="2) Überforderung" data-en="2) Overwhelm">2) Überforderung</span>
-          <span class="hint" data-de="Alles zu viel" data-en="Too much at once">Alles zu viel</span>
+          <span class="hint" data-de="Wenn alles zu viel wird" data-en="When everything feels too much">Wenn alles zu viel wird</span>
         </button>
         <button class="situationBtn" id="btnSituation3">
           <span class="headline" data-de="3) Anspannung" data-en="3) Tension">3) Anspannung</span>
-          <span class="hint" data-de="Körperlich loslassen" data-en="Letting go physically">Körperlich loslassen</span>
+          <span class="hint" data-de="Wenn du dich festgehalten fühlst" data-en="When tension holds you tight">Wenn du dich festgehalten fühlst</span>
         </button>
         <button class="situationBtn" id="btnSituation4">
           <span class="headline" data-de="4) Erschöpfung" data-en="4) Exhaustion">4) Erschöpfung</span>
-          <span class="hint" data-de="Kraft tanken" data-en="Recharging">Kraft tanken</span>
+          <span class="hint" data-de="Wenn keine Kraft mehr da ist" data-en="When your energy runs low">Wenn keine Kraft mehr da ist</span>
         </button>
         <button class="situationBtn" id="btnSituation5">
           <span class="headline" data-de="5) Traurigkeit" data-en="5) Sadness">5) Traurigkeit</span>
-          <span class="hint" data-de="Gefühle zulassen" data-en="Allowing feelings">Gefühle zulassen</span>
+          <span class="hint" data-de="Wenn etwas schwer auf der Seele liegt" data-en="When sadness quietly weighs on you">Wenn etwas schwer auf der Seele liegt</span>
         </button>
         <button class="situationBtn" id="btnSituation6">
           <span class="headline" data-de="6) Innere Leere" data-en="6) Inner Emptiness">6) Innere Leere</span>
-          <span class="hint" data-de="Halt finden" data-en="Finding grounding">Halt finden</span>
+          <span class="hint" data-de="Wenn du dich orientierungslos fühlst" data-en="When direction feels lost">Wenn du dich orientierungslos fühlst</span>
         </button>
         <button class="situationBtn" id="btnSituation7">
           <span class="headline" data-de="7) Selbstzweifel" data-en="7) Self-Doubt">7) Selbstzweifel</span>
-          <span class="hint" data-de="Vertrauen finden" data-en="Finding trust">Vertrauen finden</span>
+          <span class="hint" data-de="Wenn die innere Stimme zweifelt" data-en="When your inner voice doubts you">Wenn die innere Stimme zweifelt</span>
         </button>
         <button class="situationBtn" id="btnSituation8">
           <span class="headline" data-de="8) Entscheidung" data-en="8) Decision">8) Entscheidung</span>
-          <span class="hint" data-de="Klarheit gewinnen" data-en="Gaining clarity">Klarheit gewinnen</span>
+          <span class="hint" data-de="Wenn du zwischen zwei Wegen stehst" data-en="When you stand between two paths">Wenn du zwischen zwei Wegen stehst</span>
         </button>
         <button class="situationBtn" id="btnSituation9">
           <span class="headline" data-de="9) Übergang" data-en="9) Transition">9) Übergang</span>
-          <span class="hint" data-de="Neues begrüßen" data-en="Welcoming the new">Neues begrüßen</span>
+          <span class="hint" data-de="Wenn sich gerade vieles verändert" data-en="When things are shifting">Wenn sich gerade vieles verändert</span>
         </button>
         <button class="situationBtn" id="btnSituation10">
           <span class="headline" data-de="10) Angst & Sicherheit" data-en="10) Fear & Safety">10) Angst & Sicherheit</span>
-          <span class="hint" data-de="Geborgen sein" data-en="Feeling held">Geborgen sein</span>
+          <span class="hint" data-de="Wenn das Herz schnell schlägt" data-en="When fear makes your heart race">Wenn das Herz schnell schlägt</span>
         </button>
       </div>
       <button class="btn-ghost" id="btnBackFromChooser">Zurück</button>
