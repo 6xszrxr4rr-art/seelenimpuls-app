@@ -445,6 +445,24 @@
       font-size: 28px; display: block; margin-bottom: 8px;
     }
 
+    /* ── Home mood title (inline mood grid) ── */
+    .home-mood-title {
+      text-align: center; font-family: 'Lora', serif; font-size: 20px;
+      font-weight: 400; color: var(--text); margin: 24px 0 16px;
+      font-style: italic;
+    }
+
+    /* ── Welcome screen quick-action buttons ── */
+    .welcome-actions {
+      margin-top: 14px;
+    }
+
+    /* ── Support links at end of situation ── */
+    .situation-end-support {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin: 32px 0 16px; flex-wrap: wrap;
+    }
+
     /* ── Home nav & small support links ── */
     .home-nav-greeting {
       text-align: center; font-family: 'Lora', serif; font-size: 17px;
@@ -498,16 +516,29 @@
 
       <button class="btn-primary" id="btnBeginnen"
               data-de="Beginnen" data-en="Begin">Beginnen</button>
+
+      <div class="welcome-actions">
+        <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
+        <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
+      </div>
     </div>
 
     <!-- ── HOME ── -->
     <div id="ui-home" class="hidden">
-      <p class="home-nav-greeting" data-de="Womit möchtest du beginnen?"
-         data-en="What would you like to do?">Womit möchtest du beginnen?</p>
+      <h2 class="home-mood-title" id="homeMoodTitle"
+          data-de="Wie geht es dir gerade?" data-en="How are you feeling?">Wie geht es dir gerade?</h2>
 
-      <button class="btn-primary" id="btnMood">Wie geht es dir gerade?</button>
-      <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
-      <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
+      <div class="mood-grid" id="homeMoodGrid"></div>
+
+      <div id="homeRecCard" class="hidden">
+        <div class="rec-card">
+          <div class="rec-label" id="homeRecLabel">Für dich empfohlen</div>
+          <div class="rec-title" id="homeRecTitle"></div>
+        </div>
+        <button class="btn-primary" id="btnStartHome">Übung starten</button>
+        <button class="btn-secondary" id="btnShowAllHome">Alle Situationen</button>
+      </div>
+
       <button class="btn-install" id="btnInstall"
               data-de="📲 App auf dem Handy installieren"
               data-en="📲 Install App on your phone">📲 App auf dem Handy installieren</button>
@@ -618,6 +649,18 @@
       </div>
       <button id="btnBackBottom">ÜBUNG BEENDEN</button>
       <div id="lyricsBox"><div id="lyricsContent"></div></div>
+
+      <div class="situation-end-support">
+        <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
+           class="support-link-sm"
+           data-de="☕ Energieausgleich"
+           data-en="☕ Energy Exchange">☕ Energieausgleich</a>
+        <span class="support-sep">·</span>
+        <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
+           class="support-link-sm"
+           data-de="✨ Exklusive Inhalte"
+           data-en="✨ Exclusive Content">✨ Exklusive Inhalte</a>
+      </div>
     </div>
 
     <!-- ── QUICK MODE ── -->

@@ -139,6 +139,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const BREATH_KW = ["atme","atem","einatmen","ausatmen","atemzüge","atemzug",
                      "breath","breathe","inhale","exhale","breathing","atemzügen"];
 
+  // Ausatmen-Schlüsselwörter — Kreis erscheint nur nach dem Ausatmen
+  const EXHALE_KW = ["ausatmen","lass das aus","durch den mund aus","breathe out","exhale"];
+  function hasExhaleKW(text) {
+    const lower = text.toLowerCase();
+    return EXHALE_KW.some(kw => lower.includes(kw)) || /atme\b.*\baus/.test(lower);
+  }
+
   function hasBreathKW(text) {
     const lower = text.toLowerCase();
     return BREATH_KW.some(kw => lower.includes(kw));
@@ -268,6 +275,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ── HOME MOOD GRID (inline on home screen) ───────────────────────────
+  function renderHomeMoodGrid() {
+    const grid = $("homeMoodGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    $("homeRecCard").classList.add("hidden");
+    moods[lang].forEach(mood => {
+      const btn = document.createElement("button");
+      btn.className = "mood-btn";
+      btn.innerHTML = `<span class="mood-emoji">${mood.emoji}</span><span class="mood-label">${mood.label}</span>`;
+      btn.onclick = () => {
+        grid.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        recommendedSituation = mood.situation;
+        $("homeRecTitle").textContent  = situationTitles[lang][mood.situation];
+        $("homeRecLabel").textContent  = ui[lang].recLabel;
+        $("btnStartHome").textContent  = ui[lang].startRec;
+        $("btnShowAllHome").textContent = ui[lang].showAll;
+        $("homeRecCard").classList.remove("hidden");
+        softScroll();
+      };
+      grid.appendChild(btn);
+    });
+  }
+
   // ── LANGUAGE ──────────────────────────────────────────────────────────
   function setLang(newLang) {
     lang = newLang;
@@ -281,7 +313,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const t = ui[lang];
     $("impulsLabel").textContent        = t.impulsLabel;
     $("btnImpuls").textContent          = t.btnImpuls;
-    $("btnMood").textContent            = t.btnMood;
     $("btnQuick").textContent           = t.btnQuick;
     $("btnFavorites").textContent       = t.btnFavorites;
     $("btnBackFromChooser").textContent = t.btnBack;
@@ -297,9 +328,11 @@ document.addEventListener("DOMContentLoaded", () => {
     $("btnStopQuick").textContent       = t.quickStop;
     $("onboardingSub").innerHTML        = t.onboardingSub;
     $("btnOnboarding").textContent      = t.onboardingBtn;
+    $("homeMoodTitle").textContent      = t.btnMood;
 
     $("impuls").textContent = getDailyImpulse();
     renderMoodGrid();
+    renderHomeMoodGrid();
     showStreak();
   }
 
@@ -394,7 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Inline-Atemkreis: nur beim ersten Atemschritt im Ritual
-      if (opts.breath && !breathShown && hasBreathKW(item)) {
+      if (opts.breath && !breathShown && hasExhaleKW(item)) {
         breathShown = true;
         const breathDiv = document.createElement("div");
         breathDiv.className = "inline-breath";
@@ -563,6 +596,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── INIT ──────────────────────────────────────────────────────────────
   renderMoodGrid();
+  renderHomeMoodGrid();
   updateFavBtn();
   $("impuls").textContent = getDailyImpulse();
 
@@ -590,22 +624,18 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.opacity = "1";
   };
 
-  $("btnMood").onclick = () => {
-    renderMoodGrid();
-    $("moodRecommendation").classList.add("hidden");
-    recommendedSituation = null;
-    showView("ui-mood");
-  };
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
+  $("btnStartHome").onclick     = () => { if (recommendedSituation) runSituation(recommendedSituation); };
+  $("btnShowAllHome").onclick   = () => showView("ui-chooser");
 
   $("btnBackFromMood").onclick  = () => showView("ui-home");
   $("btnShowAll").onclick       = () => showView("ui-chooser");
   $("btnStartRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick    = () => { stopSession(); showView("ui-home"); showStreak(); };
-  $("btnStopQuick").onclick     = () => { stopSession(); showView("ui-home"); showStreak(); };
+  $("btnBackBottom").onclick    = () => { stopSession(); renderHomeMoodGrid(); showView("ui-home"); showStreak(); };
+  $("btnStopQuick").onclick     = () => { stopSession(); renderHomeMoodGrid(); showView("ui-home"); showStreak(); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
