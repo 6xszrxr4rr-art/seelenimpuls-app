@@ -183,13 +183,13 @@
 
     /* ── Buttons ── */
     #btnImpuls {
-      background: var(--accent-soft); border: 1.5px solid var(--accent);
+      background: var(--accent-soft); border: 2px solid var(--accent);
       color: var(--accent); padding: 11px 28px; border-radius: 30px;
       font-size: 15px; font-family: 'Lora', serif;
-      opacity: 0.9; cursor: pointer; transition: all 0.3s ease;
-      touch-action: manipulation; font-weight: 500;
+      cursor: pointer; transition: all 0.3s ease;
+      touch-action: manipulation; font-weight: 700;
     }
-    #btnImpuls:hover { opacity: 1; background: var(--accent); color: white; }
+    #btnImpuls:hover { background: var(--accent); color: white; }
 
     .btn-primary {
       background: var(--accent); color: white; border: none;
@@ -514,9 +514,9 @@
       gap: 14px; margin-top: 40px; flex-wrap: wrap;
     }
     .support-link-sm {
-      font-size: 15px; color: var(--text-muted); text-decoration: none;
+      font-size: 15px; color: var(--text); text-decoration: none;
       font-family: -apple-system, system-ui, sans-serif;
-      padding: 4px 0; transition: opacity 0.2s; opacity: 0.85;
+      padding: 4px 0; transition: opacity 0.2s; opacity: 0.7;
     }
     .support-link-sm:hover { opacity: 1; }
     .support-sep { color: var(--text-muted); opacity: 0.3; font-size: 16px; }
@@ -601,22 +601,22 @@
         </button>
         <div class="home-divider"></div>
         <div id="homeSituationsList"></div>
-      </div>
 
-      <!-- Immer sichtbar -->
-      <div class="support-links-sm" style="margin-top:32px;">
-        <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
-           class="support-link-sm"
-           data-de="✨ Exklusive Inhalte"
-           data-en="✨ Exclusive Content">✨ Exklusive Inhalte</a>
-        <span class="support-sep">·</span>
-        <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
-           class="support-link-sm"
-           data-de="☕ Energieausgleich"
-           data-en="☕ Energy Exchange">☕ Energieausgleich</a>
-      </div>
-      <div class="legal-footer">
-        <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
+        <!-- Unten, nach den Situationen -->
+        <div class="support-links-sm" style="margin-top:40px;">
+          <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
+             class="support-link-sm"
+             data-de="✨ Exklusive Inhalte"
+             data-en="✨ Exclusive Content">✨ Exklusive Inhalte</a>
+          <span class="support-sep">·</span>
+          <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
+             class="support-link-sm"
+             data-de="☕ Energieausgleich"
+             data-en="☕ Energy Exchange">☕ Energieausgleich</a>
+        </div>
+        <div class="legal-footer">
+          <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
+        </div>
       </div>
     </div>
 
