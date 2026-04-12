@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => $(v).classList.add("hidden"));
@@ -282,6 +282,351 @@ document.addEventListener("DOMContentLoaded", () => {
     buildCardList();
     showCard(0);
     showView('ui-cards');
+  }
+
+  // ── ARBEITSBLÄTTER ────────────────────────────────────────────────────
+  const WORKSHEETS = {
+    6: {
+      title: "Innere Leere & Orientierungslosigkeit",
+      quote: "„Leere ist kein Mangel. Sie ist ein Übergang."",
+      sections: [
+        {
+          heading: "Absichtsloses Tun",
+          body: "Probiere diese Woche bewusst Dinge OHNE Ziel. Notiere, wie es sich anfühlt:",
+          fields: [
+            { type:'input',    label:'Spazieren ohne Ziel:',                  key:'s6_f0' },
+            { type:'input',    label:'Malen / Zeichnen ohne Ergebnis:',       key:'s6_f1' },
+            { type:'input',    label:'Musik hören ohne etwas zu suchen:',     key:'s6_f2' },
+          ]
+        },
+        {
+          heading: "Erinnerung an dein wahres Selbst",
+          body: "Beantworte diese Fragen aus dem Bauch heraus:",
+          fields: [
+            { type:'input',    label:'Was hat mich als Kind fasziniert?',     key:'s6_f3' },
+            { type:'input',    label:'Welche Träume habe ich aufgegeben?',    key:'s6_f4' },
+            { type:'textarea', label:'Wer war ich, bevor ich wurde, was andere erwarteten?', key:'s6_f5', rows:3 },
+          ]
+        },
+        {
+          heading: "Mein innerer Kompass",
+          fields: [
+            { type:'textarea', label:'', key:'s6_f6', rows:3 },
+          ]
+        },
+        {
+          heading: null,
+          fields: [
+            { type:'textarea', label:'Wenn ich ganz still werde, spüre ich:', key:'s6_f7', rows:4 },
+          ]
+        }
+      ]
+    },
+
+    7: {
+      title: "Selbstzweifel & innere Unsicherheit",
+      quote: "„Du kannst dem inneren Kritiker zuhören, ohne ihm zu glauben."",
+      sections: [
+        {
+          heading: "Mein innerer Kritiker",
+          body: "Welche Sätze sagt er am häufigsten?",
+          fields: [
+            { type:'textarea', label:'', key:'s7_f0', rows:3 },
+            { type:'input',    label:'Gib ihm einen Namen (z.B. „Herr Zweifel", „die strenge Lehrerin"):', key:'s7_f1' },
+          ]
+        },
+        {
+          heading: "Woher kommt diese Stimme?",
+          body: "Von wem habe ich diese Sätze zuerst gehört?",
+          fields: [
+            { type:'input', label:'', key:'s7_f2' },
+          ]
+        },
+        {
+          heading: "Erfolgs-Tagebuch (7 Tage)",
+          body: "Schreibe jeden Abend 3 Dinge auf, die du heute geschafft hast:",
+          fields: [
+            { type:'textarea', label:'Tag 1:', key:'s7_f3', rows:2 },
+            { type:'textarea', label:'Tag 2:', key:'s7_f4', rows:2 },
+            { type:'textarea', label:'Tag 3:', key:'s7_f5', rows:2 },
+            { type:'note', text:'Tag 4–7: Notiere die weiteren Tage für dich.' },
+          ]
+        },
+        {
+          heading: "Mein Gegen-Satz",
+          body: "Formuliere einen Satz, der den Kritiker entkräftet:",
+          fields: [
+            { type:'statt', key1:'s7_f6', key2:'s7_f7' },
+          ]
+        }
+      ]
+    },
+
+    8: {
+      title: "Entscheidungszweifel & inneres Schwanken",
+      quote: "„Es gibt keine falsche Entscheidung. Nur Wege, die unterschiedliche Erfahrungen ermöglichen."",
+      sections: [
+        {
+          heading: "Meine aktuelle Entscheidung",
+          body: "Worum geht es?",
+          fields: [
+            { type:'input', label:'', key:'s8_f0' },
+          ]
+        },
+        {
+          heading: "Option A vs. Option B",
+          fields: [
+            { type:'cols2', col1:{label:'Option A:', key:'s8_f1'}, col2:{label:'Option B:', key:'s8_f2'} },
+            { type:'textarea', label:'', key:'s8_f3', rows:3 },
+          ]
+        },
+        {
+          heading: "Körper-Check",
+          body: "Stelle dir jeden Weg vor und spüre in deinen Körper:",
+          fields: [
+            { type:'checklist', label:'Option A fühlt sich an wie:', options:['Weite / Öffnung','Enge / Druck','Ruhe','Unruhe','Neutral'], key:'s8_f4' },
+            { type:'checklist', label:'Option B fühlt sich an wie:', options:['Weite / Öffnung','Enge / Druck','Ruhe','Unruhe','Neutral'], key:'s8_f5' },
+          ]
+        },
+        {
+          heading: "Die Münzwurf-Frage",
+          body: "Wirf eine Münze. In dem Moment, wo sie in der Luft ist:",
+          fields: [
+            { type:'input', label:'', key:'s8_f6' },
+            { type:'input', label:'Was hast du dir gewünscht, dass sie zeigt?', key:'s8_f7' },
+          ]
+        },
+        {
+          heading: "Die angstfreie Frage",
+          body: "Welche Entscheidung würde ich treffen, wenn ich wüsste, dass es kein Scheitern gibt?",
+          fields: [
+            { type:'textarea', label:'', key:'s8_f8', rows:4 },
+          ]
+        }
+      ]
+    },
+
+    9: {
+      title: "Übergang, Wandel & Neubeginn",
+      quote: "„Vertrauen wächst durch die Erinnerung an alle Übergänge, die du bereits gemeistert hast."",
+      sections: [
+        {
+          heading: "Meine bisherigen Übergänge",
+          body: "Liste alle großen Veränderungen, die du bereits durchlebt hast:",
+          fields: [
+            { type:'input', label:'', key:'s9_f0' },
+            { type:'input', label:'', key:'s9_f1' },
+            { type:'input', label:'', key:'s9_f2' },
+            { type:'note', text:'Bei jedem einzelnen wusstest du am Anfang nicht, wie es ausgeht. Und doch bist du hier.' },
+          ]
+        },
+        {
+          heading: "Abschiedsritual",
+          fields: [
+            { type:'cols-header', col1:'Was ich mitnehme:', col2:'Was ich zurücklasse:' },
+            { type:'cols2', col1:{label:'', key:'s9_f3'}, col2:{label:'', key:'s9_f4'} },
+            { type:'cols2', col1:{label:'', key:'s9_f5'}, col2:{label:'', key:'s9_f6'} },
+            { type:'cols2', col1:{label:'', key:'s9_f7'}, col2:{label:'', key:'s9_f8'} },
+          ]
+        },
+        {
+          heading: "Brief an mein zukünftiges Ich",
+          body: "Schreibe dir selbst einen Brief aus der Perspektive von 1 Jahr später:",
+          fields: [
+            { type:'textarea', label:'', key:'s9_f9', rows:6 },
+          ]
+        },
+        {
+          heading: "Mein Vertrauens-Satz",
+          fields: [
+            { type:'input', label:'', key:'s9_f10' },
+          ]
+        },
+        {
+          heading: null,
+          fields: [
+            { type:'textarea', label:'Ich bin bereit, weil:', key:'s9_f11', rows:4 },
+          ]
+        }
+      ]
+    },
+
+    10: {
+      title: "Angst & innere Sicherheit",
+      quote: "„Nach der Angst kommt immer Stille. Es wird immer ruhig danach."",
+      sections: [
+        {
+          heading: "Angst-Landkarte",
+          body: "Schreibe deine Ängste auf und ordne sie ein:",
+          fields: [
+            { type:'cols-header', col1:'Reale Bedrohung', col2:'Vorgestellte Bedrohung' },
+            { type:'cols2', col1:{label:'', key:'s10_f0'}, col2:{label:'', key:'s10_f1'} },
+            { type:'cols2', col1:{label:'', key:'s10_f2'}, col2:{label:'', key:'s10_f3'} },
+            { type:'cols2', col1:{label:'', key:'s10_f4'}, col2:{label:'', key:'s10_f5'} },
+            { type:'note', text:'Die meisten Ängste fallen in die rechte Spalte. Das macht sie nicht weniger real, aber es verändert den Umgang.' },
+          ]
+        },
+        {
+          heading: "Meine Angst-Symptome",
+          body: "Wie zeigt sich Angst in meinem Körper?",
+          fields: [
+            { type:'checklist', label:'', options:['Herzklopfen','Enge in der Brust','Flacher Atem','Schweißausbrüche','Übelkeit','Weiche Knie','Gedächtnisleere'], key:'s10_f6' },
+            { type:'input', label:'Anderes:', key:'s10_f7' },
+          ]
+        },
+        {
+          heading: "5-4-3-2-1 Notfall-Übung",
+          body: "Fülle aus, wenn Angst akut wird:",
+          fields: [
+            { type:'input', label:'5 Dinge, die ich SEHE:',          key:'s10_f8'  },
+            { type:'input', label:'4 Dinge, die ich HÖRE:',          key:'s10_f9'  },
+            { type:'input', label:'3 Dinge, die ich BERÜHREN kann:', key:'s10_f10' },
+            { type:'input', label:'2 Dinge, die ich RIECHE:',        key:'s10_f11' },
+            { type:'input', label:'1 Ding, das ich SCHMECKE:',       key:'s10_f12' },
+          ]
+        },
+        {
+          heading: "Mein Sicherheits-Anker",
+          body: "Was gibt mir sofort ein Gefühl von Sicherheit?",
+          fields: [
+            { type:'textarea', label:'', key:'s10_f13', rows:3 },
+          ]
+        }
+      ]
+    }
+  };
+
+  let currentWorksheet = null;
+
+  function wsEscape(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+  function wsFieldHTML(field) {
+    const lsKey = 'ws_' + field.key;
+
+    if (field.type === 'input') {
+      const val = wsEscape(localStorage.getItem(lsKey) || '');
+      return (field.label ? '<label class="ws-field-label">' + field.label + '</label>' : '') +
+        '<input type="text" class="ws-input" data-ws-key="' + field.key + '" value="' + val + '" autocomplete="off">';
+    }
+
+    if (field.type === 'textarea') {
+      const val = localStorage.getItem(lsKey) || '';
+      return (field.label ? '<label class="ws-field-label">' + field.label + '</label>' : '') +
+        '<textarea class="ws-textarea" data-ws-key="' + field.key + '" rows="' + (field.rows || 3) + '">' + wsEscape(val) + '</textarea>';
+    }
+
+    if (field.type === 'note') {
+      return '<p class="ws-note">' + field.text + '</p>';
+    }
+
+    if (field.type === 'cols-header') {
+      return '<div class="ws-cols-header">' +
+        '<span class="ws-cols-header-label">' + field.col1 + '</span>' +
+        '<span class="ws-cols-header-label">' + field.col2 + '</span>' +
+        '</div>';
+    }
+
+    if (field.type === 'cols2') {
+      const v1 = wsEscape(localStorage.getItem('ws_' + field.col1.key) || '');
+      const v2 = wsEscape(localStorage.getItem('ws_' + field.col2.key) || '');
+      return '<div class="ws-cols2">' +
+        '<div>' +
+          (field.col1.label ? '<span class="ws-col-label">' + field.col1.label + '</span>' : '') +
+          '<input type="text" class="ws-col-input" data-ws-key="' + field.col1.key + '" value="' + v1 + '">' +
+        '</div>' +
+        '<div>' +
+          (field.col2.label ? '<span class="ws-col-label">' + field.col2.label + '</span>' : '') +
+          '<input type="text" class="ws-col-input" data-ws-key="' + field.col2.key + '" value="' + v2 + '">' +
+        '</div>' +
+        '</div>';
+    }
+
+    if (field.type === 'checklist') {
+      const checked = JSON.parse(localStorage.getItem('ws_' + field.key) || '[]');
+      let html = (field.label ? '<span class="ws-field-label">' + field.label + '</span>' : '') +
+        '<div class="ws-check-grid">';
+      field.options.forEach(opt => {
+        const isChecked = checked.includes(opt) ? ' checked' : '';
+        html += '<label class="ws-check-item"><input type="checkbox" data-ws-key="' + field.key + '" data-ws-opt="' + wsEscape(opt) + '"' + isChecked + '> ' + opt + '</label>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    if (field.type === 'statt') {
+      const v1 = wsEscape(localStorage.getItem('ws_' + field.key1) || '');
+      const v2 = wsEscape(localStorage.getItem('ws_' + field.key2) || '');
+      return '<div class="ws-statt-row">Statt \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key1 + '" value="' + v1 + '">\u201c sage ich: \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key2 + '" value="' + v2 + '">\u201c</div>';
+    }
+
+    return '';
+  }
+
+  function renderWorksheet(n) {
+    const ws = WORKSHEETS[n];
+    let html = '<div class="ws-header">';
+    html += '<span class="ws-sit-label">SITUATION ' + n + '</span>';
+    html += '<h2 class="ws-main-title">' + ws.title + '</h2>';
+    html += '<p class="ws-quote">' + ws.quote + '</p>';
+    html += '</div>';
+
+    ws.sections.forEach(section => {
+      html += '<div class="ws-section">';
+      if (section.heading) html += '<h3 class="ws-section-heading">' + section.heading + '</h3>';
+      if (section.body)    html += '<p class="ws-section-body">' + section.body + '</p>';
+      section.fields.forEach(field => { html += wsFieldHTML(field); });
+      html += '</div><hr class="ws-divider">';
+    });
+
+    $("worksheetContent").innerHTML = html;
+
+    // Attach auto-save listeners
+    $("worksheetContent").querySelectorAll('[data-ws-key]').forEach(el => {
+      if (el.type === 'checkbox') {
+        el.addEventListener('change', () => {
+          const key = 'ws_' + el.dataset.wsKey;
+          const cur = JSON.parse(localStorage.getItem(key) || '[]');
+          const opt = el.dataset.wsOpt;
+          if (el.checked) { if (!cur.includes(opt)) cur.push(opt); }
+          else { const i = cur.indexOf(opt); if (i !== -1) cur.splice(i, 1); }
+          localStorage.setItem(key, JSON.stringify(cur));
+        });
+      } else {
+        el.addEventListener('input', () => {
+          localStorage.setItem('ws_' + el.dataset.wsKey, el.value);
+        });
+      }
+    });
+  }
+
+  function renderWorksheetList() {
+    const list = $("worksheetsList");
+    list.innerHTML = "";
+    [6, 7, 8, 9, 10].forEach(n => {
+      const ws = WORKSHEETS[n];
+      const hasData = Object.keys(localStorage).some(k => k.startsWith('ws_s' + n + '_'));
+      const btn = document.createElement("button");
+      btn.className = "ws-list-item";
+      btn.innerHTML =
+        '<div>' +
+          '<span class="ws-list-num">SITUATION ' + n + '</span>' +
+          '<span class="ws-list-title">' + ws.title + '</span>' +
+        '</div>' +
+        (hasData ? '<span class="ws-list-dot"></span>' : '<span class="ws-list-arrow">›</span>');
+      btn.addEventListener("click", () => openWorksheet(n));
+      list.appendChild(btn);
+    });
+  }
+
+  function openWorksheet(n) {
+    currentWorksheet = n;
+    renderWorksheet(n);
+    showView('ui-worksheet');
+  }
+
+  function openWorksheets() {
+    renderWorksheetList();
+    showView('ui-worksheets');
   }
 
   // ── DAILY IMPULSE ─────────────────────────────────────────────────────
@@ -423,6 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("btnQuick").textContent           = t.btnQuick;
     $("btnFavorites").textContent       = t.btnFavorites;
     $("btnCards").textContent           = lang === "de" ? "💫 Affirmationskarten" : "💫 Affirmation Cards";
+    $("btnWorksheets").textContent      = lang === "de" ? "📝 Arbeitsblätter" : "📝 Worksheets";
     $("btnBackFromChooser").textContent = t.btnBack;
     $("btnBackFromMood").textContent    = t.btnBack;
     $("btnBackFromFavorites").textContent = t.btnBack;
@@ -737,6 +1083,11 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnCardPrev").addEventListener("click", () => showCard(currentCardIdx - 1));
   $("btnCardNext").addEventListener("click", () => showCard(currentCardIdx + 1));
   $("btnBackFromCards").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+
+  $("btnWorksheets").addEventListener("click", () => openWorksheets());
+  $("btnBackFromWorksheets").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+  $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
+  $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
   // Swipe-Unterstützung auf der Karte
   let _swipeX = 0;

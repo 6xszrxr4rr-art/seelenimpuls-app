@@ -623,6 +623,97 @@
       font-family: -apple-system, system-ui, sans-serif;
       margin: 8px 0 20px; font-style: italic;
     }
+
+    /* ── Worksheets ── */
+    .ws-page-title { font-size: 22px; font-weight: 400; color: var(--text); margin: 0 0 4px; }
+    .ws-page-sub { font-size: 14px; color: var(--text-muted); font-style: italic;
+      font-family: -apple-system, system-ui, sans-serif; margin: 0 0 24px; }
+    .ws-list-item {
+      background: var(--situation-bg); border: 1px solid var(--situation-border);
+      padding: 18px 20px; border-radius: 18px; margin-bottom: 12px;
+      text-align: left; cursor: pointer; touch-action: manipulation;
+      width: 100%; font-family: 'Lora', serif; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ws-list-item:active { background: var(--accent-soft); }
+    .ws-list-num { font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent); font-family: -apple-system, system-ui, sans-serif;
+      font-weight: 700; display: block; margin-bottom: 3px; }
+    .ws-list-title { font-size: 17px; font-weight: 600; color: var(--text); display: block; }
+    .ws-list-arrow { font-size: 18px; color: var(--text-muted); flex-shrink: 0; opacity: 0.4; }
+    .ws-list-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+      opacity: 0.6; flex-shrink: 0; }
+
+    .ws-header { text-align: center; padding: 8px 0 24px;
+      border-bottom: 1px solid var(--block-border); margin-bottom: 28px; }
+    .ws-sit-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px;
+      color: var(--accent); font-family: -apple-system, system-ui, sans-serif;
+      font-weight: 700; margin-bottom: 10px; display: block; }
+    .ws-main-title { font-size: 22px; font-weight: 600; font-family: 'Lora', serif;
+      color: var(--text); margin: 0 0 12px; }
+    .ws-quote { font-style: italic; color: var(--text-muted); font-size: 15px;
+      line-height: 1.6; margin: 0; }
+
+    .ws-section { margin-bottom: 24px; }
+    .ws-section-heading { font-size: 16px; font-weight: 700; color: var(--accent);
+      font-family: -apple-system, system-ui, sans-serif; margin: 0 0 6px; }
+    .ws-section-body { font-size: 14px; color: var(--text-muted); margin: 0 0 14px;
+      font-family: -apple-system, system-ui, sans-serif; line-height: 1.5; }
+
+    .ws-field-label { font-size: 14px; color: var(--accent); font-weight: 600;
+      font-family: -apple-system, system-ui, sans-serif; display: block; margin-bottom: 5px; }
+    .ws-input {
+      width: 100%; border: none; border-bottom: 1.5px solid var(--btn-ghost-border);
+      background: transparent; font-size: 16px; color: var(--text);
+      font-family: 'Lora', serif; padding: 8px 4px 6px; outline: none;
+      margin-bottom: 18px; display: block; -webkit-appearance: none;
+      box-sizing: border-box;
+    }
+    .ws-input:focus { border-bottom-color: var(--accent); }
+    .ws-textarea {
+      width: 100%; border: 1px solid var(--btn-ghost-border);
+      background: var(--btn-ghost-bg); border-radius: 12px;
+      font-size: 16px; color: var(--text); font-family: 'Lora', serif;
+      padding: 12px 14px; outline: none; resize: vertical; min-height: 80px;
+      margin-bottom: 18px; display: block; line-height: 1.6; box-sizing: border-box;
+    }
+    .ws-textarea:focus { border-color: var(--accent); }
+
+    .ws-note { font-size: 13px; color: var(--text-muted); font-style: italic;
+      font-family: -apple-system, system-ui, sans-serif; margin: -4px 0 18px;
+      padding: 10px 14px; background: var(--accent-soft); border-radius: 10px;
+      line-height: 1.5; }
+
+    .ws-cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .ws-col-label { font-size: 13px; color: var(--accent); font-weight: 600;
+      font-family: -apple-system, system-ui, sans-serif; display: block; margin-bottom: 5px; }
+    .ws-col-input { width: 100%; border: none; border-bottom: 1.5px solid var(--btn-ghost-border);
+      background: transparent; font-size: 15px; color: var(--text);
+      font-family: 'Lora', serif; padding: 6px 4px 4px; outline: none;
+      display: block; box-sizing: border-box; }
+    .ws-col-input:focus { border-bottom-color: var(--accent); }
+
+    .ws-cols-header { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+    .ws-cols-header-label { font-size: 13px; color: var(--accent); font-weight: 700;
+      font-family: -apple-system, system-ui, sans-serif; text-align: center;
+      padding: 6px 4px; background: var(--accent-soft); border-radius: 8px; }
+
+    .ws-check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-bottom: 18px; }
+    .ws-check-item { display: flex; align-items: center; gap: 8px; font-size: 14px;
+      font-family: -apple-system, system-ui, sans-serif; color: var(--text);
+      cursor: pointer; }
+    .ws-check-item input[type=checkbox] { accent-color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; }
+
+    .ws-statt-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+      font-family: -apple-system, system-ui, sans-serif; font-size: 14px;
+      color: var(--text-muted); margin-bottom: 18px; }
+    .ws-statt-input { flex: 1; min-width: 80px; border: none;
+      border-bottom: 1.5px solid var(--btn-ghost-border);
+      background: transparent; font-size: 15px; color: var(--text);
+      font-family: 'Lora', serif; padding: 4px 4px 3px; outline: none; }
+    .ws-statt-input:focus { border-bottom-color: var(--accent); }
+
+    .ws-divider { border: none; border-top: 1px solid var(--block-border); margin: 20px 0 24px; }
   </style>
 </head>
 <body>
@@ -667,6 +758,9 @@
         <button class="btn-ghost" id="btnCards"
                 data-de="💫 Affirmationskarten"
                 data-en="💫 Affirmation Cards">💫 Affirmationskarten</button>
+        <button class="btn-ghost" id="btnWorksheets"
+                data-de="📝 Arbeitsblätter"
+                data-en="📝 Worksheets">📝 Arbeitsblätter</button>
       </div>
 
       <button class="btn-install" id="btnInstall"
@@ -727,6 +821,21 @@
       <p class="card-hint" data-de="📸 Screenshot als Handy-Hintergrundbild speichern"
          data-en="📸 Take a screenshot to save as wallpaper">📸 Screenshot als Handy-Hintergrundbild speichern</p>
       <button class="btn-ghost" id="btnBackFromCards">← Zurück</button>
+    </div>
+
+    <!-- ── WORKSHEETS LIST ── -->
+    <div id="ui-worksheets" class="hidden">
+      <button class="btn-back-sm" id="btnBackFromWorksheets">← Zurück</button>
+      <h2 class="ws-page-title">📝 Arbeitsblätter</h2>
+      <p class="ws-page-sub">Reflexion &amp; Selbsterkenntnis</p>
+      <div id="worksheetsList"></div>
+    </div>
+
+    <!-- ── WORKSHEET DETAIL ── -->
+    <div id="ui-worksheet" class="hidden">
+      <button class="btn-back-sm" id="btnBackFromWorksheet">← Zurück</button>
+      <div id="worksheetContent"></div>
+      <button class="btn-ghost" id="btnBackFromWorksheetBottom" style="margin-top:12px;">← Zurück zur Übersicht</button>
     </div>
 
     <!-- ── MOOD CHECK ── -->
