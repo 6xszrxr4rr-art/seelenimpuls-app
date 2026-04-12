@@ -290,6 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("homeRecSection").classList.add("hidden");
     $("homeMoodHeading").textContent = ui[lang].btnMood;
     recommendedSituation = null;
+    window.scrollTo(0, 0);
 
     const grid = $("homeMoodGrid");
     grid.innerHTML = "";
@@ -645,8 +646,8 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.opacity = "1";
   };
 
-  $("btnBackFromMoodSection").onclick = () => { showView("ui-welcome"); showStreak(); };
-  $("btnBackFromRec").onclick         = () => renderHomeScreen();
+  $("btnBackFromMoodSection").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+  $("btnBackFromRec").addEventListener("click", () => { renderHomeScreen(); });
   $("btnDailyRec").onclick            = () => { if (recommendedSituation) runSituation(recommendedSituation); };
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };

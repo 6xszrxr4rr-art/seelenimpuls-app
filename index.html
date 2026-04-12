@@ -462,13 +462,15 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Back button (small, top of section) ── */
+    /* ── Back button ── */
     .btn-back-sm {
-      background: none; border: none; cursor: pointer;
-      font-size: 15px; color: var(--text-muted);
-      font-family: -apple-system, system-ui, sans-serif;
-      padding: 4px 0 20px; display: block;
-      touch-action: manipulation;
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      color: var(--text-muted); cursor: pointer;
+      font-size: 15px; font-family: -apple-system, system-ui, sans-serif;
+      padding: 12px 20px; border-radius: 14px;
+      display: inline-block; margin-bottom: 20px;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+      min-height: 44px; min-width: 80px;
     }
     .btn-back-sm:active { opacity: 0.6; }
 
