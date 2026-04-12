@@ -239,11 +239,6 @@
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 12px; margin: 20px 0;
     }
-    /* Home screen uses 2 columns so all 10 moods read clearly */
-    #homeMoodGrid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
     .mood-btn {
       background: var(--situation-bg); border: 2px solid transparent;
       border-radius: 20px; padding: 16px 8px; text-align: center;
@@ -450,16 +445,41 @@
       font-size: 28px; display: block; margin-bottom: 8px;
     }
 
-    /* ── Home mood title (inline mood grid) ── */
-    .home-mood-title {
-      text-align: center; font-family: 'Lora', serif; font-size: 24px;
-      font-weight: 600; color: var(--text); margin: 28px 0 18px;
+    /* ── Home recommendation section ── */
+    .home-rec-section { margin-bottom: 4px; }
+    .home-rec-label {
+      font-size: 14px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent); margin-bottom: 12px; text-align: center;
+      font-family: -apple-system, system-ui, sans-serif; font-weight: 700;
+    }
+    .home-rec-btn {
+      width: 100%; background: var(--accent); color: white; border: none;
+      padding: 22px 20px; border-radius: 22px; cursor: pointer;
+      font-family: 'Lora', serif; font-size: 20px; font-weight: 600;
+      touch-action: manipulation; transition: opacity 0.2s; text-align: center;
+      box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+    }
+    .home-rec-btn:active { opacity: 0.85; }
+
+    /* ── Home divider ── */
+    .home-divider {
+      border: none; border-top: 1px solid var(--block-border);
+      margin: 22px 0 16px;
     }
 
-    /* ── Welcome screen quick-action buttons ── */
-    .welcome-actions {
-      margin-top: 14px;
+    /* ── Home situations list ── */
+    .home-situation-btn {
+      width: 100%; background: var(--situation-bg);
+      border: 1px solid var(--situation-border);
+      padding: 16px 20px; border-radius: 16px; margin-bottom: 9px;
+      text-align: left; cursor: pointer; touch-action: manipulation;
+      font-size: 17px; color: var(--text); font-family: 'Lora', serif;
+      transition: background 0.2s;
     }
+    .home-situation-btn:active { background: var(--accent-soft); }
+
+    /* ── Welcome screen quick-action buttons ── */
+    .welcome-actions { margin-top: 14px; }
 
     /* ── Support links at end of situation ── */
     .situation-end-support {
@@ -529,19 +549,17 @@
 
     <!-- ── HOME ── -->
     <div id="ui-home" class="hidden">
-      <h2 class="home-mood-title" id="homeMoodTitle"
-          data-de="Wie geht es dir gerade?" data-en="How are you feeling?">Wie geht es dir gerade?</h2>
 
-      <div class="mood-grid" id="homeMoodGrid"></div>
-
-      <div id="homeRecCard" class="hidden">
-        <div class="rec-card">
-          <div class="rec-label" id="homeRecLabel">Für dich empfohlen</div>
-          <div class="rec-title" id="homeRecTitle"></div>
-        </div>
-        <button class="btn-primary" id="btnStartHome">Übung starten</button>
-        <button class="btn-secondary" id="btnShowAllHome">Alle Situationen</button>
+      <div class="home-rec-section">
+        <div class="home-rec-label" id="homeRecLabel">Für dich empfohlen</div>
+        <button class="home-rec-btn" id="btnDailyRec">
+          <span id="homeRecTitle"></span>
+        </button>
       </div>
+
+      <div class="home-divider"></div>
+
+      <div id="homeSituationsList"></div>
 
       <button class="btn-install" id="btnInstall"
               data-de="📲 App auf dem Handy installieren"

@@ -283,29 +283,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ── HOME MOOD GRID (inline on home screen) ───────────────────────────
-  function renderHomeMoodGrid() {
-    const grid = $("homeMoodGrid");
-    if (!grid) return;
-    grid.innerHTML = "";
-    $("homeRecCard").classList.add("hidden");
-    moods[lang].forEach(mood => {
+  // ── HOME SCREEN (daily rec + all situations) ─────────────────────────
+  function renderHomeScreen() {
+    const dayIdx = Math.floor(Date.now() / 86400000);
+    const recN   = (dayIdx % 10) + 1;
+    recommendedSituation = recN;
+    $("homeRecLabel").textContent  = ui[lang].recLabel;
+    $("homeRecTitle").textContent  = `${recN}) ${situationTitles[lang][recN]}`;
+
+    const list = $("homeSituationsList");
+    list.innerHTML = "";
+    for (let i = 1; i <= 10; i++) {
+      if (i === recN) continue;
       const btn = document.createElement("button");
-      btn.className = "mood-btn";
-      btn.innerHTML = `<span class="mood-emoji">${mood.emoji}</span><span class="mood-label">${mood.label}</span>`;
-      btn.onclick = () => {
-        grid.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-        recommendedSituation = mood.situation;
-        $("homeRecTitle").textContent  = situationTitles[lang][mood.situation];
-        $("homeRecLabel").textContent  = ui[lang].recLabel;
-        $("btnStartHome").textContent  = ui[lang].startRec;
-        $("btnShowAllHome").textContent = ui[lang].showAll;
-        $("homeRecCard").classList.remove("hidden");
-        softScroll();
-      };
-      grid.appendChild(btn);
-    });
+      btn.className   = "home-situation-btn";
+      btn.textContent = `${i}) ${situationTitles[lang][i]}`;
+      btn.onclick     = () => runSituation(i);
+      list.appendChild(btn);
+    }
   }
 
   // ── LANGUAGE ──────────────────────────────────────────────────────────
@@ -336,11 +331,9 @@ document.addEventListener("DOMContentLoaded", () => {
     $("btnStopQuick").textContent       = t.quickStop;
     $("onboardingSub").innerHTML        = t.onboardingSub;
     $("btnOnboarding").textContent      = t.onboardingBtn;
-    $("homeMoodTitle").textContent      = t.btnMood;
-
     $("impuls").textContent = getDailyImpulse();
     renderMoodGrid();
-    renderHomeMoodGrid();
+    renderHomeScreen();
     showStreak();
   }
 
@@ -604,7 +597,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── INIT ──────────────────────────────────────────────────────────────
   renderMoodGrid();
-  renderHomeMoodGrid();
+  renderHomeScreen();
   updateFavBtn();
   $("impuls").textContent = getDailyImpulse();
 
@@ -632,18 +625,17 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.opacity = "1";
   };
 
+  $("btnDailyRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
-  $("btnStartHome").onclick     = () => { if (recommendedSituation) runSituation(recommendedSituation); };
-  $("btnShowAllHome").onclick   = () => showView("ui-chooser");
 
   $("btnBackFromMood").onclick  = () => showView("ui-home");
   $("btnShowAll").onclick       = () => showView("ui-chooser");
   $("btnStartRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick    = () => { stopSession(); renderHomeMoodGrid(); showView("ui-home"); showStreak(); };
-  $("btnStopQuick").onclick     = () => { stopSession(); renderHomeMoodGrid(); showView("ui-home"); showStreak(); };
+  $("btnBackBottom").onclick    = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
+  $("btnStopQuick").onclick     = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
