@@ -645,7 +645,9 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.opacity = "1";
   };
 
-  $("btnDailyRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
+  $("btnBackFromMoodSection").onclick = () => { showView("ui-welcome"); showStreak(); };
+  $("btnBackFromRec").onclick         = () => renderHomeScreen();
+  $("btnDailyRec").onclick            = () => { if (recommendedSituation) runSituation(recommendedSituation); };
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 

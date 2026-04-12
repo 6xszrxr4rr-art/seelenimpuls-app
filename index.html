@@ -462,10 +462,19 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── Back button (small, top of section) ── */
+    .btn-back-sm {
+      background: none; border: none; cursor: pointer;
+      font-size: 15px; color: var(--text-muted);
+      font-family: -apple-system, system-ui, sans-serif;
+      padding: 4px 0 20px; display: block;
+      touch-action: manipulation;
+    }
+    .btn-back-sm:active { opacity: 0.6; }
+
     /* ── Home recommendation section ── */
-    .home-rec-section { margin-bottom: 4px; }
     .home-rec-label {
-      font-size: 14px; text-transform: uppercase; letter-spacing: 2px;
+      font-size: 13px; text-transform: uppercase; letter-spacing: 2px;
       color: var(--accent); margin-bottom: 12px; text-align: center;
       font-family: -apple-system, system-ui, sans-serif; font-weight: 700;
     }
@@ -589,12 +598,14 @@
 
       <!-- Zustand 1: Emoji-Auswahl -->
       <div id="homeMoodSection">
+        <button class="btn-back-sm" id="btnBackFromMoodSection">← Zurück</button>
         <h2 class="home-mood-title" id="homeMoodHeading">Wie geht es dir gerade?</h2>
         <div class="mood-grid" id="homeMoodGrid"></div>
       </div>
 
       <!-- Zustand 2: Empfehlung + alle anderen Situationen -->
       <div id="homeRecSection" class="hidden">
+        <button class="btn-back-sm" id="btnBackFromRec">← Zurück</button>
         <div class="home-rec-label" id="homeRecLabel">Für dich empfohlen</div>
         <button class="home-rec-btn" id="btnDailyRec">
           <span id="homeRecTitle"></span>
