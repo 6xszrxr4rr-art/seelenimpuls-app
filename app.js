@@ -239,48 +239,104 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── AFFIRMATIONSKARTEN ───────────────────────────────────────────────
-  const CARD_GRADIENTS = [
-    'linear-gradient(160deg,#667eea,#764ba2)', // S1 Innere Unruhe
-    'linear-gradient(160deg,#c471ed,#f64f59)', // S2 Überforderung
-    'linear-gradient(160deg,#4facfe,#0097b2)', // S3 Anspannung
-    'linear-gradient(160deg,#43e97b,#2dc9a0)', // S4 Erschöpfung
-    'linear-gradient(160deg,#30cfd0,#5b5ea6)', // S5 Traurigkeit
-    'linear-gradient(160deg,#a18cd1,#fbc2eb)', // S6 Innere Leere
-    'linear-gradient(160deg,#f7971e,#ffd200)', // S7 Selbstzweifel
-    'linear-gradient(160deg,#56ab2f,#7bc67e)', // S8 Entscheidung
-    'linear-gradient(160deg,#f6d365,#fda085)', // S9 Übergang
-    'linear-gradient(160deg,#1a3a6b,#4a7fc1)'  // S10 Angst & Sicherheit
+  const CARD_DATA = [
+    { nr:1,  sit:{ de:"Innere Unruhe",        en:"Inner Restlessness" },
+      txt:{ de:"Ich bin der Himmel,\nnicht die Wolken\ndarin.",
+            en:"I am the sky,\nnot the clouds\npassing through." },
+      accent:"#7BA3B8", bg1:"#1a2a3a", bg2:"#0d1b2a" },
+    { nr:2,  sit:{ de:"Überforderung",         en:"Overwhelm" },
+      txt:{ de:"Nicht alles muss\nheute gelöst sein.\nDieser Moment\nist genug.",
+            en:"Not everything\nneeds to be solved\ntoday." },
+      accent:"#C4A35A", bg1:"#2a2418", bg2:"#1a1610" },
+    { nr:3,  sit:{ de:"Anspannung",            en:"Tension" },
+      txt:{ de:"Ich darf\nweich werden.\nIch darf\nloslassen.",
+            en:"I am becoming soft.\nI am letting go." },
+      accent:"#A8C5D4", bg1:"#1e2d38", bg2:"#0f1920" },
+    { nr:4,  sit:{ de:"Erschöpfung",           en:"Exhaustion" },
+      txt:{ de:"Tief in mir\nbrennt ein\ngoldenes Licht.\nEs erlischt nicht.",
+            en:"I am not empty —\nI am just finding\nmy way free." },
+      accent:"#D4A84B", bg1:"#2a2210", bg2:"#1a1508" },
+    { nr:5,  sit:{ de:"Traurigkeit",           en:"Sadness" },
+      txt:{ de:"Komm rein,\ndu stiller Gast.\nIch halte dich.\nIch halte mich.",
+            en:"Yes, come in,\nyou quiet guest.\nI'll hold you true." },
+      accent:"#8B9EAF", bg1:"#1a2030", bg2:"#0d1018" },
+    { nr:6,  sit:{ de:"Innere Leere",          en:"Inner Emptiness" },
+      txt:{ de:"Ich bin schon da.\nIch bin schon\nganz bei mir.",
+            en:"I'm already here.\nI'm already mine." },
+      accent:"#9BA8B4", bg1:"#1e2228", bg2:"#10141a" },
+    { nr:7,  sit:{ de:"Selbstzweifel",         en:"Self-Doubt" },
+      txt:{ de:"Ich steh auf\nmeiner Seite.\nIch bin\nmein eigenes Licht.",
+            en:"I am here\nand I am enough.\nLet that sink." },
+      accent:"#C49A6C", bg1:"#2a1e14", bg2:"#1a120a" },
+    { nr:8,  sit:{ de:"Entscheidungszweifel",  en:"Decision Doubt" },
+      txt:{ de:"In meiner Tiefe\nliegt ein stiller See.\nEr kennt\ndie Antwort.",
+            en:"There is a lake\ninside of me,\nso deep and clear." },
+      accent:"#6A9BB5", bg1:"#142028", bg2:"#0a1218" },
+    { nr:9,  sit:{ de:"Übergang & Wandel",     en:"Transition" },
+      txt:{ de:"Ein Schritt.\nNur einer.\nMehr brauche\nich nicht.",
+            en:"One step.\nJust one.\nThat's all I need." },
+      accent:"#8AAF7A", bg1:"#1a2818", bg2:"#0d180a" },
+    { nr:10, sit:{ de:"Angst",                 en:"Fear" },
+      txt:{ de:"Nach dem Gewitter\nwird es still.\nEs wird immer\nstill danach.",
+            en:"After the storm,\nit all grows still." },
+      accent:"#B89EC4", bg1:"#221a2a", bg2:"#14101a" },
   ];
 
-  let allCards = [];
-  let currentCardIdx = 0;
-
-  function buildCardList() {
-    allCards = [];
-    for (let i = 1; i <= 10; i++) {
-      const s = window.SITUATIONS && window.SITUATIONS[i];
-      if (!s) continue;
-      const affs = (lang === 'en' && s.affirmations_en) ? s.affirmations_en : s.affirmations;
-      if (!affs) continue;
-      affs.forEach(text => {
-        allCards.push({ text, sitLabel: situationTitles[lang][i], gradient: CARD_GRADIENTS[i - 1] });
-      });
-    }
+  function cgBg(card) {
+    return 'radial-gradient(ellipse at 30% 20%,' + card.accent + '18,transparent 60%),' +
+           'radial-gradient(ellipse at 70% 80%,' + card.accent + '10,transparent 50%),' +
+           'linear-gradient(160deg,' + card.bg1 + ',' + card.bg2 + ')';
   }
 
-  function showCard(idx) {
-    if (!allCards.length) return;
-    currentCardIdx = Math.max(0, Math.min(idx, allCards.length - 1));
-    const c = allCards[currentCardIdx];
-    $('cardDisplay').style.background = c.gradient;
-    $('cardSitLabel').textContent      = c.sitLabel;
-    $('cardText').textContent          = c.text;
-    $('cardCounter').textContent       = (currentCardIdx + 1) + ' / ' + allCards.length;
+  function renderCardGrid() {
+    const grid = $('cgGrid');
+    grid.innerHTML = '';
+    CARD_DATA.forEach(card => {
+      const s = card.sit[lang] || card.sit.de;
+      const t = card.txt[lang] || card.txt.de;
+      const a = card.accent;
+      const el = document.createElement('div');
+      el.className = 'cg-card';
+      el.style.background = cgBg(card);
+      el.innerHTML =
+        '<div class="cg-grain"></div>' +
+        '<div class="cg-orb" style="background:radial-gradient(ellipse,' + a + '12,transparent)"></div>' +
+        '<div class="cg-content">' +
+          '<div class="cg-line" style="background:linear-gradient(90deg,transparent,' + a + '60,transparent)"></div>' +
+          '<div class="cg-sit" style="color:' + a + '90">' + s + '</div>' +
+          '<p class="cg-text">' + t.replace(/\n/g, '<br>') + '</p>' +
+          '<div class="cg-line" style="background:linear-gradient(90deg,transparent,' + a + '60,transparent);margin-top:14px"></div>' +
+          '<div class="cg-brand" style="color:' + a + '50">Seelenimpuls</div>' +
+        '</div>' +
+        '<span class="cg-num" style="color:' + a + '30">' + card.nr + '/10</span>';
+      el.addEventListener('click', () => openCardFullscreen(card));
+      grid.appendChild(el);
+    });
+    const isDE = lang === 'de';
+    $('cgTitle').textContent  = isDE ? 'Affirmationskarten'                                : 'Affirmation Cards';
+    $('cgSub').textContent    = isDE ? 'Tippe auf eine Karte für die Handy-Hintergrund-Vorschau' : 'Tap a card to preview as phone wallpaper';
+    $('cgSub2').textContent   = isDE ? 'Deutsch · Als Hintergrundbild speichern'           : 'English · Save as wallpaper';
+    $('cgFooter').textContent = isDE ? 'Speichere deine Affirmation als Hintergrundbild'   : 'Save your affirmation as phone wallpaper';
+  }
+
+  function openCardFullscreen(card) {
+    const s = card.sit[lang] || card.sit.de;
+    const t = card.txt[lang] || card.txt.de;
+    const a = card.accent;
+    $('cgPhone').style.background = cgBg(card);
+    const ln = 'linear-gradient(90deg,transparent,' + a + '60,transparent)';
+    $('cgFsLine1').style.background = ln;
+    $('cgFsLine2').style.background = ln;
+    $('cgFsSit').style.color   = a + '90';
+    $('cgFsSit').textContent   = s;
+    $('cgFsText').innerHTML    = t.replace(/\n/g, '<br>');
+    $('cgFsBrand').style.color = a + '50';
+    $('cgFsHint').textContent  = lang === 'de' ? 'Tippe außerhalb zum Schließen' : 'Tap outside to close';
+    $('cgFullscreen').classList.remove('hidden');
   }
 
   function openCards() {
-    buildCardList();
-    showCard(0);
+    renderCardGrid();
     showView('ui-cards');
   }
 
@@ -769,6 +825,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("btnFavorites").textContent       = t.btnFavorites;
     $("btnCards").textContent           = lang === "de" ? "💫 Affirmationskarten" : "💫 Affirmation Cards";
     $("btnWorksheets").textContent      = lang === "de" ? "📝 Arbeitsblätter" : "📝 Worksheets";
+    if (!$("ui-cards").classList.contains("hidden")) renderCardGrid();
     $("btnBackFromChooser").textContent = t.btnBack;
     $("btnBackFromMood").textContent    = t.btnBack;
     $("btnBackFromFavorites").textContent = t.btnBack;
@@ -1080,22 +1137,15 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromRec").addEventListener("click", () => { renderHomeScreen(); });
   $("btnDailyRec").onclick            = () => { if (recommendedSituation) runSituation(recommendedSituation); };
   $("btnCards").addEventListener("click", () => openCards());
-  $("btnCardPrev").addEventListener("click", () => showCard(currentCardIdx - 1));
-  $("btnCardNext").addEventListener("click", () => showCard(currentCardIdx + 1));
   $("btnBackFromCards").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+  $("cgFullscreen").addEventListener("click", (e) => {
+    if (e.target === $("cgFullscreen") || e.target === $("cgModal")) $("cgFullscreen").classList.add("hidden");
+  });
 
   $("btnWorksheets").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheets").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
   $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
-
-  // Swipe-Unterstützung auf der Karte
-  let _swipeX = 0;
-  $("cardDisplay").addEventListener("touchstart", e => { _swipeX = e.touches[0].clientX; }, { passive: true });
-  $("cardDisplay").addEventListener("touchend", e => {
-    const dx = e.changedTouches[0].clientX - _swipeX;
-    if (Math.abs(dx) > 40) showCard(currentCardIdx + (dx < 0 ? 1 : -1));
-  }, { passive: true });
 
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };

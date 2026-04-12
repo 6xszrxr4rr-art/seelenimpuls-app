@@ -8,7 +8,7 @@
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
@@ -576,52 +576,141 @@
       white-space: nowrap; flex-shrink: 0;
     }
 
-    /* ── Affirmationskarten ── */
-    .card-display {
-      width: 100%; border-radius: 28px; padding: 48px 32px;
-      min-height: 68vw;
-      display: flex; flex-direction: column;
+    /* ── Affirmationskarten Gallery ── */
+    #ui-cards {
+      background: linear-gradient(180deg, #0a0a0f, #141420, #0a0a0f);
+      margin: -20px; padding: 24px 16px 48px; min-height: 100vh;
+    }
+    .cg-header { text-align: center; margin-bottom: 32px; }
+    .cg-premium {
+      font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+      color: rgba(196,163,90,0.38); font-family: -apple-system, system-ui, sans-serif;
+      margin-bottom: 8px; display: block;
+    }
+    .cg-title {
+      font-size: 28px; font-weight: 300; letter-spacing: 1px;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      color: #f0ece4; margin: 0 0 8px;
+    }
+    .cg-sub {
+      font-size: 13px; font-style: italic; color: #888; margin: 0 0 8px;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+    }
+    .cg-sub2 {
+      font-size: 11px; font-style: italic; color: #666; margin: 0;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+    }
+    .cg-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      max-width: 500px; margin: 0 auto 32px;
+    }
+    .cg-card {
+      aspect-ratio: 1; border-radius: 16px; position: relative;
+      cursor: pointer; touch-action: manipulation; overflow: hidden;
+      border: 2px solid transparent; transition: transform 0.15s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .cg-card:active { transform: scale(0.97); }
+    .cg-grain {
+      position: absolute; inset: 0; opacity: 0.04; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .cg-orb {
+      position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
+      width: 60%; height: 30%; border-radius: 50%; filter: blur(20px);
+      pointer-events: none;
+    }
+    .cg-content {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      text-align: center; position: relative;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.22);
-      transition: background 0.4s ease; touch-action: pan-y;
+      padding: 12%; text-align: center;
     }
-    .card-sit-label {
-      position: absolute; top: 22px; left: 0; right: 0;
-      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-      color: rgba(255,255,255,0.65);
-      font-family: -apple-system, system-ui, sans-serif; font-weight: 700;
+    .cg-line { width: 40px; height: 1px; flex-shrink: 0; }
+    .cg-sit {
+      font-size: clamp(7px, 2.2vw, 10px); letter-spacing: 3px;
+      text-transform: uppercase; margin: 10px 0; flex-shrink: 0;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
     }
-    .card-text {
-      font-size: clamp(22px, 5.5vw, 30px); font-style: italic;
-      font-weight: 400; color: white; line-height: 1.65;
-      font-family: 'Lora', serif; margin: 0;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    .cg-text {
+      font-size: clamp(12px, 4.2vw, 19px); font-weight: 300; line-height: 1.7;
+      letter-spacing: 0.5px; white-space: pre-line; color: #f0ece4;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3); margin: 0;
     }
-    .card-brand {
-      position: absolute; bottom: 20px; left: 0; right: 0;
+    .cg-brand {
+      font-size: clamp(6px, 1.8vw, 8px); letter-spacing: 4px;
+      text-transform: uppercase; margin-top: 14px; flex-shrink: 0;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+    }
+    .cg-num {
+      position: absolute; bottom: 8%; right: 8%; font-size: 9px;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+    }
+    .cg-footer-line {
+      width: 60px; height: 1px; margin: 0 auto 16px;
+      background: linear-gradient(90deg, transparent, rgba(196,163,90,0.25), transparent);
+    }
+    .cg-footer-text {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      text-align: center; color: #555; margin: 0 0 28px;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+    #btnBackFromCards {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.4); display: block; max-width: 180px; margin: 0 auto;
+    }
+    /* Fullscreen phone preview */
+    .cgfs {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cgfs.hidden { display: none !important; }
+    .cgfs-modal {
+      width: min(80vw, 340px); display: flex; flex-direction: column;
+      align-items: center; gap: 16px;
+    }
+    .cgfs-phone {
+      width: 100%; aspect-ratio: 9/19.5; border-radius: 36px;
+      border: 3px solid #333; overflow: hidden; position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .cgfs-notch {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 40%; height: 28px; background: #000;
+      border-radius: 0 0 18px 18px; z-index: 2;
+    }
+    .cgfs-time {
+      position: absolute; top: 7px; left: 20px; z-index: 3;
+      font-size: 13px; font-weight: 600; color: #f0ece4;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+    .cgfs-inner {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 18%; text-align: center;
+    }
+    .cgfs-line { width: 40px; height: 1px; flex-shrink: 0; }
+    .cgfs-sit {
       font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      font-family: -apple-system, system-ui, sans-serif;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      margin: 16px 0;
     }
-    .card-nav {
-      display: flex; align-items: center; justify-content: center;
-      gap: 20px; margin: 18px 0 4px;
+    .cgfs-text {
+      font-size: 20px; font-weight: 300; line-height: 1.7; white-space: pre-line;
+      color: #f0ece4; font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3); margin: 0;
     }
-    .card-nav-btn {
-      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
-      color: var(--text); width: 48px; height: 48px; border-radius: 50%;
-      font-size: 20px; cursor: pointer; touch-action: manipulation;
-      display: flex; align-items: center; justify-content: center;
+    .cgfs-brand {
+      font-size: 8px; letter-spacing: 4px; text-transform: uppercase;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      margin-top: 20px; flex-shrink: 0;
     }
-    .card-counter {
-      font-size: 14px; color: var(--text-muted); min-width: 60px; text-align: center;
-      font-family: -apple-system, system-ui, sans-serif;
-    }
-    .card-hint {
-      font-size: 13px; color: var(--text-muted); text-align: center;
-      font-family: -apple-system, system-ui, sans-serif;
-      margin: 8px 0 20px; font-style: italic;
+    .cgfs-hint {
+      font-size: 13px; color: rgba(255,255,255,0.4); font-style: italic;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      text-align: center; margin: 0;
     }
 
     /* ── Worksheets ── */
@@ -808,18 +897,15 @@
 
     <!-- ── AFFIRMATIONSKARTEN ── -->
     <div id="ui-cards" class="hidden">
-      <div class="card-display" id="cardDisplay">
-        <span class="card-sit-label" id="cardSitLabel"></span>
-        <p class="card-text" id="cardText"></p>
-        <span class="card-brand">SEELENIMPULS</span>
+      <div class="cg-header">
+        <span class="cg-premium">Seelenimpuls Premium</span>
+        <h2 class="cg-title" id="cgTitle">Affirmationskarten</h2>
+        <p class="cg-sub" id="cgSub">Tippe auf eine Karte für die Handy-Hintergrund-Vorschau</p>
+        <p class="cg-sub2" id="cgSub2">Deutsch · Als Hintergrundbild speichern</p>
       </div>
-      <div class="card-nav">
-        <button class="card-nav-btn" id="btnCardPrev">←</button>
-        <span class="card-counter" id="cardCounter">1 / 30</span>
-        <button class="card-nav-btn" id="btnCardNext">→</button>
-      </div>
-      <p class="card-hint" data-de="📸 Screenshot als Handy-Hintergrundbild speichern"
-         data-en="📸 Take a screenshot to save as wallpaper">📸 Screenshot als Handy-Hintergrundbild speichern</p>
+      <div class="cg-grid" id="cgGrid"></div>
+      <div class="cg-footer-line"></div>
+      <p class="cg-footer-text" id="cgFooter">Speichere deine Affirmation als Hintergrundbild</p>
       <button class="btn-ghost" id="btnBackFromCards">← Zurück</button>
     </div>
 
@@ -1016,6 +1102,24 @@
     </div>
 
   </div><!-- /wrap -->
+
+  <!-- Affirmation card fullscreen phone preview -->
+  <div id="cgFullscreen" class="cgfs hidden">
+    <div class="cgfs-modal" id="cgModal">
+      <div class="cgfs-phone" id="cgPhone">
+        <div class="cgfs-notch"></div>
+        <div class="cgfs-time">9:41</div>
+        <div class="cgfs-inner">
+          <div class="cgfs-line" id="cgFsLine1"></div>
+          <div class="cgfs-sit" id="cgFsSit"></div>
+          <p class="cgfs-text" id="cgFsText"></p>
+          <div class="cgfs-line" id="cgFsLine2"></div>
+          <div class="cgfs-brand" id="cgFsBrand">Seelenimpuls</div>
+        </div>
+      </div>
+      <p class="cgfs-hint" id="cgFsHint">Tippe außerhalb zum Schließen</p>
+    </div>
+  </div>
 
   <!-- Update Banner -->
   <div class="update-banner hidden" id="updateBanner">
