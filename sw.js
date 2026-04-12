@@ -1,20 +1,6 @@
-const CACHE = 'seelenimpuls-v16';
+const CACHE = 'seelenimpuls-v17';
 
 const FILES = [
-  './',
-  './index.html',
-  './app.js',
-  './manifest.json',
-  './situations/situation-1.js',
-  './situations/situation-2.js',
-  './situations/situation-3.js',
-  './situations/situation-4.js',
-  './situations/situation-5.js',
-  './situations/situation-6.js',
-  './situations/situation-7.js',
-  './situations/situation-8.js',
-  './situations/situation-9.js',
-  './situations/situation-10.js',
   './audio/stillness-space.mp3',
   './audio/Song-Situation-1.mp3',
   './audio/Song-Situation-2.mp3',
@@ -30,7 +16,7 @@ const FILES = [
   './icons/icon-512.png'
 ];
 
-// Installation: erst alles cachen, dann sofort übernehmen
+// Nur Audio & Icons precachen — HTML/JS immer frisch vom Netz
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
@@ -39,18 +25,49 @@ self.addEventListener('install', event => {
   );
 });
 
-// Aktivierung: alten Cache löschen, dann Kontrolle übernehmen
+// Alten Cache löschen, dann alle Fenster übernehmen & zum Reload auffordern
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then(clients => clients.forEach(client => client.postMessage({ type: 'SW_UPDATED' })))
   );
 });
 
-// Fetch: Cache-first, dann Netzwerk
+// Fetch-Strategie:
+//   HTML + JS → immer Netz-zuerst (frische Version), Cache als Fallback
+//   Audio, Icons → Cache-zuerst (Offline-Support)
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
-  );
+  const url = new URL(event.request.url);
+  const isAppFile = url.pathname.endsWith('.html') ||
+                    url.pathname.endsWith('.js')   ||
+                    url.pathname === '/'            ||
+                    url.pathname === '';
+
+  if (isAppFile) {
+    // Netz-zuerst: holt immer die neueste Version
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE).then(cache => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  } else {
+    // Cache-zuerst: Audio/Icons offline verfügbar
+    event.respondWith(
+      caches.match(event.request)
+        .then(cached => cached || fetch(event.request).then(response => {
+          const clone = response.clone();
+          caches.open(CACHE).then(cache => cache.put(event.request, clone));
+          return response;
+        }))
+    );
+  }
 });

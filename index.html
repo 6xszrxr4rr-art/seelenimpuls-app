@@ -832,6 +832,18 @@
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
+      // Wenn ein neuer SW die Kontrolle übernimmt → Seite sofort neu laden
+      let reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!reloading) { reloading = true; location.reload(); }
+      });
+      // Auch auf direkte Nachricht vom SW reagieren (für ältere Clients)
+      navigator.serviceWorker.addEventListener('message', e => {
+        if (e.data && e.data.type === 'SW_UPDATED' && !reloading) {
+          reloading = true;
+          location.reload();
+        }
+      });
       navigator.serviceWorker.register('./sw.js');
     }
   </script>
