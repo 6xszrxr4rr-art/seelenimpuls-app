@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v14';
+const CACHE = 'seelenimpuls-v15';
 
 const FILES = [
   './',
@@ -30,22 +30,22 @@ const FILES = [
   './icons/icon-512.png'
 ];
 
-// Installation: alles cachen
+// Installation: erst alles cachen, dann sofort übernehmen
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(FILES))
+    caches.open(CACHE)
+      .then(cache => cache.addAll(FILES))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-// Aktivierung: alten Cache löschen
+// Aktivierung: alten Cache löschen, dann Kontrolle übernehmen
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 // Fetch: Cache-first, dann Netzwerk

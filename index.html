@@ -503,6 +503,22 @@
     }
     .support-link-sm:hover { opacity: 1; }
     .support-sep { color: var(--text-muted); opacity: 0.3; font-size: 16px; }
+
+    /* ── Update Banner ── */
+    .update-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+      background: var(--accent); color: white;
+      padding: 16px 20px; display: flex;
+      align-items: center; justify-content: space-between; gap: 12px;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+      font-family: -apple-system, system-ui, sans-serif; font-size: 15px;
+    }
+    .update-banner button {
+      background: white; color: var(--accent); border: none;
+      padding: 9px 18px; border-radius: 20px; font-weight: 700;
+      font-size: 14px; cursor: pointer; touch-action: manipulation;
+      white-space: nowrap; flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -545,6 +561,10 @@
         <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
         <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
       </div>
+
+      <button class="btn-install" id="btnInstall"
+              data-de="📲 App auf dem Handy installieren"
+              data-en="📲 Install App on your phone">📲 App auf dem Handy installieren</button>
     </div>
 
     <!-- ── HOME ── -->
@@ -560,10 +580,6 @@
       <div class="home-divider"></div>
 
       <div id="homeSituationsList"></div>
-
-      <button class="btn-install" id="btnInstall"
-              data-de="📲 App auf dem Handy installieren"
-              data-en="📲 Install App on your phone">📲 App auf dem Handy installieren</button>
 
       <div class="support-links-sm">
         <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
@@ -760,6 +776,12 @@
     </div>
 
   </div><!-- /wrap -->
+
+  <!-- Update Banner -->
+  <div class="update-banner hidden" id="updateBanner">
+    <span data-de="✨ Neue Version verfügbar" data-en="✨ New version available">✨ Neue Version verfügbar</span>
+    <button id="btnUpdate" data-de="Jetzt laden" data-en="Reload now">Jetzt laden</button>
+  </div>
 
   <!-- iOS Install Modal -->
   <div class="ios-install-modal" id="iosInstallModal">

@@ -614,7 +614,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("lang-en").onclick = () => setLang("en");
 
   $("btnOnboarding").onclick = () => { showView("ui-welcome"); showStreak(); };
-  $("btnBeginnen").onclick   = () => { showView("ui-home"); updateFavBtn(); };
+  $("btnBeginnen").onclick   = () => { renderHomeScreen(); showView("ui-home"); updateFavBtn(); };
 
   $("btnImpuls").onclick = async () => {
     const el = $("impuls");
@@ -677,5 +677,18 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   $("btnCloseIosModal").onclick = () => $("iosInstallModal").classList.remove("visible");
+
+  // ── SW Update Notification ────────────────────────────────────────────
+  // When the page's service worker controller changes (new SW took over),
+  // show a banner so users know a new version is ready.
+  if ('serviceWorker' in navigator) {
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      $("updateBanner").classList.remove("hidden");
+    });
+    $("btnUpdate").onclick = () => location.reload();
+  }
 
 });
