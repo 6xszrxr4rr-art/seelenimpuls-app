@@ -118,20 +118,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // ── MOODS ─────────────────────────────────────────────────────────────
   const moods = {
     de: [
-      { emoji:"😔", label:"Traurig",   situation:5  },
-      { emoji:"😰", label:"Ängstlich", situation:10 },
-      { emoji:"😤", label:"Gestresst", situation:2  },
-      { emoji:"😓", label:"Erschöpft", situation:4  },
-      { emoji:"😶", label:"Leer",      situation:6  },
-      { emoji:"🌊", label:"Unruhig",   situation:1  }
+      { emoji:"🌊", label:"Unruhig",        situation:1  },
+      { emoji:"😤", label:"Gestresst",      situation:2  },
+      { emoji:"😬", label:"Angespannt",     situation:3  },
+      { emoji:"😓", label:"Erschöpft",      situation:4  },
+      { emoji:"😔", label:"Traurig",        situation:5  },
+      { emoji:"😶", label:"Leer",           situation:6  },
+      { emoji:"🤔", label:"Zweifelnd",      situation:7  },
+      { emoji:"🌀", label:"Unentschlossen", situation:8  },
+      { emoji:"🌱", label:"Im Wandel",      situation:9  },
+      { emoji:"😰", label:"Ängstlich",      situation:10 }
     ],
     en: [
-      { emoji:"😔", label:"Sad",       situation:5  },
-      { emoji:"😰", label:"Anxious",   situation:10 },
-      { emoji:"😤", label:"Stressed",  situation:2  },
-      { emoji:"😓", label:"Exhausted", situation:4  },
-      { emoji:"😶", label:"Empty",     situation:6  },
-      { emoji:"🌊", label:"Restless",  situation:1  }
+      { emoji:"🌊", label:"Restless",       situation:1  },
+      { emoji:"😤", label:"Stressed",       situation:2  },
+      { emoji:"😬", label:"Tense",          situation:3  },
+      { emoji:"😓", label:"Exhausted",      situation:4  },
+      { emoji:"😔", label:"Sad",            situation:5  },
+      { emoji:"😶", label:"Empty",          situation:6  },
+      { emoji:"🤔", label:"Doubtful",       situation:7  },
+      { emoji:"🌀", label:"Undecided",      situation:8  },
+      { emoji:"🌱", label:"In Transition",  situation:9  },
+      { emoji:"😰", label:"Anxious",        situation:10 }
     ]
   };
 

@@ -239,6 +239,11 @@
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 12px; margin: 20px 0;
     }
+    /* Home screen uses 2 columns so all 10 moods read clearly */
+    #homeMoodGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
     .mood-btn {
       background: var(--situation-bg); border: 2px solid transparent;
       border-radius: 20px; padding: 16px 8px; text-align: center;
@@ -379,7 +384,7 @@
 
     /* ── Legal View ── */
     .legal-footer {
-      text-align: center; margin-top: 24px; padding-bottom: 10px;
+      text-align: center; margin-top: 20px; padding-bottom: 10px;
     }
     .legal-link {
       background: none; border: none; cursor: pointer;
@@ -447,9 +452,8 @@
 
     /* ── Home mood title (inline mood grid) ── */
     .home-mood-title {
-      text-align: center; font-family: 'Lora', serif; font-size: 20px;
-      font-weight: 400; color: var(--text); margin: 24px 0 16px;
-      font-style: italic;
+      text-align: center; font-family: 'Lora', serif; font-size: 24px;
+      font-weight: 600; color: var(--text); margin: 28px 0 18px;
     }
 
     /* ── Welcome screen quick-action buttons ── */
@@ -470,12 +474,12 @@
     }
     .support-links-sm {
       display: flex; align-items: center; justify-content: center;
-      gap: 12px; margin-top: 24px; flex-wrap: wrap;
+      gap: 14px; margin-top: 40px; flex-wrap: wrap;
     }
     .support-link-sm {
-      font-size: 14px; color: var(--text-muted); text-decoration: none;
+      font-size: 15px; color: var(--text-muted); text-decoration: none;
       font-family: -apple-system, system-ui, sans-serif;
-      padding: 4px 0; transition: opacity 0.2s; opacity: 0.75;
+      padding: 4px 0; transition: opacity 0.2s; opacity: 0.85;
     }
     .support-link-sm:hover { opacity: 1; }
     .support-sep { color: var(--text-muted); opacity: 0.3; font-size: 16px; }
