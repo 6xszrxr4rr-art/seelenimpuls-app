@@ -575,6 +575,54 @@
       font-size: 14px; cursor: pointer; touch-action: manipulation;
       white-space: nowrap; flex-shrink: 0;
     }
+
+    /* ── Affirmationskarten ── */
+    .card-display {
+      width: 100%; border-radius: 28px; padding: 48px 32px;
+      min-height: 68vw;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.22);
+      transition: background 0.4s ease; touch-action: pan-y;
+    }
+    .card-sit-label {
+      position: absolute; top: 22px; left: 0; right: 0;
+      font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      font-family: -apple-system, system-ui, sans-serif; font-weight: 700;
+    }
+    .card-text {
+      font-size: clamp(22px, 5.5vw, 30px); font-style: italic;
+      font-weight: 400; color: white; line-height: 1.65;
+      font-family: 'Lora', serif; margin: 0;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .card-brand {
+      position: absolute; bottom: 20px; left: 0; right: 0;
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+    .card-nav {
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px; margin: 18px 0 4px;
+    }
+    .card-nav-btn {
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      color: var(--text); width: 48px; height: 48px; border-radius: 50%;
+      font-size: 20px; cursor: pointer; touch-action: manipulation;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-counter {
+      font-size: 14px; color: var(--text-muted); min-width: 60px; text-align: center;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+    .card-hint {
+      font-size: 13px; color: var(--text-muted); text-align: center;
+      font-family: -apple-system, system-ui, sans-serif;
+      margin: 8px 0 20px; font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -616,6 +664,9 @@
       <div class="welcome-actions">
         <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
         <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
+        <button class="btn-ghost" id="btnCards"
+                data-de="💫 Affirmationskarten"
+                data-en="💫 Affirmation Cards">💫 Affirmationskarten</button>
       </div>
 
       <button class="btn-install" id="btnInstall"
@@ -659,6 +710,23 @@
           <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
         </div>
       </div>
+    </div>
+
+    <!-- ── AFFIRMATIONSKARTEN ── -->
+    <div id="ui-cards" class="hidden">
+      <div class="card-display" id="cardDisplay">
+        <span class="card-sit-label" id="cardSitLabel"></span>
+        <p class="card-text" id="cardText"></p>
+        <span class="card-brand">SEELENIMPULS</span>
+      </div>
+      <div class="card-nav">
+        <button class="card-nav-btn" id="btnCardPrev">←</button>
+        <span class="card-counter" id="cardCounter">1 / 30</span>
+        <button class="card-nav-btn" id="btnCardNext">→</button>
+      </div>
+      <p class="card-hint" data-de="📸 Screenshot als Handy-Hintergrundbild speichern"
+         data-en="📸 Take a screenshot to save as wallpaper">📸 Screenshot als Handy-Hintergrundbild speichern</p>
+      <button class="btn-ghost" id="btnBackFromCards">← Zurück</button>
     </div>
 
     <!-- ── MOOD CHECK ── -->

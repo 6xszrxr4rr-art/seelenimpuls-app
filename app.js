@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => $(v).classList.add("hidden"));
@@ -236,6 +236,52 @@ document.addEventListener("DOMContentLoaded", () => {
     const el = $("streakDisplay");
     if (streak > 1) { el.textContent = ui[lang].streak(streak); el.classList.remove("hidden"); }
     else            { el.classList.add("hidden"); }
+  }
+
+  // ── AFFIRMATIONSKARTEN ───────────────────────────────────────────────
+  const CARD_GRADIENTS = [
+    'linear-gradient(160deg,#667eea,#764ba2)', // S1 Innere Unruhe
+    'linear-gradient(160deg,#c471ed,#f64f59)', // S2 Überforderung
+    'linear-gradient(160deg,#4facfe,#0097b2)', // S3 Anspannung
+    'linear-gradient(160deg,#43e97b,#2dc9a0)', // S4 Erschöpfung
+    'linear-gradient(160deg,#30cfd0,#5b5ea6)', // S5 Traurigkeit
+    'linear-gradient(160deg,#a18cd1,#fbc2eb)', // S6 Innere Leere
+    'linear-gradient(160deg,#f7971e,#ffd200)', // S7 Selbstzweifel
+    'linear-gradient(160deg,#56ab2f,#7bc67e)', // S8 Entscheidung
+    'linear-gradient(160deg,#f6d365,#fda085)', // S9 Übergang
+    'linear-gradient(160deg,#1a3a6b,#4a7fc1)'  // S10 Angst & Sicherheit
+  ];
+
+  let allCards = [];
+  let currentCardIdx = 0;
+
+  function buildCardList() {
+    allCards = [];
+    for (let i = 1; i <= 10; i++) {
+      const s = window.SITUATIONS && window.SITUATIONS[i];
+      if (!s) continue;
+      const affs = (lang === 'en' && s.affirmations_en) ? s.affirmations_en : s.affirmations;
+      if (!affs) continue;
+      affs.forEach(text => {
+        allCards.push({ text, sitLabel: situationTitles[lang][i], gradient: CARD_GRADIENTS[i - 1] });
+      });
+    }
+  }
+
+  function showCard(idx) {
+    if (!allCards.length) return;
+    currentCardIdx = Math.max(0, Math.min(idx, allCards.length - 1));
+    const c = allCards[currentCardIdx];
+    $('cardDisplay').style.background = c.gradient;
+    $('cardSitLabel').textContent      = c.sitLabel;
+    $('cardText').textContent          = c.text;
+    $('cardCounter').textContent       = (currentCardIdx + 1) + ' / ' + allCards.length;
+  }
+
+  function openCards() {
+    buildCardList();
+    showCard(0);
+    showView('ui-cards');
   }
 
   // ── DAILY IMPULSE ─────────────────────────────────────────────────────
@@ -376,6 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("btnImpuls").textContent          = t.btnImpuls;
     $("btnQuick").textContent           = t.btnQuick;
     $("btnFavorites").textContent       = t.btnFavorites;
+    $("btnCards").textContent           = lang === "de" ? "💫 Affirmationskarten" : "💫 Affirmation Cards";
     $("btnBackFromChooser").textContent = t.btnBack;
     $("btnBackFromMood").textContent    = t.btnBack;
     $("btnBackFromFavorites").textContent = t.btnBack;
@@ -686,6 +733,19 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromMoodSection").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
   $("btnBackFromRec").addEventListener("click", () => { renderHomeScreen(); });
   $("btnDailyRec").onclick            = () => { if (recommendedSituation) runSituation(recommendedSituation); };
+  $("btnCards").addEventListener("click", () => openCards());
+  $("btnCardPrev").addEventListener("click", () => showCard(currentCardIdx - 1));
+  $("btnCardNext").addEventListener("click", () => showCard(currentCardIdx + 1));
+  $("btnBackFromCards").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+
+  // Swipe-Unterstützung auf der Karte
+  let _swipeX = 0;
+  $("cardDisplay").addEventListener("touchstart", e => { _swipeX = e.touches[0].clientX; }, { passive: true });
+  $("cardDisplay").addEventListener("touchend", e => {
+    const dx = e.changedTouches[0].clientX - _swipeX;
+    if (Math.abs(dx) > 40) showCard(currentCardIdx + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
   $("btnQuick").onclick         = () => startQuickMode();
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 
