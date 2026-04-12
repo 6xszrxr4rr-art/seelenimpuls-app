@@ -9,7 +9,44 @@ document.addEventListener("DOMContentLoaded", () => {
   let bgAudio = null;
   let quickTimerInterval = null;
   let recommendedSituation = null;
-  let sessionGen = 0; // incremented on every stopSession to abort stale async runs
+  let sessionGen = 0;
+
+  // ── PREMIUM / BETA-ZUGANG ─────────────────────────────────────────────
+  let isPremium = localStorage.getItem('si_premium') === '1';
+
+  // Liest URL-Hash beim Start aus:
+  //   #gift=Anna        → personalisierter Beta-Link (Name wird gespeichert)
+  //   #unlock           → allgemeiner Freischalt-Link
+  function checkPremiumURL() {
+    const hash = window.location.hash;
+    const giftMatch   = hash.match(/^#gift=([^&]+)/i);
+    const unlockMatch = /^#unlock$/i.test(hash);
+
+    if (giftMatch || unlockMatch) {
+      const name = giftMatch ? decodeURIComponent(giftMatch[1]).trim() : '';
+      localStorage.setItem('si_premium', '1');
+      if (name) localStorage.setItem('si_premium_name', name);
+      isPremium = true;
+      history.replaceState(null, '', window.location.pathname);
+      showGiftWelcome(name);
+    }
+  }
+
+  function showGiftWelcome(name) {
+    const el = document.createElement('div');
+    el.id = 'giftOverlay';
+    el.innerHTML =
+      '<div class="gift-sheet">' +
+        '<span class="gift-icon">🎁</span>' +
+        '<h3 class="gift-title">' + (name ? 'Willkommen, ' + name + '!' : 'Willkommen!') + '</h3>' +
+        '<p class="gift-msg">Du hast exklusiven Zugang zu allen Inhalten freigeschaltet.<br>Viel Freude mit Seelenimpuls. 🌿</p>' +
+        '<button id="btnCloseGift">Los geht\'s ✨</button>' +
+      '</div>';
+    document.body.appendChild(el);
+    document.getElementById('btnCloseGift').addEventListener('click', () => el.remove());
+  }
+
+  checkPremiumURL();
 
   // ── IMPULSES (14 pro Sprache, tagesbasiert rotierend) ─────────────────
   const impulses = {
