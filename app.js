@@ -283,24 +283,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ── HOME SCREEN (daily rec + all situations) ─────────────────────────
+  // ── HOME SCREEN ───────────────────────────────────────────────────────
+  // Zeigt den Emoji-Auswahlscreen (Zustand 1)
   function renderHomeScreen() {
-    const dayIdx = Math.floor(Date.now() / 86400000);
-    const recN   = (dayIdx % 10) + 1;
-    recommendedSituation = recN;
-    $("homeRecLabel").textContent  = ui[lang].recLabel;
-    $("homeRecTitle").textContent  = `${recN}) ${situationTitles[lang][recN]}`;
+    $("homeMoodSection").classList.remove("hidden");
+    $("homeRecSection").classList.add("hidden");
+    $("homeMoodHeading").textContent = ui[lang].btnMood;
+    recommendedSituation = null;
+
+    const grid = $("homeMoodGrid");
+    grid.innerHTML = "";
+    moods[lang].forEach(mood => {
+      const btn = document.createElement("button");
+      btn.className = "mood-btn";
+      btn.innerHTML = `<span class="mood-emoji">${mood.emoji}</span><span class="mood-label">${mood.label}</span>`;
+      btn.onclick = () => selectMood(mood.situation);
+      grid.appendChild(btn);
+    });
+  }
+
+  // Nach Emoji-Auswahl: Seite wechselt zu Empfehlung + alle anderen Situationen
+  function selectMood(situationN) {
+    recommendedSituation = situationN;
+    $("homeMoodSection").classList.add("hidden");
+    $("homeRecSection").classList.remove("hidden");
+    $("homeRecLabel").textContent = ui[lang].recLabel;
+    $("homeRecTitle").textContent = situationTitles[lang][situationN];
 
     const list = $("homeSituationsList");
     list.innerHTML = "";
     for (let i = 1; i <= 10; i++) {
-      if (i === recN) continue;
+      if (i === situationN) continue;
       const btn = document.createElement("button");
       btn.className   = "home-situation-btn";
       btn.textContent = `${i}) ${situationTitles[lang][i]}`;
       btn.onclick     = () => runSituation(i);
       list.appendChild(btn);
     }
+    window.scrollTo(0, 0);
   }
 
   // ── LANGUAGE ──────────────────────────────────────────────────────────

@@ -445,6 +445,23 @@
       font-size: 28px; display: block; margin-bottom: 8px;
     }
 
+    /* ── Home mood heading ── */
+    .home-mood-title {
+      text-align: center; font-family: 'Lora', serif; font-size: 22px;
+      font-weight: 600; color: var(--text); margin: 24px 0 18px;
+    }
+    /* 2-column grid for 10 moods on home screen */
+    #homeMoodGrid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Rec section fades in after mood selection */
+    #homeRecSection:not(.hidden) {
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* ── Home recommendation section ── */
     .home-rec-section { margin-bottom: 4px; }
     .home-rec-label {
@@ -570,18 +587,24 @@
     <!-- ── HOME ── -->
     <div id="ui-home" class="hidden">
 
-      <div class="home-rec-section">
+      <!-- Zustand 1: Emoji-Auswahl -->
+      <div id="homeMoodSection">
+        <h2 class="home-mood-title" id="homeMoodHeading">Wie geht es dir gerade?</h2>
+        <div class="mood-grid" id="homeMoodGrid"></div>
+      </div>
+
+      <!-- Zustand 2: Empfehlung + alle anderen Situationen -->
+      <div id="homeRecSection" class="hidden">
         <div class="home-rec-label" id="homeRecLabel">Für dich empfohlen</div>
         <button class="home-rec-btn" id="btnDailyRec">
           <span id="homeRecTitle"></span>
         </button>
+        <div class="home-divider"></div>
+        <div id="homeSituationsList"></div>
       </div>
 
-      <div class="home-divider"></div>
-
-      <div id="homeSituationsList"></div>
-
-      <div class="support-links-sm">
+      <!-- Immer sichtbar -->
+      <div class="support-links-sm" style="margin-top:32px;">
         <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
            class="support-link-sm"
            data-de="✨ Exklusive Inhalte"
@@ -592,7 +615,6 @@
            data-de="☕ Energieausgleich"
            data-en="☕ Energy Exchange">☕ Energieausgleich</a>
       </div>
-
       <div class="legal-footer">
         <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
       </div>
