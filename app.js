@@ -338,6 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openCards() {
+    if (!isPremium) { showUpgradePrompt(); return; }
     renderCardGrid();
     showView('ui-cards');
   }
@@ -958,8 +959,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openWorksheets() {
+    if (!isPremium) { showUpgradePrompt(); return; }
     renderWorksheetList();
     showView('ui-worksheets');
+  }
+
+  function showUpgradePrompt() {
+    if ($('upgradeOverlay')) return;
+    const el = document.createElement('div');
+    el.id = 'upgradeOverlay';
+    el.className = 'upgrade-overlay';
+    el.innerHTML =
+      '<div class="upgrade-sheet">' +
+        '<button class="upgrade-close" id="upgradeClose">✕</button>' +
+        '<span class="upgrade-icon">✨</span>' +
+        '<h3 class="upgrade-title">Seelenimpuls Premium</h3>' +
+        '<ul class="upgrade-list">' +
+          '<li>💫 Affirmationskarten</li>' +
+          '<li>📝 Arbeitsblätter für alle Situationen</li>' +
+          '<li>📖 Tiefgang-Texte & Hintergrundwissen</li>' +
+          '<li>🎵 Song-Lyrics zu jeder Situation</li>' +
+          '<li>🧘 Geführte Meditationen</li>' +
+        '</ul>' +
+        '<a href="https://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener" class="btn-primary upgrade-btn">✨ Jetzt Premium werden</a>' +
+      '</div>';
+    document.body.appendChild(el);
+    el.querySelector('#upgradeClose').onclick = () => el.remove();
+    el.addEventListener('click', e => { if (e.target === el) el.remove(); });
   }
 
   // ── DAILY IMPULSE ─────────────────────────────────────────────────────
@@ -1343,6 +1369,28 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         };
         $("audioContainer").appendChild(btn);
+        softScroll();
+      }
+    }
+
+    // ── PREMIUM BLOCKS ────────────────────────────────────────────────
+    if (isPremium && alive()) {
+      const tiefgang = t('tiefgangText');
+      if (tiefgang) {
+        await sleep(800);
+        $('b6').classList.remove('hidden');
+        $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
+          '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+        softScroll();
+        await sleep(400);
+      }
+      const lyrics = s.songLyrics_en;
+      const songTitle = s.songTitle_en || '';
+      if (lyrics && alive()) {
+        await sleep(600);
+        $('b7').classList.remove('hidden');
+        if (songTitle) $('t7title').textContent = '"' + songTitle + '"';
+        $('t7').textContent = lyrics;
         softScroll();
       }
     }
