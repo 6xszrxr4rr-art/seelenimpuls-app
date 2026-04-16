@@ -83,9 +83,13 @@ window.SITUATIONS[2] = {
   // Tiefgang
   tiefgangText:
     'Warum sich alles zu viel anfühlt\n' +
+    '\n' +
     'Überforderung ist kein Zeichen von Schwäche. Sie entsteht, wenn die Summe äußerer und innerer Anforderungen die aktuell verfügbaren Ressourcen übersteigt. Das Nervensystem wechselt in einen Überlebensmodus, in dem Priorisierung und klares Denken schwieriger werden. Paradoxerweise wollen wir in diesem Zustand noch mehr tun, anstatt weniger.\n' +
+    '\n' +
     'In der Stressforschung unterscheidet man zwischen Eustress (positivem, anregendem Stress) und Distress (belastendem, überwältigendem Stress). Überforderung markiert den Punkt, an dem Eustress in Distress kippt. Der Körper schüttet vermehrt Cortisol und Adrenalin aus, die Herzfrequenz steigt, die Verdauung verlangsamt sich, und das Denken verengt sich auf vermeintlich dringende Aufgaben.\n' +
+    '\n' +
     'Ein wesentlicher Faktor ist der innere Kritiker: die Stimme in dir, die sagt, du müsstest mehr schaffen, schneller sein, besser funktionieren. Dieser innere Antreiber wurde oft in der Kindheit geformt und verstärkt das Gefühl der Überforderung, weil er dir signalisiert, dass Pausieren gleichbedeutend mit Versagen ist.\n' +
+    '\n' +
     'Entlastung beginnt mit einer bewussten Entscheidung: Ich muss jetzt nicht alles lösen. Ich muss nur diesen einen Moment bewältigen. Diese Reduktion auf das Jetzt ist kein Vermeiden, sondern ein neurobiologisch wirksamer Weg, das Nervensystem zu deeskalieren.',
 
   // Premium Song

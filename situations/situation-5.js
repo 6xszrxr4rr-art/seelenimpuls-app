@@ -77,9 +77,13 @@ window.SITUATIONS[5] = {
   // Tiefgang
   tiefgangText:
     'Traurigkeit als Tor zur Tiefe\n' +
+    '\n' +
     'Traurigkeit gehört zu den am meisten missverstandenen Emotionen. In einer Gesellschaft, die Optimismus und Positivität belohnt, wird Traurigkeit oft als Störung wahrgenommen. Dabei ist sie eine der wichtigsten Emotionen. Sie zeigt uns, was uns wirklich wichtig ist.\n' +
+    '\n' +
     'Neurologisch betrachtet aktiviert Traurigkeit das parasympathische Nervensystem und verlangsamt den Körper. Tränen enthalten Stresshormone, die beim Weinen aus dem Körper ausgeschieden werden. Weinen ist ein natürlicher Reinigungsprozess.\n' +
+    '\n' +
     'Carl Gustav Jung sprach davon, dass wir das Licht nur dort finden, wo der Schatten am tiefsten ist. Traurigkeit lädt uns ein, in die Tiefe zu gehen und dort Teile von uns zu entdecken: Sehnsucht, Verletzlichkeit, Liebe.\n' +
+    '\n' +
     'Es gibt einen wichtigen Unterschied zwischen Traurigkeit und Depression. Traurigkeit ist eine Emotion, sie kommt und geht in Wellen. Depression ist ein anhaltender Zustand, der professionelle Unterstützung erfordert.',
 
   // Premium Song

@@ -79,9 +79,13 @@ window.SITUATIONS[4] = {
   // Tiefgang
   tiefgangText:
     'Erschöpfung als Sprache des Körpers\n' +
+    '\n' +
     'Erschöpfung ist nicht nur das Ergebnis von zu viel Tun. Sie kann auch entstehen, wenn du lange gegen dich selbst gelebt hast: gegen deine Bedürfnisse, gegen dein Tempo, gegen deine Grenzen. Der Körper zieht irgendwann die Notbremse.\n' +
+    '\n' +
     'Neurowissenschaftlich betrachtet ist Erschöpfung ein Zustand, in dem die Neurotransmitter Dopamin und Serotonin unter ihren optimalen Pegel fallen. Der Antrieb sinkt, die Motivation schwindet. Das ist keine Faulheit, sondern eine biochemische Realität.\n' +
+    '\n' +
     'In der traditionellen chinesischen Medizin wird Erschöpfung als Qi-Mangel verstanden: Die Lebensenergie ist aufgebraucht und muss durch Ruhe, Nahrung und sanfte Bewegung wieder aufgebaut werden.\n' +
+    '\n' +
     'Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun: Liegen, Atmen, Stille. Der Körper braucht Signale der Sicherheit, um in den parasympathischen Modus umzuschalten.',
 
   // Premium Song

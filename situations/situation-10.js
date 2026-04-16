@@ -69,9 +69,13 @@ window.SITUATIONS[10] = {
   // Tiefgang
   tiefgangText:
     'Angst verstehen, annehmen und verwandeln\n' +
+    '\n' +
     'Angst ist die älteste Emotion des Menschen. Dein Nervensystem kann in Sekundenbruchteilen zwischen Sicherheit und Bedrohung unterscheiden. Dieses System ist nicht fehlerhaft.\n' +
+    '\n' +
     'Durch frühe Erfahrungen von Unsicherheit kann die Amygdala lernen, auch bei harmlosen Reizen Alarm zu schlagen. Ein bestimmter Tonfall, eine Erinnerung kann ausreichen.\n' +
+    '\n' +
     'Angst zeigt sich im Körper, bevor sie im Kopf ankommt: Herzklopfen, Enge in der Brust, flacher Atem. Diese Symptome sind nicht gefährlich, werden aber oft als gefährlich interpretiert.\n' +
+    '\n' +
     'Der wirksamste Weg führt über den Körper: Verlängertes Ausatmen aktiviert den Vagusnerv. Berührung aktiviert das Oxytocin-System. Der Körper ist dein stärkstes Werkzeug gegen Angst.',
 
   // Premium Song

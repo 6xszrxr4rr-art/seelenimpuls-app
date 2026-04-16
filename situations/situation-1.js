@@ -79,9 +79,13 @@ window.SITUATIONS[1] = {
   // Tiefgang
   tiefgangText:
     'Die Wurzeln der inneren Unruhe verstehen\n' +
+    '\n' +
     'Innere Unruhe ist mehr als nur ein unangenehmes Gefühl. Sie ist ein Signal deines autonomen Nervensystems, das sich in einem Zustand erhöhter Wachsamkeit befindet. In der Polyvagaltheorie nach Stephen Porges wird dieser Zustand als sympathische Aktivierung beschrieben: Dein Körper bereitet sich auf eine Reaktion vor, auch wenn keine akute Gefahr besteht.\n' +
+    '\n' +
     'Das Gedankenkarussell entsteht, wenn dein präfrontaler Cortex versucht, Kontrolle über eine als unsicher empfundene Situation zu gewinnen. Gedanken wiederholen sich nicht, weil sie ungelöst sind, sondern weil dein System versucht, durch Wiederholung ein Gefühl von Vorhersagbarkeit herzustellen. Es ist ein Schutzmechanismus, kein Defekt.\n' +
+    '\n' +
     'Auf körperlicher Ebene zeigt sich innere Unruhe oft durch flachen Atem, erhöhte Muskelspannung im Schulter-Nacken-Bereich, beschleunigten Herzschlag und ein diffuses Gefühl der Enge in der Brust. Diese Signale sind nicht gefährlich, aber sie halten den Kreislauf der Unruhe aufrecht, wenn sie nicht bewusst unterbrochen werden.\n' +
+    '\n' +
     'Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen. Wenn das Nervensystem reguliert wird, verlangsamen sich die Gedanken von selbst. Die folgenden Übungen setzen genau hier an: bei der körperlichen Ebene, die den Gedanken vorausgeht.',
 
   // Premium Song
