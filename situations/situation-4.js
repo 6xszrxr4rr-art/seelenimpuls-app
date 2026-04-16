@@ -74,5 +74,46 @@ window.SITUATIONS[4] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ This rest may continue to accompany you."
+  songOutro_en: "✨ This rest may continue to accompany you.",
+
+  // Tiefgang
+  tiefgangText:
+    'Erschöpfung als Sprache des Körpers\n' +
+    'Erschöpfung ist nicht nur das Ergebnis von zu viel Tun. Sie kann auch entstehen, wenn du lange gegen dich selbst gelebt hast: gegen deine Bedürfnisse, gegen dein Tempo, gegen deine Grenzen. Der Körper zieht irgendwann die Notbremse.\n' +
+    'Neurowissenschaftlich betrachtet ist Erschöpfung ein Zustand, in dem die Neurotransmitter Dopamin und Serotonin unter ihren optimalen Pegel fallen. Der Antrieb sinkt, die Motivation schwindet. Das ist keine Faulheit, sondern eine biochemische Realität.\n' +
+    'In der traditionellen chinesischen Medizin wird Erschöpfung als Qi-Mangel verstanden: Die Lebensenergie ist aufgebraucht und muss durch Ruhe, Nahrung und sanfte Bewegung wieder aufgebaut werden.\n' +
+    'Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun: Liegen, Atmen, Stille. Der Körper braucht Signale der Sicherheit, um in den parasympathischen Modus umzuschalten.',
+
+  // Premium Song
+  songTitle_en: 'Golden Light',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'I’ve been tired for so long,\n' +
+    'as if the music lost its song.\n' +
+    'The days pass heavy, slow, and grey,\n' +
+    'but something whispers: Find your way.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'Deep inside, a golden light,\n' +
+    'it flickers softly through the night.\n' +
+    'It waits so patiently for me to see:\n' +
+    'I’m not empty — I’m just finding my way free.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'I lay me down, the earth holds tight,\n' +
+    'I feel the silence, feel the light.\n' +
+    'No rushing now, no faster pace,\n' +
+    'just breathing, resting in this space.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'I don’t need to rise just yet,\n' +
+    'I don’t need to prove I’m here.\n' +
+    'My body knows the way to heal,\n' +
+    'through silence, warmth, and letting near.\n' +
+    ' \n' +
+    'Outro (spoken gently):\n' +
+    'This rest may continue to hold you.',
+
+  premiumSongFile_de: 'audio/Goldenes-Licht.mp3',
+  premiumSongFile_en: 'audio/golden-light.mp3'
 };

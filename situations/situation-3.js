@@ -74,5 +74,46 @@ window.SITUATIONS[3] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ Your body may remember this feeling of release."
+  songOutro_en: "✨ Your body may remember this feeling of release.",
+
+  // Tiefgang
+  tiefgangText:
+    'Was dein Körper dir mit Anspannung sagt\n' +
+    'Anspannung ist gespeicherte Energie. Wenn dein Körper sich nicht sicher genug fühlt, um loszulassen, hält er fest. Die Muskeln kontrahieren, der Kiefer presst sich zusammen, die Schultern ziehen nach oben. Das ist keine bewusste Entscheidung, sondern eine autonome Schutzreaktion deines Nervensystems.\n' +
+    'In der Traumaforschung spricht man von einer Freeze-Reaktion: Der Körper erstarrt, weil weder Kampf noch Flucht als sichere Option wahrgenommen wird. Auch wenn kein akutes Trauma vorliegt, kann chronischer Stress diesen Zustand auslösen.\n' +
+    'Peter Levine, Begründer von Somatic Experiencing, beschreibt, wie Tiere nach einer Bedrohung instinktiv zittern und sich schütteln, um die aufgestaute Energie zu entladen. Menschen unterdrücken diesen natürlichen Impuls oft, was dazu führt, dass Spannung im Körper gespeichert bleibt.\n' +
+    'Lösung geschieht nicht durch Willenskraft. Lösung geschieht durch Sicherheit: durch sanfte Berührung, durch langsamen Atem, durch die Erfahrung, dass in diesem Moment nichts Bedrohliches passiert.',
+
+  // Premium Song
+  songTitle_en: 'Becoming Soft',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'My jaw is clenched, my shoulders high,\n' +
+    'as if I’m bracing for the sky to fall.\n' +
+    'I’m holding on to what has been,\n' +
+    'but deep inside, a truth is calling.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'I’m becoming soft, I’m letting go,\n' +
+    'I don’t need to hold this anymore.\n' +
+    'My body knows what it needs now:\n' +
+    'just breath, just stillness, just allow.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'My hands are opening, slowly, wide,\n' +
+    'my forehead smooths, the grip subsides.\n' +
+    'What I was holding may now leave,\n' +
+    'I’m learning how to just receive.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'Like water finds its way downstream,\n' +
+    'like morning wakes a sleeping dream,\n' +
+    'I melt into this quiet ground,\n' +
+    'and in the softness, I am found.\n' +
+    ' \n' +
+    'Outro (whispered):\n' +
+    'Your body may remember this release.',
+
+  premiumSongFile_de: 'audio/Weich-werden.mp3',
+  premiumSongFile_en: 'audio/becoming-soft.mp3'
 };

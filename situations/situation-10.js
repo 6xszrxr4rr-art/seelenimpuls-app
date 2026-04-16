@@ -64,5 +64,46 @@ window.SITUATIONS[10] = {
     "Feel how a small space for holding opens in your chest.",
     "Notice the fear like a guest who is here right now, but does not need to stay.",
     "Stay with this feeling of support for three deep, conscious breaths."
-  ]
+  ],
+
+  // Tiefgang
+  tiefgangText:
+    'Angst verstehen, annehmen und verwandeln\n' +
+    'Angst ist die älteste Emotion des Menschen. Dein Nervensystem kann in Sekundenbruchteilen zwischen Sicherheit und Bedrohung unterscheiden. Dieses System ist nicht fehlerhaft.\n' +
+    'Durch frühe Erfahrungen von Unsicherheit kann die Amygdala lernen, auch bei harmlosen Reizen Alarm zu schlagen. Ein bestimmter Tonfall, eine Erinnerung kann ausreichen.\n' +
+    'Angst zeigt sich im Körper, bevor sie im Kopf ankommt: Herzklopfen, Enge in der Brust, flacher Atem. Diese Symptome sind nicht gefährlich, werden aber oft als gefährlich interpretiert.\n' +
+    'Der wirksamste Weg führt über den Körper: Verlängertes Ausatmen aktiviert den Vagusnerv. Berührung aktiviert das Oxytocin-System. Der Körper ist dein stärkstes Werkzeug gegen Angst.',
+
+  // Premium Song
+  songTitle_en: 'After the Storm',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'My heart beats fast, my chest grows tight,\n' +
+    'as if the air won’t reach me right.\n' +
+    'But both my hands lay soft and warm\n' +
+    'upon my chest — a quiet calm.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'After the storm, it all grows still,\n' +
+    'the fear may leave whenever it will.\n' +
+    'I hold myself, I hold on tight,\n' +
+    'my heart is more than just this fright.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'A light within, it flickers small,\n' +
+    'but it won’t break, it will not fall.\n' +
+    'This fear’s a guest, not my address,\n' +
+    'I breathe it through with tenderness.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'And when the dark feels deepest here,\n' +
+    'my heart reminds me: You are dear.\n' +
+    'Not to the world, no — to yourself,\n' +
+    'come home to you, come off that shelf.\n' +
+    ' \n' +
+    'Outro (whispered):\n' +
+    'You may carry this inner safety with you.',
+
+  premiumSongFile_de: '',
+  premiumSongFile_en: 'audio/after-the-storm.mp3'
 };

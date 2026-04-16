@@ -70,5 +70,46 @@ window.SITUATIONS[6] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ This phase too may have its own rhythm."
+  songOutro_en: "✨ This phase too may have its own rhythm.",
+
+  // Tiefgang
+  tiefgangText:
+    'Die Stille zwischen den Kapiteln\n' +
+    'Innere Leere wird oft als beängstigend empfunden, weil wir in einer Kultur leben, die ständige Stimulation feiert. Doch Leere ist kein Mangel. Sie ist ein Übergang. Ein Raum zwischen dem, was war, und dem, was kommen will.\n' +
+    'In der Gestalttherapie wird dieser Zustand als fruchtbare Leere beschrieben: ein Punkt, an dem alte Muster sich aufgelöst haben und neue noch nicht sichtbar sind. Wie ein Samen, der unter der Erde keimt.\n' +
+    'Orientierungslosigkeit ist die Abwesenheit von vertrauten Bezugspunkten. Das ist unangenehm, aber es ist auch ein Zeichen dafür, dass du dich weiterentwickelst.\n' +
+    'Der wichtigste Rat: Versuche nicht, die Leere zu füllen. Halte den Raum offen und vertraue darauf, dass Klarheit sich zeigen wird.',
+
+  // Premium Song
+  songTitle_en: 'Between the Worlds',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'No road ahead, no yesterday,\n' +
+    'the map is blank, the colours grey.\n' +
+    'But something in me whispers low:\n' +
+    'Trust the space, it’s where you grow.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'Between the worlds, I find my home,\n' +
+    'the silence breathes me, I’m not alone.\n' +
+    'I need no plan, no map, no sign,\n' +
+    'I’m already here, I’m already mine.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'A light, so faint, in the unknown,\n' +
+    'it glows so softly, I’m not alone.\n' +
+    'I do not chase, I only wait,\n' +
+    'and slowly find my own heartbeat.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'Maybe emptiness is not a void,\n' +
+    'maybe it’s a seed not yet deployed.\n' +
+    'The winter holds the spring inside,\n' +
+    'and in the dark, the stars still guide.\n' +
+    ' \n' +
+    'Outro (spoken softly):\n' +
+    'This phase may have its own rhythm.',
+
+  premiumSongFile_de: 'audio/Zwischen-den-Welten.mp3',
+  premiumSongFile_en: 'audio/between-the-worlds.mp3'
 };

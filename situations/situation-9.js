@@ -70,5 +70,46 @@ window.SITUATIONS[9] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ Carry this feeling gently into your continuing journey."
+  songOutro_en: "✨ Carry this feeling gently into your continuing journey.",
+
+  // Tiefgang
+  tiefgangText:
+    'Die Kunst des Loslassens und Neu-Anfangens\n' +
+    'Der Anthropologe Victor Turner nannte Übergänge Schwellenzustände (Liminalität): Phasen, in denen das Alte nicht mehr gilt und das Neue noch nicht greifbar ist. Wir sind am verletzlichsten, aber auch am offensten für Transformation.\n' +
+    'Unser Gehirn liebt Vorhersagbarkeit. Veränderung aktiviert die Amygdala. Deshalb fühlen sich selbst gewollte Veränderungen oft bedrohlich an. Das ist normal.\n' +
+    'In der japanischen Tradition gibt es Wabi-Sabi: die Schönheit des Vergänglichen. Übergänge sind Wabi-Sabi-Momente. Nicht perfekt, nicht glatt, aber roh und echt.\n' +
+    'Der wichtigste Begleiter ist Vertrauen. Nicht dass alles gut wird, sondern dass du fähig bist, mit dem umzugehen, was kommt.',
+
+  // Premium Song
+  songTitle_en: 'One Step',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'The door falls shut, the silence stays,\n' +
+    'what once was clear now hides in haze.\n' +
+    'Before me: fog, so soft and wide,\n' +
+    'but underneath — my feet decide.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'One step, just one, that’s all I need,\n' +
+    'the road appears beneath my feet.\n' +
+    'I leave the old behind, let go,\n' +
+    'and softly whisper: Here I go.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'The wind is turning, the air grows clear,\n' +
+    'what held me close reveals what’s dear:\n' +
+    'not safety, not control, oh no,\n' +
+    'it was trust that helped me grow.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'And if I fall, I’ll fall like rain,\n' +
+    'the earth will catch me once again.\n' +
+    'No path was wrong, no step too far,\n' +
+    'I’ve always been my own North Star.\n' +
+    ' \n' +
+    'Outro (spoken with warmth):\n' +
+    'Carry this feeling gently into your journey.',
+
+  premiumSongFile_de: '',
+  premiumSongFile_en: 'audio/one-step.mp3'
 };

@@ -78,5 +78,46 @@ window.SITUATIONS[2] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ You can carry this feeling of spaciousness with you."
+  songOutro_en: "✨ You can carry this feeling of spaciousness with you.",
+
+  // Tiefgang
+  tiefgangText:
+    'Warum sich alles zu viel anfühlt\n' +
+    'Überforderung ist kein Zeichen von Schwäche. Sie entsteht, wenn die Summe äußerer und innerer Anforderungen die aktuell verfügbaren Ressourcen übersteigt. Das Nervensystem wechselt in einen Überlebensmodus, in dem Priorisierung und klares Denken schwieriger werden. Paradoxerweise wollen wir in diesem Zustand noch mehr tun, anstatt weniger.\n' +
+    'In der Stressforschung unterscheidet man zwischen Eustress (positivem, anregendem Stress) und Distress (belastendem, überwältigendem Stress). Überforderung markiert den Punkt, an dem Eustress in Distress kippt. Der Körper schüttet vermehrt Cortisol und Adrenalin aus, die Herzfrequenz steigt, die Verdauung verlangsamt sich, und das Denken verengt sich auf vermeintlich dringende Aufgaben.\n' +
+    'Ein wesentlicher Faktor ist der innere Kritiker: die Stimme in dir, die sagt, du müsstest mehr schaffen, schneller sein, besser funktionieren. Dieser innere Antreiber wurde oft in der Kindheit geformt und verstärkt das Gefühl der Überforderung, weil er dir signalisiert, dass Pausieren gleichbedeutend mit Versagen ist.\n' +
+    'Entlastung beginnt mit einer bewussten Entscheidung: Ich muss jetzt nicht alles lösen. Ich muss nur diesen einen Moment bewältigen. Diese Reduktion auf das Jetzt ist kein Vermeiden, sondern ein neurobiologisch wirksamer Weg, das Nervensystem zu deeskalieren.',
+
+  // Premium Song
+  songTitle_en: 'Set It Down',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'Too many voices, too many names,\n' +
+    'too many windows, too many frames.\n' +
+    'My head is full, my chest is tight,\n' +
+    'but something whispers: It’s alright.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'I set it down, just for now, just for here,\n' +
+    'I breathe it out and the path becomes clear.\n' +
+    'Not everything needs to be solved today,\n' +
+    'this moment is enough, I’m okay.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'My shoulders soften, my hands unfold,\n' +
+    'the pressure fades, I’m letting go.\n' +
+    'I carry only what feels right,\n' +
+    'the rest can wait until the light.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'Enough, enough — I may rest now,\n' +
+    'I don’t need to figure it all out.\n' +
+    'The ground holds me, the air is kind,\n' +
+    'and finally, I still my mind.\n' +
+    ' \n' +
+    'Outro (spoken softly):\n' +
+    'The backpack can wait.',
+
+  premiumSongFile_de: 'audio/Abgelegt.mp3',
+  premiumSongFile_en: 'audio/set-it-down.mp3'
 };

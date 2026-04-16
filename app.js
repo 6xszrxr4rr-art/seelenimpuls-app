@@ -1389,8 +1389,29 @@ document.addEventListener("DOMContentLoaded", () => {
       if (lyrics && alive()) {
         await sleep(600);
         $('b7').classList.remove('hidden');
-        if (songTitle) $('t7title').textContent = '"' + songTitle + '"';
+        if (songTitle) $('t7title').textContent = '\u201c' + songTitle + '\u201d';
         $('t7').textContent = lyrics;
+        // Add premium song play button if file is available
+        const premiumFile = lang === 'de' ? s.premiumSongFile_de : s.premiumSongFile_en;
+        const premiumFileEn = s.premiumSongFile_en;
+        const fileToPlay = premiumFile || premiumFileEn;
+        if (fileToPlay) {
+          const pBtn = document.createElement('button');
+          pBtn.className = 'btn-primary';
+          pBtn.style.marginTop = '16px';
+          pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' abspielen</span>';
+          pBtn.onclick = () => {
+            if (bgAudio) { bgAudio.pause(); bgAudio = null; }
+            if (currentSongAudio) { currentSongAudio.pause(); currentSongAudio = null; }
+            currentSongAudio = new Audio(fileToPlay);
+            const vol = $('volumeSlider');
+            currentSongAudio.volume = vol ? parseFloat(vol.value) : 0.7;
+            currentSongAudio.play().catch(() => {});
+            pBtn.disabled = true;
+            pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' \u2013 spielt\u2026</span>';
+          };
+          $('b7').appendChild(pBtn);
+        }
         softScroll();
       }
     }

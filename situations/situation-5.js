@@ -72,5 +72,46 @@ window.SITUATIONS[5] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ You are not alone with this feeling."
+  songOutro_en: "✨ You are not alone with this feeling.",
+
+  // Tiefgang
+  tiefgangText:
+    'Traurigkeit als Tor zur Tiefe\n' +
+    'Traurigkeit gehört zu den am meisten missverstandenen Emotionen. In einer Gesellschaft, die Optimismus und Positivität belohnt, wird Traurigkeit oft als Störung wahrgenommen. Dabei ist sie eine der wichtigsten Emotionen. Sie zeigt uns, was uns wirklich wichtig ist.\n' +
+    'Neurologisch betrachtet aktiviert Traurigkeit das parasympathische Nervensystem und verlangsamt den Körper. Tränen enthalten Stresshormone, die beim Weinen aus dem Körper ausgeschieden werden. Weinen ist ein natürlicher Reinigungsprozess.\n' +
+    'Carl Gustav Jung sprach davon, dass wir das Licht nur dort finden, wo der Schatten am tiefsten ist. Traurigkeit lädt uns ein, in die Tiefe zu gehen und dort Teile von uns zu entdecken: Sehnsucht, Verletzlichkeit, Liebe.\n' +
+    'Es gibt einen wichtigen Unterschied zwischen Traurigkeit und Depression. Traurigkeit ist eine Emotion, sie kommt und geht in Wellen. Depression ist ein anhaltender Zustand, der professionelle Unterstützung erfordert.',
+
+  // Premium Song
+  songTitle_en: 'Quiet Guest',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'There is a feeling without a name,\n' +
+    'it’s been with me, a quiet flame.\n' +
+    'No reason, no words, just a weight inside,\n' +
+    'it knocks on my heart: May I come inside?\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'Yes, come in, you quiet guest,\n' +
+    'lay down here and take your rest.\n' +
+    'I’ll hold you close, I’ll hold you true,\n' +
+    'even when the world won’t stop for you.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'The tears may fall or they may not,\n' +
+    'I see myself in all I’ve got.\n' +
+    'There is no flaw, just a feeling true,\n' +
+    'that finally has room to move through.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'And in this sadness, there’s a door\n' +
+    'to something I’ve not seen before:\n' +
+    'a tenderness so deep and wide,\n' +
+    'the love I’ve hidden deep inside.\n' +
+    ' \n' +
+    'Outro (whispered):\n' +
+    'You are not alone with this feeling.',
+
+  premiumSongFile_de: 'audio/Stiller-Gast.mp3',
+  premiumSongFile_en: 'audio/quiet-guest.mp3'
 };

@@ -68,5 +68,46 @@ window.SITUATIONS[7] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ This trust may continue to work within you."
+  songOutro_en: "✨ This trust may continue to work within you.",
+
+  // Tiefgang
+  tiefgangText:
+    'Die leise Stimme, die dich kleinmacht\n' +
+    'Selbstzweifel haben eine wichtige Funktion: Sie schützen dich. Doch wenn der innere Kritiker zu laut wird, verliert er seine Schutzfunktion und wird zum Saboteur. Er wiederholt Sätze, die du irgendwann von außen gehört hast.\n' +
+    'Studien zeigen, dass bis zu 70% aller Menschen das Imposter-Syndrom mindestens einmal erleben. Es trifft besonders häufig hochsensible und perfektionistische Menschen.\n' +
+    'Selbstzweifel sind oft das Echo vergangener Bewertungen. Sie haben wenig mit deiner tatsächlichen Fähigkeit zu tun und viel mit verinnerlichten Glaubenssätzen.\n' +
+    'Der erste Schritt: den inneren Kritiker als internalisierte Stimme erkennen, nicht als deine Wahrheit. Du kannst ihm zuhören, ohne ihm zu glauben.',
+
+  // Premium Song
+  songTitle_en: 'On My Side',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'There’s a voice that says I’m not enough,\n' +
+    'an old, old story, wearing rough.\n' +
+    'But underneath the noise, the weight,\n' +
+    'a heart is beating — and it’s not too late.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'I’m on my side, I am my light,\n' +
+    'I don’t need to prove that I’m right.\n' +
+    'Whatever they say, whatever I think,\n' +
+    'I am here and I am enough — let that sink.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'The child in me looks up and smiles,\n' +
+    'as if it knew me all this while.\n' +
+    'It says: You’ve forgotten who you are,\n' +
+    'come close — you’ve always been a star.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'I don’t need their applause to stand,\n' +
+    'I don’t need the world to understand.\n' +
+    'This heart, this breath, this skin, this bone —\n' +
+    'I am whole, I am my own.\n' +
+    ' \n' +
+    'Outro (spoken warmly):\n' +
+    'This trust may continue to grow within you.',
+
+  premiumSongFile_de: 'audio/Auf-meiner-Seite.mp3',
+  premiumSongFile_en: 'audio/on-my-side.mp3'
 };

@@ -70,5 +70,46 @@ window.SITUATIONS[8] = {
     "Stay with this for three calm breaths."
   ],
 
-  songOutro_en: "✨ Clarity may show itself at your own pace."
+  songOutro_en: "✨ Clarity may show itself at your own pace.",
+
+  // Tiefgang
+  tiefgangText:
+    'Wenn der Kopf nicht weiß, was das Herz längst fühlt\n' +
+    'Entscheidungszweifel entstehen selten, weil zu wenig Informationen vorliegen. Meistens wissen wir bereits, was sich richtig anfühlt, aber wir trauen diesem Wissen nicht.\n' +
+    'Neurowissenschaftler wie António Damasío haben gezeigt, dass gute Entscheidungen nicht rein rational getroffen werden. Emotionen und Körpersignale (somatische Marker) spielen eine zentrale Rolle.\n' +
+    'Das Problem beim Schwanken ist die Angst vor der falschen Entscheidung. Doch es gibt in den meisten Lebenssituationen keine objektiv falsche Entscheidung. Es gibt Wege, die unterschiedliche Erfahrungen ermöglichen.\n' +
+    'Frage: Welche Entscheidung kann ich am besten tragen? Welche fühlt sich in meinem Körper am ruhigsten an?',
+
+  // Premium Song
+  songTitle_en: 'The Still Lake',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'Left or right, ahead or back,\n' +
+    'my mind keeps spinning on its track.\n' +
+    'But under all the noise and doubt,\n' +
+    'there’s something still that waits throughout.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'There is a lake inside of me, so deep and clear,\n' +
+    'it holds the answer I’ve been waiting to hear.\n' +
+    'I dive below, I leave the waves above,\n' +
+    'and in the deep, I find what I’m made of.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'I don’t need to know, not now, not yet,\n' +
+    'the way reveals what I can’t forget.\n' +
+    'No right, no wrong, just: feel it through,\n' +
+    'and suddenly, I know what’s true.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'The stones they throw won’t reach this deep,\n' +
+    'the arguments can go to sleep.\n' +
+    'Down here, there’s only breath and bone,\n' +
+    'down here, I’m never quite alone.\n' +
+    ' \n' +
+    'Outro (spoken calmly):\n' +
+    'Clarity may show itself at your own pace.',
+
+  premiumSongFile_de: '',
+  premiumSongFile_en: 'audio/the-still-lake.mp3'
 };
