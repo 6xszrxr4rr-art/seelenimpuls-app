@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const WORKSHEETS = {
     6: {
       title: "Innere Leere & Orientierungslosigkeit",
-      quote: "„Leere ist kein Mangel. Sie ist ein Übergang."",
+      quote: '„Leere ist kein Mangel. Sie ist ein Übergang."',
       sections: [
         {
           heading: "Absichtsloses Tun",
@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     7: {
       title: "Selbstzweifel & innere Unsicherheit",
-      quote: "„Du kannst dem inneren Kritiker zuhören, ohne ihm zu glauben."",
+      quote: '„Du kannst dem inneren Kritiker zuhören, ohne ihm zu glauben."',
       sections: [
         {
           heading: "Mein innerer Kritiker",
@@ -422,7 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     8: {
       title: "Entscheidungszweifel & inneres Schwanken",
-      quote: "„Es gibt keine falsche Entscheidung. Nur Wege, die unterschiedliche Erfahrungen ermöglichen."",
+      quote: '„Es gibt keine falsche Entscheidung. Nur Wege, die unterschiedliche Erfahrungen ermöglichen."',
       sections: [
         {
           heading: "Meine aktuelle Entscheidung",
@@ -466,7 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     9: {
       title: "Übergang, Wandel & Neubeginn",
-      quote: "„Vertrauen wächst durch die Erinnerung an alle Übergänge, die du bereits gemeistert hast."",
+      quote: '„Vertrauen wächst durch die Erinnerung an alle Übergänge, die du bereits gemeistert hast."',
       sections: [
         {
           heading: "Meine bisherigen Übergänge",
@@ -511,7 +511,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     10: {
       title: "Angst & innere Sicherheit",
-      quote: "„Nach der Angst kommt immer Stille. Es wird immer ruhig danach."",
+      quote: '„Nach der Angst kommt immer Stille. Es wird immer ruhig danach."',
       sections: [
         {
           heading: "Angst-Landkarte",
@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     11: {
       title: "Konflikte & innerer Frieden",
-      quote: "„Der wichtigste Schritt in jedem Konflikt ist nicht die Lösung, sondern die Pause."",
+      quote: '„Der wichtigste Schritt in jedem Konflikt ist nicht die Lösung, sondern die Pause."',
       sections: [
         {
           heading: "Mein aktueller Konflikt",
