@@ -555,65 +555,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
     11: {
       title: "Konflikte & innerer Frieden",
-      quote: "„Hinter jedem Vorwurf steckt ein unerfülltes Bedürfnis." – Marshall Rosenberg",
+      quote: "„Der wichtigste Schritt in jedem Konflikt ist nicht die Lösung, sondern die Pause."",
       sections: [
         {
           heading: "Mein aktueller Konflikt",
-          body: "Beschreibe die Situation in wenigen Worten – ohne Wertung:",
+          body: "Beschreibe kurz die Situation (ohne Bewertung, nur Fakten):",
           fields: [
-            { type:'textarea', label:'Worum geht es?', key:'s11_f0', rows:3 },
-            { type:'input',    label:'Mit wem (oder womit) bin ich im Konflikt?', key:'s11_f1' },
+            { type:'textarea', label:'', key:'s11_f0', rows:3 },
           ]
         },
         {
           heading: "Was fühle ich wirklich?",
-          body: "Unter dem Ärger liegt oft noch mehr. Was spürst du?",
+          body: "Was war mein erstes Gefühl – noch bevor ich etwas gesagt habe?",
           fields: [
-            { type:'checklist', label:'', options:['Ärger','Trauer','Enttäuschung','Angst','Scham','Einsamkeit','Hilflosigkeit','Sehnsucht','Erschöpfung','Verwirrung'], key:'s11_f2' },
-            { type:'textarea', label:'Unter dem Ärger liegt eigentlich:', key:'s11_f3', rows:3 },
+            { type:'checklist', label:'', options:['Wut','Trauer','Angst','Scham','Hilflosigkeit','Enttäuschung'], key:'s11_f1' },
+            { type:'input', label:'Anderes:', key:'s11_f2' },
           ]
         },
         {
-          heading: "Was brauche ich?",
-          body: "Hinter jedem Gefühl steckt ein Bedürfnis. Was brauchst du wirklich?",
+          heading: "Was brauche ich eigentlich?",
+          body: "Welches Bedürfnis steht hinter meinem Gefühl?",
           fields: [
-            { type:'checklist', label:'', options:['Gehört werden','Respekt','Verständnis','Sicherheit','Verbindung','Anerkennung','Ruhe','Klarheit','Fairness','Raum'], key:'s11_f4' },
-            { type:'textarea', label:'Mein tiefstes Bedürfnis in diesem Konflikt:', key:'s11_f5', rows:3 },
+            { type:'checklist', label:'', options:['Gehört werden','Respekt','Sicherheit','Zugehörigkeit','Autonomie','Anerkennung','Ehrlichkeit','Nähe'], key:'s11_f3' },
+            { type:'input', label:'Anderes:', key:'s11_f4' },
           ]
         },
         {
           heading: "Rosenberg-Übersetzung",
-          body: "Übersetze Vorwürfe in Bedürfnisse – vom Angriff zur Bitte:",
+          body: "Übersetze den Vorwurf in ein Bedürfnis:",
           fields: [
-            { type:'note', text:'Statt „Du hörst mir nie zu!" sage ich: „Ich brauche das Gefühl, dass ich dir wichtig bin."' },
-            { type:'statt', key1:'s11_f6a', key2:'s11_f6b' },
-            { type:'statt', key1:'s11_f7a', key2:'s11_f7b' },
-            { type:'statt', key1:'s11_f8a', key2:'s11_f8b' },
+            { type:'textarea', label:'Was die andere Person gesagt/getan hat:', key:'s11_f5', rows:2 },
+            { type:'textarea', label:'Was sie damit vielleicht eigentlich gemeint hat:', key:'s11_f6', rows:2 },
+            { type:'textarea', label:'Was ICH eigentlich sagen wollte:', key:'s11_f7', rows:2 },
+            { type:'textarea', label:'Was ich damit eigentlich brauche:', key:'s11_f8', rows:2 },
           ]
         },
         {
-          heading: "90-Sekunden-Regel",
-          body: "Ein Gefühl dauert neurobiologisch nur 90 Sekunden – wenn wir es nicht befeuern. Beobachte dich beim nächsten Konfliktmoment:",
+          heading: "Die 90-Sekunden-Regel",
+          body: "Probiere diese Woche: Wenn du getriggert wirst, warte 90 Sekunden. Notiere deine Erfahrung:",
           fields: [
-            { type:'note', text:'Atme, zähle bis 90, beobachte nur. Was verändert sich?' },
-            { type:'textarea', label:'Was bemerke ich, wenn ich 90 Sekunden warte?', key:'s11_f9', rows:3 },
+            { type:'input',    label:'Situation:', key:'s11_f9' },
+            { type:'input',    label:'Was ich normalerweise sofort gesagt/getan hätte:', key:'s11_f10' },
+            { type:'textarea', label:'Was ich nach 90 Sekunden stattdessen getan habe:', key:'s11_f11', rows:2 },
+            { type:'textarea', label:'Wie hat sich das angefühlt?', key:'s11_f12', rows:2 },
           ]
         },
         {
-          heading: "Körper-Check",
-          body: "Wo trägt dein Körper diesen Konflikt?",
+          heading: "Körper-Check im Konflikt",
+          body: "Wo spüre ich den Konflikt in meinem Körper?",
           fields: [
-            { type:'input', label:'Kopf / Gedanken:', key:'s11_f10' },
-            { type:'input', label:'Brust / Herz:', key:'s11_f11' },
-            { type:'input', label:'Bauch:', key:'s11_f12' },
-            { type:'input', label:'Schultern / Nacken:', key:'s11_f13' },
+            { type:'checklist', label:'', options:['Kiefer/Zähne zusammengepresst','Schultern hochgezogen','Enge in der Brust','Hitze im Gesicht','Knoten im Bauch','Kloß im Hals','Flaue Knie','Zitternde Hände'], key:'s11_f13' },
+            { type:'input', label:'Anderes:', key:'s11_f14' },
           ]
         },
         {
           heading: "Mein Friedens-Satz",
-          body: "Ein Satz, den du dir selbst sagen kannst – aus der Ruhe heraus:",
+          body: "Wähle oder formuliere einen Satz für Konfliktsituationen:",
           fields: [
-            { type:'textarea', label:'', key:'s11_f14', rows:3 },
+            { type:'checklist', label:'', options:['Frieden beginnt in mir.','Ich muss nicht gewinnen, um wertvoll zu sein.','Ich antworte aus der Stille, nicht aus dem Sturm.'], key:'s11_f15' },
+            { type:'input', label:'Mein eigener Satz:', key:'s11_f16' },
           ]
         }
       ]
