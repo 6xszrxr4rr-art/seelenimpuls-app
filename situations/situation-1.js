@@ -74,5 +74,46 @@ window.SITUATIONS[1] = {
     "Stay a moment longer with this feeling of peace."
   ],
 
-  songOutro_en: "✨ You may remain in this stillness now."
+  songOutro_en: "✨ You may remain in this stillness now.",
+
+  // Tiefgang
+  tiefgangText:
+    'Die Wurzeln der inneren Unruhe verstehen\n' +
+    'Innere Unruhe ist mehr als nur ein unangenehmes Gefühl. Sie ist ein Signal deines autonomen Nervensystems, das sich in einem Zustand erhöhter Wachsamkeit befindet. In der Polyvagaltheorie nach Stephen Porges wird dieser Zustand als sympathische Aktivierung beschrieben: Dein Körper bereitet sich auf eine Reaktion vor, auch wenn keine akute Gefahr besteht.\n' +
+    'Das Gedankenkarussell entsteht, wenn dein präfrontaler Cortex versucht, Kontrolle über eine als unsicher empfundene Situation zu gewinnen. Gedanken wiederholen sich nicht, weil sie ungelöst sind, sondern weil dein System versucht, durch Wiederholung ein Gefühl von Vorhersagbarkeit herzustellen. Es ist ein Schutzmechanismus, kein Defekt.\n' +
+    'Auf körperlicher Ebene zeigt sich innere Unruhe oft durch flachen Atem, erhöhte Muskelspannung im Schulter-Nacken-Bereich, beschleunigten Herzschlag und ein diffuses Gefühl der Enge in der Brust. Diese Signale sind nicht gefährlich, aber sie halten den Kreislauf der Unruhe aufrecht, wenn sie nicht bewusst unterbrochen werden.\n' +
+    'Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen. Wenn das Nervensystem reguliert wird, verlangsamen sich die Gedanken von selbst. Die folgenden Übungen setzen genau hier an: bei der körperlichen Ebene, die den Gedanken vorausgeht.',
+
+  // Premium Song
+  songTitle_en: 'Sky Behind the Clouds',
+  songLyrics_en:
+    'Verse 1:\n' +
+    'Thoughts are spinning, they won’t slow down,\n' +
+    'like leaves caught in a restless wind.\n' +
+    'But underneath this noise I’ve found\n' +
+    'a place where quiet can begin.\n' +
+    ' \n' +
+    'Chorus:\n' +
+    'I am the sky, not the clouds passing through,\n' +
+    'I let them drift, I let them move.\n' +
+    'Slowly, gently, I arrive.\n' +
+    'Breathe in, let go — I’m alive.\n' +
+    ' \n' +
+    'Verse 2:\n' +
+    'My breath grows softer, the world grows wide,\n' +
+    'a space is opening deep inside.\n' +
+    'No holding on, no need to race,\n' +
+    'just this moment, just this place.\n' +
+    ' \n' +
+    'Bridge:\n' +
+    'And when the night brings silence down,\n' +
+    'and everything grows still around,\n' +
+    'I know: I’m already here,\n' +
+    'exactly where I need to be.\n' +
+    ' \n' +
+    'Outro (spoken/whispered):\n' +
+    'You may stay in this stillness now.',
+
+  premiumSongFile_de: 'audio/Wolkenhimmel.mp3',
+  premiumSongFile_en: 'audio/sky-behind-the-clouds.mp3'
 };
