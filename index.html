@@ -713,96 +713,132 @@
       text-align: center; margin: 0;
     }
 
-    /* ── Worksheets ── */
-    .ws-page-title { font-size: 22px; font-weight: 400; color: var(--text); margin: 0 0 4px; }
-    .ws-page-sub { font-size: 14px; color: var(--text-muted); font-style: italic;
+    /* ── Worksheets (warm PDF-style) ── */
+    #ui-worksheet, #ui-worksheets {
+      background: #fdf8f2; margin: -20px; padding: 20px; min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .ws-page-title { font-size: 22px; font-weight: 700; color: #1e3354; margin: 0 0 4px;
+      font-family: 'Lora', serif; }
+    .ws-page-sub { font-size: 14px; color: #999; font-style: italic;
       font-family: -apple-system, system-ui, sans-serif; margin: 0 0 24px; }
     .ws-list-item {
-      background: var(--situation-bg); border: 1px solid var(--situation-border);
-      padding: 18px 20px; border-radius: 18px; margin-bottom: 12px;
+      background: #fff8f0; border: 1px solid #e8ddd0;
+      padding: 16px 18px; border-radius: 12px; margin-bottom: 10px;
       text-align: left; cursor: pointer; touch-action: manipulation;
-      width: 100%; font-family: 'Lora', serif; transition: background 0.2s;
+      width: 100%; font-family: 'Lora', serif; transition: background 0.15s;
       display: flex; align-items: center; justify-content: space-between;
+      box-sizing: border-box;
     }
-    .ws-list-item:active { background: var(--accent-soft); }
-    .ws-list-num { font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--accent); font-family: -apple-system, system-ui, sans-serif;
+    .ws-list-item:active { background: #f5ede2; }
+    .ws-list-num { font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px;
+      color: #C4A35A; font-family: -apple-system, system-ui, sans-serif;
       font-weight: 700; display: block; margin-bottom: 3px; }
-    .ws-list-title { font-size: 17px; font-weight: 600; color: var(--text); display: block; }
-    .ws-list-arrow { font-size: 18px; color: var(--text-muted); flex-shrink: 0; opacity: 0.4; }
-    .ws-list-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
-      opacity: 0.6; flex-shrink: 0; }
+    .ws-list-title { font-size: 16px; font-weight: 600; color: #1e3354; display: block; }
+    .ws-list-arrow { font-size: 20px; color: #C4A35A; flex-shrink: 0; opacity: 0.6; }
+    .ws-list-dot { width: 8px; height: 8px; border-radius: 50%; background: #C4A35A;
+      opacity: 0.8; flex-shrink: 0; }
 
-    .ws-header { text-align: center; padding: 8px 0 24px;
-      border-bottom: 1px solid var(--block-border); margin-bottom: 28px; }
-    .ws-sit-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px;
-      color: var(--accent); font-family: -apple-system, system-ui, sans-serif;
+    .ws-print-btn {
+      display: flex; align-items: center; gap: 8px; justify-content: center;
+      width: 100%; padding: 14px; margin-bottom: 20px;
+      background: #1e3354; color: #fff; border: none; border-radius: 12px;
+      font-size: 15px; font-family: -apple-system, system-ui, sans-serif;
+      font-weight: 600; cursor: pointer; letter-spacing: 0.3px; touch-action: manipulation;
+      box-sizing: border-box;
+    }
+    .ws-print-btn:active { opacity: 0.85; }
+
+    .ws-header { text-align: center; padding: 12px 0 24px;
+      border-bottom: 2px solid #C4A35A; margin-bottom: 8px; }
+    .ws-sit-label { font-size: 10px; text-transform: uppercase; letter-spacing: 3px;
+      color: #C4A35A; font-family: -apple-system, system-ui, sans-serif;
       font-weight: 700; margin-bottom: 10px; display: block; }
-    .ws-main-title { font-size: 22px; font-weight: 600; font-family: 'Lora', serif;
-      color: var(--text); margin: 0 0 12px; }
-    .ws-quote { font-style: italic; color: var(--text-muted); font-size: 15px;
-      line-height: 1.6; margin: 0; }
+    .ws-main-title { font-size: 24px; font-weight: 700; font-family: 'Lora', serif;
+      color: #1e3354; margin: 0 0 14px; }
+    .ws-quote { font-style: italic; color: #C4A35A; font-size: 14px;
+      line-height: 1.6; margin: 0; font-family: 'Lora', serif; }
 
-    .ws-section { margin-bottom: 24px; }
-    .ws-section-heading { font-size: 16px; font-weight: 700; color: var(--accent);
+    .ws-section { margin-bottom: 0; padding: 20px 0 4px; }
+    .ws-section-heading { font-size: 16px; font-weight: 700; color: #3b6b99;
       font-family: -apple-system, system-ui, sans-serif; margin: 0 0 6px; }
-    .ws-section-body { font-size: 14px; color: var(--text-muted); margin: 0 0 14px;
+    .ws-section-body { font-size: 14px; color: #555; margin: 0 0 14px;
       font-family: -apple-system, system-ui, sans-serif; line-height: 1.5; }
 
-    .ws-field-label { font-size: 14px; color: var(--accent); font-weight: 600;
+    .ws-field-label { font-size: 14px; color: #3b6b99; font-weight: 600;
       font-family: -apple-system, system-ui, sans-serif; display: block; margin-bottom: 5px; }
     .ws-input {
-      width: 100%; border: none; border-bottom: 1.5px solid var(--btn-ghost-border);
-      background: transparent; font-size: 16px; color: var(--text);
+      width: 100%; border: none; border-bottom: 1.5px solid #d9cfc5;
+      background: transparent; font-size: 16px; color: #333;
       font-family: 'Lora', serif; padding: 8px 4px 6px; outline: none;
       margin-bottom: 18px; display: block; -webkit-appearance: none;
       box-sizing: border-box;
     }
-    .ws-input:focus { border-bottom-color: var(--accent); }
+    .ws-input:focus { border-bottom-color: #C4A35A; }
     .ws-textarea {
-      width: 100%; border: 1px solid var(--btn-ghost-border);
-      background: var(--btn-ghost-bg); border-radius: 12px;
-      font-size: 16px; color: var(--text); font-family: 'Lora', serif;
+      width: 100%; border: 1.5px solid #d9cfc5;
+      background: #fff; border-radius: 8px;
+      font-size: 16px; color: #333; font-family: 'Lora', serif;
       padding: 12px 14px; outline: none; resize: vertical; min-height: 80px;
       margin-bottom: 18px; display: block; line-height: 1.6; box-sizing: border-box;
     }
-    .ws-textarea:focus { border-color: var(--accent); }
+    .ws-textarea:focus { border-color: #C4A35A; }
 
-    .ws-note { font-size: 13px; color: var(--text-muted); font-style: italic;
+    .ws-note { font-size: 13px; color: #777; font-style: italic;
       font-family: -apple-system, system-ui, sans-serif; margin: -4px 0 18px;
-      padding: 10px 14px; background: var(--accent-soft); border-radius: 10px;
-      line-height: 1.5; }
+      padding: 10px 14px; background: #fdf0e0; border-radius: 8px;
+      line-height: 1.5; border-left: 3px solid #C4A35A; }
 
     .ws-cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-    .ws-col-label { font-size: 13px; color: var(--accent); font-weight: 600;
+    .ws-col-label { font-size: 13px; color: #3b6b99; font-weight: 600;
       font-family: -apple-system, system-ui, sans-serif; display: block; margin-bottom: 5px; }
-    .ws-col-input { width: 100%; border: none; border-bottom: 1.5px solid var(--btn-ghost-border);
-      background: transparent; font-size: 15px; color: var(--text);
+    .ws-col-input { width: 100%; border: none; border-bottom: 1.5px solid #d9cfc5;
+      background: transparent; font-size: 15px; color: #333;
       font-family: 'Lora', serif; padding: 6px 4px 4px; outline: none;
       display: block; box-sizing: border-box; }
-    .ws-col-input:focus { border-bottom-color: var(--accent); }
+    .ws-col-input:focus { border-bottom-color: #C4A35A; }
 
     .ws-cols-header { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
-    .ws-cols-header-label { font-size: 13px; color: var(--accent); font-weight: 700;
+    .ws-cols-header-label { font-size: 12px; color: #3b6b99; font-weight: 700;
       font-family: -apple-system, system-ui, sans-serif; text-align: center;
-      padding: 6px 4px; background: var(--accent-soft); border-radius: 8px; }
+      padding: 6px 4px; background: #e8f0f8; border-radius: 6px; }
 
     .ws-check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-bottom: 18px; }
     .ws-check-item { display: flex; align-items: center; gap: 8px; font-size: 14px;
-      font-family: -apple-system, system-ui, sans-serif; color: var(--text);
+      font-family: -apple-system, system-ui, sans-serif; color: #333;
       cursor: pointer; }
-    .ws-check-item input[type=checkbox] { accent-color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; }
+    .ws-check-item input[type=checkbox] { accent-color: #C4A35A; width: 18px; height: 18px; flex-shrink: 0; }
 
     .ws-statt-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
       font-family: -apple-system, system-ui, sans-serif; font-size: 14px;
-      color: var(--text-muted); margin-bottom: 18px; }
+      color: #777; margin-bottom: 18px; }
     .ws-statt-input { flex: 1; min-width: 80px; border: none;
-      border-bottom: 1.5px solid var(--btn-ghost-border);
-      background: transparent; font-size: 15px; color: var(--text);
+      border-bottom: 1.5px solid #d9cfc5;
+      background: transparent; font-size: 15px; color: #333;
       font-family: 'Lora', serif; padding: 4px 4px 3px; outline: none; }
-    .ws-statt-input:focus { border-bottom-color: var(--accent); }
+    .ws-statt-input:focus { border-bottom-color: #C4A35A; }
 
-    .ws-divider { border: none; border-top: 1px solid var(--block-border); margin: 20px 0 24px; }
+    .ws-range-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .ws-range-edge { font-size: 12px; color: #999; font-family: -apple-system, system-ui, sans-serif;
+      white-space: nowrap; }
+    .ws-range { flex: 1; accent-color: #C4A35A; height: 4px; cursor: pointer; }
+
+    .ws-divider { border: none; border-top: 1.5px solid #C4A35A; margin: 8px 0 0; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #ui-worksheet, #ui-worksheet * { visibility: visible; }
+      #ui-worksheet { position: absolute; inset: 0; background: #fff !important;
+        margin: 0 !important; padding: 20px 24px !important; }
+      .btn-back-sm, #btnBackFromWorksheetBottom, .ws-print-btn { display: none !important; }
+      .ws-input { border-bottom: 1px solid #999 !important; }
+      .ws-textarea { border: 1px solid #999 !important; background: #fff !important; }
+      .ws-col-input { border-bottom: 1px solid #999 !important; }
+      .ws-statt-input { border-bottom: 1px solid #999 !important; }
+      .ws-range-wrap { display: none !important; }
+      .ws-header { border-bottom-color: #C4A35A !important; }
+      @page { margin: 15mm 15mm; }
+    }
   </style>
 </head>
 <body>
@@ -921,7 +957,8 @@
     <div id="ui-worksheet" class="hidden">
       <button class="btn-back-sm" id="btnBackFromWorksheet">← Zurück</button>
       <div id="worksheetContent"></div>
-      <button class="btn-ghost" id="btnBackFromWorksheetBottom" style="margin-top:12px;">← Zurück zur Übersicht</button>
+      <button class="ws-print-btn" onclick="window.print()">📄 Als PDF speichern / Drucken</button>
+      <button class="btn-ghost" id="btnBackFromWorksheetBottom" style="margin-top:8px;">← Zurück zur Übersicht</button>
     </div>
 
     <!-- ── MOOD CHECK ── -->

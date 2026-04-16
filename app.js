@@ -344,6 +344,206 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── ARBEITSBLÄTTER ────────────────────────────────────────────────────
   const WORKSHEETS = {
+    1: {
+      title: "Innere Unruhe & Gedankenkarussell",
+      quote: '„Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen."',
+      sections: [
+        {
+          heading: null,
+          body: null,
+          fields: [
+            { type:'input', label:'Morgens:', key:'s1_f0' },
+            { type:'input', label:'Tagsüber:', key:'s1_f1' },
+            { type:'input', label:'Abends:', key:'s1_f2' },
+          ]
+        },
+        {
+          heading: "Was liegt unter der Unruhe?",
+          body: "Frage dich sanft: Was brauche ich gerade wirklich?",
+          fields: [
+            { type:'checklist', label:'', options:['Klarheit über eine bestimmte Situation','Zugehörigkeit / Verbindung','Sicherheit / Kontrolle','Ruhe / Abstand'], key:'s1_f3' },
+            { type:'input', label:'Etwas anderes:', key:'s1_f4' },
+          ]
+        },
+        {
+          heading: "Mein Gedankenkarussell",
+          body: "Schreibe die 3 Gedanken auf, die sich am häufigsten wiederholen:",
+          fields: [
+            { type:'input', label:'', key:'s1_f5' },
+            { type:'input', label:'', key:'s1_f6' },
+            { type:'input', label:'', key:'s1_f7' },
+            { type:'textarea', label:'Welches Bedürfnis steckt hinter diesen Gedanken?', key:'s1_f8', rows:4 },
+          ]
+        },
+        {
+          heading: "Mein Anker-Satz",
+          body: "Wähle einen Satz, den du dir in Momenten der Unruhe sagen kannst:",
+          fields: [
+            { type:'checklist', label:'', options:['Ich bin hier. Ich bin sicher.','Meine Gedanken sind nicht ich.','Ich darf langsam werden.'], key:'s1_f9' },
+            { type:'input', label:'Mein eigener Satz:', key:'s1_f10' },
+          ]
+        }
+      ]
+    },
+
+    2: {
+      title: "Überforderung & innerer Druck",
+      quote: '„Entlastung beginnt mit einer bewussten Entscheidung. Ich muss jetzt nicht alles lösen."',
+      sections: [
+        {
+          heading: "Brain Dump – Alles raus",
+          body: "Schreibe ALLES auf, was dich gerade beschäftigt. Ohne Ordnung, ohne Bewertung:",
+          fields: [
+            { type:'textarea', label:'', key:'s2_f0', rows:6 },
+          ]
+        },
+        {
+          heading: "Sortierung",
+          body: "Ordne jetzt die Punkte von oben ein:",
+          fields: [
+            { type:'cols-header', col1:'Wirklich dringend (heute/morgen)', col2:'Kann warten (diese Woche+)' },
+            { type:'cols2', col1:{key:'s2_f1a'}, col2:{key:'s2_f1b'} },
+            { type:'cols2', col1:{key:'s2_f2a'}, col2:{key:'s2_f2b'} },
+            { type:'cols2', col1:{key:'s2_f3a'}, col2:{key:'s2_f3b'} },
+            { type:'cols-header', col1:'Meine Aufgabe', col2:'Erwartung anderer' },
+            { type:'cols2', col1:{key:'s2_f4a'}, col2:{key:'s2_f4b'} },
+            { type:'cols2', col1:{key:'s2_f5a'}, col2:{key:'s2_f5b'} },
+          ]
+        },
+        {
+          heading: "Überforderungs-Check",
+          body: "Wie überfordert fühlst du dich gerade?",
+          fields: [
+            { type:'range', key:'s2_f6', min_label:'gar nicht', max_label:'extrem' },
+            { type:'input', label:'Was wäre EIN kleiner Schritt, der jetzt Entlastung bringt?', key:'s2_f7' },
+          ]
+        },
+        {
+          heading: "Üben: Nein sagen",
+          body: "Wozu könntest du diese Woche Nein sagen?",
+          fields: [
+            { type:'input', label:'', key:'s2_f8' },
+            { type:'input', label:'', key:'s2_f9' },
+          ]
+        }
+      ]
+    },
+
+    3: {
+      title: "Anspannung & inneres Festhalten",
+      quote: '„Lösung geschieht nicht durch Willenskraft, sondern durch Sicherheit."',
+      sections: [
+        {
+          heading: "Körper-Scan: Wo halte ich fest?",
+          body: "Markiere oder notiere, wo du Anspannung spürst:",
+          fields: [
+            { type:'checklist', label:'', options:['Stirn / Schläfen','Kiefer / Zähne','Nacken / Schultern','Brustkorb / Zwerchfell','Bauch / Becken','Hände / Fäuste','Beine / Füße'], key:'s3_f0' },
+            { type:'input', label:'Andere Stelle:', key:'s3_f1' },
+          ]
+        },
+        {
+          heading: "Spannungs-Tagebuch",
+          body: "Notiere 3 Tage lang, wann Anspannung besonders stark ist:",
+          fields: [
+            { type:'input', label:'Tag 1 – Situation:', key:'s3_f2' },
+            { type:'input', label:'Tag 1 – Körperstelle:', key:'s3_f3' },
+            { type:'input', label:'Tag 2 – Situation:', key:'s3_f4' },
+            { type:'input', label:'Tag 2 – Körperstelle:', key:'s3_f5' },
+            { type:'input', label:'Tag 3 – Situation:', key:'s3_f6' },
+            { type:'input', label:'Tag 3 – Körperstelle:', key:'s3_f7' },
+          ]
+        },
+        {
+          heading: "Meine Lösungs-Strategie",
+          body: "Was hilft mir, loszulassen? (Wähle oder ergänze)",
+          fields: [
+            { type:'checklist', label:'', options:['Langsames, tiefes Atmen','Progressive Muskelentspannung','Warmes Bad / warme Dusche','Sanfte Bewegung / Stretching','Berührung / Selbstumarmung'], key:'s3_f8' },
+            { type:'input', label:'Eigene Methode:', key:'s3_f9' },
+          ]
+        }
+      ]
+    },
+
+    4: {
+      title: "Erschöpfung & fehlende Kraft",
+      quote: '„Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun."',
+      sections: [
+        {
+          heading: "Energie-Check",
+          body: "Wie voll ist dein Energie-Tank gerade?",
+          fields: [
+            { type:'range', key:'s4_f0', min_label:'leer', max_label:'voll' },
+          ]
+        },
+        {
+          heading: "Energie-Diebe",
+          body: "Was kostet dich Kraft, ohne dir etwas zurückzugeben?",
+          fields: [
+            { type:'input', label:'Menschen:', key:'s4_f1' },
+            { type:'input', label:'Gewohnheiten:', key:'s4_f2' },
+            { type:'input', label:'Situationen:', key:'s4_f3' },
+          ]
+        },
+        {
+          heading: "Energie-Quellen",
+          body: "Was gibt dir Kraft? Was füllt dich auf?",
+          fields: [
+            { type:'input', label:'', key:'s4_f4' },
+            { type:'input', label:'', key:'s4_f5' },
+          ]
+        },
+        {
+          heading: "Echte Ruhe vs. Ablenkung",
+          body: null,
+          fields: [
+            { type:'cols-header', col1:'Echte Ruhe (nährt mich)', col2:'Ablenkung (betäubt mich)' },
+            { type:'cols2', col1:{key:'s4_f6a'}, col2:{key:'s4_f6b'} },
+            { type:'cols2', col1:{key:'s4_f7a'}, col2:{key:'s4_f7b'} },
+            { type:'cols2', col1:{key:'s4_f8a'}, col2:{key:'s4_f8b'} },
+            { type:'input', label:'Wann habe ich zuletzt wirklich geruht (ohne Bildschirm)?', key:'s4_f9' },
+          ]
+        },
+        {
+          heading: "Mein Ruhe-Versprechen",
+          body: "Ich erlaube mir jeden Tag ___ Minuten echtes Nichtstun.",
+          fields: [
+            { type:'input', label:'', key:'s4_f10' },
+          ]
+        }
+      ]
+    },
+
+    5: {
+      title: "Traurigkeit & leise Schwere",
+      quote: '„Traurigkeit zeigt uns, was uns wirklich wichtig ist."',
+      sections: [
+        {
+          heading: "Brief an meine Traurigkeit",
+          body: 'Schreibe einen Brief an deine Traurigkeit. Beginne mit: \u201eLiebe Traurigkeit, ich sehe dich \u2026\u201c',
+          fields: [
+            { type:'textarea', label:'', key:'s5_f0', rows:6 },
+          ]
+        },
+        {
+          heading: "Was möchte die Traurigkeit mir zeigen?",
+          body: "Frage dich sanft:",
+          fields: [
+            { type:'input', label:'Was vermisse ich?', key:'s5_f1' },
+            { type:'input', label:'Was wurde nie ausgesprochen?', key:'s5_f2' },
+            { type:'input', label:'Was braucht gerade Raum?', key:'s5_f3' },
+          ]
+        },
+        {
+          heading: "Mein Halt",
+          body: "Was oder wer gibt mir Halt, wenn ich traurig bin?",
+          fields: [
+            { type:'input', label:'', key:'s5_f4' },
+            { type:'input', label:'', key:'s5_f5' },
+          ]
+        }
+      ]
+    },
+
     6: {
       title: "Innere Leere & Orientierungslosigkeit",
       quote: '„Leere ist kein Mangel. Sie ist ein Übergang."',
@@ -683,6 +883,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return '<div class="ws-statt-row">Statt \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key1 + '" value="' + v1 + '">\u201c sage ich: \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key2 + '" value="' + v2 + '">\u201c</div>';
     }
 
+    if (field.type === 'range') {
+      const val = localStorage.getItem('ws_' + field.key) || '5';
+      return '<div class="ws-range-wrap">' +
+        '<span class="ws-range-edge">' + (field.min_label || 'gar nicht') + '</span>' +
+        '<input type="range" class="ws-range" min="1" max="10" value="' + val + '" data-ws-key="' + field.key + '">' +
+        '<span class="ws-range-edge">' + (field.max_label || 'extrem') + '</span>' +
+      '</div>';
+    }
+
     return '';
   }
 
@@ -726,7 +935,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderWorksheetList() {
     const list = $("worksheetsList");
     list.innerHTML = "";
-    [6, 7, 8, 9, 10, 11].forEach(n => {
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].forEach(n => {
       const ws = WORKSHEETS[n];
       const hasData = Object.keys(localStorage).some(k => k.startsWith('ws_s' + n + '_'));
       const btn = document.createElement("button");
