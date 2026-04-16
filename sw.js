@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v21';
+const CACHE = 'seelenimpuls-v22';
 
 const FILES = [
   './audio/stillness-space.mp3',
