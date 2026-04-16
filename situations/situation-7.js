@@ -73,9 +73,13 @@ window.SITUATIONS[7] = {
   // Tiefgang
   tiefgangText:
     'Die leise Stimme, die dich kleinmacht\n' +
+    '\n' +
     'Selbstzweifel haben eine wichtige Funktion: Sie schützen dich. Doch wenn der innere Kritiker zu laut wird, verliert er seine Schutzfunktion und wird zum Saboteur. Er wiederholt Sätze, die du irgendwann von außen gehört hast.\n' +
+    '\n' +
     'Studien zeigen, dass bis zu 70% aller Menschen das Imposter-Syndrom mindestens einmal erleben. Es trifft besonders häufig hochsensible und perfektionistische Menschen.\n' +
+    '\n' +
     'Selbstzweifel sind oft das Echo vergangener Bewertungen. Sie haben wenig mit deiner tatsächlichen Fähigkeit zu tun und viel mit verinnerlichten Glaubenssätzen.\n' +
+    '\n' +
     'Der erste Schritt: den inneren Kritiker als internalisierte Stimme erkennen, nicht als deine Wahrheit. Du kannst ihm zuhören, ohne ihm zu glauben.',
 
   // Premium Song

@@ -75,9 +75,13 @@ window.SITUATIONS[8] = {
   // Tiefgang
   tiefgangText:
     'Wenn der Kopf nicht weiß, was das Herz längst fühlt\n' +
+    '\n' +
     'Entscheidungszweifel entstehen selten, weil zu wenig Informationen vorliegen. Meistens wissen wir bereits, was sich richtig anfühlt, aber wir trauen diesem Wissen nicht.\n' +
+    '\n' +
     'Neurowissenschaftler wie António Damasío haben gezeigt, dass gute Entscheidungen nicht rein rational getroffen werden. Emotionen und Körpersignale (somatische Marker) spielen eine zentrale Rolle.\n' +
+    '\n' +
     'Das Problem beim Schwanken ist die Angst vor der falschen Entscheidung. Doch es gibt in den meisten Lebenssituationen keine objektiv falsche Entscheidung. Es gibt Wege, die unterschiedliche Erfahrungen ermöglichen.\n' +
+    '\n' +
     'Frage: Welche Entscheidung kann ich am besten tragen? Welche fühlt sich in meinem Körper am ruhigsten an?',
 
   // Premium Song

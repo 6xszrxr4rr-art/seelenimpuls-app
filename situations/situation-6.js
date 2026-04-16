@@ -75,9 +75,13 @@ window.SITUATIONS[6] = {
   // Tiefgang
   tiefgangText:
     'Die Stille zwischen den Kapiteln\n' +
+    '\n' +
     'Innere Leere wird oft als beängstigend empfunden, weil wir in einer Kultur leben, die ständige Stimulation feiert. Doch Leere ist kein Mangel. Sie ist ein Übergang. Ein Raum zwischen dem, was war, und dem, was kommen will.\n' +
+    '\n' +
     'In der Gestalttherapie wird dieser Zustand als fruchtbare Leere beschrieben: ein Punkt, an dem alte Muster sich aufgelöst haben und neue noch nicht sichtbar sind. Wie ein Samen, der unter der Erde keimt.\n' +
+    '\n' +
     'Orientierungslosigkeit ist die Abwesenheit von vertrauten Bezugspunkten. Das ist unangenehm, aber es ist auch ein Zeichen dafür, dass du dich weiterentwickelst.\n' +
+    '\n' +
     'Der wichtigste Rat: Versuche nicht, die Leere zu füllen. Halte den Raum offen und vertraue darauf, dass Klarheit sich zeigen wird.',
 
   // Premium Song

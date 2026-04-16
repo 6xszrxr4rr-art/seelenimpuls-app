@@ -79,9 +79,13 @@ window.SITUATIONS[3] = {
   // Tiefgang
   tiefgangText:
     'Was dein Körper dir mit Anspannung sagt\n' +
+    '\n' +
     'Anspannung ist gespeicherte Energie. Wenn dein Körper sich nicht sicher genug fühlt, um loszulassen, hält er fest. Die Muskeln kontrahieren, der Kiefer presst sich zusammen, die Schultern ziehen nach oben. Das ist keine bewusste Entscheidung, sondern eine autonome Schutzreaktion deines Nervensystems.\n' +
+    '\n' +
     'In der Traumaforschung spricht man von einer Freeze-Reaktion: Der Körper erstarrt, weil weder Kampf noch Flucht als sichere Option wahrgenommen wird. Auch wenn kein akutes Trauma vorliegt, kann chronischer Stress diesen Zustand auslösen.\n' +
+    '\n' +
     'Peter Levine, Begründer von Somatic Experiencing, beschreibt, wie Tiere nach einer Bedrohung instinktiv zittern und sich schütteln, um die aufgestaute Energie zu entladen. Menschen unterdrücken diesen natürlichen Impuls oft, was dazu führt, dass Spannung im Körper gespeichert bleibt.\n' +
+    '\n' +
     'Lösung geschieht nicht durch Willenskraft. Lösung geschieht durch Sicherheit: durch sanfte Berührung, durch langsamen Atem, durch die Erfahrung, dass in diesem Moment nichts Bedrohliches passiert.',
 
   // Premium Song

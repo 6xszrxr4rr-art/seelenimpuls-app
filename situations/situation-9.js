@@ -75,9 +75,13 @@ window.SITUATIONS[9] = {
   // Tiefgang
   tiefgangText:
     'Die Kunst des Loslassens und Neu-Anfangens\n' +
+    '\n' +
     'Der Anthropologe Victor Turner nannte Übergänge Schwellenzustände (Liminalität): Phasen, in denen das Alte nicht mehr gilt und das Neue noch nicht greifbar ist. Wir sind am verletzlichsten, aber auch am offensten für Transformation.\n' +
+    '\n' +
     'Unser Gehirn liebt Vorhersagbarkeit. Veränderung aktiviert die Amygdala. Deshalb fühlen sich selbst gewollte Veränderungen oft bedrohlich an. Das ist normal.\n' +
+    '\n' +
     'In der japanischen Tradition gibt es Wabi-Sabi: die Schönheit des Vergänglichen. Übergänge sind Wabi-Sabi-Momente. Nicht perfekt, nicht glatt, aber roh und echt.\n' +
+    '\n' +
     'Der wichtigste Begleiter ist Vertrauen. Nicht dass alles gut wird, sondern dass du fähig bist, mit dem umzugehen, was kommt.',
 
   // Premium Song
