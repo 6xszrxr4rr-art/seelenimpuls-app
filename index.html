@@ -713,6 +713,45 @@
       text-align: center; margin: 0;
     }
 
+    /* ── Premium blocks ── */
+    .premium-block { border-left: 3px solid var(--accent); padding-left: 14px; }
+    .tiefgang-body p { font-size: 15px; line-height: 1.75; color: var(--text);
+      margin: 0 0 14px; font-family: 'Lora', serif; }
+    .song-lyrics-title { font-style: italic; color: var(--accent); font-size: 17px;
+      font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
+      margin: 0 0 14px; }
+    .song-lyrics-body { font-family: 'Lora', serif; font-size: 15px; line-height: 1.8;
+      color: var(--text); white-space: pre-wrap; margin: 0; }
+
+    /* ── Upgrade Modal ── */
+    .upgrade-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 600; display: flex; align-items: flex-end;
+      backdrop-filter: blur(4px);
+    }
+    .upgrade-sheet {
+      background: var(--card-bg); border-radius: 24px 24px 0 0;
+      padding: 32px 24px 48px; width: 100%; max-width: 500px;
+      margin: 0 auto; position: relative;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.3);
+    }
+    .upgrade-close {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--btn-ghost-bg); border: none; border-radius: 50%;
+      width: 32px; height: 32px; font-size: 16px; cursor: pointer;
+      color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+    }
+    .upgrade-icon { font-size: 36px; display: block; text-align: center; margin-bottom: 12px; }
+    .upgrade-title { font-size: 22px; font-weight: 600; text-align: center;
+      font-family: 'Lora', serif; color: var(--text); margin: 0 0 16px; }
+    .upgrade-list { list-style: none; padding: 0; margin: 0 0 24px;
+      font-family: -apple-system, system-ui, sans-serif; }
+    .upgrade-list li { padding: 8px 0; font-size: 15px; color: var(--text);
+      border-bottom: 1px solid var(--block-border); }
+    .upgrade-list li:last-child { border-bottom: none; }
+    .upgrade-btn { display: block; text-align: center; text-decoration: none;
+      margin-top: 8px; }
+
     /* ── Worksheets (warm PDF-style) ── */
     #ui-worksheet, #ui-worksheets {
       background: #fdf8f2; margin: -20px; padding: 20px; min-height: 100vh;
@@ -1050,6 +1089,15 @@
             <span>🔊</span>
           </div>
           <div id="audioContainer"></div>
+        </div>
+        <div class="block hidden premium-block" id="b6">
+          <div class="block-header">📖 Tiefgang</div>
+          <div id="t6" class="tiefgang-body"></div>
+        </div>
+        <div class="block hidden premium-block" id="b7">
+          <div class="block-header">🎵 Song</div>
+          <p id="t7title" class="song-lyrics-title"></p>
+          <pre id="t7" class="song-lyrics-body"></pre>
         </div>
       </div>
       <button id="btnBackBottom">ÜBUNG BEENDEN</button>
