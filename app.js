@@ -12,16 +12,122 @@ document.addEventListener("DOMContentLoaded", () => {
   let sessionGen = 0;
 
   // ── PREMIUM / BETA-ZUGANG ─────────────────────────────────────────────
+  const API_BASE = 'https://seelenimpuls-app.vercel.app';
+
+  // Price IDs (Stripe) — populated on startup from /api/prices
+  let PRICE = {
+    aboMonthly: '',
+    aboYearly:  '',
+    songSingle: '',
+    songDeAll:  '',
+    songEnAll:  '',
+  };
+
+  fetch(`${API_BASE}/api/prices`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.aboMonthly?.id) PRICE.aboMonthly = data.aboMonthly.id;
+      if (data.aboYearly?.id)  PRICE.aboYearly  = data.aboYearly.id;
+      if (data.songSingle?.id) PRICE.songSingle  = data.songSingle.id;
+      if (data.songDeAll?.id)  PRICE.songDeAll   = data.songDeAll.id;
+      if (data.songEnAll?.id)  PRICE.songEnAll   = data.songEnAll.id;
+      window._siPriceData = data;
+    })
+    .catch(() => {});
+
   let isPremium = localStorage.getItem('si_premium') === '1';
 
-  // Liest URL-Hash beim Start aus:
-  //   #gift=Anna        → personalisierter Beta-Link (Name wird gespeichert)
-  //   #unlock           → allgemeiner Freischalt-Link
+  // Stripe Checkout aufrufen
+  async function startCheckout(priceId, mode) {
+    const email = localStorage.getItem('si_email') || undefined;
+    try {
+      const res = await fetch(`${API_BASE}/api/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, mode, email }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch (e) {
+      alert('Fehler beim Starten des Bezahlvorgangs. Bitte versuche es erneut.');
+    }
+  }
+
+  // Nach erfolgreicher Zahlung: Session verifizieren
+  async function handlePaymentSuccess(sessionId) {
+    try {
+      const res = await fetch(`${API_BASE}/api/verify?session_id=${sessionId}`);
+      const data = await res.json();
+      if (data.valid && data.email) {
+        localStorage.setItem('si_email', data.email);
+        if (data.hasSubscription || data.mode === 'subscription') {
+          localStorage.setItem('si_premium', '1');
+          isPremium = true;
+        }
+        if (data.mode === 'payment') {
+          localStorage.setItem('si_purchases', JSON.stringify({
+            ...(JSON.parse(localStorage.getItem('si_purchases') || '{}')),
+            [sessionId]: true,
+          }));
+        }
+      }
+    } catch (e) {}
+    history.replaceState(null, '', window.location.pathname);
+    showPaymentSuccess();
+  }
+
+  // Abo-Status beim Start prüfen (einmal pro Session)
+  async function verifySubscription() {
+    const email = localStorage.getItem('si_email');
+    if (!email) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/verify?email=${encodeURIComponent(email)}`);
+      const data = await res.json();
+      if (data.valid) {
+        if (data.hasSubscription) {
+          localStorage.setItem('si_premium', '1');
+          isPremium = true;
+        } else {
+          localStorage.removeItem('si_premium');
+          isPremium = false;
+        }
+      }
+    } catch (e) {}
+  }
+
+  function showPaymentSuccess() {
+    const el = document.createElement('div');
+    el.className = 'upgrade-overlay';
+    el.innerHTML =
+      '<div class="upgrade-sheet">' +
+        '<span class="upgrade-icon">🎉</span>' +
+        '<h3 class="upgrade-title">Vielen Dank!</h3>' +
+        '<p style="text-align:center;margin:12px 0 20px">Dein Zugang ist jetzt aktiv.</p>' +
+        '<button class="btn-primary upgrade-btn" id="paySuccessClose">Zur App</button>' +
+      '</div>';
+    document.body.appendChild(el);
+    el.$id = el;
+    el.querySelector('#paySuccessClose').onclick = () => el.remove();
+  }
+
   function checkPremiumURL() {
+    // Stripe return after payment: ?payment=success&session_id=...
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('payment') === 'success') {
+      const sessionId = params.get('session_id');
+      if (sessionId) handlePaymentSuccess(sessionId);
+      else { history.replaceState(null, '', window.location.pathname); showPaymentSuccess(); }
+      return;
+    }
+    if (params.get('payment') === 'cancelled') {
+      history.replaceState(null, '', window.location.pathname);
+      return;
+    }
+
+    // Gift/unlock hash links: #gift=Anna or #unlock
     const hash = window.location.hash;
     const giftMatch   = hash.match(/^#gift=([^&]+)/i);
     const unlockMatch = /^#unlock$/i.test(hash);
-
     if (giftMatch || unlockMatch) {
       const name = giftMatch ? decodeURIComponent(giftMatch[1]).trim() : '';
       localStorage.setItem('si_premium', '1');
@@ -47,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   checkPremiumURL();
+  verifySubscription();
 
   // ── IMPULSES (14 pro Sprache, tagesbasiert rotierend) ─────────────────
   const impulses = {
@@ -964,8 +1071,19 @@ document.addEventListener("DOMContentLoaded", () => {
     showView('ui-worksheets');
   }
 
+  function _fmtPrice(pd) {
+    if (!pd || !pd.amount) return '';
+    const eur = (pd.amount / 100).toFixed(2).replace('.', ',');
+    if (pd.interval === 'month') return eur + '\u00a0€/Monat';
+    if (pd.interval === 'year')  return eur + '\u00a0€/Jahr';
+    return eur + '\u00a0€';
+  }
+
   function showUpgradePrompt() {
     if ($('upgradeOverlay')) return;
+    const pd = window._siPriceData || {};
+    const mLabel = _fmtPrice(pd.aboMonthly) || '2,99\u00a0€/Monat';
+    const yLabel = _fmtPrice(pd.aboYearly)  || '19,99\u00a0€/Jahr';
     const el = document.createElement('div');
     el.id = 'upgradeOverlay';
     el.className = 'upgrade-overlay';
@@ -978,14 +1096,65 @@ document.addEventListener("DOMContentLoaded", () => {
           '<li>💫 Affirmationskarten</li>' +
           '<li>📝 Arbeitsblätter für alle Situationen</li>' +
           '<li>📖 Tiefgang-Texte & Hintergrundwissen</li>' +
-          '<li>🎵 Song-Lyrics zu jeder Situation</li>' +
+          '<li>🎵 Premium-Songs zu jeder Situation</li>' +
           '<li>🧘 Geführte Meditationen</li>' +
         '</ul>' +
-        '<a href="https://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener" class="btn-primary upgrade-btn">✨ Jetzt Premium werden</a>' +
+        '<button class="btn-primary upgrade-btn" id="btnAboMonthly">✨ Monatsabo – ' + mLabel + '</button>' +
+        '<button class="btn-secondary upgrade-btn" id="btnAboYearly" style="margin-top:10px">🌟 Jahresabo – ' + yLabel + '</button>' +
+        '<p style="text-align:center;margin-top:16px;font-size:0.85em">' +
+          '<a href="#" id="btnRestoreAccess" style="color:var(--text-secondary);text-decoration:underline">Zugang bereits erworben? Wiederherstellen</a>' +
+        '</p>' +
       '</div>';
     document.body.appendChild(el);
     el.querySelector('#upgradeClose').onclick = () => el.remove();
     el.addEventListener('click', e => { if (e.target === el) el.remove(); });
+    el.querySelector('#btnAboMonthly').onclick = () => { el.remove(); startCheckout(PRICE.aboMonthly, 'subscription'); };
+    el.querySelector('#btnAboYearly').onclick  = () => { el.remove(); startCheckout(PRICE.aboYearly,  'subscription'); };
+    el.querySelector('#btnRestoreAccess').onclick = e => { e.preventDefault(); el.remove(); showRestoreAccess(); };
+  }
+
+  function showRestoreAccess() {
+    const el = document.createElement('div');
+    el.id = 'restoreOverlay';
+    el.className = 'upgrade-overlay';
+    el.innerHTML =
+      '<div class="upgrade-sheet">' +
+        '<button class="upgrade-close" id="restoreClose">✕</button>' +
+        '<span class="upgrade-icon">🔑</span>' +
+        '<h3 class="upgrade-title">Zugang wiederherstellen</h3>' +
+        '<p style="text-align:center;margin:12px 0 16px">Gib deine E-Mail-Adresse ein, mit der du bezahlt hast.</p>' +
+        '<input type="email" id="restoreEmail" placeholder="deine@email.de" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);font-size:1rem;box-sizing:border-box">' +
+        '<button class="btn-primary upgrade-btn" id="btnRestoreCheck" style="margin-top:12px">Zugang prüfen</button>' +
+        '<p id="restoreMsg" style="text-align:center;margin-top:12px;font-size:0.9em;min-height:1.2em"></p>' +
+      '</div>';
+    document.body.appendChild(el);
+    el.querySelector('#restoreClose').onclick = () => el.remove();
+    el.addEventListener('click', e => { if (e.target === el) el.remove(); });
+    el.querySelector('#btnRestoreCheck').onclick = async () => {
+      const email = el.querySelector('#restoreEmail').value.trim().toLowerCase();
+      if (!email) return;
+      const msg = el.querySelector('#restoreMsg');
+      const btn = el.querySelector('#btnRestoreCheck');
+      btn.disabled = true;
+      msg.textContent = 'Wird geprüft\u2026';
+      try {
+        const res  = await fetch(`${API_BASE}/api/verify?email=${encodeURIComponent(email)}`);
+        const data = await res.json();
+        if (data.valid && data.hasSubscription) {
+          localStorage.setItem('si_email', email);
+          localStorage.setItem('si_premium', '1');
+          isPremium = true;
+          el.remove();
+          showPaymentSuccess();
+        } else {
+          msg.textContent = 'Kein aktiver Zugang für diese E-Mail gefunden.';
+          btn.disabled = false;
+        }
+      } catch (err) {
+        msg.textContent = 'Fehler beim Prüfen. Bitte versuche es erneut.';
+        btn.disabled = false;
+      }
+    };
   }
 
   // ── DAILY IMPULSE ─────────────────────────────────────────────────────
