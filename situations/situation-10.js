@@ -108,6 +108,6 @@ window.SITUATIONS[10] = {
     'Outro (whispered):\n' +
     'You may carry this inner safety with you.',
 
-  premiumSongFile_de: '',
+  premiumSongFile_de: 'audio/Nach-dem-Gewitter.mp3',
   premiumSongFile_en: 'audio/after-the-storm.mp3'
 };

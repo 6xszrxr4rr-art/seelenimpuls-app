@@ -114,6 +114,6 @@ window.SITUATIONS[9] = {
     'Outro (spoken with warmth):\n' +
     'Carry this feeling gently into your journey.',
 
-  premiumSongFile_de: '',
+  premiumSongFile_de: 'audio/Ein-Schritt.mp3',
   premiumSongFile_en: 'audio/one-step.mp3'
 };

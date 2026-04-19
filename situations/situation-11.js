@@ -92,7 +92,7 @@ window.SITUATIONS[11] = {
     "Konflikte gehören zu den intensivsten emotionalen Erfahrungen, die wir als soziale Wesen machen können. Der Grund liegt in unserer Evolutionsgeschichte: Für unsere Vorfahren bedeutete sozialer Ausschluss den Tod. Deshalb reagiert unser Nervensystem auf zwischenmenschliche Konflikte ähnlich wie auf physische Bedrohungen – mit erhöhter Wachsamkeit, Stresshormonen und dem Impuls zu kämpfen oder zu fliehen.\n\n" +
     "Neurowissenschaftliche Studien zeigen, dass soziale Zurückweisung die gleichen Gehirnareale aktiviert wie körperlicher Schmerz. Wenn jemand etwas Verletzendes sagt, spüren wir das buchstäblich – als Stich in der Brust, als Enge im Hals, als Hitze im Gesicht. Der Körper lügt nicht.\n\n" +
     "Die meisten Konflikte eskalieren nicht wegen des eigentlichen Themas, sondern wegen der darunterliegenden Gefühle: Angst, nicht gehört zu werden. Angst, verlassen zu werden. Angst, nicht zu genügen. Wut, die eigentlich Schmerz ist. Wenn wir den Konflikt nur auf der Sachebene betrachten, verpassen wir die eigentliche Botschaft.\n\n" +
-    "Der Psychologe Marshall Rosenberg, Begründer der Gewaltfreien Kommunikation, hat gezeigt, dass hinter jedem Vorwurf ein unerfülltes Bedürfnis steht. „Du hörst mir nie zu!" bedeutet eigentlich: „Ich brauche das Gefühl, dass ich dir wichtig bin." Wenn wir lernen, diese Übersetzung zu machen – bei uns selbst und bei anderen – verändert sich die gesamte Dynamik.\n\n" +
+    "Der Psychologe Marshall Rosenberg, Begründer der Gewaltfreien Kommunikation, hat gezeigt, dass hinter jedem Vorwurf ein unerfülltes Bedürfnis steht. \u201eDu hörst mir nie zu!\u201c bedeutet eigentlich: \u201eIch brauche das Gefühl, dass ich dir wichtig bin.\u201c Wenn wir lernen, diese Übersetzung zu machen – bei uns selbst und bei anderen – verändert sich die gesamte Dynamik.\n\n" +
     "Ein weiterer wichtiger Aspekt: Wir können in Konflikten oft nicht klar denken, weil der präfrontale Cortex unter Stress heruntergefahren wird, während die Amygdala übernimmt. Deshalb sagen wir im Streit Dinge, die wir später bereuen. Nicht weil wir schlechte Menschen sind, sondern weil unser kluges Gehirn vorübergehend offline ist.\n\n" +
     "Der wichtigste Schritt in jedem Konflikt ist deshalb nicht die Lösung, sondern die Pause. Bevor du antwortest, bevor du reagierst: Atme. Spüre deinen Körper. Komm bei dir an. Aus diesem ruhigeren Ort heraus kannst du dann wählen, wie du reagieren möchtest.",
 
@@ -124,5 +124,8 @@ window.SITUATIONS[11] = {
     "What if the bravest thing to do\n" +
     "is stay right here and just breathe through?\n\n" +
     "Outro:\n" +
-    "You may respond from this stillness — when you are ready."
+    "You may respond from this stillness — when you are ready.",
+
+  premiumSongFile_de: 'audio/durch-das-fenster.mp3',
+  premiumSongFile_en: 'audio/through-the-window.mp3'
 };
