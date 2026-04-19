@@ -114,6 +114,6 @@ window.SITUATIONS[8] = {
     'Outro (spoken calmly):\n' +
     'Clarity may show itself at your own pace.',
 
-  premiumSongFile_de: '',
+  premiumSongFile_de: 'audio/Der-stille-See.mp3',
   premiumSongFile_en: 'audio/the-still-lake.mp3'
 };
