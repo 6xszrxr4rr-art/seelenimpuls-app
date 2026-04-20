@@ -94,7 +94,7 @@
     }
 
     /* ── Language Switch ── */
-    .lang-switch { text-align: right; margin-bottom: 16px; }
+    .lang-switch { text-align: right; margin-bottom: 16px; padding-right: 54px; }
     .lang-switch button {
       background: none; border: none; cursor: pointer;
       padding: 6px 10px; border-radius: 8px; font-size: 24px;
@@ -864,6 +864,92 @@
 
     .ws-divider { border: none; border-top: 1.5px solid #C4A35A; margin: 8px 0 0; }
 
+    /* ── Hamburger / Nav Menu ── */
+    .hamburger-btn {
+      position: fixed; top: 16px; right: 16px; z-index: 500;
+      background: var(--block-bg); border: 1px solid var(--block-border);
+      border-radius: 14px; width: 46px; height: 46px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 5px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent; padding: 0;
+    }
+    .hamburger-btn span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 498;
+      background: rgba(0,0,0,0.42);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .nav-menu {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 499;
+      width: min(82vw, 300px);
+      background: var(--block-bg); border-left: 1px solid var(--block-border);
+      transform: translateX(105%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; flex-direction: column;
+      border-radius: 24px 0 0 24px;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.18);
+    }
+    .nav-menu.open { transform: translateX(0); }
+    .nav-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 56px 20px 18px;
+      border-bottom: 1px solid var(--block-border);
+    }
+    .nav-brand {
+      font-family: 'Lora', serif; font-size: 16px; font-weight: 600;
+      color: var(--text); letter-spacing: 3px; text-transform: uppercase;
+    }
+    .nav-close {
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 15px;
+      color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+      touch-action: manipulation; flex-shrink: 0;
+    }
+    .nav-items { padding: 12px 10px; overflow-y: auto; flex: 1; }
+    .nav-item {
+      display: flex; align-items: center; width: 100%; padding: 15px 14px;
+      background: none; border: none; border-radius: 14px;
+      font-size: 16px; color: var(--text); cursor: pointer;
+      font-family: -apple-system, system-ui, sans-serif;
+      text-decoration: none; text-align: left;
+      touch-action: manipulation; transition: background 0.15s; margin-bottom: 2px;
+    }
+    .nav-item:active, .nav-item:hover { background: var(--accent-soft); }
+    .nav-divider { border: none; border-top: 1px solid var(--block-border); margin: 10px 4px; }
+    .nav-lang { padding: 10px 14px 6px; }
+    .nav-lang-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px;
+      color: var(--text-muted); font-family: -apple-system, system-ui, sans-serif;
+      display: block; margin-bottom: 10px; font-weight: 600;
+    }
+    .nav-lang-btns { display: flex; gap: 8px; }
+    .nav-lang-btn {
+      flex: 1; padding: 11px 8px; border-radius: 12px;
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      color: var(--btn-ghost-color); font-size: 14px; cursor: pointer;
+      touch-action: manipulation; font-family: -apple-system, system-ui, sans-serif;
+      transition: all 0.2s; text-align: center;
+    }
+    .nav-lang-btn.active {
+      background: var(--accent-soft); border-color: var(--accent);
+      color: var(--accent); font-weight: 700;
+    }
+    .nav-footer {
+      padding: 16px 20px 36px;
+      border-top: 1px solid var(--block-border);
+      font-size: 11px; color: var(--text-muted);
+      font-family: -apple-system, system-ui, sans-serif;
+      text-align: center; letter-spacing: 0.5px;
+    }
+
     @media print {
       body * { visibility: hidden; }
       #ui-worksheet, #ui-worksheet * { visibility: visible; }
@@ -1229,6 +1315,37 @@
               data-de="Verstanden" data-en="Got it">Verstanden</button>
     </div>
   </div>
+
+  <!-- Hamburger Button -->
+  <button id="menuBtn" class="hamburger-btn" aria-label="Menü öffnen">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Nav Overlay -->
+  <div id="navOverlay" class="nav-overlay hidden"></div>
+
+  <!-- Nav Menu -->
+  <nav id="navMenu" class="nav-menu" aria-hidden="true">
+    <div class="nav-header">
+      <span class="nav-brand">Seelenimpuls</span>
+      <button id="menuClose" class="nav-close" aria-label="Menü schließen">✕</button>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item" id="menuPremium">✨&nbsp;&nbsp;Premium werden</button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" id="menuLegalNav">📋&nbsp;&nbsp;Datenschutz &amp; Impressum</button>
+      <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener" class="nav-item">☕&nbsp;&nbsp;Diese Arbeit unterstützen</a>
+      <div class="nav-divider"></div>
+      <div class="nav-lang">
+        <span class="nav-lang-label">Sprache / Language</span>
+        <div class="nav-lang-btns">
+          <button id="menuLangDe" class="nav-lang-btn active">🇩🇪 Deutsch</button>
+          <button id="menuLangEn" class="nav-lang-btn">🇬🇧 English</button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-footer">© 2025 Seelenimpuls · Diana Thieme</div>
+  </nav>
 
   <script src="situations/situation-1.js"></script>
   <script src="situations/situation-2.js"></script>

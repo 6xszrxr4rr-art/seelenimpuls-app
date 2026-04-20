@@ -1294,6 +1294,10 @@ document.addEventListener("DOMContentLoaded", () => {
     lang = newLang;
     $("lang-de").classList.toggle("active", lang === "de");
     $("lang-en").classList.toggle("active", lang === "en");
+    if ($("menuLangDe")) {
+      $("menuLangDe").classList.toggle("active", lang === "de");
+      $("menuLangEn").classList.toggle("active", lang === "en");
+    }
 
     document.querySelectorAll("[data-de]").forEach(el => {
       el.textContent = el.getAttribute("data-" + lang);
@@ -1684,6 +1688,29 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
+
+  // ── HAMBURGER MENU ────────────────────────────────────────────────────
+  function openNavMenu() {
+    $("navMenu").classList.add("open");
+    $("navOverlay").classList.remove("hidden");
+    $("menuBtn").classList.add("open");
+    $("navMenu").removeAttribute("aria-hidden");
+  }
+  function closeNavMenu() {
+    $("navMenu").classList.remove("open");
+    $("navOverlay").classList.add("hidden");
+    $("menuBtn").classList.remove("open");
+    $("navMenu").setAttribute("aria-hidden", "true");
+  }
+  $("menuBtn").addEventListener("click", () => {
+    $("navMenu").classList.contains("open") ? closeNavMenu() : openNavMenu();
+  });
+  $("menuClose").addEventListener("click", closeNavMenu);
+  $("navOverlay").addEventListener("click", closeNavMenu);
+  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
+  $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
+  $("menuLangDe").addEventListener("click", () => setLang("de"));
+  $("menuLangEn").addEventListener("click", () => setLang("en"));
 
   $("volumeSlider").oninput = (e) => {
     if (currentSongAudio) currentSongAudio.volume = parseFloat(e.target.value);
