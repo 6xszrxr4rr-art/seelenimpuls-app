@@ -373,6 +373,19 @@ document.addEventListener("DOMContentLoaded", () => {
         { de: 'AUS', en: 'OUT', ms: 8000, expand: false },
       ],
     },
+    {
+      id: 'complete',
+      name:   { de: 'Vollständiges Ausatmen',        en: 'Complete Exhale' },
+      timing: { de: '4 · 5 · 2 · 2 Sek.',           en: '4 · 5 · 2 · 2 sec' },
+      desc:   { de: 'Reinigt die Lunge komplett. Atme aus – und wenn du denkst, du bist fertig, schiebe die allerletzten Reste heraus.',
+                en: 'Fully cleanses the lungs. Exhale – and when you think you\'re done, push out the very last bit of air.' },
+      phases: [
+        { de: 'EIN',   en: 'IN',   ms: 4000, expand: true   },
+        { de: 'AUS',   en: 'OUT',  ms: 5000, expand: false  },
+        { de: 'LEER',  en: 'PUSH', ms: 2500, expand: 'push' },
+        { de: 'PAUSE', en: 'HOLD', ms: 2000, expand: null   },
+      ],
+    },
   ];
 
   // Atemkreis-Schlüsselwörter (DE + EN)
@@ -411,11 +424,12 @@ document.addEventListener("DOMContentLoaded", () => {
     breathPhaseIdx = 0;
     const circle = document.querySelector('.quick-breath-circle');
     if (circle) {
-      circle.style.animation  = '';
-      circle.style.transform  = '';
-      circle.style.transition = '';
+      circle.style.animation   = '';
+      circle.style.transform   = '';
+      circle.style.transition  = '';
+      circle.style.background  = '';
       circle.style.borderColor = '';
-      circle.style.boxShadow  = '';
+      circle.style.boxShadow   = '';
     }
   }
 
@@ -1769,25 +1783,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const circle = document.querySelector('.quick-breath-circle');
     const labelEl = $("quickBreathLabel");
 
+    const col = phase.expand === null    ? '#7b5ea7'
+              : phase.expand === true    ? '#1a6fd4'
+              : phase.expand === 'push'  ? '#c07800' : '#2d7a3a';
     if (labelEl) {
       labelEl.textContent = lbl;
-      labelEl.style.color = phase.expand === null ? '#7b5ea7'
-                          : phase.expand         ? '#0056b3' : '#2d5a27';
+      labelEl.style.color = col;
     }
     if (circle) {
+      const d = `${phase.ms / 1000}s`;
       if (phase.expand === true) {
-        circle.style.transition  = `transform ${phase.ms/1000}s ease-in, border-color ${phase.ms/1000}s ease, box-shadow ${phase.ms/1000}s ease`;
+        // Light → deep blue as circle expands
+        circle.style.transition  = 'none';
+        circle.style.background  = 'rgba(30,110,210,0.06)';
+        void circle.offsetWidth;
+        circle.style.transition  = `transform ${d} ease-in, background ${d} ease-in, border-color ${d} ease-in, box-shadow ${d} ease-in`;
         circle.style.transform   = 'scale(1.25)';
-        circle.style.borderColor = '#0056b3';
-        circle.style.boxShadow   = '0 0 30px rgba(0,86,179,0.3)';
+        circle.style.background  = 'rgba(30,110,210,0.50)';
+        circle.style.borderColor = '#1a6fd4';
+        circle.style.boxShadow   = '0 0 40px rgba(30,110,210,0.38)';
       } else if (phase.expand === null) {
-        circle.style.transition  = 'border-color 0.4s ease';
+        // Steady purple (hold)
+        circle.style.transition  = 'background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease';
+        circle.style.background  = 'rgba(123,94,167,0.45)';
         circle.style.borderColor = '#7b5ea7';
+        circle.style.boxShadow   = '0 0 26px rgba(123,94,167,0.32)';
+      } else if (phase.expand === 'push') {
+        // Amber – push last air out
+        circle.style.transition  = 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease';
+        circle.style.background  = 'rgba(192,120,0,0.30)';
+        circle.style.borderColor = '#c07800';
+        circle.style.boxShadow   = '0 0 18px rgba(192,120,0,0.22)';
       } else {
-        circle.style.transition  = `transform ${phase.ms/1000}s ease-out, border-color ${phase.ms/1000}s ease, box-shadow ${phase.ms/1000}s ease`;
+        // Medium green → fades to light as circle shrinks
+        circle.style.transition  = 'none';
+        circle.style.background  = 'rgba(45,122,58,0.44)';
+        void circle.offsetWidth;
+        circle.style.transition  = `transform ${d} ease-out, background ${d} ease-out, border-color ${d} ease-out, box-shadow ${d} ease-out`;
         circle.style.transform   = 'scale(0.85)';
-        circle.style.borderColor = '#2d5a27';
-        circle.style.boxShadow   = '0 0 15px rgba(45,90,39,0.2)';
+        circle.style.background  = 'rgba(45,122,58,0.09)';
+        circle.style.borderColor = '#2d7a3a';
+        circle.style.boxShadow   = '0 0 10px rgba(45,122,58,0.1)';
       }
     }
     breathPhaseTimer = setTimeout(() => {
