@@ -393,8 +393,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-favorites","ui-legal"];
 
   function showView(id) {
-    VIEWS.forEach(v => $(v).classList.add("hidden"));
-    $(id).classList.remove("hidden");
+    VIEWS.forEach(v => { const el = $(v); if (el) el.classList.add("hidden"); });
+    const target = $(id);
+    if (target) target.classList.remove("hidden");
     window.scrollTo(0, 0);
   }
 
