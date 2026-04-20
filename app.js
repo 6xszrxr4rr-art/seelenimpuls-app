@@ -1835,7 +1835,8 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
   $("btnQuick").onclick                  = () => startQuickMode();
-  $("btnBackFromBreathSelect").onclick   = () => { showView("ui-welcome"); showStreak(); };
+  if ($("btnBackFromBreathSelect"))
+    $("btnBackFromBreathSelect").onclick = () => { showView("ui-welcome"); showStreak(); };
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 
   $("btnBackFromMood").onclick  = () => showView("ui-home");
@@ -1844,33 +1845,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
   $("btnBackBottom").onclick    = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
-  $("btnStopQuick").onclick     = () => { stopSession(); showView("ui-breath-select"); };
+  $("btnStopQuick").onclick     = () => { stopSession(); $("ui-breath-select") ? showView("ui-breath-select") : showView("ui-welcome"); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
 
   // ── HAMBURGER MENU ────────────────────────────────────────────────────
   function openNavMenu() {
-    $("navMenu").classList.add("open");
-    $("navOverlay").classList.remove("hidden");
-    $("menuBtn").classList.add("open");
-    $("navMenu").removeAttribute("aria-hidden");
+    if ($("navMenu"))    { $("navMenu").classList.add("open"); $("navMenu").removeAttribute("aria-hidden"); }
+    if ($("navOverlay")) $("navOverlay").classList.remove("hidden");
+    if ($("menuBtn"))    $("menuBtn").classList.add("open");
   }
   function closeNavMenu() {
-    $("navMenu").classList.remove("open");
-    $("navOverlay").classList.add("hidden");
-    $("menuBtn").classList.remove("open");
-    $("navMenu").setAttribute("aria-hidden", "true");
+    if ($("navMenu"))    { $("navMenu").classList.remove("open"); $("navMenu").setAttribute("aria-hidden","true"); }
+    if ($("navOverlay")) $("navOverlay").classList.add("hidden");
+    if ($("menuBtn"))    $("menuBtn").classList.remove("open");
   }
-  $("menuBtn").addEventListener("click", () => {
-    $("navMenu").classList.contains("open") ? closeNavMenu() : openNavMenu();
-  });
-  $("menuClose").addEventListener("click", closeNavMenu);
-  $("navOverlay").addEventListener("click", closeNavMenu);
-  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
-  $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
-  $("menuLangDe").addEventListener("click", () => setLang("de"));
-  $("menuLangEn").addEventListener("click", () => setLang("en"));
+  if ($("menuBtn"))      $("menuBtn").addEventListener("click", () => { $("navMenu") && $("navMenu").classList.contains("open") ? closeNavMenu() : openNavMenu(); });
+  if ($("menuClose"))    $("menuClose").addEventListener("click", closeNavMenu);
+  if ($("navOverlay"))   $("navOverlay").addEventListener("click", closeNavMenu);
+  if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
+  if ($("menuLegalNav")) $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
+  if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
+  if ($("menuLangEn"))   $("menuLangEn").addEventListener("click", () => setLang("en"));
 
   $("volumeSlider").oninput = (e) => {
     if (currentSongAudio) currentSongAudio.volume = parseFloat(e.target.value);
