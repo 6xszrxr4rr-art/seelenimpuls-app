@@ -35,6 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(() => {});
 
+  // Ablauf-Check für Gift-/Unlock-Zugänge (60 Tage)
+  const GIFT_DAYS = 60;
+  const _giftTs = parseInt(localStorage.getItem('si_gift_ts') || '0', 10);
+  if (_giftTs > 0 && Date.now() > _giftTs + GIFT_DAYS * 86400000) {
+    localStorage.removeItem('si_premium');
+    localStorage.removeItem('si_gift_ts');
+    localStorage.removeItem('si_premium_name');
+  }
   let isPremium = localStorage.getItem('si_premium') === '1';
 
   // Stripe Checkout aufrufen
@@ -124,13 +132,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Gift/unlock hash links: #gift=Anna or #unlock
+    // Gift/unlock hash links: #gift=Anna or #unlock (60 days free access)
     const hash = window.location.hash;
     const giftMatch   = hash.match(/^#gift=([^&]+)/i);
     const unlockMatch = /^#unlock$/i.test(hash);
     if (giftMatch || unlockMatch) {
       const name = giftMatch ? decodeURIComponent(giftMatch[1]).trim() : '';
       localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_gift_ts', Date.now().toString());
       if (name) localStorage.setItem('si_premium_name', name);
       isPremium = true;
       history.replaceState(null, '', window.location.pathname);
