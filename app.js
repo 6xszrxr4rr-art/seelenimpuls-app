@@ -135,6 +135,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Permanent owner access: #owner (no expiry, no timestamp stored)
+    const ownerMatch = /^#owner$/i.test(hash);
+    if (ownerMatch) {
+      localStorage.setItem('si_premium', '1');
+      isPremium = true;
+      history.replaceState(null, '', window.location.pathname);
+      return;
+    }
+
     // Gift/unlock hash links: #gift=Anna or #unlock (60 days free access)
     const hash = window.location.hash;
     const giftMatch   = hash.match(/^#gift=([^&]+)/i);
