@@ -1074,7 +1074,8 @@
              data-en="☕ Support this work">☕ Diese Arbeit unterstützen</a>
         </div>
         <div class="legal-footer">
-          <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
+          <button class="legal-link" id="btnLegal"
+                  data-de="Datenschutz &amp; Impressum" data-en="Privacy &amp; Legal Notice">Datenschutz &amp; Impressum</button>
         </div>
       </div>
     </div>
@@ -1259,54 +1260,101 @@
 
     <!-- ── LEGAL ── -->
     <div id="ui-legal" class="hidden">
-      <button class="btn-ghost" id="btnBackFromLegal" style="margin-bottom:28px;">← Zurück</button>
+      <button class="btn-ghost" id="btnBackFromLegal" style="margin-bottom:28px;"
+              data-de="← Zurück" data-en="← Back">← Zurück</button>
       <div class="legal-content">
 
-        <!-- GESUNDHEITLICHER HINWEIS -->
-        <div class="disclaimer-box">
-          <p>⚕️ <strong>Kein ärztlicher Rat.</strong> Diese App dient ausschließlich der allgemeinen Entspannung und Achtsamkeit. Sie ersetzt keine medizinische, psychologische oder therapeutische Beratung. Bei gesundheitlichen Beschwerden wende dich bitte an eine qualifizierte Fachkraft.</p>
+        <!-- DEUTSCH -->
+        <div class="legal-lang-de">
+          <div class="disclaimer-box">
+            <p>⚕️ <strong>Kein ärztlicher Rat.</strong> Diese App dient ausschließlich der allgemeinen Entspannung und Achtsamkeit. Sie ersetzt keine medizinische, psychologische oder therapeutische Beratung. Bei gesundheitlichen Beschwerden wende dich bitte an eine qualifizierte Fachkraft.</p>
+          </div>
+
+          <h2>Datenschutzerklärung</h2>
+
+          <h3>Verantwortliche Person</h3>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
+
+          <h3>Welche Daten werden gespeichert?</h3>
+          <p>Diese App speichert ausschließlich folgende Daten <strong>lokal auf deinem Gerät</strong> (im Browser-Speicher / localStorage). Es werden keine Daten an uns oder Dritte übermittelt:</p>
+          <ul>
+            <li>Tages-Streak (wie viele Tage du die App genutzt hast)</li>
+            <li>Gespeicherte Lieblingsaffirmationen</li>
+            <li>Spracheinstellung (Deutsch / Englisch)</li>
+            <li>Ob du die App schon einmal geöffnet hast</li>
+          </ul>
+          <p>Diese Daten bleiben nur auf deinem Gerät und können jederzeit durch Löschen des Browser-Caches entfernt werden.</p>
+
+          <h3>Hosting (GitHub Pages)</h3>
+          <p>Diese App wird über GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf der App kann GitHub technische Verbindungsdaten (z. B. IP-Adresse) verarbeiten. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">Datenschutzerklärung von GitHub</a>.</p>
+
+          <h3>Externe Links (Ko-fi)</h3>
+          <p>Die App enthält Links zur Plattform Ko-fi (Ko-fi Labs Limited). Wenn du auf diese Links klickst, gelangst du auf eine externe Website. Für deren Datenschutz ist Ko-fi verantwortlich. Weitere Informationen: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
+
+          <h3>Deine Rechte</h3>
+          <p>Da wir keine personenbezogenen Daten erheben oder verarbeiten, entstehen keine datenschutzrechtlichen Ansprüche gegenüber uns. Alle lokal gespeicherten Daten kannst du jederzeit selbst löschen (Browser-Einstellungen → Websitedaten löschen).</p>
+
+          <h2>Impressum</h2>
+          <p>Angaben gemäß § 5 TMG:</p>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Stand: April 2025</p>
         </div>
 
-        <!-- DATENSCHUTZERKLÄRUNG -->
-        <h2>Datenschutzerklärung</h2>
+        <!-- ENGLISH -->
+        <div class="legal-lang-en hidden">
+          <div class="disclaimer-box">
+            <p>⚕️ <strong>Not medical advice.</strong> This app is intended solely for general relaxation and mindfulness. It does not replace medical, psychological, or therapeutic consultation. If you have health concerns, please consult a qualified professional.</p>
+          </div>
 
-        <h3>Verantwortliche Person</h3>
-        <p>
-          <strong>Diana Thieme</strong><br>
-          Königsberger Straße 5<br>
-          50170 Kerpen<br>
-          E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
-        </p>
+          <h2>Privacy Policy</h2>
 
-        <h3>Welche Daten werden gespeichert?</h3>
-        <p>Diese App speichert ausschließlich folgende Daten <strong>lokal auf deinem Gerät</strong> (im Browser-Speicher / localStorage). Es werden keine Daten an uns oder Dritte übermittelt:</p>
-        <ul>
-          <li>Tages-Streak (wie viele Tage du die App genutzt hast)</li>
-          <li>Gespeicherte Lieblingsaffirmationen</li>
-          <li>Spracheinstellung (Deutsch / Englisch)</li>
-          <li>Ob du die App schon einmal geöffnet hast</li>
-        </ul>
-        <p>Diese Daten bleiben nur auf deinem Gerät und können jederzeit durch Löschen des Browser-Caches entfernt werden.</p>
+          <h3>Controller</h3>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen, Germany<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
 
-        <h3>Hosting (GitHub Pages)</h3>
-        <p>Diese App wird über GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf der App kann GitHub technische Verbindungsdaten (z. B. IP-Adresse) verarbeiten. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">Datenschutzerklärung von GitHub</a>.</p>
+          <h3>What data is stored?</h3>
+          <p>This app stores only the following data <strong>locally on your device</strong> (in browser storage / localStorage). No data is transmitted to us or any third party:</p>
+          <ul>
+            <li>Daily streak (number of days you have used the app)</li>
+            <li>Saved favourite affirmations</li>
+            <li>Language setting (German / English)</li>
+            <li>Whether you have opened the app before</li>
+          </ul>
+          <p>This data stays only on your device and can be deleted at any time by clearing your browser cache.</p>
 
-        <h3>Externe Links (Ko-fi)</h3>
-        <p>Die App enthält Links zur Plattform Ko-fi (Ko-fi Labs Limited). Wenn du auf diese Links klickst, gelangst du auf eine externe Website. Für deren Datenschutz ist Ko-fi verantwortlich. Weitere Informationen: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
+          <h3>Hosting (GitHub Pages)</h3>
+          <p>This app is hosted via GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA). When you access the app, GitHub may process technical connection data (e.g. IP address). For more information, see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">GitHub Privacy Statement</a>.</p>
 
-        <h3>Deine Rechte</h3>
-        <p>Da wir keine personenbezogenen Daten erheben oder verarbeiten, entstehen keine datenschutzrechtlichen Ansprüche gegenüber uns. Alle lokal gespeicherten Daten kannst du jederzeit selbst löschen (Browser-Einstellungen → Websitedaten löschen).</p>
+          <h3>External Links (Ko-fi)</h3>
+          <p>This app contains links to the Ko-fi platform (Ko-fi Labs Limited). When you click these links, you will be taken to an external website. Ko-fi is responsible for their own privacy practices. For more information: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
 
-        <!-- IMPRESSUM -->
-        <h2>Impressum</h2>
-        <p>Angaben gemäß § 5 TMG:</p>
-        <p>
-          <strong>Diana Thieme</strong><br>
-          Königsberger Straße 5<br>
-          50170 Kerpen<br>
-          E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
-        </p>
-        <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Stand: April 2025</p>
+          <h3>Your Rights</h3>
+          <p>Since we do not collect or process any personal data, no data protection claims arise against us. All locally stored data can be deleted by you at any time (Browser Settings → Clear website data).</p>
+
+          <h2>Legal Notice</h2>
+          <p>Information pursuant to § 5 TMG (German Telemedia Act):</p>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen, Germany<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Last updated: April 2025</p>
+        </div>
 
       </div>
     </div>
@@ -1366,9 +1414,9 @@
       <button id="menuClose" class="nav-close" aria-label="Menü schließen">✕</button>
     </div>
     <div class="nav-items">
-      <button class="nav-item" id="menuPremium">✨&nbsp;&nbsp;Premium werden</button>
+      <button class="nav-item" id="menuPremium">✨&nbsp;&nbsp;<span data-de="Premium werden" data-en="Get Premium">Premium werden</span></button>
       <div class="nav-divider"></div>
-      <button class="nav-item" id="menuLegalNav">📋&nbsp;&nbsp;Datenschutz &amp; Impressum</button>
+      <button class="nav-item" id="menuLegalNav">📋&nbsp;&nbsp;<span data-de="Datenschutz &amp; Impressum" data-en="Privacy &amp; Legal Notice">Datenschutz &amp; Impressum</span></button>
       <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener" class="nav-item">☕&nbsp;&nbsp;Diese Arbeit unterstützen</a>
       <div class="nav-divider"></div>
       <div class="nav-lang">

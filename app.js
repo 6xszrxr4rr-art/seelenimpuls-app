@@ -1396,6 +1396,10 @@ document.addEventListener("DOMContentLoaded", () => {
       el.textContent = el.getAttribute("data-" + lang);
     });
 
+    document.querySelectorAll(".legal-lang-de, .legal-lang-en").forEach(el => {
+      el.classList.toggle("hidden", !el.classList.contains("legal-lang-" + lang));
+    });
+
     const t = ui[lang];
     $("impulsLabel").textContent        = t.impulsLabel;
     $("btnImpuls").textContent          = t.btnImpuls;
