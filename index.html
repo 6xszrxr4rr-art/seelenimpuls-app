@@ -864,6 +864,29 @@
 
     .ws-divider { border: none; border-top: 1.5px solid #C4A35A; margin: 8px 0 0; }
 
+    /* ── Breath Technique Cards ── */
+    .breath-tech-card {
+      background: var(--block-bg); border: 1px solid var(--block-border);
+      border-radius: 20px; padding: 20px 22px; margin-bottom: 12px;
+      cursor: pointer; touch-action: manipulation; display: block; width: 100%;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04); text-align: left;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .breath-tech-card:active { background: var(--accent-soft); transform: scale(0.99); }
+    .breath-tech-name {
+      font-size: 18px; font-weight: 600; color: var(--text);
+      font-family: 'Lora', serif; display: block; margin-bottom: 3px;
+    }
+    .breath-tech-timing {
+      font-size: 11px; color: var(--accent); display: block; margin-bottom: 8px;
+      font-family: -apple-system, system-ui, sans-serif; letter-spacing: 1px;
+      font-weight: 700; text-transform: uppercase;
+    }
+    .breath-tech-desc {
+      font-size: 14px; color: var(--text-muted); line-height: 1.6;
+      font-family: -apple-system, system-ui, sans-serif; margin: 0;
+    }
+
     /* ── Hamburger / Nav Menu ── */
     .hamburger-btn {
       position: fixed; top: 16px; right: 16px; z-index: 500;
@@ -1200,6 +1223,18 @@
            data-de="✨ Exklusive Inhalte"
            data-en="✨ Exclusive Content">✨ Exklusive Inhalte</a>
       </div>
+    </div>
+
+    <!-- ── BREATH SELECT ── -->
+    <div id="ui-breath-select" class="hidden">
+      <button class="btn-back-sm" id="btnBackFromBreathSelect"
+              data-de="← Zurück" data-en="← Back">← Zurück</button>
+      <h2 data-de="Atemübung wählen" data-en="Choose a Breathing Exercise"
+          style="font-weight:400; letter-spacing:1px; margin:0 0 6px; font-size:22px;">Atemübung wählen</h2>
+      <p data-de="Wähle die Technik, die sich heute richtig anfühlt."
+         data-en="Choose the technique that feels right for you today."
+         style="color:var(--text-muted); font-style:italic; margin:0 0 20px; line-height:1.6;"></p>
+      <div id="breathTechGrid"></div>
     </div>
 
     <!-- ── QUICK MODE ── -->

@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const SPEED = 85;
   let lang = "de";
   let breathInterval = null;
+  let breathPhaseTimer = null;
+  let activeTechnique = null;
+  let breathPhaseIdx = 0;
   let currentSongAudio = null;
   let bgAudio = null;
   let quickTimerInterval = null;
@@ -298,6 +301,69 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
   };
 
+  // ── BREATHING TECHNIQUES ──────────────────────────────────────────────
+  const breathTechniques = [
+    {
+      id: 'coherent',
+      name:   { de: 'Kohärentes Atmen',        en: 'Coherent Breathing' },
+      timing: { de: '5 Sek. ein · 5 Sek. aus', en: '5 sec in · 5 sec out' },
+      desc:   { de: 'Beruhigt das Nervensystem und fördert die Herzratenvariabilität. Ideal als tägliche Praxis.',
+                en: 'Calms the nervous system and promotes heart rate variability. Ideal as a daily practice.' },
+      phases: [
+        { de: 'EIN',  en: 'IN',  ms: 5000, expand: true  },
+        { de: 'AUS',  en: 'OUT', ms: 5000, expand: false },
+      ],
+    },
+    {
+      id: '478',
+      name:   { de: '4-7-8 Atmung',                          en: '4-7-8 Breathing' },
+      timing: { de: '4 Sek. ein · 7 Sek. halten · 8 Sek. aus', en: '4 sec in · 7 sec hold · 8 sec out' },
+      desc:   { de: 'Beruhigt das Nervensystem schnell. Hilft bei Angst, Stress und beim Einschlafen.',
+                en: 'Quickly calms the nervous system. Great for anxiety, stress and falling asleep.' },
+      phases: [
+        { de: 'EIN',    en: 'IN',   ms: 4000, expand: true  },
+        { de: 'HALTEN', en: 'HOLD', ms: 7000, expand: null  },
+        { de: 'AUS',    en: 'OUT',  ms: 8000, expand: false },
+      ],
+    },
+    {
+      id: 'box',
+      name:   { de: 'Box Breathing',                              en: 'Box Breathing' },
+      timing: { de: 'Je 4 Sek. ein · halten · aus · halten', en: '4 sec each: in · hold · out · hold' },
+      desc:   { de: 'Stärkt Fokus und innere Ruhe. Wird von Spitzensportlern und Einsatzkräften weltweit genutzt.',
+                en: 'Strengthens focus and inner calm. Used by elite athletes and first responders worldwide.' },
+      phases: [
+        { de: 'EIN',    en: 'IN',   ms: 4000, expand: true  },
+        { de: 'HALTEN', en: 'HOLD', ms: 4000, expand: null  },
+        { de: 'AUS',    en: 'OUT',  ms: 4000, expand: false },
+        { de: 'HALTEN', en: 'HOLD', ms: 4000, expand: null  },
+      ],
+    },
+    {
+      id: 'sigh',
+      name:   { de: 'Physiolog. Seufzen',            en: 'Physiological Sigh' },
+      timing: { de: 'Doppeltes Einatmen + langer Ausatem', en: 'Double inhale + long exhale' },
+      desc:   { de: 'Laut Neurowissenschaften der schnellste Weg zur Entspannung. Tief einatmen, kurz nachsaugen, dann so lange wie möglich ausatmen.',
+                en: 'According to neuroscience, the fastest route to calm. Deep inhale, brief top-up, then exhale as long as possible.' },
+      phases: [
+        { de: 'EIN',    en: 'IN',   ms: 4000, expand: true  },
+        { de: '+ EIN',  en: '+ IN', ms: 2000, expand: true  },
+        { de: 'AUS',    en: 'OUT',  ms: 8000, expand: false },
+      ],
+    },
+    {
+      id: '2to1',
+      name:   { de: '2:1 Atmung',                   en: '2:1 Breathing' },
+      timing: { de: '4 Sek. ein · 8 Sek. aus',     en: '4 sec in · 8 sec out' },
+      desc:   { de: 'Aktiviert den Parasympathikus (Ruhe & Erholung). Ideal für tiefe Entspannung nach einem langen Tag.',
+                en: 'Activates the parasympathetic nervous system (rest & digest). Ideal for deep relaxation after a long day.' },
+      phases: [
+        { de: 'EIN', en: 'IN',  ms: 4000, expand: true  },
+        { de: 'AUS', en: 'OUT', ms: 8000, expand: false },
+      ],
+    },
+  ];
+
   // Atemkreis-Schlüsselwörter (DE + EN)
   const BREATH_KW = ["atme","atem","einatmen","ausatmen","atemzüge","atemzug",
                      "breath","breathe","inhale","exhale","breathing","atemzügen"];
@@ -315,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => $(v).classList.add("hidden"));
@@ -327,10 +393,25 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior:"smooth" }), 150);
   }
 
+  function stopBreathPhase() {
+    if (breathPhaseTimer) { clearTimeout(breathPhaseTimer); breathPhaseTimer = null; }
+    activeTechnique = null;
+    breathPhaseIdx = 0;
+    const circle = document.querySelector('.quick-breath-circle');
+    if (circle) {
+      circle.style.animation  = '';
+      circle.style.transform  = '';
+      circle.style.transition = '';
+      circle.style.borderColor = '';
+      circle.style.boxShadow  = '';
+    }
+  }
+
   function stopSession() {
     sessionGen++;
     if (breathInterval)    { clearInterval(breathInterval); breathInterval = null; }
     if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
+    stopBreathPhase();
     if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
     if (bgAudio)           { bgAudio.pause(); bgAudio = null; }
   }
@@ -1602,23 +1683,55 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── QUICK MODE ────────────────────────────────────────────────────────
+  function renderBreathTechGrid() {
+    const grid = $("breathTechGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    breathTechniques.forEach(t => {
+      const btn = document.createElement("button");
+      btn.className = "breath-tech-card";
+      btn.innerHTML =
+        '<span class="breath-tech-name">' + t.name[lang] + '</span>' +
+        '<span class="breath-tech-timing">' + t.timing[lang] + '</span>' +
+        '<p class="breath-tech-desc">' + t.desc[lang] + '</p>';
+      btn.addEventListener("click", () => startBreathTechnique(t));
+      grid.appendChild(btn);
+    });
+    // Update static text
+    document.querySelectorAll("#ui-breath-select [data-" + lang + "]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
+  }
+
   function startQuickMode() {
     stopSession();
+    renderBreathTechGrid();
+    showView("ui-breath-select");
+  }
+
+  function startBreathTechnique(technique) {
+    stopSession();
+    activeTechnique = technique;
+    breathPhaseIdx = 0;
+
     showView("ui-quick");
-    $("quickTitle").textContent = ui[lang].quickTitle;
-    $("quickSub").textContent   = ui[lang].quickSub;
+    $("quickTitle").textContent = technique.name[lang];
+    $("quickSub").textContent   = technique.timing[lang];
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
     bgAudio.volume = 0.15;
     bgAudio.play().catch(() => {});
 
+    const circle = document.querySelector('.quick-breath-circle');
+    if (circle) {
+      circle.style.animation = 'none';
+      circle.style.transform = 'scale(0.85)';
+    }
+
     let remaining = 180;
     const fmt = s => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,"0")}`;
     $("quickTimer").textContent = fmt(remaining);
-
-    startBreathingText();
-
     quickTimerInterval = setInterval(() => {
       remaining--;
       $("quickTimer").textContent = fmt(remaining);
@@ -1629,6 +1742,42 @@ document.addEventListener("DOMContentLoaded", () => {
         showStreak();
       }
     }, 1000);
+
+    runBreathPhase();
+  }
+
+  function runBreathPhase() {
+    if (!activeTechnique) return;
+    const phase = activeTechnique.phases[breathPhaseIdx];
+    const lbl   = phase[lang];
+    const circle = document.querySelector('.quick-breath-circle');
+    const labelEl = $("quickBreathLabel");
+
+    if (labelEl) {
+      labelEl.textContent = lbl;
+      labelEl.style.color = phase.expand === null ? '#7b5ea7'
+                          : phase.expand         ? '#0056b3' : '#2d5a27';
+    }
+    if (circle) {
+      if (phase.expand === true) {
+        circle.style.transition  = `transform ${phase.ms/1000}s ease-in, border-color ${phase.ms/1000}s ease, box-shadow ${phase.ms/1000}s ease`;
+        circle.style.transform   = 'scale(1.25)';
+        circle.style.borderColor = '#0056b3';
+        circle.style.boxShadow   = '0 0 30px rgba(0,86,179,0.3)';
+      } else if (phase.expand === null) {
+        circle.style.transition  = 'border-color 0.4s ease';
+        circle.style.borderColor = '#7b5ea7';
+      } else {
+        circle.style.transition  = `transform ${phase.ms/1000}s ease-out, border-color ${phase.ms/1000}s ease, box-shadow ${phase.ms/1000}s ease`;
+        circle.style.transform   = 'scale(0.85)';
+        circle.style.borderColor = '#2d5a27';
+        circle.style.boxShadow   = '0 0 15px rgba(45,90,39,0.2)';
+      }
+    }
+    breathPhaseTimer = setTimeout(() => {
+      breathPhaseIdx = (breathPhaseIdx + 1) % activeTechnique.phases.length;
+      runBreathPhase();
+    }, phase.ms);
   }
 
   // ── INIT ──────────────────────────────────────────────────────────────
@@ -1675,7 +1824,8 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
-  $("btnQuick").onclick         = () => startQuickMode();
+  $("btnQuick").onclick                  = () => startQuickMode();
+  $("btnBackFromBreathSelect").onclick   = () => { showView("ui-welcome"); showStreak(); };
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 
   $("btnBackFromMood").onclick  = () => showView("ui-home");
@@ -1684,7 +1834,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
   $("btnBackBottom").onclick    = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
-  $("btnStopQuick").onclick     = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
+  $("btnStopQuick").onclick     = () => { stopSession(); showView("ui-breath-select"); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
