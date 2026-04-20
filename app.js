@@ -122,8 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function checkPremiumURL() {
-    // Stripe return after payment: ?payment=success&session_id=...
     const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+
+    // Stripe return after payment: ?payment=success&session_id=...
     if (params.get('payment') === 'success') {
       const sessionId = params.get('session_id');
       if (sessionId) handlePaymentSuccess(sessionId);
@@ -145,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Gift/unlock hash links: #gift=Anna or #unlock (60 days free access)
-    const hash = window.location.hash;
+
     const giftMatch   = hash.match(/^#gift=([^&]+)/i);
     const unlockMatch = /^#unlock$/i.test(hash);
     if (giftMatch || unlockMatch) {
