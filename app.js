@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let breathPhaseTimer = null;
   let activeTechnique = null;
   let breathPhaseIdx = 0;
+  let pvAudio   = null;
+  let pvTimer   = null;
+  let pvFadeInt = null;
   let currentSongAudio = null;
   let bgAudio = null;
   let quickTimerInterval = null;
@@ -405,7 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => { const el = $(v); if (el) el.classList.add("hidden"); });
@@ -561,7 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openCards() {
-    if (!isPremium) { showUpgradePrompt(); return; }
+    if (!isPremium) { openPremiumPreview(); return; }
     renderCardGrid();
     showView('ui-cards');
   }
@@ -1182,9 +1185,115 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openWorksheets() {
-    if (!isPremium) { showUpgradePrompt(); return; }
+    if (!isPremium) { openPremiumPreview(); return; }
     renderWorksheetList();
     showView('ui-worksheets');
+  }
+
+  // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
+  function stopPreview() {
+    if (pvTimer)   { clearTimeout(pvTimer);    pvTimer   = null; }
+    if (pvFadeInt) { clearInterval(pvFadeInt); pvFadeInt = null; }
+    if (pvAudio)   { pvAudio.pause(); pvAudio = null; }
+    document.querySelectorAll('.pv-play-btn').forEach(b => {
+      b.textContent = '▶';
+      b.dataset.playing = '';
+      b.closest('.pv-song-card')?.classList.remove('pv-playing');
+    });
+  }
+
+  function previewSong(n, btn) {
+    const wasPlaying = btn.dataset.playing === '1';
+    stopPreview();
+    if (wasPlaying) return;
+    pvAudio = new Audio('./audio/Song-Situation-' + n + '.mp3');
+    pvAudio.volume = 0.85;
+    pvAudio.play().catch(() => {});
+    btn.textContent = '⏸';
+    btn.dataset.playing = '1';
+    btn.closest('.pv-song-card').classList.add('pv-playing');
+    const TOTAL_MS = 25000;
+    const FADE_MS  = 4000;
+    pvTimer = setTimeout(() => {
+      const startVol = 0.85;
+      const steps = 40;
+      let s = 0;
+      pvFadeInt = setInterval(() => {
+        s++;
+        if (pvAudio) pvAudio.volume = Math.max(0, startVol * (1 - s / steps));
+        if (s >= steps) stopPreview();
+      }, FADE_MS / steps);
+    }, TOTAL_MS - FADE_MS);
+  }
+
+  function renderPremiumPreview() {
+    // Song grid
+    const grid = $('pvSongGrid');
+    if (grid) {
+      grid.innerHTML = '';
+      CARD_DATA.forEach(card => {
+        const sitName = card.sit[lang] || card.sit.de;
+        const el = document.createElement('div');
+        el.className = 'pv-song-card';
+        el.innerHTML =
+          '<div class="pv-song-info">' +
+            '<span class="pv-song-nr">' + card.nr + '</span>' +
+            '<span class="pv-song-name">' + sitName + '</span>' +
+          '</div>' +
+          '<button class="pv-play-btn" aria-label="Vorschau abspielen">▶</button>';
+        el.querySelector('.pv-play-btn').addEventListener('click', function() {
+          previewSong(card.nr, this);
+        });
+        grid.appendChild(el);
+      });
+    }
+
+    // Card preview: first card fully visible, second hinted behind
+    const cardWrap = $('pvCardPreview');
+    if (cardWrap) {
+      const c1 = CARD_DATA[0];
+      const c2 = CARD_DATA[1];
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const fadeEnd = isDark ? 'rgba(30,22,46,1)' : 'rgba(238,242,243,1)';
+      cardWrap.innerHTML =
+        '<div class="pv-card-wrap">' +
+          '<div class="pv-card-back" style="background:' + cgBg(c2) + '"></div>' +
+          '<div class="pv-card-main" style="background:' + cgBg(c1) + '">' +
+            '<div class="pv-card-sit">' + (c1.sit[lang] || c1.sit.de) + '</div>' +
+            '<p class="pv-card-txt">' + (c1.txt[lang] || c1.txt.de).replace(/\n/g, '<br>') + '</p>' +
+          '</div>' +
+          '<div class="pv-card-fade" style="background:linear-gradient(transparent,' + fadeEnd + ')"></div>' +
+        '</div>';
+    }
+
+    // Worksheet preview: first worksheet, partially visible
+    const wsWrap = $('pvWsPreview');
+    if (wsWrap) {
+      const ws = WORKSHEETS[1];
+      wsWrap.innerHTML =
+        '<div class="pv-ws-wrap">' +
+          '<div class="pv-ws-wrap-title">' + ws.title + '</div>' +
+          '<div class="pv-ws-wrap-quote">' + ws.quote + '</div>' +
+          '<div class="pv-ws-field">Morgens:</div>' +
+          '<div class="pv-ws-field">Tagsüber:</div>' +
+          '<div class="pv-ws-fade"></div>' +
+        '</div>';
+    }
+
+    // CTA: buy button for non-premium, confirmation for premium
+    const cta    = $('pvBtnUpgrade');
+    const already = $('pvAlready');
+    if (cta)    cta.classList.toggle('hidden', isPremium);
+    if (already) already.classList.toggle('hidden', !isPremium);
+
+    // Home-screen button: only for non-premium
+    const pvBtn = $('btnPremiumPreview');
+    if (pvBtn) pvBtn.style.display = isPremium ? 'none' : '';
+  }
+
+  function openPremiumPreview() {
+    renderPremiumPreview();
+    showView('ui-premium-preview');
   }
 
   function _fmtPrice(pd) {
@@ -1891,6 +2000,20 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
+
+  // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
+  if ($("btnPremiumPreview")) {
+    $("btnPremiumPreview").addEventListener("click", openPremiumPreview);
+    $("btnPremiumPreview").style.display = isPremium ? 'none' : '';
+  }
+  if ($("btnBackFromPremiumPreview")) {
+    $("btnBackFromPremiumPreview").addEventListener("click", () => {
+      stopPreview();
+      showView("ui-welcome");
+      showStreak();
+    });
+  }
+  if ($("pvBtnUpgrade")) $("pvBtnUpgrade").addEventListener("click", showUpgradePrompt);
 
   // ── HAMBURGER MENU ────────────────────────────────────────────────────
   function openNavMenu() {

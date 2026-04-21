@@ -381,6 +381,94 @@
       font-style: italic; color: var(--accent); line-height: 1.7; text-align: center;
     }
 
+    /* ── Premium Preview ── */
+    #ui-premium-preview { padding-bottom: 48px; }
+    .pv-header { text-align: center; margin-bottom: 26px; }
+    .pv-badge {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .pv-title {
+      font-size: 26px; font-weight: 600; font-family: 'Lora', serif;
+      color: var(--text); margin: 0 0 8px;
+    }
+    .pv-sub { font-size: 15px; color: var(--text-muted); margin: 0; font-style: italic; }
+    .pv-features { display: flex; flex-direction: column; gap: 9px; margin-bottom: 34px; }
+    .pv-feature {
+      font-size: 15px; color: var(--text); padding: 11px 16px;
+      border-radius: 13px; background: var(--block-bg);
+      border: 1px solid rgba(74,144,226,0.15);
+    }
+    .pv-section-title {
+      font-size: 16px; font-weight: 600; color: var(--text);
+      margin: 30px 0 12px; font-family: -apple-system, sans-serif;
+    }
+    .pv-song-grid { display: flex; flex-direction: column; gap: 8px; }
+    .pv-song-card {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-radius: 14px;
+      background: var(--block-bg); border: 1px solid rgba(74,144,226,0.12);
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .pv-song-card.pv-playing { border-color: var(--accent); background: var(--accent-soft); }
+    .pv-song-info { display: flex; align-items: center; gap: 12px; }
+    .pv-song-nr {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      width: 20px; text-align: right; flex-shrink: 0;
+    }
+    .pv-song-name { font-size: 15px; color: var(--text); }
+    .pv-play-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid var(--accent); background: transparent;
+      color: var(--accent); font-size: 14px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s, color 0.2s;
+      font-family: -apple-system, sans-serif; line-height: 1;
+    }
+    .pv-song-card.pv-playing .pv-play-btn { background: var(--accent); color: white; }
+    .pv-card-wrap { position: relative; border-radius: 18px; overflow: hidden; height: 200px; margin-bottom: 6px; }
+    .pv-card-back {
+      position: absolute; top: 10px; left: 8px; right: -8px; bottom: -8px;
+      border-radius: 18px; opacity: 0.28;
+    }
+    .pv-card-main {
+      position: absolute; inset: 0; border-radius: 18px; padding: 20px 22px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .pv-card-sit {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: rgba(255,255,255,0.55); margin-bottom: 8px;
+    }
+    .pv-card-txt {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 17px; line-height: 1.55; color: white; margin: 0;
+    }
+    .pv-card-fade {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 55px; pointer-events: none;
+    }
+    .pv-more { text-align: center; font-size: 13px; color: var(--text-muted); margin: 6px 0 0; }
+    .pv-ws-wrap {
+      position: relative; overflow: hidden; border-radius: 16px;
+      background: #fdf8f2; padding: 18px 20px; max-height: 150px; margin-bottom: 6px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .pv-ws-wrap { background: rgba(32,25,50,0.96); }
+      .pv-ws-wrap-title { color: #c9b48e !important; }
+      .pv-ws-wrap-quote { color: #9e7e4e !important; }
+      .pv-ws-field { color: #9e7e4e !important; border-color: #5c4020 !important; }
+      .pv-ws-fade { background: linear-gradient(transparent, rgba(32,25,50,0.96)) !important; }
+    }
+    .pv-ws-wrap-title { font-size: 15px; font-weight: 600; color: #5c4a1e; margin-bottom: 6px; }
+    .pv-ws-wrap-quote { font-size: 13px; font-style: italic; color: #8b6f3e; line-height: 1.5; margin-bottom: 10px; }
+    .pv-ws-field { padding: 7px 0; border-bottom: 1px solid #d4b483; font-size: 13px; color: #a07840; }
+    .pv-ws-fade {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(transparent, #fdf8f2); pointer-events: none;
+    }
+    .pv-cta { margin-top: 36px; }
+    .pv-already { text-align: center; font-size: 15px; color: var(--accent); padding: 16px 0; }
+
     /* ── Legal View ── */
     .legal-footer {
       text-align: center; margin-top: 20px; padding-bottom: 10px;
@@ -1028,6 +1116,9 @@
       <div class="welcome-actions">
         <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
         <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
+        <button class="btn-ghost" id="btnPremiumPreview"
+                data-de="✨ Premium entdecken"
+                data-en="✨ Discover Premium">✨ Premium entdecken</button>
         <button class="btn-ghost" id="btnCards"
                 data-de="💫 Affirmationskarten"
                 data-en="💫 Affirmation Cards">💫 Affirmationskarten</button>
@@ -1248,6 +1339,57 @@
           <span id="quickBreathLabel" style="font-weight:bold; letter-spacing:1px; font-size:20px; font-family:-apple-system,sans-serif; color:#0056b3;">EIN</span>
         </div>
         <button class="btn-ghost" id="btnStopQuick" style="max-width:260px; margin:0 auto; display:block;">Beenden</button>
+      </div>
+    </div>
+
+    <!-- ── PREMIUM PREVIEW ── -->
+    <div id="ui-premium-preview" class="hidden">
+      <button class="btn-ghost" id="btnBackFromPremiumPreview"
+              style="margin-bottom:20px;"
+              data-de="← Zurück" data-en="← Back">← Zurück</button>
+
+      <div class="pv-header">
+        <div class="pv-badge">✨ Premium</div>
+        <h2 class="pv-title"
+            data-de="Was dich erwartet" data-en="What awaits you">Was dich erwartet</h2>
+        <p class="pv-sub"
+           data-de="Entdecke alle Inhalte, bevor du entscheidest."
+           data-en="Explore all content before you decide.">Entdecke alle Inhalte, bevor du entscheidest.</p>
+      </div>
+
+      <div class="pv-features">
+        <div class="pv-feature" data-de="🎵 10 Klangwelten – Musik für jede Gemütslage" data-en="🎵 10 Soundscapes – Music for every mood">🎵 10 Klangwelten – Musik für jede Gemütslage</div>
+        <div class="pv-feature" data-de="💫 Affirmationskarten für jede Situation" data-en="💫 Affirmation cards for every situation">💫 Affirmationskarten für jede Situation</div>
+        <div class="pv-feature" data-de="📝 10 Reflexions-Arbeitsblätter" data-en="📝 10 reflection worksheets">📝 10 Reflexions-Arbeitsblätter</div>
+        <div class="pv-feature" data-de="🧘 Geführte Meditation pro Situation" data-en="🧘 Guided meditation per situation">🧘 Geführte Meditation pro Situation</div>
+        <div class="pv-feature" data-de="🌟 Exklusive 11. Situation" data-en="🌟 Exclusive 11th situation">🌟 Exklusive 11. Situation</div>
+        <div class="pv-feature" data-de="📖 Ausführliche Beschreibungen der Gemütszustände" data-en="📖 Detailed descriptions of each mood state">📖 Ausführliche Beschreibungen der Gemütszustände</div>
+      </div>
+
+      <h3 class="pv-section-title"
+          data-de="🎵 Klangwelten – 25 Sek. anhören"
+          data-en="🎵 Soundscapes – 25 sec preview">🎵 Klangwelten – 25 Sek. anhören</h3>
+      <div id="pvSongGrid" class="pv-song-grid"></div>
+
+      <h3 class="pv-section-title"
+          data-de="💫 Affirmationskarten" data-en="💫 Affirmation Cards">💫 Affirmationskarten</h3>
+      <div id="pvCardPreview"></div>
+      <p class="pv-more"
+         data-de="+ 9 weitere Karten enthalten" data-en="+ 9 more cards included">+ 9 weitere Karten enthalten</p>
+
+      <h3 class="pv-section-title"
+          data-de="📝 Arbeitsblätter" data-en="📝 Worksheets">📝 Arbeitsblätter</h3>
+      <div id="pvWsPreview"></div>
+      <p class="pv-more"
+         data-de="+ 9 weitere Arbeitsblätter enthalten" data-en="+ 9 more worksheets included">+ 9 weitere Arbeitsblätter enthalten</p>
+
+      <div class="pv-cta">
+        <button class="btn-primary" id="pvBtnUpgrade"
+                data-de="✨ Jetzt Premium freischalten"
+                data-en="✨ Unlock Premium now">✨ Jetzt Premium freischalten</button>
+        <p class="pv-already hidden" id="pvAlready"
+           data-de="✓ Du hast bereits Premium – genieße alle Inhalte."
+           data-en="✓ You already have Premium – enjoy all content.">✓ Du hast bereits Premium – genieße alle Inhalte.</p>
       </div>
     </div>
 
