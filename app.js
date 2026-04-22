@@ -1240,27 +1240,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }, TOTAL_MS - FADE_MS);
   }
 
-  async function startSongCheckout(priceKey) {
-    const pd = window._siPriceData || {};
-    const priceId = pd[priceKey] && pd[priceKey].id;
-    if (!priceId) { showUpgradePrompt(); return; }
-    let email = localStorage.getItem('si_email');
-    if (!email) {
-      email = window.prompt(lang === 'de' ? 'Deine E-Mail-Adresse:' : 'Your email address:');
-      if (!email || !email.trim()) return;
-      localStorage.setItem('si_email', email.trim());
-      email = email.trim();
+  function startSongCheckout(priceKey) {
+    const priceId = PRICE[priceKey];
+    if (!priceId) {
+      alert(lang === 'de'
+        ? 'Preis wird geladen – bitte kurz warten und erneut versuchen.'
+        : 'Price loading – please wait a moment and try again.');
+      return;
     }
-    try {
-      const res  = await fetch(API_BASE + '/api/checkout', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, email }),
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch(e) {
-      alert(lang === 'de' ? 'Verbindungsfehler. Bitte versuche es erneut.' : 'Connection error. Please try again.');
-    }
+    startCheckout(priceId, 'payment');
   }
 
   function renderPvSongs() {
