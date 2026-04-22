@@ -510,6 +510,20 @@ document.addEventListener("DOMContentLoaded", () => {
       accent:"#B89EC4", bg1:"#221a2a", bg2:"#14101a" },
   ];
 
+  const SONG_DATA = [
+    { nr:1,  de:'Wolkenhimmel',          en:'Sky Behind the Clouds', fileDE:'audio/Wolkenhimmel.mp3',         fileEN:'audio/sky-behind-the-clouds.mp3', sit:{de:'Innere Unruhe',        en:'Inner Restlessness'} },
+    { nr:2,  de:'Abgelegt',              en:'Set It Down',           fileDE:'audio/Abgelegt.mp3',             fileEN:'audio/set-it-down.mp3',           sit:{de:'Überforderung',        en:'Overwhelm'} },
+    { nr:3,  de:'Weich werden',          en:'Becoming Soft',         fileDE:'audio/Weich-werden.mp3',         fileEN:'audio/becoming-soft.mp3',          sit:{de:'Anspannung',           en:'Tension'} },
+    { nr:4,  de:'Goldenes Licht',        en:'Golden Light',          fileDE:'audio/Goldenes-Licht.mp3',       fileEN:'audio/golden-light.mp3',           sit:{de:'Erschöpfung',          en:'Exhaustion'} },
+    { nr:5,  de:'Stiller Gast',          en:'Quiet Guest',           fileDE:'audio/Stiller-Gast.mp3',         fileEN:'audio/quiet-guest.mp3',            sit:{de:'Traurigkeit',          en:'Sadness'} },
+    { nr:6,  de:'Zwischen den Welten',   en:'Between the Worlds',    fileDE:'audio/Zwischen-den-Welten.mp3',  fileEN:'audio/between-the-worlds.mp3',     sit:{de:'Innere Leere',         en:'Inner Emptiness'} },
+    { nr:7,  de:'Auf meiner Seite',      en:'On My Side',            fileDE:'audio/Auf-meiner-Seite.mp3',     fileEN:'audio/on-my-side.mp3',             sit:{de:'Selbstzweifel',        en:'Self-Doubt'} },
+    { nr:8,  de:'Der stille See',        en:'The Still Lake',        fileDE:'audio/Der-stille-See.mp3',       fileEN:'audio/the-still-lake.mp3',         sit:{de:'Entscheidungszweifel', en:'Decision Doubt'} },
+    { nr:9,  de:'Ein Schritt',           en:'One Step',              fileDE:'audio/Ein-Schritt.mp3',          fileEN:'audio/one-step.mp3',               sit:{de:'Übergang & Wandel',    en:'Transition'} },
+    { nr:10, de:'Nach dem Gewitter',     en:'After the Storm',       fileDE:'audio/Nach-dem-Gewitter.mp3',    fileEN:'audio/after-the-storm.mp3',        sit:{de:'Angst',                en:'Fear'} },
+    { nr:11, de:'Durch das Fenster',     en:'Through the Window',    fileDE:'audio/durch-das-fenster.mp3',    fileEN:'audio/through-the-window.mp3',     sit:{de:'Konflikte & Frieden',  en:'Conflicts & Peace'} },
+  ];
+
   function cgBg(card) {
     return 'radial-gradient(ellipse at 30% 20%,' + card.accent + '18,transparent 60%),' +
            'radial-gradient(ellipse at 70% 80%,' + card.accent + '10,transparent 50%),' +
@@ -1198,20 +1212,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.pv-play-btn').forEach(b => {
       b.textContent = '▶';
       b.dataset.playing = '';
-      b.closest('.pv-song-card')?.classList.remove('pv-playing');
+      b.closest('.pv-song-row, .pv-song-card')?.classList.remove('pv-playing');
     });
   }
 
-  function previewSong(n, btn) {
+  function previewSong(filePath, btn) {
     const wasPlaying = btn.dataset.playing === '1';
     stopPreview();
     if (wasPlaying) return;
-    pvAudio = new Audio('./audio/Song-Situation-' + n + '.mp3');
+    pvAudio = new Audio('./' + filePath);
     pvAudio.volume = 0.85;
     pvAudio.play().catch(() => {});
     btn.textContent = '⏸';
     btn.dataset.playing = '1';
-    btn.closest('.pv-song-card').classList.add('pv-playing');
+    btn.closest('.pv-song-row, .pv-song-card')?.classList.add('pv-playing');
     const TOTAL_MS = 25000;
     const FADE_MS  = 4000;
     pvTimer = setTimeout(() => {
@@ -1226,23 +1240,92 @@ document.addEventListener("DOMContentLoaded", () => {
     }, TOTAL_MS - FADE_MS);
   }
 
+  async function startSongCheckout(priceKey) {
+    const pd = window._siPriceData || {};
+    const priceId = pd[priceKey] && pd[priceKey].id;
+    if (!priceId) { showUpgradePrompt(); return; }
+    let email = localStorage.getItem('si_email');
+    if (!email) {
+      email = window.prompt(lang === 'de' ? 'Deine E-Mail-Adresse:' : 'Your email address:');
+      if (!email || !email.trim()) return;
+      localStorage.setItem('si_email', email.trim());
+      email = email.trim();
+    }
+    try {
+      const res  = await fetch(API_BASE + '/api/checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, email }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch(e) {
+      alert(lang === 'de' ? 'Verbindungsfehler. Bitte versuche es erneut.' : 'Connection error. Please try again.');
+    }
+  }
+
   function renderPvSongs() {
     const grid = $('pvSongGrid');
     if (!grid) return;
     grid.innerHTML = '';
-    CARD_DATA.forEach(card => {
-      const el = document.createElement('div');
-      el.className = 'pv-song-card';
-      el.innerHTML =
-        '<div class="pv-song-info">' +
-          '<span class="pv-song-nr">' + card.nr + '</span>' +
-          '<span class="pv-song-name">' + (card.sit[lang] || card.sit.de) + '</span>' +
+
+    const pd          = window._siPriceData || {};
+    const albumDePrice = _fmtPrice(pd.songDeAll)  || '9,99 €';
+    const albumEnPrice = _fmtPrice(pd.songEnAll)  || '9,99 €';
+    const singlePrice  = _fmtPrice(pd.songSingle) || '0,99 €';
+
+    const albums = [
+      { key:'de', flag:'🇩🇪', name:'Seelenmusik', meta: lang==='de' ? '11 Songs · Deutsch' : '11 songs · German',  priceKey:'songDeAll', price: albumDePrice },
+      { key:'en', flag:'🇬🇧', name:'Soul Songs',  meta: lang==='de' ? '11 Songs · Englisch' : '11 songs · English', priceKey:'songEnAll', price: albumEnPrice },
+    ];
+
+    albums.forEach(album => {
+      const card = document.createElement('div');
+      card.className = 'pv-album-card';
+
+      const header = document.createElement('div');
+      header.className = 'pv-album-header';
+      header.innerHTML =
+        '<div class="pv-album-left">' +
+          '<span class="pv-album-flag">' + album.flag + '</span>' +
+          '<div>' +
+            '<div class="pv-album-name">' + album.name + '</div>' +
+            '<div class="pv-album-meta">' + album.meta + '</div>' +
+          '</div>' +
         '</div>' +
-        '<button class="pv-play-btn" aria-label="Vorschau abspielen">▶</button>';
-      el.querySelector('.pv-play-btn').addEventListener('click', function() {
-        previewSong(card.nr, this);
+        '<div class="pv-album-right">' +
+          '<span class="pv-album-price">' + album.price + '</span>' +
+          '<button class="pv-album-buy">' + (lang==='de' ? 'Album kaufen' : 'Buy album') + '</button>' +
+        '</div>';
+      header.querySelector('.pv-album-buy').addEventListener('click', () => startSongCheckout(album.priceKey));
+      card.appendChild(header);
+
+      const divider = document.createElement('div');
+      divider.className = 'pv-album-divider';
+      card.appendChild(divider);
+
+      SONG_DATA.forEach(song => {
+        const title   = album.key === 'de' ? song.de    : song.en;
+        const file    = album.key === 'de' ? song.fileDE : song.fileEN;
+        const sitName = song.sit[lang] || song.sit.de;
+
+        const row = document.createElement('div');
+        row.className = 'pv-song-row';
+        row.innerHTML =
+          '<button class="pv-play-btn" aria-label="Vorschau">▶</button>' +
+          '<div class="pv-song-row-info">' +
+            '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
+            '<span class="pv-song-row-sit">' + sitName + '</span>' +
+          '</div>' +
+          '<button class="pv-song-buy">' + singlePrice + ' ↗</button>';
+
+        row.querySelector('.pv-play-btn').addEventListener('click', function() {
+          previewSong(file, this);
+        });
+        row.querySelector('.pv-song-buy').addEventListener('click', () => startSongCheckout('songSingle'));
+        card.appendChild(row);
       });
-      grid.appendChild(el);
+
+      grid.appendChild(card);
     });
   }
 
