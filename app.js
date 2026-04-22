@@ -1269,8 +1269,8 @@ document.addEventListener("DOMContentLoaded", () => {
     grid.innerHTML = '';
 
     const pd          = window._siPriceData || {};
-    const albumDePrice = _fmtPrice(pd.songDeAll)  || '9,99 €';
-    const albumEnPrice = _fmtPrice(pd.songEnAll)  || '9,99 €';
+    const albumDePrice = _fmtPrice(pd.songDeAll)  || '4,99 €';
+    const albumEnPrice = _fmtPrice(pd.songEnAll)  || '4,99 €';
     const singlePrice  = _fmtPrice(pd.songSingle) || '0,99 €';
 
     const albums = [
