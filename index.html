@@ -1119,6 +1119,9 @@
         <button class="btn-ghost" id="btnPremiumPreview"
                 data-de="✨ Premium entdecken"
                 data-en="✨ Discover Premium">✨ Premium entdecken</button>
+        <button class="btn-ghost" id="btnSongsPreview"
+                data-de="🎵 Klangwelten anhören"
+                data-en="🎵 Listen to Soundscapes">🎵 Klangwelten anhören</button>
         <button class="btn-ghost" id="btnCards"
                 data-de="💫 Affirmationskarten"
                 data-en="💫 Affirmation Cards">💫 Affirmationskarten</button>
@@ -1350,39 +1353,53 @@
 
       <div class="pv-header">
         <div class="pv-badge">✨ Premium</div>
-        <h2 class="pv-title"
-            data-de="Was dich erwartet" data-en="What awaits you">Was dich erwartet</h2>
-        <p class="pv-sub"
+        <h2 class="pv-title" id="pvTitle">Was dich erwartet</h2>
+      </div>
+
+      <!-- ── OVERVIEW (nur Feature-Liste) ── -->
+      <div id="pvSecOverview">
+        <p class="pv-sub" style="text-align:center;margin-bottom:24px;"
            data-de="Entdecke alle Inhalte, bevor du entscheidest."
            data-en="Explore all content before you decide.">Entdecke alle Inhalte, bevor du entscheidest.</p>
+        <div class="pv-features">
+          <div class="pv-feature" data-de="🎵 10 Klangwelten – Musik für jede Gemütslage" data-en="🎵 10 Soundscapes – Music for every mood">🎵 10 Klangwelten – Musik für jede Gemütslage</div>
+          <div class="pv-feature" data-de="💫 Affirmationskarten für jede Situation" data-en="💫 Affirmation cards for every situation">💫 Affirmationskarten für jede Situation</div>
+          <div class="pv-feature" data-de="📝 10 Reflexions-Arbeitsblätter" data-en="📝 10 reflection worksheets">📝 10 Reflexions-Arbeitsblätter</div>
+          <div class="pv-feature" data-de="🧘 Geführte Meditation pro Situation" data-en="🧘 Guided meditation per situation">🧘 Geführte Meditation pro Situation</div>
+          <div class="pv-feature" data-de="🌟 Exklusive 11. Situation" data-en="🌟 Exclusive 11th situation">🌟 Exklusive 11. Situation</div>
+          <div class="pv-feature" data-de="📖 Ausführliche Beschreibungen der Gemütszustände" data-en="📖 Detailed descriptions of each mood state">📖 Ausführliche Beschreibungen der Gemütszustände</div>
+        </div>
       </div>
 
-      <div class="pv-features">
-        <div class="pv-feature" data-de="🎵 10 Klangwelten – Musik für jede Gemütslage" data-en="🎵 10 Soundscapes – Music for every mood">🎵 10 Klangwelten – Musik für jede Gemütslage</div>
-        <div class="pv-feature" data-de="💫 Affirmationskarten für jede Situation" data-en="💫 Affirmation cards for every situation">💫 Affirmationskarten für jede Situation</div>
-        <div class="pv-feature" data-de="📝 10 Reflexions-Arbeitsblätter" data-en="📝 10 reflection worksheets">📝 10 Reflexions-Arbeitsblätter</div>
-        <div class="pv-feature" data-de="🧘 Geführte Meditation pro Situation" data-en="🧘 Guided meditation per situation">🧘 Geführte Meditation pro Situation</div>
-        <div class="pv-feature" data-de="🌟 Exklusive 11. Situation" data-en="🌟 Exclusive 11th situation">🌟 Exklusive 11. Situation</div>
-        <div class="pv-feature" data-de="📖 Ausführliche Beschreibungen der Gemütszustände" data-en="📖 Detailed descriptions of each mood state">📖 Ausführliche Beschreibungen der Gemütszustände</div>
+      <!-- ── SONGS (25-Sek.-Vorschau) ── -->
+      <div id="pvSecSongs" class="hidden">
+        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
+           data-de="Höre 25 Sekunden in jede Klangwelt hinein."
+           data-en="Listen to 25 seconds of each soundscape.">Höre 25 Sekunden in jede Klangwelt hinein.</p>
+        <div id="pvSongGrid" class="pv-song-grid"></div>
       </div>
 
-      <h3 class="pv-section-title"
-          data-de="🎵 Klangwelten – 25 Sek. anhören"
-          data-en="🎵 Soundscapes – 25 sec preview">🎵 Klangwelten – 25 Sek. anhören</h3>
-      <div id="pvSongGrid" class="pv-song-grid"></div>
+      <!-- ── CARDS (Vorschau) ── -->
+      <div id="pvSecCards" class="hidden">
+        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
+           data-de="Eine Karte für jeden Gemütszustand."
+           data-en="One card for every mood.">Eine Karte für jeden Gemütszustand.</p>
+        <div id="pvCardPreview"></div>
+        <p class="pv-more"
+           data-de="+ 9 weitere Karten enthalten" data-en="+ 9 more cards included">+ 9 weitere Karten enthalten</p>
+      </div>
 
-      <h3 class="pv-section-title"
-          data-de="💫 Affirmationskarten" data-en="💫 Affirmation Cards">💫 Affirmationskarten</h3>
-      <div id="pvCardPreview"></div>
-      <p class="pv-more"
-         data-de="+ 9 weitere Karten enthalten" data-en="+ 9 more cards included">+ 9 weitere Karten enthalten</p>
+      <!-- ── WORKSHEETS (Vorschau) ── -->
+      <div id="pvSecWorksheets" class="hidden">
+        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
+           data-de="Reflexion &amp; Selbsterkenntnis."
+           data-en="Reflection &amp; self-discovery.">Reflexion &amp; Selbsterkenntnis.</p>
+        <div id="pvWsPreview"></div>
+        <p class="pv-more"
+           data-de="+ 9 weitere Arbeitsblätter enthalten" data-en="+ 9 more worksheets included">+ 9 weitere Arbeitsblätter enthalten</p>
+      </div>
 
-      <h3 class="pv-section-title"
-          data-de="📝 Arbeitsblätter" data-en="📝 Worksheets">📝 Arbeitsblätter</h3>
-      <div id="pvWsPreview"></div>
-      <p class="pv-more"
-         data-de="+ 9 weitere Arbeitsblätter enthalten" data-en="+ 9 more worksheets included">+ 9 weitere Arbeitsblätter enthalten</p>
-
+      <!-- ── CTA (immer sichtbar) ── -->
       <div class="pv-cta">
         <button class="btn-primary" id="pvBtnUpgrade"
                 data-de="✨ Jetzt Premium freischalten"

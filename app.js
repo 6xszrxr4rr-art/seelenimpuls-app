@@ -564,7 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openCards() {
-    if (!isPremium) { openPremiumPreview(); return; }
+    if (!isPremium) { openPremiumPreview('cards'); return; }
     renderCardGrid();
     showView('ui-cards');
   }
@@ -1185,7 +1185,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openWorksheets() {
-    if (!isPremium) { openPremiumPreview(); return; }
+    if (!isPremium) { openPremiumPreview('worksheets'); return; }
     renderWorksheetList();
     showView('ui-worksheets');
   }
@@ -1226,73 +1226,95 @@ document.addEventListener("DOMContentLoaded", () => {
     }, TOTAL_MS - FADE_MS);
   }
 
-  function renderPremiumPreview() {
-    // Song grid
+  function renderPvSongs() {
     const grid = $('pvSongGrid');
-    if (grid) {
-      grid.innerHTML = '';
-      CARD_DATA.forEach(card => {
-        const sitName = card.sit[lang] || card.sit.de;
-        const el = document.createElement('div');
-        el.className = 'pv-song-card';
-        el.innerHTML =
-          '<div class="pv-song-info">' +
-            '<span class="pv-song-nr">' + card.nr + '</span>' +
-            '<span class="pv-song-name">' + sitName + '</span>' +
-          '</div>' +
-          '<button class="pv-play-btn" aria-label="Vorschau abspielen">▶</button>';
-        el.querySelector('.pv-play-btn').addEventListener('click', function() {
-          previewSong(card.nr, this);
-        });
-        grid.appendChild(el);
+    if (!grid) return;
+    grid.innerHTML = '';
+    CARD_DATA.forEach(card => {
+      const el = document.createElement('div');
+      el.className = 'pv-song-card';
+      el.innerHTML =
+        '<div class="pv-song-info">' +
+          '<span class="pv-song-nr">' + card.nr + '</span>' +
+          '<span class="pv-song-name">' + (card.sit[lang] || card.sit.de) + '</span>' +
+        '</div>' +
+        '<button class="pv-play-btn" aria-label="Vorschau abspielen">▶</button>';
+      el.querySelector('.pv-play-btn').addEventListener('click', function() {
+        previewSong(card.nr, this);
       });
+      grid.appendChild(el);
+    });
+  }
+
+  function renderPvCards() {
+    const wrap = $('pvCardPreview');
+    if (!wrap) return;
+    const c1 = CARD_DATA[0], c2 = CARD_DATA[1];
+    const isDark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const fadeEnd = isDark ? 'rgba(30,22,46,1)' : 'rgba(238,242,243,1)';
+    wrap.innerHTML =
+      '<div class="pv-card-wrap">' +
+        '<div class="pv-card-back" style="background:' + cgBg(c2) + '"></div>' +
+        '<div class="pv-card-main" style="background:' + cgBg(c1) + '">' +
+          '<div class="pv-card-sit">' + (c1.sit[lang] || c1.sit.de) + '</div>' +
+          '<p class="pv-card-txt">' + (c1.txt[lang] || c1.txt.de).replace(/\n/g, '<br>') + '</p>' +
+        '</div>' +
+        '<div class="pv-card-fade" style="background:linear-gradient(transparent,' + fadeEnd + ')"></div>' +
+      '</div>';
+  }
+
+  function renderPvWorksheets() {
+    const wrap = $('pvWsPreview');
+    if (!wrap) return;
+    const ws = WORKSHEETS[1];
+    wrap.innerHTML =
+      '<div class="pv-ws-wrap">' +
+        '<div class="pv-ws-wrap-title">' + ws.title + '</div>' +
+        '<div class="pv-ws-wrap-quote">' + ws.quote + '</div>' +
+        '<div class="pv-ws-field">Morgens:</div>' +
+        '<div class="pv-ws-field">Tagsüber:</div>' +
+        '<div class="pv-ws-fade"></div>' +
+      '</div>';
+  }
+
+  function openPremiumPreview(mode) {
+    mode = mode || 'overview';
+
+    // Sektion anzeigen, Rest ausblenden
+    ['Overview','Songs','Cards','Worksheets'].forEach(s => {
+      const el = $('pvSec' + s);
+      if (el) el.classList.toggle('hidden', s.toLowerCase() !== mode);
+    });
+
+    // Seitentitel je Mode
+    const pvTitle = $('pvTitle');
+    if (pvTitle) {
+      const titles = {
+        overview:   lang === 'de' ? 'Was dich erwartet'  : 'What awaits you',
+        songs:      lang === 'de' ? 'Klangwelten'        : 'Soundscapes',
+        cards:      lang === 'de' ? 'Affirmationskarten' : 'Affirmation Cards',
+        worksheets: lang === 'de' ? 'Arbeitsblätter'     : 'Worksheets',
+      };
+      pvTitle.textContent = titles[mode] || titles.overview;
     }
 
-    // Card preview: first card fully visible, second hinted behind
-    const cardWrap = $('pvCardPreview');
-    if (cardWrap) {
-      const c1 = CARD_DATA[0];
-      const c2 = CARD_DATA[1];
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const fadeEnd = isDark ? 'rgba(30,22,46,1)' : 'rgba(238,242,243,1)';
-      cardWrap.innerHTML =
-        '<div class="pv-card-wrap">' +
-          '<div class="pv-card-back" style="background:' + cgBg(c2) + '"></div>' +
-          '<div class="pv-card-main" style="background:' + cgBg(c1) + '">' +
-            '<div class="pv-card-sit">' + (c1.sit[lang] || c1.sit.de) + '</div>' +
-            '<p class="pv-card-txt">' + (c1.txt[lang] || c1.txt.de).replace(/\n/g, '<br>') + '</p>' +
-          '</div>' +
-          '<div class="pv-card-fade" style="background:linear-gradient(transparent,' + fadeEnd + ')"></div>' +
-        '</div>';
-    }
+    // Dynamischen Inhalt rendern
+    if (mode === 'songs')      renderPvSongs();
+    if (mode === 'cards')      renderPvCards();
+    if (mode === 'worksheets') renderPvWorksheets();
 
-    // Worksheet preview: first worksheet, partially visible
-    const wsWrap = $('pvWsPreview');
-    if (wsWrap) {
-      const ws = WORKSHEETS[1];
-      wsWrap.innerHTML =
-        '<div class="pv-ws-wrap">' +
-          '<div class="pv-ws-wrap-title">' + ws.title + '</div>' +
-          '<div class="pv-ws-wrap-quote">' + ws.quote + '</div>' +
-          '<div class="pv-ws-field">Morgens:</div>' +
-          '<div class="pv-ws-field">Tagsüber:</div>' +
-          '<div class="pv-ws-fade"></div>' +
-        '</div>';
-    }
-
-    // CTA: buy button for non-premium, confirmation for premium
+    // CTA
     const cta    = $('pvBtnUpgrade');
     const already = $('pvAlready');
     if (cta)    cta.classList.toggle('hidden', isPremium);
     if (already) already.classList.toggle('hidden', !isPremium);
 
-    // Home-screen button: only for non-premium
-    const pvBtn = $('btnPremiumPreview');
-    if (pvBtn) pvBtn.style.display = isPremium ? 'none' : '';
-  }
+    // Startseiten-Buttons nur für Nicht-Premium sichtbar
+    ['btnPremiumPreview','btnSongsPreview'].forEach(id => {
+      const b = $(id);
+      if (b) b.style.display = isPremium ? 'none' : '';
+    });
 
-  function openPremiumPreview() {
-    renderPremiumPreview();
     showView('ui-premium-preview');
   }
 
@@ -2003,8 +2025,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
   if ($("btnPremiumPreview")) {
-    $("btnPremiumPreview").addEventListener("click", openPremiumPreview);
+    $("btnPremiumPreview").addEventListener("click", () => openPremiumPreview('overview'));
     $("btnPremiumPreview").style.display = isPremium ? 'none' : '';
+  }
+  if ($("btnSongsPreview")) {
+    $("btnSongsPreview").addEventListener("click", () => openPremiumPreview('songs'));
+    $("btnSongsPreview").style.display = isPremium ? 'none' : '';
   }
   if ($("btnBackFromPremiumPreview")) {
     $("btnBackFromPremiumPreview").addEventListener("click", () => {
