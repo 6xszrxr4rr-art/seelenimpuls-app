@@ -389,6 +389,10 @@ document.addEventListener("DOMContentLoaded", () => {
       txt:{ de:"Nach dem Gewitter\nwird es still.\nEs wird immer\nstill danach.",
             en:"After the storm,\nit all grows still." },
       accent:"#B89EC4", bg1:"#221a2a", bg2:"#14101a" },
+    { nr:11, sit:{ de:"Konflikte & Frieden",  en:"Conflicts & Peace" },
+      txt:{ de:"In mir ist ein Ort,\nden kein Streit\nerreicht.",
+            en:"Within me is a place\nno conflict\ncan reach." },
+      accent:"#C4977A", bg1:"#281e14", bg2:"#18120a" },
   ];
 
   function cgBg(card) {

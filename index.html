@@ -1129,6 +1129,70 @@
       </div>
     </div>
 
+    <!-- ── PREMIUM PREVIEW ── -->
+    <div id="ui-premium-preview" class="hidden">
+      <button class="btn-ghost" id="btnBackFromPremiumPreview"
+              style="margin-bottom:20px;"
+              data-de="← Zurück" data-en="← Back">← Zurück</button>
+
+      <div class="pv-header">
+        <div class="pv-badge">✨ Premium</div>
+        <h2 class="pv-title" id="pvTitle">Was dich erwartet</h2>
+      </div>
+
+      <!-- ── OVERVIEW (nur Feature-Liste) ── -->
+      <div id="pvSecOverview">
+        <p class="pv-sub" style="text-align:center;margin-bottom:24px;"
+           data-de="Entdecke alle Inhalte, bevor du entscheidest."
+           data-en="Explore all content before you decide.">Entdecke alle Inhalte, bevor du entscheidest.</p>
+        <div class="pv-features">
+          <div class="pv-feature" data-de="🎵 11 Klangwelten – Musik für jede Gemütslage" data-en="🎵 11 Soundscapes – Music for every mood">🎵 11 Klangwelten – Musik für jede Gemütslage</div>
+          <div class="pv-feature" data-de="💫 Affirmationskarten für jede Situation" data-en="💫 Affirmation cards for every situation">💫 Affirmationskarten für jede Situation</div>
+          <div class="pv-feature" data-de="📝 11 Reflexions-Arbeitsblätter" data-en="📝 11 reflection worksheets">📝 11 Reflexions-Arbeitsblätter</div>
+          <div class="pv-feature" data-de="🧘 Geführte Meditation pro Situation" data-en="🧘 Guided meditation per situation">🧘 Geführte Meditation pro Situation</div>
+          <div class="pv-feature" data-de="🌟 Exklusive 11. Situation" data-en="🌟 Exclusive 11th situation">🌟 Exklusive 11. Situation</div>
+          <div class="pv-feature" data-de="📖 Ausführliche Beschreibungen der Gemütszustände" data-en="📖 Detailed descriptions of each mood state">📖 Ausführliche Beschreibungen der Gemütszustände</div>
+        </div>
+      </div>
+
+      <!-- ── SONGS (25-Sek.-Vorschau) ── -->
+      <div id="pvSecSongs" class="hidden">
+        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
+           data-de="Höre 25 Sekunden in jede Klangwelt hinein."
+           data-en="Listen to 25 seconds of each soundscape.">Höre 25 Sekunden in jede Klangwelt hinein.</p>
+        <div id="pvSongGrid" class="pv-song-grid"></div>
+      </div>
+
+      <!-- ── CARDS (Vorschau) ── -->
+      <div id="pvSecCards" class="hidden">
+        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
+           data-de="Eine Karte für jeden Gemütszustand."
+           data-en="One card for every mood.">Eine Karte für jeden Gemütszustand.</p>
+        <div id="pvCardPreview"></div>
+        <p class="pv-more"
+           data-de="+ 10 weitere Karten enthalten" data-en="+ 10 more cards included">+ 10 weitere Karten enthalten</p>
+      </div>
+
+      <!-- ── WORKSHEETS (Vorschau) ── -->
+      <div id="pvSecWorksheets" class="hidden">
+        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
+           data-de="Reflexion &amp; Selbsterkenntnis."
+           data-en="Reflection &amp; self-discovery.">Reflexion &amp; Selbsterkenntnis.</p>
+        <div id="pvWsPreview"></div>
+        <p class="pv-more"
+           data-de="+ 10 weitere Arbeitsblätter enthalten" data-en="+ 10 more worksheets included">+ 10 weitere Arbeitsblätter enthalten</p>
+      </div>
+
+      <!-- ── CTA (immer sichtbar) ── -->
+      <div class="pv-cta">
+        <button class="btn-primary" id="pvBtnUpgrade"
+                data-de="✨ Jetzt Premium freischalten"
+                data-en="✨ Unlock Premium now">✨ Jetzt Premium freischalten</button>
+        <p class="pv-already hidden" id="pvAlready"
+           data-de="✓ Du hast bereits Premium – genieße alle Inhalte."
+           data-en="✓ You already have Premium – enjoy all content.">✓ Du hast bereits Premium – genieße alle Inhalte.</p>
+      </div>
+    </div>
     <!-- ── FAVORITES ── -->
     <div id="ui-favorites" class="hidden">
       <h2 id="favTitle" style="font-weight:400; text-align:center; margin-bottom:24px;">❤️ Meine Affirmationen</h2>
