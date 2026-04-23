@@ -337,10 +337,15 @@
     }
     .quick-breath-circle {
       width: 160px; height: 160px; border-radius: 50%;
-      margin: 0 auto 32px; border: 4px solid var(--accent);
+      margin: 0 auto 12px; border: 4px solid var(--accent);
       display: flex; align-items: center; justify-content: center;
       background: transparent;
       animation: breatheCycle 8s infinite ease-in-out;
+      cursor: pointer; touch-action: manipulation;
+    }
+    .quick-tap-hint {
+      text-align: center; font-size: 12px; color: var(--text-muted);
+      opacity: 0.6; margin-bottom: 24px; letter-spacing: 0.5px;
     }
 
     /* ── Favorites ── */
@@ -1183,7 +1188,7 @@
         <div id="homeSituationsList"></div>
 
         <!-- Unten, nach den Situationen -->
-        <div class="support-links-sm" style="margin-top:40px;">
+        <div id="homeSupportLinks" class="support-links-sm" style="margin-top:40px;">
           <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
              class="support-link-sm"
              data-de="✨ Exklusive Inhalte"
@@ -1334,7 +1339,7 @@
       <button id="btnBackBottom">ÜBUNG BEENDEN</button>
       <div id="lyricsBox"><div id="lyricsContent"></div></div>
 
-      <div class="situation-end-support">
+      <div id="situationEndSupport" class="situation-end-support">
         <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
            class="support-link-sm"
            data-de="☕ Diese Arbeit unterstützen"
@@ -1368,6 +1373,7 @@
         <div class="quick-breath-circle">
           <span id="quickBreathLabel" style="font-weight:bold; letter-spacing:1px; font-size:20px; font-family:-apple-system,sans-serif; color:#0056b3;">EIN</span>
         </div>
+        <p class="quick-tap-hint" data-de="Tippen = nächste Phase" data-en="Tap = next phase">Tippen = nächste Phase</p>
         <button class="btn-ghost" id="btnStopQuick" style="max-width:260px; margin:0 auto; display:block;">Beenden</button>
       </div>
     </div>

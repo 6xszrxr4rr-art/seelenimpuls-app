@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let lang = "de";
   let breathInterval = null;
   let breathPhaseTimer = null;
+  let breathSkipHandler = null;
   let activeTechnique = null;
   let breathPhaseIdx = 0;
   let pvAudio   = null;
@@ -101,9 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.hasSubscription) {
           localStorage.setItem('si_premium', '1');
           isPremium = true;
+          applyPremiumVisibility();
         } else if (!localStorage.getItem('si_premium_gift')) {
           localStorage.removeItem('si_premium');
           isPremium = false;
+          applyPremiumVisibility();
         }
       }
     } catch (e) {}
@@ -181,7 +184,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   checkPremiumURL();
+  applyPremiumVisibility();
   verifySubscription();
+
+  function applyPremiumVisibility() {
+    ['homeSupportLinks','situationEndSupport'].forEach(id => {
+      const el = $(id);
+      if (el) el.style.display = isPremium ? 'none' : '';
+    });
+  }
 
   // ── IMPULSES (14 pro Sprache, tagesbasiert rotierend) ─────────────────
   const impulses = {
@@ -435,6 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
       circle.style.background  = '';
       circle.style.borderColor = '';
       circle.style.boxShadow   = '';
+      if (breathSkipHandler) { circle.removeEventListener('click', breathSkipHandler); breathSkipHandler = null; }
     }
   }
 
@@ -1961,6 +1973,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (circle) {
       circle.style.animation = 'none';
       circle.style.transform = 'scale(0.85)';
+      if (breathSkipHandler) circle.removeEventListener('click', breathSkipHandler);
+      breathSkipHandler = () => {
+        if (!activeTechnique) return;
+        if (breathPhaseTimer) { clearTimeout(breathPhaseTimer); breathPhaseTimer = null; }
+        breathPhaseIdx = (breathPhaseIdx + 1) % activeTechnique.phases.length;
+        runBreathPhase();
+      };
+      circle.addEventListener('click', breathSkipHandler);
     }
 
     let remaining = 180;
