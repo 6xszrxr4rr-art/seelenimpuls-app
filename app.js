@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.hasSubscription) {
           localStorage.setItem('si_premium', '1');
           isPremium = true;
-        } else {
+        } else if (!localStorage.getItem('si_premium_gift')) {
           localStorage.removeItem('si_premium');
           isPremium = false;
         }
@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ownerMatch = /^#owner$/i.test(hash);
     if (ownerMatch) {
       localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_premium_gift', '1');
       isPremium = true;
       history.replaceState(null, '', window.location.pathname);
       return;
@@ -156,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (giftMatch || unlockMatch) {
       const name = giftMatch ? decodeURIComponent(giftMatch[1]).trim() : '';
       localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_premium_gift', '1');
       localStorage.setItem('si_gift_ts', Date.now().toString());
       if (name) localStorage.setItem('si_premium_name', name);
       isPremium = true;
