@@ -143,6 +143,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Session-based access via ?si_access=TOKEN — works on every browser/device
+    // as long as the URL contains the token (no localStorage needed)
+    const ACCESS_TOKENS = ['si-owner-7x4mK', 'si-helper-3pQ9w'];
+    if (ACCESS_TOKENS.includes(params.get('si_access'))) {
+      isPremium = true;
+      // also persist for this browser so it survives navigation within the app
+      localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_premium_gift', '1');
+      return;
+    }
+
     // Permanent owner access: #owner (no expiry, no timestamp stored)
     const ownerMatch = /^#owner$/i.test(hash);
     if (ownerMatch) {
