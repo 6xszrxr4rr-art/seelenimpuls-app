@@ -2170,16 +2170,45 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnCloseIosModal").onclick = () => $("iosInstallModal").classList.remove("visible");
 
   // ── SW Update Notification ────────────────────────────────────────────
-  // When the page's service worker controller changes (new SW took over),
-  // show a banner so users know a new version is ready.
   if ('serviceWorker' in navigator) {
-    let refreshing = false;
+    let waitingWorker = null;
+
+    function showUpdateBanner() {
+      const banner = $('updateBanner');
+      if (banner) banner.classList.remove('hidden');
+    }
+
+    // Nach SW-Übernahme: Seite automatisch neu laden
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshing) return;
-      refreshing = true;
-      $("updateBanner").classList.remove("hidden");
+      window.location.reload();
     });
-    $("btnUpdate").onclick = () => location.reload();
+
+    navigator.serviceWorker.ready.then(reg => {
+      // Bereits wartender SW vorhanden? (z.B. Tab war im Hintergrund)
+      if (reg.waiting) {
+        waitingWorker = reg.waiting;
+        showUpdateBanner();
+      }
+
+      // Neuen SW beobachten
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            waitingWorker = newWorker;
+            showUpdateBanner();
+          }
+        });
+      });
+
+      // Regelmäßig auf Updates prüfen (alle 60 Sek. solange Seite offen)
+      setInterval(() => reg.update(), 60000);
+    });
+
+    $('btnUpdate').onclick = () => {
+      if (waitingWorker) waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+      else location.reload();
+    };
   }
 
 });
