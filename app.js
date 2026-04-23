@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.hasSubscription) {
           localStorage.setItem('si_premium', '1');
           isPremium = true;
-        } else {
+        } else if (!localStorage.getItem('si_premium_gift')) {
           localStorage.removeItem('si_premium');
           isPremium = false;
         }
@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (giftMatch || unlockMatch) {
       const name = giftMatch ? decodeURIComponent(giftMatch[1]).trim() : '';
       localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_premium_gift', '1');
       if (name) localStorage.setItem('si_premium_name', name);
       isPremium = true;
       history.replaceState(null, '', window.location.pathname);
