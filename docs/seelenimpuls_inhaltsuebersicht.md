@@ -1537,3 +1537,153 @@ I've always been my own North Star.
 Carry this feeling gently into your journey.
 
 ---
+
+### Situation 10: Angst & innere Sicherheit
+
+**Kurzbeschreibung:** Wenn Angst da ist – spürbar oder ganz leise im Hintergrund.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht ist gerade Angst da. Spürbar oder ganz leise im Hintergrund.
+
+Du bist nicht allein mit diesem Gefühl.
+Dein Körper ist da. Dein Atem ist da.
+Du darfst jetzt erst einmal einfach nur atmen.
+
+**Englisch:**
+
+You are here.
+
+Perhaps fear is present. Noticeable or very quiet in the background.
+
+You are not alone with this feeling.
+Your body is here. Your breath is here.
+You may simply breathe for now.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Angst ist ein Schutzsignal deines Nervensystems. Sie möchte dich aufmerksam machen.
+
+Oft versuchen wir, sie wegzudrücken, aber sie möchte eigentlich nur gesehen werden.
+
+Diese Impulse helfen dir, der Angst ruhig zu begegnen und Schritt für Schritt wieder Sicherheit in dir selbst zu finden.
+
+**Englisch:**
+
+Fear is a protective signal from your nervous system. It wants to make you attentive.
+
+We often try to push it away, but it really just wants to be seen.
+
+These impulses help you meet fear with calm and find safety within yourself, step by step.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich bin jetzt hier in Sicherheit.
+- Ich bin mir selbst liebevoll zugewandt.
+- Ich erlaube mir, ruhig zu werden.
+
+**Englisch:**
+- I am here in safety now.
+- I am lovingly present with myself.
+- I allow myself to grow calm.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Lege beide Hände sanft übereinander auf deine Brust.
+2. Spüre die Wärme und das Gewicht deiner Hände.
+3. Atme tief durch die Nase ein und sehr langsam durch den Mund aus.
+4. Sage innerlich: „Ich habe mich lieb, so wie ich bin."
+5. Wiederhole diesen Satz drei Mal ganz sanft für dich.
+6. Spüre, wie in deinem Brustraum ein kleiner Raum für Halt entsteht.
+7. Nimm die Angst wahr, wie ein Gast, der gerade da ist, aber nicht bleiben muss.
+8. Bleibe noch drei tiefe, bewusste Atemzüge bei diesem Gefühl von Halt.
+
+**Englisch:**
+
+1. Place both hands gently on your chest, one on top of the other.
+2. Feel the warmth and weight of your hands.
+3. Breathe deeply in through your nose and very slowly out through your mouth.
+4. Say inwardly: "I love myself, just as I am."
+5. Repeat this phrase three times, very gently.
+6. Feel how a small space for holding opens in your chest.
+7. Notice the fear like a guest who is here right now, but does not need to stay.
+8. Stay with this feeling of support for three deep, conscious breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen.
+
+**Englisch:** ✨ You may carry this inner safety with you into your day.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Angst verstehen, annehmen und verwandeln
+
+Angst ist die älteste Emotion des Menschen. Dein Nervensystem kann in Sekundenbruchteilen zwischen Sicherheit und Bedrohung unterscheiden. Dieses System ist nicht fehlerhaft.
+
+Durch frühe Erfahrungen von Unsicherheit kann die Amygdala lernen, auch bei harmlosen Reizen Alarm zu schlagen. Ein bestimmter Tonfall, eine Erinnerung kann ausreichen.
+
+Angst zeigt sich im Körper, bevor sie im Kopf ankommt: Herzklopfen, Enge in der Brust, flacher Atem. Diese Symptome sind nicht gefährlich, werden aber oft als gefährlich interpretiert.
+
+Der wirksamste Weg führt über den Körper: Verlängertes Ausatmen aktiviert den Vagusnerv. Berührung aktiviert das Oxytocin-System. Der Körper ist dein stärkstes Werkzeug gegen Angst.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Nach dem Gewitter
+**Englischer Titel:** After the Storm
+**Audiodatei DE:** Nach-dem-Gewitter.mp3
+**Audiodatei EN:** after-the-storm.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+My heart beats fast, my chest grows tight,
+as if the air won't reach me right.
+But both my hands lay soft and warm
+upon my chest — a quiet calm.
+
+*Chorus:*
+After the storm, it all grows still,
+the fear may leave whenever it will.
+I hold myself, I hold on tight,
+my heart is more than just this fright.
+
+*Verse 2:*
+A light within, it flickers small,
+but it won't break, it will not fall.
+This fear's a guest, not my address,
+I breathe it through with tenderness.
+
+*Bridge:*
+And when the dark feels deepest here,
+my heart reminds me: You are dear.
+Not to the world, no — to yourself,
+come home to you, come off that shelf.
+
+*Outro (geflüstert):*
+You may carry this inner safety with you.
+
+---
