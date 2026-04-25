@@ -2393,3 +2393,130 @@ Wähle oder formuliere einen Satz für Konfliktsituationen:
 - Mein eigener Satz: [Freitextfeld]
 
 ---
+
+## Teil 6: Klangwelten
+
+11 Musikstücke (Premium), je eines pro Situation. Verfügbar in Deutsch und Englisch. Format: MP3. Länge: nicht im Code hinterlegt. Jede Klangwelt enthält einen kurzen gesungenen Abschluss-Outro (gesprochen/geflüstert).
+
+Zusätzlich gibt es eine freie Hintergrundmusik-Datei (stillness-space.mp3), die während der Atemübung abgespielt wird.
+
+---
+
+### Klangwelt 0: Stille & Raum (freie Hintergrundmusik)
+
+**Titel:** Stillness Space
+**Datei:** stillness-space.mp3
+**Zuordnung:** Atemübung (läuft im Hintergrund während der 3-Minuten-Übung)
+**Verfügbarkeit:** Kostenlos
+
+---
+
+### Klangwelt 1: Innere Unruhe & Gedankenkarussell
+
+**Deutscher Titel:** Wolkenhimmel
+**Englischer Titel:** Sky Behind the Clouds
+**Datei DE:** Wolkenhimmel.mp3
+**Datei EN:** sky-behind-the-clouds.mp3
+**Zuordnung:** Situation 1
+
+---
+
+### Klangwelt 2: Überforderung & innerer Druck
+
+**Deutscher Titel:** Abgelegt
+**Englischer Titel:** Set It Down
+**Datei DE:** Abgelegt.mp3
+**Datei EN:** set-it-down.mp3
+**Zuordnung:** Situation 2
+
+---
+
+### Klangwelt 3: Anspannung & inneres Festhalten
+
+**Deutscher Titel:** Weich werden
+**Englischer Titel:** Becoming Soft
+**Datei DE:** Weich-werden.mp3
+**Datei EN:** becoming-soft.mp3
+**Zuordnung:** Situation 3
+
+---
+
+### Klangwelt 4: Erschöpfung & fehlende Kraft
+
+**Deutscher Titel:** Goldenes Licht
+**Englischer Titel:** Golden Light
+**Datei DE:** Goldenes-Licht.mp3
+**Datei EN:** golden-light.mp3
+**Zuordnung:** Situation 4
+
+---
+
+### Klangwelt 5: Traurigkeit & leise Schwere
+
+**Deutscher Titel:** Stiller Gast
+**Englischer Titel:** Quiet Guest
+**Datei DE:** Stiller-Gast.mp3
+**Datei EN:** quiet-guest.mp3
+**Zuordnung:** Situation 5
+
+---
+
+### Klangwelt 6: Innere Leere & Orientierungslosigkeit
+
+**Deutscher Titel:** Zwischen den Welten
+**Englischer Titel:** Between the Worlds
+**Datei DE:** Zwischen-den-Welten.mp3
+**Datei EN:** between-the-worlds.mp3
+**Zuordnung:** Situation 6
+
+---
+
+### Klangwelt 7: Selbstzweifel & innere Unsicherheit
+
+**Deutscher Titel:** Auf meiner Seite
+**Englischer Titel:** On My Side
+**Datei DE:** Auf-meiner-Seite.mp3
+**Datei EN:** on-my-side.mp3
+**Zuordnung:** Situation 7
+
+---
+
+### Klangwelt 8: Entscheidungszweifel & inneres Schwanken
+
+**Deutscher Titel:** Der stille See
+**Englischer Titel:** The Still Lake
+**Datei DE:** Der-stille-See.mp3
+**Datei EN:** the-still-lake.mp3
+**Zuordnung:** Situation 8
+
+---
+
+### Klangwelt 9: Übergang, Wandel & Neubeginn
+
+**Deutscher Titel:** Ein Schritt
+**Englischer Titel:** One Step
+**Datei DE:** Ein-Schritt.mp3
+**Datei EN:** one-step.mp3
+**Zuordnung:** Situation 9
+
+---
+
+### Klangwelt 10: Angst & innere Sicherheit
+
+**Deutscher Titel:** Nach dem Gewitter
+**Englischer Titel:** After the Storm
+**Datei DE:** Nach-dem-Gewitter.mp3
+**Datei EN:** after-the-storm.mp3
+**Zuordnung:** Situation 10
+
+---
+
+### Klangwelt 11: Konflikte & innerer Frieden
+
+**Deutscher Titel:** Durch das Fenster
+**Englischer Titel:** Through the Window
+**Datei DE:** durch-das-fenster.mp3
+**Datei EN:** through-the-window.mp3
+**Zuordnung:** Situation 11
+
+---
