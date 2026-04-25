@@ -1385,3 +1385,155 @@ down here, I'm never quite alone.
 Clarity may show itself at your own pace.
 
 ---
+
+### Situation 9: Übergang, Wandel & Neubeginn
+
+**Kurzbeschreibung:** Wenn sich etwas Neues andeutet.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht verändert sich etwas.
+Ganz leise.
+
+Dein Körper ist anwesend.
+Dein Atem begleitet dich.
+
+**Englisch:**
+
+You are here.
+
+Perhaps something is changing.
+Very quietly.
+
+Your body is present.
+Your breath accompanies you.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Übergänge bringen Bewegung.
+Veränderung geschieht im eigenen Tempo.
+
+Diese Impulse unterstützen dich dabei,
+dem Wandel ruhig zu begegnen
+und Vertrauen zu spüren.
+
+**Englisch:**
+
+Transitions bring movement.
+Change happens at its own pace.
+
+These impulses support you
+in meeting change with calm
+and feeling trust.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Veränderung geschieht in meinem Tempo.
+- Ich öffne mich für Neues.
+- Mein Weg entfaltet sich.
+
+**Englisch:**
+- Change happens at my own pace.
+- I open myself to what is new.
+- My path is unfolding.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre deinen festen Stand.
+3. Atme ruhig ein und aus.
+4. Stelle dir einen inneren Kreis vor – das Vertraute.
+5. Mache innerlich einen sanften Schritt hinaus.
+6. Spüre den neuen Raum.
+7. Sage innerlich: „Ich öffne mich für einen neuen Abschnitt."
+8. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel your steady grounding.
+3. Breathe calmly in and out.
+4. Imagine an inner circle – the familiar.
+5. Take a gentle step outward in your mind.
+6. Feel the new space.
+7. Say inwardly: "I open myself to a new chapter."
+8. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Nimm dieses Gefühl behutsam mit in deinen weiteren Weg.
+
+**Englisch:** ✨ Carry this feeling gently into your continuing journey.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Die Kunst des Loslassens und Neu-Anfangens
+
+Der Anthropologe Victor Turner nannte Übergänge Schwellenzustände (Liminalität): Phasen, in denen das Alte nicht mehr gilt und das Neue noch nicht greifbar ist. Wir sind am verletzlichsten, aber auch am offensten für Transformation.
+
+Unser Gehirn liebt Vorhersagbarkeit. Veränderung aktiviert die Amygdala. Deshalb fühlen sich selbst gewollte Veränderungen oft bedrohlich an. Das ist normal.
+
+In der japanischen Tradition gibt es Wabi-Sabi: die Schönheit des Vergänglichen. Übergänge sind Wabi-Sabi-Momente. Nicht perfekt, nicht glatt, aber roh und echt.
+
+Der wichtigste Begleiter ist Vertrauen. Nicht dass alles gut wird, sondern dass du fähig bist, mit dem umzugehen, was kommt.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Ein Schritt
+**Englischer Titel:** One Step
+**Audiodatei DE:** Ein-Schritt.mp3
+**Audiodatei EN:** one-step.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+The door falls shut, the silence stays,
+what once was clear now hides in haze.
+Before me: fog, so soft and wide,
+but underneath — my feet decide.
+
+*Chorus:*
+One step, just one, that's all I need,
+the road appears beneath my feet.
+I leave the old behind, let go,
+and softly whisper: Here I go.
+
+*Verse 2:*
+The wind is turning, the air grows clear,
+what held me close reveals what's dear:
+not safety, not control, oh no,
+it was trust that helped me grow.
+
+*Bridge:*
+And if I fall, I'll fall like rain,
+the earth will catch me once again.
+No path was wrong, no step too far,
+I've always been my own North Star.
+
+*Outro (gesprochen):*
+Carry this feeling gently into your journey.
+
+---
