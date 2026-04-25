@@ -931,3 +931,155 @@ the love I've hidden deep inside.
 You are not alone with this feeling.
 
 ---
+
+### Situation 6: Innere Leere & Orientierungslosigkeit
+
+**Kurzbeschreibung:** Wenn innen wenig greifbar ist.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht fühlt sich innen gerade wenig an.
+Oder still.
+
+Auch dieser Zustand gehört dazu.
+
+**Englisch:**
+
+You are here.
+
+Perhaps there is little to feel inside right now.
+Or stillness.
+
+This state belongs too.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Innere Leere zeigt einen Übergang.
+Altes klingt aus.
+Neues formt sich langsam.
+
+Diese Impulse unterstützen dich dabei,
+im Jetzt zu bleiben
+und dir Zeit zu erlauben.
+
+**Englisch:**
+
+Inner emptiness signals a transition.
+The old is fading.
+Something new is slowly forming.
+
+These impulses support you
+in staying in the present
+and allowing yourself time.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich bin im Übergang.
+- Zeit ist auf meiner Seite.
+- Klarheit wächst in mir.
+
+**Englisch:**
+- I am in transition.
+- Time is on my side.
+- Clarity is growing within me.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße auf den Boden.
+2. Spüre deinen Stand.
+3. Atme ruhig ein und aus.
+4. Nimm die Stille wahr.
+5. Lege eine Hand auf dein Herz oder deinen Bauch.
+6. Spüre deinen Atem dort.
+7. Sage innerlich: „Ich darf mir Zeit lassen."
+8. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet on the floor.
+2. Feel your grounding.
+3. Breathe calmly in and out.
+4. Notice the stillness.
+5. Place one hand on your heart or belly.
+6. Feel your breath there.
+7. Say inwardly: "I may allow myself time."
+8. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Auch diese Phase darf ihren eigenen Rhythmus haben.
+
+**Englisch:** ✨ This phase too may have its own rhythm.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Die Stille zwischen den Kapiteln
+
+Innere Leere wird oft als beängstigend empfunden, weil wir in einer Kultur leben, die ständige Stimulation feiert. Doch Leere ist kein Mangel. Sie ist ein Übergang. Ein Raum zwischen dem, was war, und dem, was kommen will.
+
+In der Gestalttherapie wird dieser Zustand als fruchtbare Leere beschrieben: ein Punkt, an dem alte Muster sich aufgelöst haben und neue noch nicht sichtbar sind. Wie ein Samen, der unter der Erde keimt.
+
+Orientierungslosigkeit ist die Abwesenheit von vertrauten Bezugspunkten. Das ist unangenehm, aber es ist auch ein Zeichen dafür, dass du dich weiterentwickelst.
+
+Der wichtigste Rat: Versuche nicht, die Leere zu füllen. Halte den Raum offen und vertraue darauf, dass Klarheit sich zeigen wird.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Zwischen den Welten
+**Englischer Titel:** Between the Worlds
+**Audiodatei DE:** Zwischen-den-Welten.mp3
+**Audiodatei EN:** between-the-worlds.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+No road ahead, no yesterday,
+the map is blank, the colours grey.
+But something in me whispers low:
+Trust the space, it's where you grow.
+
+*Chorus:*
+Between the worlds, I find my home,
+the silence breathes me, I'm not alone.
+I need no plan, no map, no sign,
+I'm already here, I'm already mine.
+
+*Verse 2:*
+A light, so faint, in the unknown,
+it glows so softly, I'm not alone.
+I do not chase, I only wait,
+and slowly find my own heartbeat.
+
+*Bridge:*
+Maybe emptiness is not a void,
+maybe it's a seed not yet deployed.
+The winter holds the spring inside,
+and in the dark, the stars still guide.
+
+*Outro (gesprochen):*
+This phase may have its own rhythm.
+
+---
