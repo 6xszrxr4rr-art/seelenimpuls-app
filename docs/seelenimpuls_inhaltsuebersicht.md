@@ -1233,3 +1233,155 @@ I am whole, I am my own.
 This trust may continue to grow within you.
 
 ---
+
+### Situation 8: Entscheidungszweifel & inneres Schwanken
+
+**Kurzbeschreibung:** Wenn du zwischen Optionen pendelst.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht bewegt sich etwas in dir.
+Hin und her.
+
+Dein Körper bleibt ruhig.
+Deine Mitte ist da.
+
+**Englisch:**
+
+You are here.
+
+Perhaps something is moving in you.
+Back and forth.
+
+Your body stays calm.
+Your centre is here.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Inneres Schwanken entsteht,
+wenn Klarheit noch reift.
+
+Diese Impulse unterstützen dich dabei,
+Geduld zuzulassen
+und deiner inneren Mitte zu vertrauen.
+
+**Englisch:**
+
+Inner wavering arises
+when clarity is still ripening.
+
+These impulses support you
+in allowing patience
+and trusting your inner centre.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich lasse mir Zeit.
+- Stimmigkeit entsteht.
+- Klarheit darf reifen.
+
+**Englisch:**
+- I allow myself time.
+- Alignment is forming.
+- Clarity may ripen.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre beide Füße gleichzeitig.
+3. Atme ruhig ein und aus.
+4. Lege eine Hand auf deinen Bauch.
+5. Spüre deine Mitte.
+6. Sammle dich dort.
+7. Sage innerlich: „Ich bleibe ruhig in meiner Mitte."
+8. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel both feet at the same time.
+3. Breathe calmly in and out.
+4. Place one hand on your belly.
+5. Feel your centre.
+6. Gather yourself there.
+7. Say inwardly: "I remain calm in my centre."
+8. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Klarheit darf sich in deinem Tempo zeigen.
+
+**Englisch:** ✨ Clarity may show itself at your own pace.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Wenn der Kopf nicht weiß, was das Herz längst fühlt
+
+Entscheidungszweifel entstehen selten, weil zu wenig Informationen vorliegen. Meistens wissen wir bereits, was sich richtig anfühlt, aber wir trauen diesem Wissen nicht.
+
+Neurowissenschaftler wie António Damasio haben gezeigt, dass gute Entscheidungen nicht rein rational getroffen werden. Emotionen und Körpersignale (somatische Marker) spielen eine zentrale Rolle.
+
+Das Problem beim Schwanken ist die Angst vor der falschen Entscheidung. Doch es gibt in den meisten Lebenssituationen keine objektiv falsche Entscheidung. Es gibt Wege, die unterschiedliche Erfahrungen ermöglichen.
+
+Frage: Welche Entscheidung kann ich am besten tragen? Welche fühlt sich in meinem Körper am ruhigsten an?
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Der stille See
+**Englischer Titel:** The Still Lake
+**Audiodatei DE:** Der-stille-See.mp3
+**Audiodatei EN:** the-still-lake.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+Left or right, ahead or back,
+my mind keeps spinning on its track.
+But under all the noise and doubt,
+there's something still that waits throughout.
+
+*Chorus:*
+There is a lake inside of me, so deep and clear,
+it holds the answer I've been waiting to hear.
+I dive below, I leave the waves above,
+and in the deep, I find what I'm made of.
+
+*Verse 2:*
+I don't need to know, not now, not yet,
+the way reveals what I can't forget.
+No right, no wrong, just: feel it through,
+and suddenly, I know what's true.
+
+*Bridge:*
+The stones they throw won't reach this deep,
+the arguments can go to sleep.
+Down here, there's only breath and bone,
+down here, I'm never quite alone.
+
+*Outro (gesprochen):*
+Clarity may show itself at your own pace.
+
+---
