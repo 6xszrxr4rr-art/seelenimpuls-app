@@ -2069,3 +2069,327 @@ can reach.
 Akzentfarbe: Terrakotta (#C4977A)
 
 ---
+
+## Teil 5: Arbeitsblätter
+
+11 interaktive Reflexions-Arbeitsblätter (Premium). Antworten werden lokal im Browser gespeichert. Jedes Arbeitsblatt enthält ein Eingangs-Zitat, Abschnitte mit Fragen, Checklisten und Freitextfeldern.
+
+---
+
+### Arbeitsblatt 1: Innere Unruhe & Gedankenkarussell
+
+**Zitat:** „Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen."
+
+**Abschnitt 1 – Tagesverlauf:**
+- Morgens: [Freitextfeld]
+- Tagsüber: [Freitextfeld]
+- Abends: [Freitextfeld]
+
+**Abschnitt 2 – Was liegt unter der Unruhe?**
+Frage: Was brauche ich gerade wirklich?
+Optionen (Mehrfachauswahl):
+- Klarheit über eine bestimmte Situation
+- Zugehörigkeit / Verbindung
+- Sicherheit / Kontrolle
+- Ruhe / Abstand
+- Etwas anderes: [Freitextfeld]
+
+**Abschnitt 3 – Mein Gedankenkarussell:**
+Schreibe die 3 Gedanken auf, die sich am häufigsten wiederholen:
+1. [Freitextfeld]
+2. [Freitextfeld]
+3. [Freitextfeld]
+Frage: Welches Bedürfnis steckt hinter diesen Gedanken? [Textfeld]
+
+**Abschnitt 4 – Mein Anker-Satz:**
+Wähle einen Satz, den du dir in Momenten der Unruhe sagen kannst:
+- Ich bin hier. Ich bin sicher.
+- Meine Gedanken sind nicht ich.
+- Ich darf langsam werden.
+- Mein eigener Satz: [Freitextfeld]
+
+---
+
+### Arbeitsblatt 2: Überforderung & innerer Druck
+
+**Zitat:** „Entlastung beginnt mit einer bewussten Entscheidung. Ich muss jetzt nicht alles lösen."
+
+**Abschnitt 1 – Brain Dump:**
+Schreibe ALLES auf, was dich gerade beschäftigt. Ohne Ordnung, ohne Bewertung: [großes Textfeld]
+
+**Abschnitt 2 – Sortierung:**
+Zwei-Spalten-Tabelle:
+- Spalte A: Wirklich dringend (heute/morgen)
+- Spalte B: Kann warten (diese Woche+)
+
+Zweite Tabelle:
+- Spalte A: Meine Aufgabe
+- Spalte B: Erwartung anderer
+
+**Abschnitt 3 – Überforderungs-Check:**
+Wie überfordert fühlst du dich gerade? [Schieberegler: gar nicht → extrem]
+Frage: Was wäre EIN kleiner Schritt, der jetzt Entlastung bringt? [Freitextfeld]
+
+**Abschnitt 4 – Üben: Nein sagen:**
+Wozu könntest du diese Woche Nein sagen?
+1. [Freitextfeld]
+2. [Freitextfeld]
+
+---
+
+### Arbeitsblatt 3: Anspannung & inneres Festhalten
+
+**Zitat:** „Lösung geschieht nicht durch Willenskraft, sondern durch Sicherheit."
+
+**Abschnitt 1 – Körper-Scan:**
+Markiere oder notiere, wo du Anspannung spürst:
+Optionen (Mehrfachauswahl):
+- Stirn / Schläfen
+- Kiefer / Zähne
+- Nacken / Schultern
+- Brustkorb / Zwerchfell
+- Bauch / Becken
+- Hände / Fäuste
+- Beine / Füße
+- Andere Stelle: [Freitextfeld]
+
+**Abschnitt 2 – Spannungs-Tagebuch (3 Tage):**
+- Tag 1 – Situation: [Freitextfeld]
+- Tag 1 – Körperstelle: [Freitextfeld]
+- Tag 2 – Situation: [Freitextfeld]
+- Tag 2 – Körperstelle: [Freitextfeld]
+- Tag 3 – Situation: [Freitextfeld]
+- Tag 3 – Körperstelle: [Freitextfeld]
+
+**Abschnitt 3 – Meine Lösungs-Strategie:**
+Was hilft mir, loszulassen?
+Optionen (Mehrfachauswahl):
+- Langsames, tiefes Atmen
+- Progressive Muskelentspannung
+- Warmes Bad / warme Dusche
+- Sanfte Bewegung / Stretching
+- Berührung / Selbstumarmung
+- Eigene Methode: [Freitextfeld]
+
+---
+
+### Arbeitsblatt 4: Erschöpfung & fehlende Kraft
+
+**Zitat:** „Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun."
+
+**Abschnitt 1 – Energie-Check:**
+Wie voll ist dein Energie-Tank gerade? [Schieberegler: leer → voll]
+
+**Abschnitt 2 – Energie-Diebe:**
+Was kostet dich Kraft, ohne dir etwas zurückzugeben?
+- Menschen: [Freitextfeld]
+- Gewohnheiten: [Freitextfeld]
+- Situationen: [Freitextfeld]
+
+**Abschnitt 3 – Energie-Quellen:**
+Was gibt dir Kraft? Was füllt dich auf?
+1. [Freitextfeld]
+2. [Freitextfeld]
+
+**Abschnitt 4 – Echte Ruhe vs. Ablenkung:**
+Zwei-Spalten-Tabelle:
+- Spalte A: Echte Ruhe (nährt mich)
+- Spalte B: Ablenkung (betäubt mich)
+Frage: Wann habe ich zuletzt wirklich geruht (ohne Bildschirm)? [Freitextfeld]
+
+**Abschnitt 5 – Mein Ruhe-Versprechen:**
+Ich erlaube mir jeden Tag ___ Minuten echtes Nichtstun. [Freitextfeld]
+
+---
+
+### Arbeitsblatt 5: Traurigkeit & leise Schwere
+
+**Zitat:** „Traurigkeit zeigt uns, was uns wirklich wichtig ist."
+
+**Abschnitt 1 – Brief an meine Traurigkeit:**
+Schreibe einen Brief an deine Traurigkeit. Beginne mit: „Liebe Traurigkeit, ich sehe dich …" [großes Textfeld]
+
+**Abschnitt 2 – Was möchte die Traurigkeit mir zeigen?**
+- Was vermisse ich? [Freitextfeld]
+- Was wurde nie ausgesprochen? [Freitextfeld]
+- Was braucht gerade Raum? [Freitextfeld]
+
+**Abschnitt 3 – Mein Halt:**
+Was oder wer gibt mir Halt, wenn ich traurig bin?
+1. [Freitextfeld]
+2. [Freitextfeld]
+
+---
+
+### Arbeitsblatt 6: Innere Leere & Orientierungslosigkeit
+
+**Zitat:** „Leere ist kein Mangel. Sie ist ein Übergang."
+
+**Abschnitt 1 – Absichtsloses Tun:**
+Probiere diese Woche bewusst Dinge OHNE Ziel. Notiere, wie es sich anfühlt:
+- Spazieren ohne Ziel: [Freitextfeld]
+- Malen / Zeichnen ohne Ergebnis: [Freitextfeld]
+- Musik hören ohne etwas zu suchen: [Freitextfeld]
+
+**Abschnitt 2 – Erinnerung an dein wahres Selbst:**
+- Was hat mich als Kind fasziniert? [Freitextfeld]
+- Welche Träume habe ich aufgegeben? [Freitextfeld]
+- Wer war ich, bevor ich wurde, was andere erwarteten? [Textfeld]
+
+**Abschnitt 3 – Mein innerer Kompass:** [Textfeld]
+
+**Abschnitt 4:**
+Wenn ich ganz still werde, spüre ich: [Textfeld]
+
+---
+
+### Arbeitsblatt 7: Selbstzweifel & innere Unsicherheit
+
+**Zitat:** „Du kannst dem inneren Kritiker zuhören, ohne ihm zu glauben."
+
+**Abschnitt 1 – Mein innerer Kritiker:**
+Welche Sätze sagt er am häufigsten? [Textfeld]
+Gib ihm einen Namen (z.B. „Herr Zweifel", „die strenge Lehrerin"): [Freitextfeld]
+
+**Abschnitt 2 – Woher kommt diese Stimme?**
+Von wem habe ich diese Sätze zuerst gehört? [Freitextfeld]
+
+**Abschnitt 3 – Erfolgs-Tagebuch (7 Tage):**
+Schreibe jeden Abend 3 Dinge auf, die du heute geschafft hast:
+- Tag 1: [Textfeld]
+- Tag 2: [Textfeld]
+- Tag 3: [Textfeld]
+- Hinweis: Tag 4–7: Notiere die weiteren Tage für dich.
+
+**Abschnitt 4 – Mein Gegen-Satz:**
+Formuliere einen Satz, der den Kritiker entkräftet:
+Statt: [Freitextfeld] → Jetzt: [Freitextfeld]
+
+---
+
+### Arbeitsblatt 8: Entscheidungszweifel & inneres Schwanken
+
+**Zitat:** „Es gibt keine falsche Entscheidung. Nur Wege, die unterschiedliche Erfahrungen ermöglichen."
+
+**Abschnitt 1 – Meine aktuelle Entscheidung:**
+Worum geht es? [Freitextfeld]
+
+**Abschnitt 2 – Option A vs. Option B:**
+Zwei-Spalten-Tabelle: Option A / Option B [Freitextfelder]
+[Textfeld für weitere Gedanken]
+
+**Abschnitt 3 – Körper-Check:**
+Stelle dir jeden Weg vor und spüre in deinen Körper:
+Option A fühlt sich an wie (Mehrfachauswahl): Weite / Öffnung · Enge / Druck · Ruhe · Unruhe · Neutral
+Option B fühlt sich an wie (Mehrfachauswahl): Weite / Öffnung · Enge / Druck · Ruhe · Unruhe · Neutral
+
+**Abschnitt 4 – Die Münzwurf-Frage:**
+Wirf eine Münze. In dem Moment, wo sie in der Luft ist: [Freitextfeld]
+Was hast du dir gewünscht, dass sie zeigt? [Freitextfeld]
+
+**Abschnitt 5 – Die angstfreie Frage:**
+Welche Entscheidung würde ich treffen, wenn ich wüsste, dass es kein Scheitern gibt? [Textfeld]
+
+---
+
+### Arbeitsblatt 9: Übergang, Wandel & Neubeginn
+
+**Zitat:** „Vertrauen wächst durch die Erinnerung an alle Übergänge, die du bereits gemeistert hast."
+
+**Abschnitt 1 – Meine bisherigen Übergänge:**
+Liste alle großen Veränderungen auf, die du bereits durchlebt hast:
+1. [Freitextfeld]
+2. [Freitextfeld]
+3. [Freitextfeld]
+Hinweis: Bei jedem einzelnen wusstest du am Anfang nicht, wie es ausgeht. Und doch bist du hier.
+
+**Abschnitt 2 – Abschiedsritual:**
+Zwei-Spalten-Tabelle: Was ich mitnehme / Was ich zurücklasse [je 3 Zeilen]
+
+**Abschnitt 3 – Brief an mein zukünftiges Ich:**
+Schreibe dir selbst einen Brief aus der Perspektive von 1 Jahr später: [großes Textfeld]
+
+**Abschnitt 4 – Mein Vertrauens-Satz:** [Freitextfeld]
+
+**Abschnitt 5:**
+Ich bin bereit, weil: [Textfeld]
+
+---
+
+### Arbeitsblatt 10: Angst & innere Sicherheit
+
+**Zitat:** „Nach der Angst kommt immer Stille. Es wird immer ruhig danach."
+
+**Abschnitt 1 – Angst-Landkarte:**
+Schreibe deine Ängste auf und ordne sie ein:
+Zwei-Spalten-Tabelle: Reale Bedrohung / Vorgestellte Bedrohung [je 3 Zeilen]
+Hinweis: Die meisten Ängste fallen in die rechte Spalte. Das macht sie nicht weniger real, aber es verändert den Umgang.
+
+**Abschnitt 2 – Meine Angst-Symptome:**
+Wie zeigt sich Angst in meinem Körper?
+Optionen (Mehrfachauswahl):
+- Herzklopfen
+- Enge in der Brust
+- Flacher Atem
+- Schweißausbrüche
+- Übelkeit
+- Weiche Knie
+- Gedächtnisleere
+- Anderes: [Freitextfeld]
+
+**Abschnitt 3 – 5-4-3-2-1 Notfall-Übung:**
+Fülle aus, wenn Angst akut wird:
+- 5 Dinge, die ich SEHE: [Freitextfeld]
+- 4 Dinge, die ich HÖRE: [Freitextfeld]
+- 3 Dinge, die ich BERÜHREN kann: [Freitextfeld]
+- 2 Dinge, die ich RIECHE: [Freitextfeld]
+- 1 Ding, das ich SCHMECKE: [Freitextfeld]
+
+**Abschnitt 4 – Mein Sicherheits-Anker:**
+Was gibt mir sofort ein Gefühl von Sicherheit? [Textfeld]
+
+---
+
+### Arbeitsblatt 11: Konflikte & innerer Frieden
+
+**Zitat:** „Der wichtigste Schritt in jedem Konflikt ist nicht die Lösung, sondern die Pause."
+
+**Abschnitt 1 – Mein aktueller Konflikt:**
+Beschreibe kurz die Situation (ohne Bewertung, nur Fakten): [Textfeld]
+
+**Abschnitt 2 – Was fühle ich wirklich?**
+Was war mein erstes Gefühl – noch bevor ich etwas gesagt habe?
+Optionen (Mehrfachauswahl): Wut · Trauer · Angst · Scham · Hilflosigkeit · Enttäuschung
+Anderes: [Freitextfeld]
+
+**Abschnitt 3 – Was brauche ich eigentlich?**
+Welches Bedürfnis steht hinter meinem Gefühl?
+Optionen (Mehrfachauswahl): Gehört werden · Respekt · Sicherheit · Zugehörigkeit · Autonomie · Anerkennung · Ehrlichkeit · Nähe
+Anderes: [Freitextfeld]
+
+**Abschnitt 4 – Rosenberg-Übersetzung:**
+- Was die andere Person gesagt/getan hat: [Textfeld]
+- Was sie damit vielleicht eigentlich gemeint hat: [Textfeld]
+- Was ICH eigentlich sagen wollte: [Textfeld]
+- Was ich damit eigentlich brauche: [Textfeld]
+
+**Abschnitt 5 – Die 90-Sekunden-Regel:**
+Probiere diese Woche: Wenn du getriggert wirst, warte 90 Sekunden. Notiere deine Erfahrung:
+- Situation: [Freitextfeld]
+- Was ich normalerweise sofort gesagt/getan hätte: [Freitextfeld]
+- Was ich nach 90 Sekunden stattdessen getan habe: [Textfeld]
+- Wie hat sich das angefühlt? [Textfeld]
+
+**Abschnitt 6 – Körper-Check im Konflikt:**
+Wo spüre ich den Konflikt in meinem Körper?
+Optionen (Mehrfachauswahl): Kiefer/Zähne zusammengepresst · Schultern hochgezogen · Enge in der Brust · Hitze im Gesicht · Knoten im Bauch · Kloß im Hals · Flaue Knie · Zitternde Hände
+Anderes: [Freitextfeld]
+
+**Abschnitt 7 – Mein Friedens-Satz:**
+Wähle oder formuliere einen Satz für Konfliktsituationen:
+- Frieden beginnt in mir.
+- Ich muss nicht gewinnen, um wertvoll zu sein.
+- Ich antworte aus der Stille, nicht aus dem Sturm.
+- Mein eigener Satz: [Freitextfeld]
+
+---
