@@ -2830,3 +2830,272 @@ Im Code existieren keine Push-Notification-APIs, keine `requestPermission()`-Auf
 > Tippe auf das **Teilen-Symbol ⬆️** in Safari  
 > und dann auf **„Zum Home-Bildschirm"**.
 
+
+---
+
+## Teil 8: Auffälligkeiten
+
+*Kritische Befunde aus dem Code-Scan, strukturiert nach Kategorie. Alle Einträge sind mit konkreter Quelle belegt.*
+
+---
+
+### 8.1 Fehlende Übersetzungen (EN)
+
+#### 8.1.1 Tiefgang-Texte immer auf Deutsch
+
+**Befund:** Kein einziges `tiefgangText_en`-Feld existiert in den 11 Situationsdateien. Die Fallback-Logik (`t('tiefgangText')`) zeigt deutschen Text, wenn `tiefgangText_en` fehlt.
+
+**Auswirkung:** Englischsprachige Nutzer lesen die Tiefgang-Texte (Modul 6) immer auf Deutsch — obwohl alle anderen Module vollständig übersetzt sind.
+
+**Betrifft:** Alle 11 Situationen (`situation-1.js` bis `situation-11.js`)
+
+---
+
+#### 8.1.2 Arbeitsblätter komplett ohne EN-Übersetzung
+
+**Befund:** Die `WORKSHEETS`-Datenstruktur in `app.js` enthält ausschließlich deutschsprachige Titel, Abschnittsüberschriften, Fragen, Optionslisten und Labels. Es gibt kein einziges englisches Äquivalent (`title_en`, `heading_en`, `label_en` o.ä.).
+
+**Auswirkung:** Das gesamte Arbeitsblatt-Modul ist für englischsprachige Nutzer auf Deutsch — trotz vollständiger UI-Übersetzung.
+
+**Betrifft:** Alle 11 Arbeitsblätter (`WORKSHEETS[1]` bis `WORKSHEETS[11]`)
+
+---
+
+#### 8.1.3 Hint-Felder in Situationsdateien nur auf Deutsch
+
+**Befund:** Das `hint`-Feld in allen Situationsdateien ist ausschließlich auf Deutsch (z.B. `"Tippe hier, wenn Gedanken kreisen und Ruhe fehlt."`). Ein `hint_en`-Feld gibt es in keiner Datei.
+
+**Hinweis:** Diese längeren Hints aus den Situationsdateien werden im aktuellen UI nicht angezeigt — stattdessen werden kürzere, in `index.html` hinterlegte Inline-Hints (mit `data-de`/`data-en`) gezeigt. Die Situationsdatei-Hints sind damit redundantes, ungenutztes Metadaten-Feld.
+
+---
+
+#### 8.1.4 Premium-Overlay und Restore-Dialog nur auf Deutsch
+
+**Befund:** Die Funktionen `showUpgradePrompt()` und `showRestoreAccess()` in `app.js` (ab Zeile 1425) bauen ihren HTML-Content vollständig in hartkodiertem Deutsch zusammen. Kein einziger Text in diesen Overlays ist sprachabhängig.
+
+**Auswirkung:** Englischsprachige Nutzer sehen Bezahl-Aufforderung, Feature-Liste und Restore-Dialog komplett auf Deutsch.
+
+---
+
+#### 8.1.5 Willkommens- und Gift-Nachrichten nur auf Deutsch
+
+**Befund:** Zeilen 189–190 in `app.js`:
+
+```
+'<h3 class="gift-title">' + (name ? 'Willkommen, ' + name + '!' : 'Willkommen!') + '</h3>'
+'<p class="gift-msg">Du hast exklusiven Zugang zu allen Inhalten freigeschaltet...'
+```
+
+Auch die Bestätigung nach Bezahlung (`showPaymentSuccess()`) ist ausschließlich auf Deutsch.
+
+---
+
+#### 8.1.6 Ko-fi-Navigationslink ohne EN-Übersetzung
+
+**Befund:** `index.html`, Zeile 1612:
+```html
+<a href="https://ko-fi.com/seelenimpuls" … class="nav-item">☕&nbsp;&nbsp;Diese Arbeit unterstützen</a>
+```
+Kein `data-de`/`data-en` — einziger Navigationslink ohne Sprachattribut.
+
+---
+
+#### 8.1.7 Premium-Song-Abspielbutton im Sessionfluss hartkodiert Deutsch
+
+**Befund:** `app.js`, Zeile 1922:
+```js
+pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' abspielen</span>';
+```
+Das Wort `abspielen` ist hartkodiert und nicht über `ui[lang]` gesteuert.
+
+**Auswirkung:** Englischsprachige Nutzer sehen den Button mit deutschem Label.
+
+---
+
+#### 8.1.8 Song-Liedtexte nur auf Englisch
+
+**Befund:** Alle 11 Situationsdateien enthalten `songLyrics_en` — aber kein `songLyrics_de`. Im Session-Code wird explizit `const lyrics = s.songLyrics_en;` abgerufen (Zeile 1907), unabhängig von der gewählten Sprache.
+
+**Auswirkung:** Die angezeigten Liedtexte sind immer auf Englisch, auch wenn die App auf Deutsch eingestellt ist. Deutsche Liedtexte existieren nicht als strukturierte Daten im Code.
+
+---
+
+#### 8.1.9 Meditationsmetadaten nur auf Englisch
+
+**Befund:** Situation 11 enthält:
+```js
+guidedMeditationTitle_en: "Finding Peace in Conflict"
+guidedMeditationDuration_en: "12–15 minutes"
+```
+Kein `guidedMeditationTitle_de` oder `guidedMeditationDuration_de`.
+
+---
+
+### 8.2 Inhaltliche Inkonsistenzen
+
+#### 8.2.1 Affirmationskarte 4 (Erschöpfung): DE und EN transportieren verschiedene Botschaften
+
+**Befund:** `app.js`, Zeilen 509–510:
+
+| Sprache | Text |
+|---------|------|
+| DE | „Tief in mir brennt ein goldenes Licht. Es erlischt nicht." |
+| EN | „I am not empty — I am just finding my way free." |
+
+Die deutsche Version nutzt die Metapher des inneren Lichts (Hoffnung, Ressource). Die englische Version ist eine Selbstaussage zur Leere (Verneinung + Aufbruch). Beide Botschaften sind therapeutisch sinnvoll, aber inhaltlich nicht deckungsgleich — ein Nutzer, der beide Sprachen kennt, erhält zwei verschiedene Kernaussagen.
+
+---
+
+#### 8.2.2 Affirmationskarte 2 (Überforderung): EN um Schlüsselsatz verkürzt
+
+**Befund:** `app.js`, Zeilen 501–502:
+
+| Sprache | Text |
+|---------|------|
+| DE | „Nicht alles muss heute gelöst sein. Dieser Moment ist genug." |
+| EN | „Not everything needs to be solved today." (letzter Satz fehlt) |
+
+„Dieser Moment ist genug" ist ein zentrales Mantra der App. Das EN-Äquivalent fehlt.
+
+---
+
+#### 8.2.3 Affirmationskarte 10 (Angst): EN auf 2 Zeilen verkürzt
+
+**Befund:** `app.js`, Zeilen 533–534:
+
+| Sprache | Text |
+|---------|------|
+| DE | „Nach dem Gewitter wird es still. Es wird immer still danach." |
+| EN | „After the storm, it all grows still." (zweiter Satz fehlt) |
+
+Der zweite Satz „Es wird immer still danach" vermittelt zeitlose Gewissheit — ein wesentlicher Inhalt, der im EN fehlt.
+
+---
+
+#### 8.2.4 Affirmationskarte 11 fehlt vollständig in CARD_DATA
+
+**Befund:** `CARD_DATA` in `app.js` enthält nur die Einträge `nr:1` bis `nr:10`. Für Situation 11 (Konflikte & innerer Frieden) existiert keine Karte. `SONG_DATA` enthält dagegen korrekt alle 11 Einträge.
+
+**Auswirkung:** Der Affirmationskarten-Grid zeigt 10 Karten. Situation 11 hat keine zugehörige Karte — obwohl ein Kartentext im Code-Kommentar beschrieben ist (`In mir ist ein Ort, den kein Streit erreicht.`).
+
+**Hinweis:** Der Text für eine Karte 11 existiert in der Dokumentation (Teil 4 dieser Datei), wurde aber nie in `CARD_DATA` eingetragen.
+
+---
+
+#### 8.2.5 Premium-Preview zeigt falsche Inhaltszahlen
+
+**Befund:** `index.html`, Zeilen 1400 / 1422 / 1432:
+
+| Angezeigter Text | Tatsächlicher Bestand |
+|------------------|-----------------------|
+| „📝 10 Reflexions-Arbeitsblätter" | 11 Arbeitsblätter vorhanden |
+| „+ 9 weitere Karten enthalten" | 10 weitere Karten vorhanden (11 gesamt, aber Karte 11 fehlt in CARD_DATA) |
+| „+ 9 weitere Arbeitsblätter enthalten" | 10 weitere vorhanden |
+
+---
+
+#### 8.2.6 Situation 10 fehlt `hint`-Feld in der Situationsdatei
+
+**Befund:** `situation-10.js` enthält kein `hint:`-Feld. Alle anderen Situationen (1–9, 11) haben es. Da der Hint aus der Situationsdatei im aktuellen UI nicht verwendet wird (stattdessen inline HTML), hat dies keine sichtbare Auswirkung — ist aber eine strukturelle Inkonsistenz.
+
+---
+
+#### 8.2.7 Zwei verschiedene Audiodateien pro Situation (songFile vs. premiumSongFile)
+
+**Befund:** Jede Situationsdatei enthält zwei Audiofelder:
+
+- `songFile`: `audio/Song-Situation-N.mp3` (generisches Schema)
+- `premiumSongFile_de`: `audio/[TitelDE].mp3` + `premiumSongFile_en`: `audio/[TitelEN].mp3` (sprachspezifisch, benannt)
+
+**Verwendung im Code:**
+- `songFile` → wird über den „Gesungene Affirmation hören"-Button im freien Sessionfluss abgespielt
+- `premiumSongFile_de/en` → wird in der Klangwelten-Galerie und als Premium-Song im Modul 7 abgespielt
+
+Es gibt also zwei separate Audiodateien pro Situation. Ob sie denselben Inhalt in unterschiedlicher Qualität oder tatsächlich verschiedene Stücke darstellen, ist aus dem Code allein nicht ersichtlich und sollte im Audit geklärt werden.
+
+---
+
+#### 8.2.8 Hint-Texte: zwei Versionen mit unterschiedlichem Inhalt
+
+**Befund:** Für jede Situation existieren zwei verschiedene Hint-Texte:
+
+1. **Situationsdatei (`hint`-Feld):** Beginnt mit „Tippe hier, wenn…" — längere Handlungsaufforderung
+   - Beispiel Situation 1: *„Tippe hier, wenn Gedanken kreisen und Ruhe fehlt."*
+2. **Inline-HTML (`index.html`, `data-de`/`data-en`):** Kurze Zustandsbeschreibung
+   - Beispiel Situation 1: *„Wenn Gedanken nicht aufhören"*
+
+Nur die HTML-Inline-Hints werden angezeigt. Die Situationsdatei-Hints sind nicht im Rendering verankert.
+
+---
+
+### 8.3 Fehlende oder unvollständige Features
+
+#### 8.3.1 Push-Notifications nicht implementiert
+
+**Befund:** Im Code existieren keine `Notification.requestPermission()`-Aufrufe, kein `PushManager`-Abonnement und kein Push-Event-Handler im Service Worker (`sw.js`). Push-Benachrichtigungen sind **nicht** vorhanden — weder technisch noch inhaltlich.
+
+**Relevanz:** Falls das Audit-Team Push-Notifications als Feature erwartet oder bewertet, ist dies ein offener Punkt.
+
+---
+
+#### 8.3.2 Geführte Meditationen nur als Platzhalter
+
+**Befund:** Von 11 geplanten Meditationen sind 0 vollständig vorhanden. Einzig Situation 11 hat einen Titel und eine Längenangabe (`guidedMeditationTitle_en`, `guidedMeditationDuration_en`) — beides nur auf Englisch. Alle anderen Situationen haben keine Meditationsdaten.
+
+**Status laut Dokumentation:** Audioaufnahmen sind in Produktion.
+
+---
+
+#### 8.3.3 Situation 11 nicht über Stimmungsauswahl erreichbar
+
+**Befund:** Die Stimmungsauswahl (`moods`-Array) enthält 10 Einträge, die auf Situationen 1–10 verweisen. Situation 11 fehlt vollständig. Nutzer können Situation 11 nur über die direkte Situationsliste oder den Bonus-Hinweis erreichen — nicht über den empfohlenen Einstieg via Mood-Check.
+
+---
+
+### 8.4 Strukturelle Auffälligkeiten
+
+#### 8.4.1 Situation 11 strukturell von 1–10 getrennt
+
+**Befund:** Situation 11 ist in mehreren Bereichen anders behandelt als 1–10:
+- In der UI-Auswahlliste mit „✨ Bonus:" vorangestellt
+- Nicht im Mood-Check-Empfehlungssystem
+- Keine Karte in CARD_DATA
+- Einzige Situation mit Meditationsmetadaten (EN-only)
+- In der Stimmungsliste fehlt ein zugehöriger Mood-Eintrag
+
+Dies scheint konzeptuell beabsichtigt (Bonus-Situation), hat aber mehrere technische Lücken.
+
+---
+
+#### 8.4.2 Affirmationskarten-Situationstitel weichen von offiziellen Titeln ab
+
+**Befund:** In `CARD_DATA` werden Kurztitel verwendet, die nicht immer mit den vollständigen Situationstiteln übereinstimmen:
+
+| CARD_DATA (en) | Offizieller Situationstitel (EN) |
+|----------------|----------------------------------|
+| „Decision Doubt" | „8) Entscheidungszweifel & inneres Schwanken" |
+| „Fear" | „10) Angst & innere Sicherheit" |
+| – | Situation 11 fehlt |
+
+---
+
+#### 8.4.3 Streifzug durch Sprach-Fallback-Logik: Inkonsistentes Muster
+
+**Befund:** Die App verwendet drei verschiedene Muster für Sprachumschaltung:
+
+1. **`ui[lang].key`** — für zentrale UI-Strings (Buttons, Labels)
+2. **`t(field)`** → prüft `field + "_en"` wenn lang=en, sonst `field` — für Situationsinhalte
+3. **`data-de` / `data-en` in HTML** — für statische UI-Elemente in index.html
+
+Felder, die nur als DE-Version ohne `_en`-Variante existieren (Tiefgang, Hint, Arbeitsblätter), fallen stillschweigend auf Deutsch zurück — ohne Warnung oder Indikator für den Nutzer.
+
+---
+
+#### 8.4.4 Klangwelt-Vorschau spielt 25 Sekunden — Dateiformat/Offset nicht im Code
+
+**Befund:** Laut UI-Text (`data-de="Höre 25 Sekunden in jede Klangwelt hinein."`) spielen die Klangwelt-Previews nur 25 Sekunden. Der Code-Mechanismus dafür (ob per `currentTime`-Limit, per Kurzversion der Datei, oder anderem Verfahren) ist im Code vorhanden, aber die Frage, ob die Audiodateien selbst gekürzt oder vollständig sind, kann aus dem Code allein nicht beantwortet werden.
+
+---
+
+*Ende der Auffälligkeitsliste. Erstellt durch automatische Code-Analyse am 25. April 2026.*
+
