@@ -1861,3 +1861,24 @@ is stay right here and just breathe through?
 You may respond from this stillness — when you are ready.
 
 ---
+
+---
+
+## Teil 3: Geführte Meditationen (Premium)
+
+Hinweis: Die geführten Meditationen sind als zukünftiges Premium-Feature geplant. Die Audioaufnahmen werden aktuell von Diana eingespielt. Im Code sind Titel und Länge für Situation 11 bereits hinterlegt; die übrigen Situationen sind als Platzhalter vorgesehen.
+
+### Meditation 1–10: In Vorbereitung
+
+Zugeordnete Situationen: 1–10
+Status: Audioaufnahmen in Produktion. Titel, Sprecher und Texte folgen nach Fertigstellung der Aufnahmen.
+
+### Meditation 11: Finding Peace in Conflict / Frieden im Konflikt finden
+
+Zugeordnete Situation: Situation 11 – Konflikte & innerer Frieden
+Titel (EN): Finding Peace in Conflict
+Geplante Länge: 12–15 Minuten
+Sprecher: Diana (Aufnahme in Vorbereitung)
+Status: Titel und Länge im Code hinterlegt. Meditationstext folgt nach Fertigstellung der Aufnahme.
+
+---
