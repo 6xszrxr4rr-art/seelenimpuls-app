@@ -299,3 +299,165 @@ You may stay in this stillness now.
 
 ---
 
+
+### Situation 2: Überforderung & innerer Druck
+
+**Kurzbeschreibung:** Wenn gerade vieles gleichzeitig da ist.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+Dein Körper darf anhalten.
+
+Vielleicht ist gerade vieles gleichzeitig da.
+Gedanken. Aufgaben. Eindrücke.
+
+Jetzt entsteht Raum.
+Du darfst hier sein.
+
+**Englisch:**
+
+You are here.
+Your body may pause.
+
+Perhaps there is much happening at once.
+Thoughts. Tasks. Impressions.
+
+Now space is opening.
+You may be here.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Überforderung entsteht,
+wenn zu viele Eindrücke gleichzeitig wirken.
+
+Dein Nervensystem sucht Übersicht
+und Entlastung im eigenen Tempo.
+
+Diese Impulse unterstützen dich dabei,
+inneren Druck sanft zu lösen
+und wieder mehr Weite zu spüren.
+
+**Englisch:**
+
+Overwhelm arises
+when too many impressions act at once.
+
+Your nervous system seeks overview
+and relief at its own pace.
+
+These impulses support you
+in gently releasing inner pressure
+and feeling more spaciousness again.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich gehe Schritt für Schritt.
+- Ich trage genau das, was jetzt stimmig ist.
+- Ich erlaube mir Raum.
+
+**Englisch:**
+- I go step by step.
+- I carry exactly what feels right now.
+- I allow myself space.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre dein Gewicht und den Halt unter dir.
+3. Atme ruhig ein.
+4. Atme langsam aus.
+5. Spüre, wo sich Druck oder Enge zeigt.
+6. Lege eine Hand auf diese Stelle.
+7. Mit jedem Ausatmen darf dort mehr Weite entstehen.
+8. Sage innerlich: „Jetzt entsteht Entlastung in mir."
+9. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel your weight and the support beneath you.
+3. Breathe calmly in.
+4. Breathe slowly out.
+5. Notice where pressure or tightness appears.
+6. Place one hand on that spot.
+7. With each exhale, more spaciousness may arise there.
+8. Say inwardly: "Relief is growing within me."
+9. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Du kannst dieses Gefühl von Weite mitnehmen.
+
+**Englisch:** ✨ You can carry this feeling of spaciousness with you.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Warum sich alles zu viel anfühlt
+
+Überforderung ist kein Zeichen von Schwäche. Sie entsteht, wenn die Summe äußerer und innerer Anforderungen die aktuell verfügbaren Ressourcen übersteigt. Das Nervensystem wechselt in einen Überlebensmodus, in dem Priorisierung und klares Denken schwieriger werden. Paradoxerweise wollen wir in diesem Zustand noch mehr tun, anstatt weniger.
+
+In der Stressforschung unterscheidet man zwischen Eustress (positivem, anregendem Stress) und Distress (belastendem, überwältigendem Stress). Überforderung markiert den Punkt, an dem Eustress in Distress kippt. Der Körper schüttet vermehrt Cortisol und Adrenalin aus, die Herzfrequenz steigt, die Verdauung verlangsamt sich, und das Denken verengt sich auf vermeintlich dringende Aufgaben.
+
+Ein wesentlicher Faktor ist der innere Kritiker: die Stimme in dir, die sagt, du müsstest mehr schaffen, schneller sein, besser funktionieren. Dieser innere Antreiber wurde oft in der Kindheit geformt und verstärkt das Gefühl der Überforderung, weil er dir signalisiert, dass Pausieren gleichbedeutend mit Versagen ist.
+
+Entlastung beginnt mit einer bewussten Entscheidung: Ich muss jetzt nicht alles lösen. Ich muss nur diesen einen Moment bewältigen. Diese Reduktion auf das Jetzt ist kein Vermeiden, sondern ein neurobiologisch wirksamer Weg, das Nervensystem zu deeskalieren.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Abgelegt
+**Englischer Titel:** Set It Down
+**Audiodatei DE:** Abgelegt.mp3
+**Audiodatei EN:** set-it-down.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+Too many voices, too many names,
+too many windows, too many frames.
+My head is full, my chest is tight,
+but something whispers: It's alright.
+
+*Chorus:*
+I set it down, just for now, just for here,
+I breathe it out and the path becomes clear.
+Not everything needs to be solved today,
+this moment is enough, I'm okay.
+
+*Verse 2:*
+My shoulders soften, my hands unfold,
+the pressure fades, I'm letting go.
+I carry only what feels right,
+the rest can wait until the light.
+
+*Bridge:*
+Enough, enough — I may rest now,
+I don't need to figure it all out.
+The ground holds me, the air is kind,
+and finally, I still my mind.
+
+*Outro (gesprochen):*
+The backpack can wait.
+
+---
