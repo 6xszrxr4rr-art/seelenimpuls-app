@@ -777,3 +777,157 @@ through silence, warmth, and letting near.
 This rest may continue to hold you.
 
 ---
+
+### Situation 5: Traurigkeit & leise Schwere
+
+**Kurzbeschreibung:** Wenn sich alles schwer anfühlt.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht liegt eine leise Schwere in dir.
+Ganz still.
+
+Dein Atem fließt.
+Du darfst fühlen.
+
+**Englisch:**
+
+You are here.
+
+Perhaps there is a quiet heaviness in you.
+Very still.
+
+Your breath flows.
+You may feel.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Traurigkeit zeigt sich oft sanft
+und braucht Halt.
+
+Diese Impulse unterstützen dich dabei,
+dem Gefühl Raum zu geben
+und getragen zu bleiben.
+
+**Englisch:**
+
+Sadness often shows itself gently
+and needs holding.
+
+These impulses support you
+in giving the feeling space
+and staying held.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Alles, was ich fühle, darf da sein.
+- Ich begegne mir mit Sanftheit.
+- Ich bin gehalten.
+
+**Englisch:**
+- Everything I feel may be here.
+- I meet myself with gentleness.
+- I am held.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre den Halt unter dir.
+3. Atme ruhig ein und aus.
+4. Nimm die Schwere wahr.
+5. Lege eine Hand auf dein Herz oder deinen Bauch.
+6. Spüre den Kontakt.
+7. Stelle dir vor, dein Atem berührt diese Stelle sanft.
+8. Sage innerlich: „Ich darf fühlen, was da ist."
+9. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel the support beneath you.
+3. Breathe calmly in and out.
+4. Notice the heaviness.
+5. Place one hand on your heart or belly.
+6. Feel the contact.
+7. Imagine your breath gently touching that spot.
+8. Say inwardly: "I may feel what is here."
+9. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Du bist mit diesem Gefühl nicht allein.
+
+**Englisch:** ✨ You are not alone with this feeling.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Traurigkeit als Tor zur Tiefe
+
+Traurigkeit gehört zu den am meisten missverstandenen Emotionen. In einer Gesellschaft, die Optimismus und Positivität belohnt, wird Traurigkeit oft als Störung wahrgenommen. Dabei ist sie eine der wichtigsten Emotionen. Sie zeigt uns, was uns wirklich wichtig ist.
+
+Neurologisch betrachtet aktiviert Traurigkeit das parasympathische Nervensystem und verlangsamt den Körper. Tränen enthalten Stresshormone, die beim Weinen aus dem Körper ausgeschieden werden. Weinen ist ein natürlicher Reinigungsprozess.
+
+Carl Gustav Jung sprach davon, dass wir das Licht nur dort finden, wo der Schatten am tiefsten ist. Traurigkeit lädt uns ein, in die Tiefe zu gehen und dort Teile von uns zu entdecken: Sehnsucht, Verletzlichkeit, Liebe.
+
+Es gibt einen wichtigen Unterschied zwischen Traurigkeit und Depression. Traurigkeit ist eine Emotion, sie kommt und geht in Wellen. Depression ist ein anhaltender Zustand, der professionelle Unterstützung erfordert.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Stiller Gast
+**Englischer Titel:** Quiet Guest
+**Audiodatei DE:** Stiller-Gast.mp3
+**Audiodatei EN:** quiet-guest.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+There is a feeling without a name,
+it's been with me, a quiet flame.
+No reason, no words, just a weight inside,
+it knocks on my heart: May I come inside?
+
+*Chorus:*
+Yes, come in, you quiet guest,
+lay down here and take your rest.
+I'll hold you close, I'll hold you true,
+even when the world won't stop for you.
+
+*Verse 2:*
+The tears may fall or they may not,
+I see myself in all I've got.
+There is no flaw, just a feeling true,
+that finally has room to move through.
+
+*Bridge:*
+And in this sadness, there's a door
+to something I've not seen before:
+a tenderness so deep and wide,
+the love I've hidden deep inside.
+
+*Outro (geflüstert):*
+You are not alone with this feeling.
+
+---
