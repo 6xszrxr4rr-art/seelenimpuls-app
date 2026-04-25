@@ -2520,3 +2520,313 @@ Zusätzlich gibt es eine freie Hintergrundmusik-Datei (stillness-space.mp3), die
 **Zuordnung:** Situation 11
 
 ---
+
+---
+
+## Teil 7: UI-Texte
+
+*Alle Texte aus dem Interface, gegliedert nach Kategorie. Wo vorhanden: Deutsch und Englisch.*
+
+---
+
+### 7.1 Buttons
+
+#### Hauptnavigation / Home-Screen
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Primär-Einstieg | Beginnen | Begin |
+| Tagesimpuls-Refresh | Neuer Impuls | New Impulse |
+| Stimmungscheck | Wie geht es dir gerade? | How are you feeling? |
+| Atemübung | 💨 Atemübung (3 min) | 💨 Breathing (3 min) |
+| Affirmationen | ❤️ Meine Affirmationen | ❤️ My Affirmations |
+| Alle Situationen | Alle Situationen | All Situations |
+| Premium entdecken | ✨ Premium entdecken | ✨ Discover Premium |
+| Klangwelten | 🎵 Klangwelten anhören | 🎵 Listen to Soundscapes |
+| Affirmationskarten | 💫 Affirmationskarten | 💫 Affirmation Cards |
+| Arbeitsblätter | 📝 Arbeitsblätter | 📝 Worksheets |
+| App installieren | 📲 App auf dem Handy installieren | 📲 Install App on your phone |
+
+#### Navigationsleiste
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Premium-Menüeintrag | ✨ Premium werden | ✨ Get Premium |
+| Datenschutz-Menüeintrag | 📋 Datenschutz & Impressum | 📋 Privacy & Legal Notice |
+| Ko-fi-Link (nur DE) | ☕ Diese Arbeit unterstützen | – |
+| Sprache DE | 🇩🇪 Deutsch | – |
+| Sprache EN | 🇬🇧 English | – |
+
+#### Situationsmodul-Buttons
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Zurück (oben) | ← Zurück | ← Back |
+| Übung beenden | ÜBUNG BEENDEN | END EXERCISE |
+| Song abspielen | 🎵 Gesungene Affirmation hören | 🎵 Listen to Sung Affirmation |
+| Atemübung-Stop | Beenden | Stop |
+| Empfehlung starten | Übung starten | Start Exercise |
+| Alle zeigen | Alle Situationen | All Situations |
+
+#### Premium-Upsell-Overlay
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Monatsabo | ✨ Monatsabo – {preis}/Monat | *(nur DE)* |
+| Jahresabo | 🌟 Jahresabo – {preis}/Jahr | *(nur DE)* |
+| Zugang wiederherstellen (Link) | Zugang bereits erworben? Wiederherstellen | *(nur DE)* |
+| Premium freischalten (Preview) | ✨ Jetzt Premium freischalten | ✨ Unlock Premium now |
+| Overlay schließen | ✕ | ✕ |
+
+#### Restore-Access-Overlay
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Aktion | Zugang prüfen | *(nur DE)* |
+| E-Mail-Placeholder | deine@email.de | *(nur DE)* |
+
+#### Update-Banner
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Hinweistext | ✨ Neue Version verfügbar | ✨ New version available |
+| Aktion | Jetzt laden | Reload now |
+
+#### iOS-Installationsmodal
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Titel | App installieren | Install App |
+| Schließen | Verstanden | Got it |
+
+---
+
+### 7.2 Navigationselemente
+
+#### Hamburger-Menü
+
+- Aria-Label öffnen: `Menü öffnen`
+- Aria-Label schließen: `Menü schließen`
+- Brand-Name im Header: `Seelenimpuls`
+- Footer: `© 2025 Seelenimpuls · Diana Thieme`
+- Sprachbezeichnung: `Sprache / Language`
+
+#### Zurück-Navigation im Situationsfluss
+
+- `← Zurück` / `← Back` (oben im Atemübungs-Screen)
+- `← Zurück zur Übersicht` (Arbeitsblatt-Unterseite, nur DE)
+- `ÜBUNG BEENDEN` / `END EXERCISE` (am Ende eines Situationsmoduls)
+
+---
+
+### 7.3 Empty States
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Favoritenliste leer | Noch keine gespeichert. Tippe ♡ bei einer Affirmation. | None saved yet. Tap ♡ on an affirmation. |
+| Tagesimpuls-Fallback | Atme tief ein. | Breathe deeply in. |
+
+---
+
+### 7.4 Fehlermeldungen und Hinweistexte
+
+| Kontext | Text |
+|---------|------|
+| Bezahlvorgang fehlgeschlagen | Fehler beim Starten des Bezahlvorgangs. Bitte versuche es erneut. |
+| Restore: Prüfung läuft | Wird geprüft… |
+| Restore: Kein Zugang gefunden | Kein aktiver Zugang für diese E-Mail gefunden. |
+| Restore: Netzwerkfehler | Fehler beim Prüfen. Bitte versuche es erneut. |
+| Atemübung: Tippen-Hinweis | Tippen = nächste Phase / Tap = next phase |
+| Affirmation favorisiert (inline-Alert) | Gespeichert / Entfernt *(dynamisch, sprachabhängig)* |
+
+---
+
+### 7.5 Push-Notifications
+
+**Status: Nicht implementiert.**
+
+Im Code existieren keine Push-Notification-APIs, keine `requestPermission()`-Aufrufe und kein `PushManager`-Abonnement. Der Service Worker (`sw.js`) enthält keinen Push-Handler. Push-Benachrichtigungen sind aktuell nicht Teil der App-Funktionalität.
+
+---
+
+### 7.6 Onboarding-Texte
+
+#### Onboarding-Screen (`ui-onboarding`)
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| App-Titel | SEELENIMPULS | SEELENIMPULS |
+| Untertitel | Dein persönlicher Begleiter für innere Ruhe. | Your personal companion for inner calm. |
+| Start-Button | Beginnen | Begin |
+
+#### Willkommens-Screen nach Gift/Access-Freischaltung
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Titel (mit Name) | Willkommen, {Name}! | *(nur DE)* |
+| Titel (ohne Name) | Willkommen! | *(nur DE)* |
+| Nachricht | Du hast exklusiven Zugang zu allen Inhalten freigeschaltet. Viel Freude mit Seelenimpuls. 🌿 | *(nur DE)* |
+| Nach Bezahlung | Dein Zugang ist jetzt aktiv. | *(nur DE)* |
+
+#### Streak-Anzeige (Startbildschirm)
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Streak-Text | 🔥 {n} Tag(e) dabei | 🔥 {n} day(s) with you |
+| Singular | 🔥 1 Tag dabei | 🔥 1 day with you |
+| Plural | 🔥 {n} Tage dabei | 🔥 {n} days with you |
+
+---
+
+### 7.7 Premium-Upsell-Texte
+
+#### Upgrade-Overlay (`showUpgradePrompt()`)
+
+**Titel:** Seelenimpuls Premium
+
+**Feature-Liste:**
+- 💫 Affirmationskarten
+- 📝 Arbeitsblätter für alle Situationen
+- 📖 Tiefgang-Texte & Hintergrundwissen
+- 🎵 Premium-Songs zu jeder Situation
+- 🧘 Geführte Meditationen
+
+**Buttons:**
+- `✨ Monatsabo – {preis}/Monat`
+- `🌟 Jahresabo – {preis}/Jahr`
+- `Zugang bereits erworben? Wiederherstellen`
+
+*(Alle Texte nur auf Deutsch – kein EN-Äquivalent im Code)*
+
+#### Restore-Access-Overlay (`showRestoreAccess()`)
+
+**Titel:** Zugang wiederherstellen
+**Hinweis:** Gib deine E-Mail-Adresse ein, mit der du bezahlt hast.
+**Placeholder:** `deine@email.de`
+**Button:** Zugang prüfen
+
+#### Premium-Preview-Screen (`ui-premium-preview`)
+
+**Subheadline:**
+- DE: Entdecke alle Inhalte, bevor du entscheidest.
+- EN: Explore all content before you decide.
+
+**Feature-Liste:**
+
+| Deutsch | Englisch |
+|---------|---------|
+| 🎵 11 Klangwelten – Musik für jede Gemütslage | 🎵 11 Soundscapes – Music for every mood |
+| 💫 Affirmationskarten für jede Situation | 💫 Affirmation cards for every situation |
+| 📝 10 Reflexions-Arbeitsblätter *(Hinweis: 11 vorhanden)* | 📝 10 reflection worksheets |
+| 🧘 Geführte Meditation pro Situation | 🧘 Guided meditation per situation |
+| 🌟 Exklusive 11. Situation | 🌟 Exclusive 11th situation |
+| 📖 Ausführliche Beschreibungen der Gemütszustände | 📖 Detailed descriptions of each mood state |
+
+**Klangwelt-Vorschau-Subtext:**
+- DE: Höre 25 Sekunden in jede Klangwelt hinein.
+- EN: Listen to 25 seconds of each soundscape.
+
+**Karten-Vorschau-Subtext:**
+- DE: Eine Karte für jeden Gemütszustand.
+- EN: One card for every mood.
+- DE-Zusatz: + 9 weitere Karten enthalten *(Hinweis: 11 vorhanden)*
+- EN-Zusatz: + 9 more cards included
+
+**Arbeitsblatt-Vorschau-Subtext:**
+- DE: Reflexion & Selbsterkenntnis.
+- EN: Reflection & self-discovery.
+- DE-Zusatz: + 9 weitere Arbeitsblätter enthalten *(Hinweis: 11 vorhanden)*
+- EN-Zusatz: + 9 more worksheets included
+
+**Premium-freischalten-Button:**
+- DE: ✨ Jetzt Premium freischalten
+- EN: ✨ Unlock Premium now
+
+**Bestätigungstext (für Premium-Nutzer):**
+- DE: ✓ Du hast bereits Premium – genieße alle Inhalte.
+- EN: ✓ You already have Premium – enjoy all content.
+
+**Support-Links (für Nicht-Premium-Nutzer):**
+- DE: ☕ Diese Arbeit unterstützen / ✨ Exklusive Inhalte
+- EN: ☕ Support this work / ✨ Exclusive Content
+
+---
+
+### 7.8 Sonstiges
+
+#### Stimmungsauswahl (Mood-Check)
+
+**Titel:**
+- DE: Wie fühlst du dich gerade?
+- EN: How are you feeling?
+
+**Empfehlung:**
+- DE: Für dich empfohlen
+- EN: Recommended for you
+
+**10 Stimmungskategorien:**
+
+| Emoji | Deutsch | Englisch | → Situation |
+|-------|---------|---------|-------------|
+| 🌊 | Unruhig | Restless | 1 |
+| 😤 | Gestresst | Stressed | 2 |
+| 😬 | Angespannt | Tense | 3 |
+| 😓 | Erschöpft | Exhausted | 4 |
+| 😔 | Traurig | Sad | 5 |
+| 😶 | Leer | Empty | 6 |
+| 🤔 | Zweifelnd | Doubtful | 7 |
+| 🌀 | Unentschlossen | Undecided | 8 |
+| 🌱 | Im Wandel | In Transition | 9 |
+| 😰 | Ängstlich | Anxious | 10 |
+
+#### Situationsliste-Anzeige
+
+| Nr. | Kurzname DE | Kurzname EN | Hint DE | Hint EN |
+|-----|-------------|-------------|---------|---------|
+| 1 | 1) Innere Unruhe | 1) Inner Restlessness | Wenn Gedanken nicht aufhören | When thoughts won't stop |
+| 2 | 2) Überforderung | 2) Overwhelm | Wenn alles zu viel wird | When everything feels too much |
+| 3 | 3) Anspannung | 3) Tension | Wenn du dich festgehalten fühlst | When tension holds you tight |
+| 4 | 4) Erschöpfung | 4) Exhaustion | Wenn keine Kraft mehr da ist | When your energy runs low |
+| 5 | 5) Traurigkeit | 5) Sadness | Wenn etwas schwer auf der Seele liegt | When sadness quietly weighs on you |
+| 6 | 6) Innere Leere | 6) Inner Emptiness | Wenn du dich orientierungslos fühlst | When direction feels lost |
+| 7 | 7) Selbstzweifel | 7) Self-Doubt | Wenn die innere Stimme zweifelt | When your inner voice doubts you |
+| 8 | 8) Entscheidung | 8) Decision | Wenn du zwischen zwei Wegen stehst | When you stand between two paths |
+| 9 | 9) Übergang | 9) Transition | Wenn sich gerade vieles verändert | When things are shifting |
+| 10 | 10) Angst & Sicherheit | 10) Fear & Safety | Wenn das Herz schnell schlägt | When fear makes your heart race |
+| 11 | ✨ Bonus: Konflikte & Frieden | ✨ Bonus: Conflict & Peace | Wenn ein Konflikt dich beschäftigt | When a conflict weighs on you |
+
+#### Modul-Köpfe (Section Headers im Situationsfluss)
+
+| Modul | Deutsch | Englisch |
+|-------|---------|---------|
+| Block 1 | 🌿 Ankommen | 🌿 Arriving |
+| Block 2 | 💡 Einblick | 💡 Insight |
+| Block 3 | ✨ Kraftsätze | ✨ Power Phrases |
+| Block 4 | 🌙 Mini-Ritual | 🌙 Mini Ritual |
+| Block 5 | 🎶 Abschluss | 🎶 Closing |
+
+#### Atemübungs-UI
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Seiten-Titel | Atemübung wählen | Choose a Breathing Exercise |
+| Untertitel | Wähle die Technik, die sich heute richtig anfühlt. | Choose the technique that feels right for you today. |
+| Quick-Session-Titel | Atemübung | Breathing Exercise |
+| Quick-Session-Untertitel | 3 Minuten bewusstes Atmen | 3 minutes of conscious breathing |
+| Beenden-Button | Beenden | Stop |
+| Atemzug-Beschriftung EIN | EIN | IN |
+| Atemzug-Beschriftung AUS | AUS | OUT |
+| Tippen-Hinweis | Tippen = nächste Phase | Tap = next phase |
+
+#### Tagesimpuls
+
+| Element | Deutsch | Englisch |
+|---------|---------|---------|
+| Sektion-Label | ✨ Tagesimpuls | ✨ Daily Impulse |
+| Refresh-Button | Neuer Impuls | New Impulse |
+
+#### iOS-Installationshinweis (Modaltext, nur DE)
+
+> Tippe auf das **Teilen-Symbol ⬆️** in Safari  
+> und dann auf **„Zum Home-Bildschirm"**.
+
