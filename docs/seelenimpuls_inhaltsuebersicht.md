@@ -1687,3 +1687,177 @@ come home to you, come off that shelf.
 You may carry this inner safety with you.
 
 ---
+
+### Situation 11: Konflikte & innerer Frieden
+
+**Kurzbeschreibung:** Wenn ein Konflikt dich beschäftigt – mit einem Menschen, einer Situation oder dir selbst.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht ist gerade ein Konflikt in dir.
+Mit einem Menschen, einer Situation,
+oder mit dir selbst.
+
+Dieser Moment ist ein Innehalten.
+Dein Körper darf zur Ruhe kommen.
+Dein Atem darf fließen.
+
+Bevor du reagierst,
+darfst du erst einmal spüren.
+
+**Englisch:**
+
+You are here.
+
+Perhaps there is a conflict within you right now.
+With another person, a situation,
+or with yourself.
+
+This moment is a pause.
+Your body may come to rest.
+Your breath may flow.
+
+Before you react,
+you may simply feel.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Konflikte aktivieren das Nervensystem,
+als wäre Gefahr im Verzug.
+
+Der Körper bereitet sich auf Kampf oder Flucht vor –
+auch wenn die Bedrohung nur ein Gespräch ist.
+
+Diese Impulse unterstützen dich dabei,
+inneren Abstand zu gewinnen
+und aus einem ruhigeren Ort heraus zu reagieren.
+
+**Englisch:**
+
+Conflict activates the nervous system
+as if danger were imminent.
+
+The body prepares for fight or flight –
+even when the threat is only a conversation.
+
+These impulses support you
+in gaining inner distance
+and responding from a calmer place within.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich darf erst spüren, bevor ich reagiere.
+- Ich bleibe bei mir, auch wenn es schwierig wird.
+- Frieden beginnt in mir.
+
+**Englisch:**
+- I may feel first, before I react.
+- I stay with myself, even when it's hard.
+- Peace begins within me.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre deinen festen Stand.
+3. Atme ruhig durch die Nase ein und langsam durch den Mund aus.
+4. Lege eine Hand auf dein Herz, die andere auf deinen Bauch.
+5. Spüre die Wärme beider Hände.
+6. Stelle dir die andere Person oder Situation vor – mit Abstand, wie durch ein Fenster.
+7. Sage innerlich: Ich muss jetzt nichts lösen. Ich darf erst bei mir ankommen.
+8. Spüre, wie sich dein Atem vertieft.
+9. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel your steady grounding.
+3. Breathe calmly in through your nose and slowly out through your mouth.
+4. Place one hand on your heart, the other on your belly.
+5. Feel the warmth of both hands.
+6. Imagine the other person or situation – at a distance, as if through a window.
+7. Say inwardly: I don't need to solve anything right now. I may arrive with myself first.
+8. Feel how your breath deepens.
+9. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Du darfst aus dieser Ruhe heraus antworten – wenn du bereit bist.
+
+**Englisch:** ✨ You may respond from this stillness – when you are ready.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Warum Konflikte uns so tief berühren
+
+Konflikte gehören zu den intensivsten emotionalen Erfahrungen, die wir als soziale Wesen machen können. Der Grund liegt in unserer Evolutionsgeschichte: Für unsere Vorfahren bedeutete sozialer Ausschluss den Tod. Deshalb reagiert unser Nervensystem auf zwischenmenschliche Konflikte ähnlich wie auf physische Bedrohungen – mit erhöhter Wachsamkeit, Stresshormonen und dem Impuls zu kämpfen oder zu fliehen.
+
+Neurowissenschaftliche Studien zeigen, dass soziale Zurückweisung die gleichen Gehirnareale aktiviert wie körperlicher Schmerz. Wenn jemand etwas Verletzendes sagt, spüren wir das buchstäblich – als Stich in der Brust, als Enge im Hals, als Hitze im Gesicht. Der Körper lügt nicht.
+
+Die meisten Konflikte eskalieren nicht wegen des eigentlichen Themas, sondern wegen der darunterliegenden Gefühle: Angst, nicht gehört zu werden. Angst, verlassen zu werden. Angst, nicht zu genügen. Wut, die eigentlich Schmerz ist. Wenn wir den Konflikt nur auf der Sachebene betrachten, verpassen wir die eigentliche Botschaft.
+
+Der Psychologe Marshall Rosenberg, Begründer der Gewaltfreien Kommunikation, hat gezeigt, dass hinter jedem Vorwurf ein unerfülltes Bedürfnis steht. „Du hörst mir nie zu!" bedeutet eigentlich: „Ich brauche das Gefühl, dass ich dir wichtig bin." Wenn wir lernen, diese Übersetzung zu machen – bei uns selbst und bei anderen – verändert sich die gesamte Dynamik.
+
+Ein weiterer wichtiger Aspekt: Wir können in Konflikten oft nicht klar denken, weil der präfrontale Cortex unter Stress heruntergefahren wird, während die Amygdala übernimmt. Deshalb sagen wir im Streit Dinge, die wir später bereuen. Nicht weil wir schlechte Menschen sind, sondern weil unser kluges Gehirn vorübergehend offline ist.
+
+Der wichtigste Schritt in jedem Konflikt ist deshalb nicht die Lösung, sondern die Pause. Bevor du antwortest, bevor du reagierst: Atme. Spüre deinen Körper. Komm bei dir an. Aus diesem ruhigeren Ort heraus kannst du dann wählen, wie du reagieren möchtest.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Durch das Fenster
+**Englischer Titel:** Through the Window
+**Audiodatei DE:** durch-das-fenster.mp3
+**Audiodatei EN:** through-the-window.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+Words like arrows, sharp and fast,
+a storm that wasn't meant to last.
+My chest is tight, my hands are fists,
+but somewhere deep, a calm persists.
+
+*Chorus:*
+I step back, I look through the window,
+I see the storm but I don't go in.
+I breathe, I feel, I find the centre,
+peace begins where I begin.
+
+*Verse 2:*
+Beneath the anger, there's a child,
+who only wants to be worthwhile.
+Beneath the words I didn't say,
+a heart that's looking for a way.
+
+*Bridge:*
+I don't need to win, I don't need to fight,
+I don't need to prove that I was right.
+What if the bravest thing to do
+is stay right here and just breathe through?
+
+*Outro:*
+You may respond from this stillness — when you are ready.
+
+---
