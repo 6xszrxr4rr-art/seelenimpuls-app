@@ -139,3 +139,163 @@ Phasen: EIN (4 Sek.) → AUS (5 Sek.) → LEER/PUSH (2,5 Sek.) → PAUSE/HOLD (2
 
 ## Teil 2: Situationen
 
+---
+
+### Situation 1: Innere Unruhe & Gedankenkarussell
+
+**Kurzbeschreibung:** Wenn Gedanken kreisen und Ruhe fehlt.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+Dieser Moment ist für dich.
+
+Dein Körper darf ankommen.
+Dein Atem fließt ruhig.
+
+Jetzt ist Raum.
+Jetzt ist genug.
+
+**Englisch:**
+
+You are here.
+This moment is for you.
+
+Your body may arrive.
+Your breath flows calmly.
+
+Now there is space.
+Now there is enough.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Innere Unruhe zeigt sich,
+wenn Gedanken schneller sind als der Körper.
+
+Dein Nervensystem sucht Sicherheit
+und Orientierung im Jetzt.
+
+Diese Impulse unterstützen dich dabei,
+wieder in deinem Körper anzukommen
+und innere Ruhe zuzulassen.
+
+**Englisch:**
+
+Inner restlessness appears
+when thoughts move faster than the body.
+
+Your nervous system seeks safety
+and orientation in the present moment.
+
+These impulses support you
+in returning to your body
+and allowing inner calm.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich werde langsamer.
+- Ich bin hier.
+- Dieser Moment trägt mich.
+
+**Englisch:**
+- I am slowing down.
+- I am here.
+- This moment holds me.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Atme ruhig durch die Nase ein.
+2. Atme langsam durch den Mund aus.
+3. Lass das Ausatmen etwas länger werden.
+4. Spüre, wie dein Körper schwerer wird.
+5. Spüre den Boden oder die Unterlage unter dir.
+6. Mit jedem Ausatmen darf dein Körper ruhiger werden.
+7. Bleibe noch einen Moment bei diesem Gefühl von Ruhe.
+
+**Englisch:**
+
+1. Breathe calmly in through your nose.
+2. Breathe slowly out through your mouth.
+3. Let the exhale become a little longer.
+4. Feel how your body grows heavier.
+5. Feel the floor or surface beneath you.
+6. With each exhale, your body may grow calmer.
+7. Stay a moment longer with this feeling of peace.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Du darfst jetzt in dieser Ruhe bleiben.
+
+**Englisch:** ✨ You may remain in this stillness now.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Die Wurzeln der inneren Unruhe verstehen
+
+Innere Unruhe ist mehr als nur ein unangenehmes Gefühl. Sie ist ein Signal deines autonomen Nervensystems, das sich in einem Zustand erhöhter Wachsamkeit befindet. In der Polyvagaltheorie nach Stephen Porges wird dieser Zustand als sympathische Aktivierung beschrieben: Dein Körper bereitet sich auf eine Reaktion vor, auch wenn keine akute Gefahr besteht.
+
+Das Gedankenkarussell entsteht, wenn dein präfrontaler Cortex versucht, Kontrolle über eine als unsicher empfundene Situation zu gewinnen. Gedanken wiederholen sich nicht, weil sie ungelöst sind, sondern weil dein System versucht, durch Wiederholung ein Gefühl von Vorhersagbarkeit herzustellen. Es ist ein Schutzmechanismus, kein Defekt.
+
+Auf körperlicher Ebene zeigt sich innere Unruhe oft durch flachen Atem, erhöhte Muskelspannung im Schulter-Nacken-Bereich, beschleunigten Herzschlag und ein diffuses Gefühl der Enge in der Brust. Diese Signale sind nicht gefährlich, aber sie halten den Kreislauf der Unruhe aufrecht, wenn sie nicht bewusst unterbrochen werden.
+
+Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen. Wenn das Nervensystem reguliert wird, verlangsamen sich die Gedanken von selbst. Die folgenden Übungen setzen genau hier an: bei der körperlichen Ebene, die den Gedanken vorausgeht.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Wolkenhimmel
+**Englischer Titel:** Sky Behind the Clouds
+**Audiodatei DE:** Wolkenhimmel.mp3
+**Audiodatei EN:** sky-behind-the-clouds.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+Thoughts are spinning, they won't slow down,
+like leaves caught in a restless wind.
+But underneath this noise I've found
+a place where quiet can begin.
+
+*Chorus:*
+I am the sky, not the clouds passing through,
+I let them drift, I let them move.
+Slowly, gently, I arrive.
+Breathe in, let go — I'm alive.
+
+*Verse 2:*
+My breath grows softer, the world grows wide,
+a space is opening deep inside.
+No holding on, no need to race,
+just this moment, just this place.
+
+*Bridge:*
+And when the night brings silence down,
+and everything grows still around,
+I know: I'm already here,
+exactly where I need to be.
+
+*Outro (gesprochen/geflüstert):*
+You may stay in this stillness now.
+
+---
+
