@@ -461,3 +461,161 @@ and finally, I still my mind.
 The backpack can wait.
 
 ---
+
+### Situation 3: Anspannung & inneres Festhalten
+
+**Kurzbeschreibung:** Wenn der Körper nicht loslässt.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht zeigt sich Spannung
+in den Schultern, im Kiefer oder im Atem.
+
+Dein Körper darf wahrgenommen werden.
+Alles darf da sein.
+
+**Englisch:**
+
+You are here.
+
+Perhaps tension shows itself
+in your shoulders, jaw, or breath.
+
+Your body may be noticed.
+Everything may be here.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Anspannung entsteht,
+wenn der Körper wachsam bleibt.
+
+Lösung geschieht sanft
+und im eigenen Rhythmus.
+
+Diese Impulse unterstützen dich dabei,
+Spannung Schritt für Schritt nachzulassen.
+
+**Englisch:**
+
+Tension arises
+when the body stays alert.
+
+Release happens gently
+and in its own rhythm.
+
+These impulses support you
+in letting tension ease, step by step.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Lösung darf geschehen.
+- Mein Körper findet Entspannung.
+- Ich werde weicher.
+
+**Englisch:**
+- Release may happen.
+- My body finds relaxation.
+- I am becoming softer.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre Stabilität unter dir.
+3. Atme ruhig ein.
+4. Atme langsam aus.
+5. Nimm wahr, wo dein Körper festhält.
+6. Lege eine Hand auf diese Stelle.
+7. Mit jedem Ausatmen darf sich dort etwas lösen.
+8. Sage innerlich: „Ich werde weicher."
+9. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel stability beneath you.
+3. Breathe calmly in.
+4. Breathe slowly out.
+5. Notice where your body is holding on.
+6. Place one hand on that spot.
+7. With each exhale, something may release there.
+8. Say inwardly: "I am becoming softer."
+9. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Dein Körper darf sich an dieses Nachlassen erinnern.
+
+**Englisch:** ✨ Your body may remember this feeling of release.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Was dein Körper dir mit Anspannung sagt
+
+Anspannung ist gespeicherte Energie. Wenn dein Körper sich nicht sicher genug fühlt, um loszulassen, hält er fest. Die Muskeln kontrahieren, der Kiefer presst sich zusammen, die Schultern ziehen nach oben. Das ist keine bewusste Entscheidung, sondern eine autonome Schutzreaktion deines Nervensystems.
+
+In der Traumaforschung spricht man von einer Freeze-Reaktion: Der Körper erstarrt, weil weder Kampf noch Flucht als sichere Option wahrgenommen wird. Auch wenn kein akutes Trauma vorliegt, kann chronischer Stress diesen Zustand auslösen.
+
+Peter Levine, Begründer von Somatic Experiencing, beschreibt, wie Tiere nach einer Bedrohung instinktiv zittern und sich schütteln, um die aufgestaute Energie zu entladen. Menschen unterdrücken diesen natürlichen Impuls oft, was dazu führt, dass Spannung im Körper gespeichert bleibt.
+
+Lösung geschieht nicht durch Willenskraft. Lösung geschieht durch Sicherheit: durch sanfte Berührung, durch langsamen Atem, durch die Erfahrung, dass in diesem Moment nichts Bedrohliches passiert.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Weich werden
+**Englischer Titel:** Becoming Soft
+**Audiodatei DE:** Weich-werden.mp3
+**Audiodatei EN:** becoming-soft.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+My jaw is clenched, my shoulders high,
+as if I'm bracing for the sky to fall.
+I'm holding on to what has been,
+but deep inside, a truth is calling.
+
+*Chorus:*
+I'm becoming soft, I'm letting go,
+I don't need to hold this anymore.
+My body knows what it needs now:
+just breath, just stillness, just allow.
+
+*Verse 2:*
+My hands are opening, slowly, wide,
+my forehead smooths, the grip subsides.
+What I was holding may now leave,
+I'm learning how to just receive.
+
+*Bridge:*
+Like water finds its way downstream,
+like morning wakes a sleeping dream,
+I melt into this quiet ground,
+and in the softness, I am found.
+
+*Outro (geflüstert):*
+Your body may remember this release.
+
+---
