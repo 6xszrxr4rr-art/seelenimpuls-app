@@ -1882,3 +1882,190 @@ Sprecher: Diana (Aufnahme in Vorbereitung)
 Status: Titel und Länge im Code hinterlegt. Meditationstext folgt nach Fertigstellung der Aufnahme.
 
 ---
+
+## Teil 4: Affirmationskarten
+
+11 Karten, je eine pro Situation. Als Handy-Hintergrundbild speicherbar (Hochformat, dunkler Hintergrund mit Farbakzent).
+
+---
+
+### Karte 1: Innere Unruhe
+
+**Deutsch:**
+Ich bin der Himmel,
+nicht die Wolken
+darin.
+
+**Englisch:**
+I am the sky,
+not the clouds
+passing through.
+
+Akzentfarbe: Stahlblau (#7BA3B8)
+
+---
+
+### Karte 2: Überforderung
+
+**Deutsch:**
+Nicht alles muss
+heute gelöst sein.
+Dieser Moment
+ist genug.
+
+**Englisch:**
+Not everything
+needs to be solved
+today.
+
+Akzentfarbe: Goldgelb (#C4A35A)
+
+---
+
+### Karte 3: Anspannung
+
+**Deutsch:**
+Ich darf
+weich werden.
+Ich darf
+loslassen.
+
+**Englisch:**
+I am becoming soft.
+I am letting go.
+
+Akzentfarbe: Hellblau (#A8C5D4)
+
+---
+
+### Karte 4: Erschöpfung
+
+**Deutsch:**
+Tief in mir
+brennt ein
+goldenes Licht.
+Es erlischt nicht.
+
+**Englisch:**
+I am not empty —
+I am just finding
+my way free.
+
+Akzentfarbe: Gold (#D4A84B)
+
+---
+
+### Karte 5: Traurigkeit
+
+**Deutsch:**
+Komm rein,
+du stiller Gast.
+Ich halte dich.
+Ich halte mich.
+
+**Englisch:**
+Yes, come in,
+you quiet guest.
+I'll hold you true.
+
+Akzentfarbe: Graublau (#8B9EAF)
+
+---
+
+### Karte 6: Innere Leere
+
+**Deutsch:**
+Ich bin schon da.
+Ich bin schon
+ganz bei mir.
+
+**Englisch:**
+I'm already here.
+I'm already mine.
+
+Akzentfarbe: Graublau (#9BA8B4)
+
+---
+
+### Karte 7: Selbstzweifel
+
+**Deutsch:**
+Ich steh auf
+meiner Seite.
+Ich bin
+mein eigenes Licht.
+
+**Englisch:**
+I am here
+and I am enough.
+Let that sink.
+
+Akzentfarbe: Warmes Braun (#C49A6C)
+
+---
+
+### Karte 8: Entscheidungszweifel
+
+**Deutsch:**
+In meiner Tiefe
+liegt ein stiller See.
+Er kennt
+die Antwort.
+
+**Englisch:**
+There is a lake
+inside of me,
+so deep and clear.
+
+Akzentfarbe: Dunkelblau (#6A9BB5)
+
+---
+
+### Karte 9: Übergang & Wandel
+
+**Deutsch:**
+Ein Schritt.
+Nur einer.
+Mehr brauche
+ich nicht.
+
+**Englisch:**
+One step.
+Just one.
+That's all I need.
+
+Akzentfarbe: Grün (#8AAF7A)
+
+---
+
+### Karte 10: Angst
+
+**Deutsch:**
+Nach dem Gewitter
+wird es still.
+Es wird immer
+still danach.
+
+**Englisch:**
+After the storm,
+it all grows still.
+
+Akzentfarbe: Helllila (#B89EC4)
+
+---
+
+### Karte 11: Konflikte & Frieden
+
+**Deutsch:**
+In mir ist ein Ort,
+den kein Streit
+erreicht.
+
+**Englisch:**
+Within me is a place
+no conflict
+can reach.
+
+Akzentfarbe: Terrakotta (#C4977A)
+
+---
