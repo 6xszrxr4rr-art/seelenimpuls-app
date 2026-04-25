@@ -1083,3 +1083,153 @@ and in the dark, the stars still guide.
 This phase may have its own rhythm.
 
 ---
+
+### Situation 7: Selbstzweifel & innere Unsicherheit
+
+**Kurzbeschreibung:** Wenn du dir selbst gerade wenig vertraust.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht zeigt sich Unsicherheit.
+Auch das darf da sein.
+
+Dein Körper ist anwesend.
+Dein Atem trägt dich.
+
+**Englisch:**
+
+You are here.
+
+Perhaps uncertainty is showing itself.
+This too may be here.
+
+Your body is present.
+Your breath carries you.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Selbstzweifel entstehen,
+wenn der Kontakt zu sich selbst leiser wird.
+
+Diese Impulse unterstützen dich dabei,
+dich wieder mit dir zu verbinden.
+
+**Englisch:**
+
+Self-doubt arises
+when the connection to yourself grows quieter.
+
+These impulses support you
+in reconnecting with yourself.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich vertraue mir.
+- Ich bin richtig, so wie ich bin.
+- Mein inneres Erleben ist wertvoll.
+
+**Englisch:**
+- I trust myself.
+- I am right, just as I am.
+- My inner experience has value.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Stelle beide Füße bewusst auf den Boden.
+2. Spüre den Halt.
+3. Atme ruhig ein und aus.
+4. Lege eine Hand auf dein Herz.
+5. Spüre deinen Herzraum.
+6. Richte dich innerlich sanft auf.
+7. Sage innerlich: „Ich vertraue mir."
+8. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Place both feet consciously on the floor.
+2. Feel the support.
+3. Breathe calmly in and out.
+4. Place one hand on your heart.
+5. Feel your heart space.
+6. Gently gather yourself inwardly.
+7. Say inwardly: "I trust myself."
+8. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Dieses Vertrauen darf weiter in dir wirken.
+
+**Englisch:** ✨ This trust may continue to work within you.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Die leise Stimme, die dich kleinmacht
+
+Selbstzweifel haben eine wichtige Funktion: Sie schützen dich. Doch wenn der innere Kritiker zu laut wird, verliert er seine Schutzfunktion und wird zum Saboteur. Er wiederholt Sätze, die du irgendwann von außen gehört hast.
+
+Studien zeigen, dass bis zu 70% aller Menschen das Imposter-Syndrom mindestens einmal erleben. Es trifft besonders häufig hochsensible und perfektionistische Menschen.
+
+Selbstzweifel sind oft das Echo vergangener Bewertungen. Sie haben wenig mit deiner tatsächlichen Fähigkeit zu tun und viel mit verinnerlichten Glaubenssätzen.
+
+Der erste Schritt: den inneren Kritiker als internalisierte Stimme erkennen, nicht als deine Wahrheit. Du kannst ihm zuhören, ohne ihm zu glauben.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Auf meiner Seite
+**Englischer Titel:** On My Side
+**Audiodatei DE:** Auf-meiner-Seite.mp3
+**Audiodatei EN:** on-my-side.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+There's a voice that says I'm not enough,
+an old, old story, wearing rough.
+But underneath the noise, the weight,
+a heart is beating — and it's not too late.
+
+*Chorus:*
+I'm on my side, I am my light,
+I don't need to prove that I'm right.
+Whatever they say, whatever I think,
+I am here and I am enough — let that sink.
+
+*Verse 2:*
+The child in me looks up and smiles,
+as if it knew me all this while.
+It says: You've forgotten who you are,
+come close — you've always been a star.
+
+*Bridge:*
+I don't need their applause to stand,
+I don't need the world to understand.
+This heart, this breath, this skin, this bone —
+I am whole, I am my own.
+
+*Outro (gesprochen):*
+This trust may continue to grow within you.
+
+---
