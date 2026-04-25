@@ -619,3 +619,161 @@ and in the softness, I am found.
 Your body may remember this release.
 
 ---
+
+### Situation 4: Erschöpfung & fehlende Kraft
+
+**Kurzbeschreibung:** Wenn du dich leer oder müde fühlst.
+
+---
+
+#### Modul 1: Ankommen
+
+**Deutsch:**
+
+Du bist hier.
+
+Vielleicht fühlt sich dein Körper müde an.
+Schwer oder langsam.
+
+Dieser Moment ist ruhig.
+Dein Körper darf ankommen.
+
+**Englisch:**
+
+You are here.
+
+Perhaps your body feels tired.
+Heavy or slow.
+
+This moment is quiet.
+Your body may arrive.
+
+---
+
+#### Modul 2: Einblick
+
+**Deutsch:**
+
+Erschöpfung ist ein Zeichen
+für den Wunsch nach Schonung.
+
+Dein Nervensystem sucht Ruhe
+und sanfte Regeneration.
+
+Diese Impulse unterstützen dich dabei,
+Kraft wieder zuzulassen.
+
+**Englisch:**
+
+Exhaustion is a sign
+of the wish to rest.
+
+Your nervous system seeks calm
+and gentle regeneration.
+
+These impulses support you
+in allowing energy to return.
+
+---
+
+#### Modul 3: Kraftsätze
+
+**Deutsch:**
+- Ich darf müde sein.
+- Ruhe ist jetzt willkommen.
+- Kraft darf mich sanft erreichen.
+
+**Englisch:**
+- I may be tired.
+- Rest is welcome now.
+- Strength may gently reach me.
+
+---
+
+#### Modul 4: Mini-Ritual
+
+**Deutsch:**
+
+1. Spüre den Boden oder die Unterlage unter dir.
+2. Lass dich innerlich tragen.
+3. Atme ruhig ein.
+4. Atme weich aus.
+5. Spüre, wo dein Körper müde ist.
+6. Lege eine Hand dorthin.
+7. Stelle dir vor, wie sich dein Körper ablegt.
+8. Sage innerlich: „Mein Körper darf sich ausruhen."
+9. Bleibe noch drei ruhige Atemzüge dabei.
+
+**Englisch:**
+
+1. Feel the floor or surface beneath you.
+2. Let yourself be held inwardly.
+3. Breathe calmly in.
+4. Breathe softly out.
+5. Notice where your body is tired.
+6. Place one hand there.
+7. Imagine your body lying down to rest.
+8. Say inwardly: "My body may rest."
+9. Stay with this for three calm breaths.
+
+---
+
+#### Modul 5: Abschluss
+
+**Deutsch:** ✨ Diese Ruhe darf dich weiter begleiten.
+
+**Englisch:** ✨ This rest may continue to accompany you.
+
+---
+
+#### Modul 6: Tiefgang
+
+**Titel:** Erschöpfung als Sprache des Körpers
+
+Erschöpfung ist nicht nur das Ergebnis von zu viel Tun. Sie kann auch entstehen, wenn du lange gegen dich selbst gelebt hast: gegen deine Bedürfnisse, gegen dein Tempo, gegen deine Grenzen. Der Körper zieht irgendwann die Notbremse.
+
+Neurowissenschaftlich betrachtet ist Erschöpfung ein Zustand, in dem die Neurotransmitter Dopamin und Serotonin unter ihren optimalen Pegel fallen. Der Antrieb sinkt, die Motivation schwindet. Das ist keine Faulheit, sondern eine biochemische Realität.
+
+In der traditionellen chinesischen Medizin wird Erschöpfung als Qi-Mangel verstanden: Die Lebensenergie ist aufgebraucht und muss durch Ruhe, Nahrung und sanfte Bewegung wieder aufgebaut werden.
+
+Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun: Liegen, Atmen, Stille. Der Körper braucht Signale der Sicherheit, um in den parasympathischen Modus umzuschalten.
+
+---
+
+#### Modul 7: Song
+
+**Deutscher Titel:** Goldenes Licht
+**Englischer Titel:** Golden Light
+**Audiodatei DE:** Goldenes-Licht.mp3
+**Audiodatei EN:** golden-light.mp3
+
+**Liedtext (Englisch):**
+
+*Verse 1:*
+I've been tired for so long,
+as if the music lost its song.
+The days pass heavy, slow, and grey,
+but something whispers: Find your way.
+
+*Chorus:*
+Deep inside, a golden light,
+it flickers softly through the night.
+It waits so patiently for me to see:
+I'm not empty — I'm just finding my way free.
+
+*Verse 2:*
+I lay me down, the earth holds tight,
+I feel the silence, feel the light.
+No rushing now, no faster pace,
+just breathing, resting in this space.
+
+*Bridge:*
+I don't need to rise just yet,
+I don't need to prove I'm here.
+My body knows the way to heal,
+through silence, warmth, and letting near.
+
+*Outro (gesprochen):*
+This rest may continue to hold you.
+
+---
