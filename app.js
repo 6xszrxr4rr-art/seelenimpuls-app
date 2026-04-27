@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const SPEED = 85;
   let lang = "de";
   let breathInterval = null;
+  let breathPhaseTimer = null;
+  let breathSkipHandler = null;
+  let activeTechnique = null;
+  let breathPhaseIdx = 0;
+  let pvAudio   = null;
+  let pvTimer   = null;
+  let pvFadeInt = null;
   let currentSongAudio = null;
   let bgAudio = null;
   let quickTimerInterval = null;
@@ -35,6 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(() => {});
 
+  // Ablauf-Check für Gift-/Unlock-Zugänge (60 Tage)
+  const GIFT_DAYS = 60;
+  const _giftTs = parseInt(localStorage.getItem('si_gift_ts') || '0', 10);
+  if (_giftTs > 0 && Date.now() > _giftTs + GIFT_DAYS * 86400000) {
+    localStorage.removeItem('si_premium');
+    localStorage.removeItem('si_gift_ts');
+    localStorage.removeItem('si_premium_name');
+  }
   let isPremium = localStorage.getItem('si_premium') === '1';
 
   // Stripe Checkout aufrufen
@@ -87,9 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.hasSubscription) {
           localStorage.setItem('si_premium', '1');
           isPremium = true;
+          applyPremiumVisibility();
         } else if (!localStorage.getItem('si_premium_gift')) {
           localStorage.removeItem('si_premium');
           isPremium = false;
+          applyPremiumVisibility();
         }
       }
     } catch (e) {}
@@ -112,8 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function checkPremiumURL() {
-    // Stripe return after payment: ?payment=success&session_id=...
     const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+
+    // Stripe return after payment: ?payment=success&session_id=...
     if (params.get('payment') === 'success') {
       const sessionId = params.get('session_id');
       if (sessionId) handlePaymentSuccess(sessionId);
@@ -125,14 +144,36 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Gift/unlock hash links: #gift=Anna or #unlock
-    const hash = window.location.hash;
+    // Session-based access via ?si_access=TOKEN — works on every browser/device
+    // as long as the URL contains the token (no localStorage needed)
+    const ACCESS_TOKENS = ['si-owner-7x4mK', 'si-helper-3pQ9w'];
+    if (ACCESS_TOKENS.includes(params.get('si_access'))) {
+      isPremium = true;
+      // also persist for this browser so it survives navigation within the app
+      localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_premium_gift', '1');
+      return;
+    }
+
+    // Permanent owner access: #owner (no expiry, no timestamp stored)
+    const ownerMatch = /^#owner$/i.test(hash);
+    if (ownerMatch) {
+      localStorage.setItem('si_premium', '1');
+      localStorage.setItem('si_premium_gift', '1');
+      isPremium = true;
+      history.replaceState(null, '', window.location.pathname);
+      return;
+    }
+
+    // Gift/unlock hash links: #gift=Anna or #unlock (60 days free access)
+
     const giftMatch   = hash.match(/^#gift=([^&]+)/i);
     const unlockMatch = /^#unlock$/i.test(hash);
     if (giftMatch || unlockMatch) {
       const name = giftMatch ? decodeURIComponent(giftMatch[1]).trim() : '';
       localStorage.setItem('si_premium', '1');
       localStorage.setItem('si_premium_gift', '1');
+      localStorage.setItem('si_gift_ts', Date.now().toString());
       if (name) localStorage.setItem('si_premium_name', name);
       isPremium = true;
       history.replaceState(null, '', window.location.pathname);
@@ -156,7 +197,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   checkPremiumURL();
+  applyPremiumVisibility();
   verifySubscription();
+
+  function applyPremiumVisibility() {
+    ['homeSupportLinks','situationEndSupport'].forEach(id => {
+      const el = $(id);
+      if (el) el.style.display = isPremium ? 'none' : '';
+    });
+  }
 
   // ── IMPULSES (14 pro Sprache, tagesbasiert rotierend) ─────────────────
   const impulses = {
@@ -332,6 +381,82 @@ document.addEventListener("DOMContentLoaded", () => {
     ]
   };
 
+  // ── BREATHING TECHNIQUES ──────────────────────────────────────────────
+  const breathTechniques = [
+    {
+      id: 'coherent',
+      name:   { de: 'Kohärentes Atmen',        en: 'Coherent Breathing' },
+      timing: { de: '5 Sek. ein · 5 Sek. aus', en: '5 sec in · 5 sec out' },
+      desc:   { de: 'Beruhigt das Nervensystem und fördert die Herzratenvariabilität. Ideal als tägliche Praxis.',
+                en: 'Calms the nervous system and promotes heart rate variability. Ideal as a daily practice.' },
+      phases: [
+        { de: 'EIN',  en: 'IN',  ms: 5000, expand: true  },
+        { de: 'AUS',  en: 'OUT', ms: 5000, expand: false },
+      ],
+    },
+    {
+      id: '478',
+      name:   { de: '4-7-8 Atmung',                          en: '4-7-8 Breathing' },
+      timing: { de: '4 Sek. ein · 7 Sek. halten · 8 Sek. aus', en: '4 sec in · 7 sec hold · 8 sec out' },
+      desc:   { de: 'Beruhigt das Nervensystem schnell. Hilft bei Angst, Stress und beim Einschlafen.',
+                en: 'Quickly calms the nervous system. Great for anxiety, stress and falling asleep.' },
+      phases: [
+        { de: 'EIN',    en: 'IN',   ms: 4000, expand: true  },
+        { de: 'HALTEN', en: 'HOLD', ms: 7000, expand: null  },
+        { de: 'AUS',    en: 'OUT',  ms: 8000, expand: false },
+      ],
+    },
+    {
+      id: 'box',
+      name:   { de: 'Box Breathing',                              en: 'Box Breathing' },
+      timing: { de: 'Je 4 Sek. ein · halten · aus · halten', en: '4 sec each: in · hold · out · hold' },
+      desc:   { de: 'Stärkt Fokus und innere Ruhe. Wird von Spitzensportlern und Einsatzkräften weltweit genutzt.',
+                en: 'Strengthens focus and inner calm. Used by elite athletes and first responders worldwide.' },
+      phases: [
+        { de: 'EIN',    en: 'IN',   ms: 4000, expand: true  },
+        { de: 'HALTEN', en: 'HOLD', ms: 4000, expand: null  },
+        { de: 'AUS',    en: 'OUT',  ms: 4000, expand: false },
+        { de: 'HALTEN', en: 'HOLD', ms: 4000, expand: null  },
+      ],
+    },
+    {
+      id: 'sigh',
+      name:   { de: 'Physiolog. Seufzen',            en: 'Physiological Sigh' },
+      timing: { de: 'Doppeltes Einatmen + langer Ausatem', en: 'Double inhale + long exhale' },
+      desc:   { de: 'Laut Neurowissenschaften der schnellste Weg zur Entspannung. Tief einatmen, kurz nachsaugen, dann so lange wie möglich ausatmen.',
+                en: 'According to neuroscience, the fastest route to calm. Deep inhale, brief top-up, then exhale as long as possible.' },
+      phases: [
+        { de: 'EIN',    en: 'IN',   ms: 4000, expand: true  },
+        { de: '+ EIN',  en: '+ IN', ms: 2000, expand: true  },
+        { de: 'AUS',    en: 'OUT',  ms: 8000, expand: false },
+      ],
+    },
+    {
+      id: '2to1',
+      name:   { de: '2:1 Atmung',                   en: '2:1 Breathing' },
+      timing: { de: '4 Sek. ein · 8 Sek. aus',     en: '4 sec in · 8 sec out' },
+      desc:   { de: 'Aktiviert den Parasympathikus (Ruhe & Erholung). Ideal für tiefe Entspannung nach einem langen Tag.',
+                en: 'Activates the parasympathetic nervous system (rest & digest). Ideal for deep relaxation after a long day.' },
+      phases: [
+        { de: 'EIN', en: 'IN',  ms: 4000, expand: true  },
+        { de: 'AUS', en: 'OUT', ms: 8000, expand: false },
+      ],
+    },
+    {
+      id: 'complete',
+      name:   { de: 'Vollständiges Ausatmen',        en: 'Complete Exhale' },
+      timing: { de: '4 · 5 · 2 · 2 Sek.',           en: '4 · 5 · 2 · 2 sec' },
+      desc:   { de: 'Reinigt die Lunge komplett. Atme aus – und wenn du denkst, du bist fertig, schiebe die allerletzten Reste heraus.',
+                en: 'Fully cleanses the lungs. Exhale – and when you think you\'re done, push out the very last bit of air.' },
+      phases: [
+        { de: 'EIN',   en: 'IN',   ms: 4000, expand: true   },
+        { de: 'AUS',   en: 'OUT',  ms: 5000, expand: false  },
+        { de: 'LEER',  en: 'PUSH', ms: 2500, expand: 'push' },
+        { de: 'PAUSE', en: 'HOLD', ms: 2000, expand: null   },
+      ],
+    },
+  ];
+
   // Atemkreis-Schlüsselwörter (DE + EN)
   const BREATH_KW = ["atme","atem","einatmen","ausatmen","atemzüge","atemzug",
                      "breath","breathe","inhale","exhale","breathing","atemzügen"];
@@ -349,11 +474,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-quick","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
 
   function showView(id) {
-    VIEWS.forEach(v => $(v).classList.add("hidden"));
-    $(id).classList.remove("hidden");
+    VIEWS.forEach(v => { const el = $(v); if (el) el.classList.add("hidden"); });
+    const target = $(id);
+    if (target) target.classList.remove("hidden");
     window.scrollTo(0, 0);
   }
 
@@ -361,10 +487,27 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior:"smooth" }), 150);
   }
 
+  function stopBreathPhase() {
+    if (breathPhaseTimer) { clearTimeout(breathPhaseTimer); breathPhaseTimer = null; }
+    activeTechnique = null;
+    breathPhaseIdx = 0;
+    const circle = document.querySelector('.quick-breath-circle');
+    if (circle) {
+      circle.style.animation   = '';
+      circle.style.transform   = '';
+      circle.style.transition  = '';
+      circle.style.background  = '';
+      circle.style.borderColor = '';
+      circle.style.boxShadow   = '';
+      if (breathSkipHandler) { circle.removeEventListener('click', breathSkipHandler); breathSkipHandler = null; }
+    }
+  }
+
   function stopSession() {
     sessionGen++;
     if (breathInterval)    { clearInterval(breathInterval); breathInterval = null; }
     if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
+    stopBreathPhase();
     if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
     if (bgAudio)           { bgAudio.pause(); bgAudio = null; }
   }
@@ -438,6 +581,20 @@ document.addEventListener("DOMContentLoaded", () => {
       accent:"#C4977A", bg1:"#281e14", bg2:"#18120a" },
   ];
 
+  const SONG_DATA = [
+    { nr:1,  de:'Wolkenhimmel',          en:'Sky Behind the Clouds', fileDE:'audio/Wolkenhimmel.mp3',         fileEN:'audio/sky-behind-the-clouds.mp3', sit:{de:'Innere Unruhe',        en:'Inner Restlessness'} },
+    { nr:2,  de:'Abgelegt',              en:'Set It Down',           fileDE:'audio/Abgelegt.mp3',             fileEN:'audio/set-it-down.mp3',           sit:{de:'Überforderung',        en:'Overwhelm'} },
+    { nr:3,  de:'Weich werden',          en:'Becoming Soft',         fileDE:'audio/Weich-werden.mp3',         fileEN:'audio/becoming-soft.mp3',          sit:{de:'Anspannung',           en:'Tension'} },
+    { nr:4,  de:'Goldenes Licht',        en:'Golden Light',          fileDE:'audio/Goldenes-Licht.mp3',       fileEN:'audio/golden-light.mp3',           sit:{de:'Erschöpfung',          en:'Exhaustion'} },
+    { nr:5,  de:'Stiller Gast',          en:'Quiet Guest',           fileDE:'audio/Stiller-Gast.mp3',         fileEN:'audio/quiet-guest.mp3',            sit:{de:'Traurigkeit',          en:'Sadness'} },
+    { nr:6,  de:'Zwischen den Welten',   en:'Between the Worlds',    fileDE:'audio/Zwischen-den-Welten.mp3',  fileEN:'audio/between-the-worlds.mp3',     sit:{de:'Innere Leere',         en:'Inner Emptiness'} },
+    { nr:7,  de:'Auf meiner Seite',      en:'On My Side',            fileDE:'audio/Auf-meiner-Seite.mp3',     fileEN:'audio/on-my-side.mp3',             sit:{de:'Selbstzweifel',        en:'Self-Doubt'} },
+    { nr:8,  de:'Der stille See',        en:'The Still Lake',        fileDE:'audio/Der-stille-See.mp3',       fileEN:'audio/the-still-lake.mp3',         sit:{de:'Entscheidungszweifel', en:'Decision Doubt'} },
+    { nr:9,  de:'Ein Schritt',           en:'One Step',              fileDE:'audio/Ein-Schritt.mp3',          fileEN:'audio/one-step.mp3',               sit:{de:'Übergang & Wandel',    en:'Transition'} },
+    { nr:10, de:'Nach dem Gewitter',     en:'After the Storm',       fileDE:'audio/Nach-dem-Gewitter.mp3',    fileEN:'audio/after-the-storm.mp3',        sit:{de:'Angst',                en:'Fear'} },
+    { nr:11, de:'Durch das Fenster',     en:'Through the Window',    fileDE:'audio/durch-das-fenster.mp3',    fileEN:'audio/through-the-window.mp3',     sit:{de:'Konflikte & Frieden',  en:'Conflicts & Peace'} },
+  ];
+
   function cgBg(card) {
     return 'radial-gradient(ellipse at 30% 20%,' + card.accent + '18,transparent 60%),' +
            'radial-gradient(ellipse at 70% 80%,' + card.accent + '10,transparent 50%),' +
@@ -492,7 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openCards() {
-    if (!isPremium) { showUpgradePrompt(); return; }
+    if (!isPremium) { openPremiumPreview('cards'); return; }
     renderCardGrid();
     showView('ui-cards');
   }
@@ -1567,9 +1724,194 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openWorksheets() {
-    if (!isPremium) { showUpgradePrompt(); return; }
+    if (!isPremium) { openPremiumPreview('worksheets'); return; }
     renderWorksheetList();
     showView('ui-worksheets');
+  }
+
+  // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
+  function stopPreview() {
+    if (pvTimer)   { clearTimeout(pvTimer);    pvTimer   = null; }
+    if (pvFadeInt) { clearInterval(pvFadeInt); pvFadeInt = null; }
+    if (pvAudio)   { pvAudio.pause(); pvAudio = null; }
+    document.querySelectorAll('.pv-play-btn').forEach(b => {
+      b.textContent = '▶';
+      b.dataset.playing = '';
+      b.closest('.pv-song-row, .pv-song-card')?.classList.remove('pv-playing');
+    });
+  }
+
+  function previewSong(filePath, btn) {
+    const wasPlaying = btn.dataset.playing === '1';
+    stopPreview();
+    if (wasPlaying) return;
+    pvAudio = new Audio('./' + filePath);
+    pvAudio.volume = 0.85;
+    pvAudio.play().catch(() => {});
+    btn.textContent = '⏸';
+    btn.dataset.playing = '1';
+    btn.closest('.pv-song-row, .pv-song-card')?.classList.add('pv-playing');
+    const TOTAL_MS = 25000;
+    const FADE_MS  = 4000;
+    pvTimer = setTimeout(() => {
+      const startVol = 0.85;
+      const steps = 40;
+      let s = 0;
+      pvFadeInt = setInterval(() => {
+        s++;
+        if (pvAudio) pvAudio.volume = Math.max(0, startVol * (1 - s / steps));
+        if (s >= steps) stopPreview();
+      }, FADE_MS / steps);
+    }, TOTAL_MS - FADE_MS);
+  }
+
+  function startSongCheckout(priceKey) {
+    const priceId = PRICE[priceKey];
+    if (!priceId) {
+      alert(lang === 'de'
+        ? 'Preis wird geladen – bitte kurz warten und erneut versuchen.'
+        : 'Price loading – please wait a moment and try again.');
+      return;
+    }
+    startCheckout(priceId, 'payment');
+  }
+
+  function renderPvSongs() {
+    const grid = $('pvSongGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const pd          = window._siPriceData || {};
+    const albumDePrice = _fmtPrice(pd.songDeAll)  || '4,99 €';
+    const albumEnPrice = _fmtPrice(pd.songEnAll)  || '4,99 €';
+    const singlePrice  = _fmtPrice(pd.songSingle) || '0,99 €';
+
+    const albums = [
+      { key:'de', flag:'🇩🇪', name:'Seelenmusik', meta: lang==='de' ? '11 Songs · Deutsch' : '11 songs · German',  priceKey:'songDeAll', price: albumDePrice },
+      { key:'en', flag:'🇬🇧', name:'Soul Songs',  meta: lang==='de' ? '11 Songs · Englisch' : '11 songs · English', priceKey:'songEnAll', price: albumEnPrice },
+    ];
+
+    albums.forEach(album => {
+      const card = document.createElement('div');
+      card.className = 'pv-album-card';
+
+      const header = document.createElement('div');
+      header.className = 'pv-album-header';
+      header.innerHTML =
+        '<div class="pv-album-left">' +
+          '<span class="pv-album-flag">' + album.flag + '</span>' +
+          '<div>' +
+            '<div class="pv-album-name">' + album.name + '</div>' +
+            '<div class="pv-album-meta">' + album.meta + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pv-album-right">' +
+          '<span class="pv-album-price">' + album.price + '</span>' +
+          '<button class="pv-album-buy">' + (lang==='de' ? 'Album kaufen' : 'Buy album') + '</button>' +
+        '</div>';
+      header.querySelector('.pv-album-buy').addEventListener('click', () => startSongCheckout(album.priceKey));
+      card.appendChild(header);
+
+      const divider = document.createElement('div');
+      divider.className = 'pv-album-divider';
+      card.appendChild(divider);
+
+      SONG_DATA.forEach(song => {
+        const title   = album.key === 'de' ? song.de    : song.en;
+        const file    = album.key === 'de' ? song.fileDE : song.fileEN;
+        const sitName = song.sit[lang] || song.sit.de;
+
+        const row = document.createElement('div');
+        row.className = 'pv-song-row';
+        row.innerHTML =
+          '<button class="pv-play-btn" aria-label="Vorschau">▶</button>' +
+          '<div class="pv-song-row-info">' +
+            '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
+            '<span class="pv-song-row-sit">' + sitName + '</span>' +
+          '</div>' +
+          '<button class="pv-song-buy">' + singlePrice + ' ↗</button>';
+
+        row.querySelector('.pv-play-btn').addEventListener('click', function() {
+          previewSong(file, this);
+        });
+        row.querySelector('.pv-song-buy').addEventListener('click', () => startSongCheckout('songSingle'));
+        card.appendChild(row);
+      });
+
+      grid.appendChild(card);
+    });
+  }
+
+  function renderPvCards() {
+    const wrap = $('pvCardPreview');
+    if (!wrap) return;
+    const c1 = CARD_DATA[0], c2 = CARD_DATA[1];
+    const isDark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const fadeEnd = isDark ? 'rgba(30,22,46,1)' : 'rgba(238,242,243,1)';
+    wrap.innerHTML =
+      '<div class="pv-card-wrap">' +
+        '<div class="pv-card-back" style="background:' + cgBg(c2) + '"></div>' +
+        '<div class="pv-card-main" style="background:' + cgBg(c1) + '">' +
+          '<div class="pv-card-sit">' + (c1.sit[lang] || c1.sit.de) + '</div>' +
+          '<p class="pv-card-txt">' + (c1.txt[lang] || c1.txt.de).replace(/\n/g, '<br>') + '</p>' +
+        '</div>' +
+        '<div class="pv-card-fade" style="background:linear-gradient(transparent,' + fadeEnd + ')"></div>' +
+      '</div>';
+  }
+
+  function renderPvWorksheets() {
+    const wrap = $('pvWsPreview');
+    if (!wrap) return;
+    const ws = WORKSHEETS[1];
+    wrap.innerHTML =
+      '<div class="pv-ws-wrap">' +
+        '<div class="pv-ws-wrap-title">' + ws.title + '</div>' +
+        '<div class="pv-ws-wrap-quote">' + ws.quote + '</div>' +
+        '<div class="pv-ws-field">Morgens:</div>' +
+        '<div class="pv-ws-field">Tagsüber:</div>' +
+        '<div class="pv-ws-fade"></div>' +
+      '</div>';
+  }
+
+  function openPremiumPreview(mode) {
+    mode = mode || 'overview';
+
+    // Sektion anzeigen, Rest ausblenden
+    ['Overview','Songs','Cards','Worksheets'].forEach(s => {
+      const el = $('pvSec' + s);
+      if (el) el.classList.toggle('hidden', s.toLowerCase() !== mode);
+    });
+
+    // Seitentitel je Mode
+    const pvTitle = $('pvTitle');
+    if (pvTitle) {
+      const titles = {
+        overview:   lang === 'de' ? 'Was dich erwartet'  : 'What awaits you',
+        songs:      lang === 'de' ? 'Klangwelten'        : 'Soundscapes',
+        cards:      lang === 'de' ? 'Affirmationskarten' : 'Affirmation Cards',
+        worksheets: lang === 'de' ? 'Arbeitsblätter'     : 'Worksheets',
+      };
+      pvTitle.textContent = titles[mode] || titles.overview;
+    }
+
+    // Dynamischen Inhalt rendern
+    if (mode === 'songs')      renderPvSongs();
+    if (mode === 'cards')      renderPvCards();
+    if (mode === 'worksheets') renderPvWorksheets();
+
+    // CTA
+    const cta    = $('pvBtnUpgrade');
+    const already = $('pvAlready');
+    if (cta)    cta.classList.toggle('hidden', isPremium);
+    if (already) already.classList.toggle('hidden', !isPremium);
+
+    // Startseiten-Buttons nur für Nicht-Premium sichtbar
+    ['btnPremiumPreview','btnSongsPreview'].forEach(id => {
+      const b = $(id);
+      if (b) b.style.display = isPremium ? 'none' : '';
+    });
+
+    showView('ui-premium-preview');
   }
 
   function _fmtPrice(pd) {
@@ -1584,8 +1926,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if ($('upgradeOverlay')) return;
     const u = ui[lang];
     const pd = window._siPriceData || {};
-    const mLabel = _fmtPrice(pd.aboMonthly) || '2,99\u00a0€/Monat';
-    const yLabel = _fmtPrice(pd.aboYearly)  || '19,99\u00a0€/Jahr';
+    const mLabel = _fmtPrice(pd.aboMonthly) || '0,99\u00a0€/Monat';
+    const yLabel = _fmtPrice(pd.aboYearly)  || '9,99\u00a0€/Jahr';
     const el = document.createElement('div');
     el.id = 'upgradeOverlay';
     el.className = 'upgrade-overlay';
@@ -1784,9 +2126,17 @@ document.addEventListener("DOMContentLoaded", () => {
     lang = newLang;
     $("lang-de").classList.toggle("active", lang === "de");
     $("lang-en").classList.toggle("active", lang === "en");
+    if ($("menuLangDe")) {
+      $("menuLangDe").classList.toggle("active", lang === "de");
+      $("menuLangEn").classList.toggle("active", lang === "en");
+    }
 
     document.querySelectorAll("[data-de]").forEach(el => {
       el.textContent = el.getAttribute("data-" + lang);
+    });
+
+    document.querySelectorAll(".legal-lang-de, .legal-lang-en").forEach(el => {
+      el.classList.toggle("hidden", !el.classList.contains("legal-lang-" + lang));
     });
 
     const t = ui[lang];
@@ -2088,23 +2438,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── QUICK MODE ────────────────────────────────────────────────────────
+  function renderBreathTechGrid() {
+    const grid = $("breathTechGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    breathTechniques.forEach(t => {
+      const btn = document.createElement("button");
+      btn.className = "breath-tech-card";
+      btn.innerHTML =
+        '<span class="breath-tech-name">' + t.name[lang] + '</span>' +
+        '<span class="breath-tech-timing">' + t.timing[lang] + '</span>' +
+        '<p class="breath-tech-desc">' + t.desc[lang] + '</p>';
+      btn.addEventListener("click", () => startBreathTechnique(t));
+      grid.appendChild(btn);
+    });
+    // Update static text
+    document.querySelectorAll("#ui-breath-select [data-" + lang + "]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
+  }
+
   function startQuickMode() {
     stopSession();
+    renderBreathTechGrid();
+    showView("ui-breath-select");
+  }
+
+  function startBreathTechnique(technique) {
+    stopSession();
+    activeTechnique = technique;
+    breathPhaseIdx = 0;
+
     showView("ui-quick");
-    $("quickTitle").textContent = ui[lang].quickTitle;
-    $("quickSub").textContent   = ui[lang].quickSub;
+    $("quickTitle").textContent = technique.name[lang];
+    $("quickSub").textContent   = technique.timing[lang];
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
     bgAudio.volume = 0.15;
     bgAudio.play().catch(() => {});
 
+    const circle = document.querySelector('.quick-breath-circle');
+    if (circle) {
+      circle.style.animation = 'none';
+      circle.style.transform = 'scale(0.85)';
+      if (breathSkipHandler) circle.removeEventListener('click', breathSkipHandler);
+      breathSkipHandler = () => {
+        if (!activeTechnique) return;
+        if (breathPhaseTimer) { clearTimeout(breathPhaseTimer); breathPhaseTimer = null; }
+        breathPhaseIdx = (breathPhaseIdx + 1) % activeTechnique.phases.length;
+        runBreathPhase();
+      };
+      circle.addEventListener('click', breathSkipHandler);
+    }
+
     let remaining = 180;
     const fmt = s => `${Math.floor(s/60)}:${(s%60).toString().padStart(2,"0")}`;
     $("quickTimer").textContent = fmt(remaining);
-
-    startBreathingText();
-
     quickTimerInterval = setInterval(() => {
       remaining--;
       $("quickTimer").textContent = fmt(remaining);
@@ -2115,6 +2505,64 @@ document.addEventListener("DOMContentLoaded", () => {
         showStreak();
       }
     }, 1000);
+
+    runBreathPhase();
+  }
+
+  function runBreathPhase() {
+    if (!activeTechnique) return;
+    const phase = activeTechnique.phases[breathPhaseIdx];
+    const lbl   = phase[lang];
+    const circle = document.querySelector('.quick-breath-circle');
+    const labelEl = $("quickBreathLabel");
+
+    const col = phase.expand === null    ? '#7b5ea7'
+              : phase.expand === true    ? '#1a6fd4'
+              : phase.expand === 'push'  ? '#c07800' : '#2d7a3a';
+    if (labelEl) {
+      labelEl.textContent = lbl;
+      labelEl.style.color = col;
+    }
+    if (circle) {
+      const d = `${phase.ms / 1000}s`;
+      if (phase.expand === true) {
+        // Light → deep blue as circle expands
+        circle.style.transition  = 'none';
+        circle.style.background  = 'rgba(30,110,210,0.06)';
+        void circle.offsetWidth;
+        circle.style.transition  = `transform ${d} ease-in, background ${d} ease-in, border-color ${d} ease-in, box-shadow ${d} ease-in`;
+        circle.style.transform   = 'scale(1.25)';
+        circle.style.background  = 'rgba(30,110,210,0.50)';
+        circle.style.borderColor = '#1a6fd4';
+        circle.style.boxShadow   = '0 0 40px rgba(30,110,210,0.38)';
+      } else if (phase.expand === null) {
+        // Steady purple (hold)
+        circle.style.transition  = 'background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease';
+        circle.style.background  = 'rgba(123,94,167,0.45)';
+        circle.style.borderColor = '#7b5ea7';
+        circle.style.boxShadow   = '0 0 26px rgba(123,94,167,0.32)';
+      } else if (phase.expand === 'push') {
+        // Amber – push last air out
+        circle.style.transition  = 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease';
+        circle.style.background  = 'rgba(192,120,0,0.30)';
+        circle.style.borderColor = '#c07800';
+        circle.style.boxShadow   = '0 0 18px rgba(192,120,0,0.22)';
+      } else {
+        // Medium green → fades to light as circle shrinks
+        circle.style.transition  = 'none';
+        circle.style.background  = 'rgba(45,122,58,0.44)';
+        void circle.offsetWidth;
+        circle.style.transition  = `transform ${d} ease-out, background ${d} ease-out, border-color ${d} ease-out, box-shadow ${d} ease-out`;
+        circle.style.transform   = 'scale(0.85)';
+        circle.style.background  = 'rgba(45,122,58,0.09)';
+        circle.style.borderColor = '#2d7a3a';
+        circle.style.boxShadow   = '0 0 10px rgba(45,122,58,0.1)';
+      }
+    }
+    breathPhaseTimer = setTimeout(() => {
+      breathPhaseIdx = (breathPhaseIdx + 1) % activeTechnique.phases.length;
+      runBreathPhase();
+    }, phase.ms);
   }
 
   // ── INIT ──────────────────────────────────────────────────────────────
@@ -2161,7 +2609,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
-  $("btnQuick").onclick         = () => startQuickMode();
+  $("btnQuick").onclick                  = () => startQuickMode();
+  if ($("btnBackFromBreathSelect"))
+    $("btnBackFromBreathSelect").onclick = () => { showView("ui-welcome"); showStreak(); };
   $("btnFavorites").onclick     = () => { renderFavorites(); showView("ui-favorites"); };
 
   $("btnBackFromMood").onclick  = () => showView("ui-home");
@@ -2170,10 +2620,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
   $("btnBackBottom").onclick    = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
-  $("btnStopQuick").onclick     = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
+  $("btnStopQuick").onclick     = () => { stopSession(); $("ui-breath-select") ? showView("ui-breath-select") : showView("ui-welcome"); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
   $("btnBackFromLegal").onclick     = () => showView("ui-home");
+
+  // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
+  if ($("btnPremiumPreview")) {
+    $("btnPremiumPreview").addEventListener("click", () => openPremiumPreview('overview'));
+    $("btnPremiumPreview").style.display = isPremium ? 'none' : '';
+  }
+  if ($("btnSongsPreview")) {
+    $("btnSongsPreview").addEventListener("click", () => openPremiumPreview('songs'));
+    $("btnSongsPreview").style.display = isPremium ? 'none' : '';
+  }
+  if ($("btnBackFromPremiumPreview")) {
+    $("btnBackFromPremiumPreview").addEventListener("click", () => {
+      stopPreview();
+      showView("ui-welcome");
+      showStreak();
+    });
+  }
+  if ($("pvBtnUpgrade")) $("pvBtnUpgrade").addEventListener("click", showUpgradePrompt);
+
+  // ── HAMBURGER MENU ────────────────────────────────────────────────────
+  function openNavMenu() {
+    if ($("navMenu"))    { $("navMenu").classList.add("open"); $("navMenu").removeAttribute("aria-hidden"); }
+    if ($("navOverlay")) $("navOverlay").classList.remove("hidden");
+    if ($("menuBtn"))    $("menuBtn").classList.add("open");
+  }
+  function closeNavMenu() {
+    if ($("navMenu"))    { $("navMenu").classList.remove("open"); $("navMenu").setAttribute("aria-hidden","true"); }
+    if ($("navOverlay")) $("navOverlay").classList.add("hidden");
+    if ($("menuBtn"))    $("menuBtn").classList.remove("open");
+  }
+  if ($("menuBtn"))      $("menuBtn").addEventListener("click", () => { $("navMenu") && $("navMenu").classList.contains("open") ? closeNavMenu() : openNavMenu(); });
+  if ($("menuClose"))    $("menuClose").addEventListener("click", closeNavMenu);
+  if ($("navOverlay"))   $("navOverlay").addEventListener("click", closeNavMenu);
+  if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
+  if ($("menuLegalNav")) $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
+  if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
+  if ($("menuLangEn"))   $("menuLangEn").addEventListener("click", () => setLang("en"));
 
   $("volumeSlider").oninput = (e) => {
     if (currentSongAudio) currentSongAudio.volume = parseFloat(e.target.value);
@@ -2214,16 +2701,45 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnCloseIosModal").onclick = () => $("iosInstallModal").classList.remove("visible");
 
   // ── SW Update Notification ────────────────────────────────────────────
-  // When the page's service worker controller changes (new SW took over),
-  // show a banner so users know a new version is ready.
   if ('serviceWorker' in navigator) {
-    let refreshing = false;
+    let waitingWorker = null;
+
+    function showUpdateBanner() {
+      const banner = $('updateBanner');
+      if (banner) banner.classList.remove('hidden');
+    }
+
+    // Nach SW-Übernahme: Seite automatisch neu laden
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshing) return;
-      refreshing = true;
-      $("updateBanner").classList.remove("hidden");
+      window.location.reload();
     });
-    $("btnUpdate").onclick = () => location.reload();
+
+    navigator.serviceWorker.ready.then(reg => {
+      // Bereits wartender SW vorhanden? (z.B. Tab war im Hintergrund)
+      if (reg.waiting) {
+        waitingWorker = reg.waiting;
+        showUpdateBanner();
+      }
+
+      // Neuen SW beobachten
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            waitingWorker = newWorker;
+            showUpdateBanner();
+          }
+        });
+      });
+
+      // Regelmäßig auf Updates prüfen (alle 60 Sek. solange Seite offen)
+      setInterval(() => reg.update(), 60000);
+    });
+
+    $('btnUpdate').onclick = () => {
+      if (waitingWorker) waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+      else location.reload();
+    };
   }
 
 });

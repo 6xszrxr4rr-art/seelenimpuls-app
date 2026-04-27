@@ -25,7 +25,7 @@
       --accent: #4a90e2;
       --accent-soft: rgba(74, 144, 226, 0.12);
       --text: #2c3e50;
-      --text-muted: #7f8c8d;
+      --text-muted: #536471;
       --bg-gradient: linear-gradient(-45deg, #eef2f3, #e3f2fd, #e8f5e9, #f3e5f5);
       --block-bg: rgba(255, 255, 255, 0.94);
       --block-border: rgba(255, 255, 255, 0.7);
@@ -41,7 +41,7 @@
         --accent: #8ab4f8;
         --accent-soft: rgba(138, 180, 248, 0.15);
         --text: #ddd6f3;
-        --text-muted: #9b93a8;
+        --text-muted: #b8aecb;
         --bg-gradient: linear-gradient(-45deg, #1a1625, #1e1b2e, #1b2535, #251528);
         --block-bg: rgba(32, 25, 50, 0.96);
         --block-border: rgba(255, 255, 255, 0.07);
@@ -94,7 +94,7 @@
     }
 
     /* ── Language Switch ── */
-    .lang-switch { text-align: right; margin-bottom: 16px; }
+    .lang-switch { text-align: right; margin-bottom: 16px; padding-right: 54px; }
     .lang-switch button {
       background: none; border: none; cursor: pointer;
       padding: 6px 10px; border-radius: 8px; font-size: 24px;
@@ -289,8 +289,8 @@
       animation: breatheCycle 8s infinite ease-in-out;
     }
     @keyframes breatheCycle {
-      0%,100% { transform: scale(0.85); border-color: #2d5a27; box-shadow: 0 0 15px rgba(45,90,39,0.2); }
-      50%      { transform: scale(1.2);  border-color: #0056b3; box-shadow: 0 0 30px rgba(0,86,179,0.3); }
+      0%,100% { transform: scale(0.85); border-color: #2d7a3a; background: rgba(45,120,55,0.1);  box-shadow: 0 0 12px rgba(45,120,55,0.15); }
+      50%      { transform: scale(1.2);  border-color: #1a6fd4; background: rgba(30,110,210,0.48); box-shadow: 0 0 36px rgba(30,110,210,0.35); }
     }
 
     /* ── Inline Atemkreis (Ritual) ── */
@@ -337,10 +337,15 @@
     }
     .quick-breath-circle {
       width: 160px; height: 160px; border-radius: 50%;
-      margin: 0 auto 32px; border: 4px solid var(--accent);
+      margin: 0 auto 12px; border: 4px solid var(--accent);
       display: flex; align-items: center; justify-content: center;
-      background: var(--accent-soft);
+      background: transparent;
       animation: breatheCycle 8s infinite ease-in-out;
+      cursor: pointer; touch-action: manipulation;
+    }
+    .quick-tap-hint {
+      text-align: center; font-size: 12px; color: var(--text-muted);
+      opacity: 0.6; margin-bottom: 24px; letter-spacing: 0.5px;
     }
 
     /* ── Favorites ── */
@@ -380,6 +385,121 @@
       background: var(--accent-soft); border-radius: 15px;
       font-style: italic; color: var(--accent); line-height: 1.7; text-align: center;
     }
+
+    /* ── Premium Preview ── */
+    #ui-premium-preview { padding-bottom: 48px; }
+    .pv-header { text-align: center; margin-bottom: 26px; }
+    .pv-badge {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .pv-title {
+      font-size: 26px; font-weight: 600; font-family: 'Lora', serif;
+      color: var(--text); margin: 0 0 8px;
+    }
+    .pv-sub { font-size: 15px; color: var(--text-muted); margin: 0; font-style: italic; }
+    .pv-features { display: flex; flex-direction: column; gap: 9px; margin-bottom: 34px; }
+    .pv-feature {
+      font-size: 15px; color: var(--text); padding: 11px 16px;
+      border-radius: 13px; background: var(--block-bg);
+      border: 1px solid rgba(74,144,226,0.15);
+    }
+    .pv-section-title {
+      font-size: 16px; font-weight: 600; color: var(--text);
+      margin: 30px 0 12px; font-family: -apple-system, sans-serif;
+    }
+    .pv-song-grid { display: flex; flex-direction: column; gap: 14px; }
+    /* Album-Karte */
+    .pv-album-card {
+      border-radius: 18px; background: var(--block-bg);
+      border: 1px solid rgba(74,144,226,0.18); overflow: hidden;
+    }
+    .pv-album-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 16px 14px; gap: 10px;
+    }
+    .pv-album-left { display: flex; align-items: center; gap: 12px; }
+    .pv-album-flag { font-size: 28px; flex-shrink: 0; line-height: 1; }
+    .pv-album-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .pv-album-meta { font-size: 12px; color: var(--text-muted); }
+    .pv-album-right { text-align: right; flex-shrink: 0; }
+    .pv-album-price { display: block; font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .pv-album-buy {
+      background: var(--accent); color: white; border: none;
+      padding: 8px 14px; border-radius: 20px; font-size: 13px;
+      font-weight: 600; cursor: pointer; white-space: nowrap;
+      font-family: -apple-system, sans-serif;
+    }
+    /* Song-Zeile innerhalb Album */
+    .pv-album-divider { height: 1px; background: rgba(74,144,226,0.1); margin: 0 16px; }
+    .pv-song-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; border-bottom: 1px solid rgba(74,144,226,0.07);
+      transition: background 0.2s;
+    }
+    .pv-song-row:last-child { border-bottom: none; }
+    .pv-song-row.pv-playing { background: var(--accent-soft); }
+    .pv-song-row-info { flex: 1; min-width: 0; }
+    .pv-song-row-title { display: block; font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pv-song-row-sit { display: block; font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .pv-play-btn {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid var(--accent); background: transparent;
+      color: var(--accent); font-size: 12px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      font-family: -apple-system, sans-serif; line-height: 1;
+    }
+    .pv-song-row.pv-playing .pv-play-btn { background: var(--accent); color: white; }
+    .pv-song-buy {
+      flex-shrink: 0; font-size: 12px; font-weight: 600;
+      color: var(--accent); background: var(--accent-soft);
+      border: 1px solid var(--accent); border-radius: 14px;
+      padding: 5px 10px; cursor: pointer; white-space: nowrap;
+      font-family: -apple-system, sans-serif;
+    }
+    .pv-card-wrap { position: relative; border-radius: 18px; overflow: hidden; height: 200px; margin-bottom: 6px; }
+    .pv-card-back {
+      position: absolute; top: 10px; left: 8px; right: -8px; bottom: -8px;
+      border-radius: 18px; opacity: 0.28;
+    }
+    .pv-card-main {
+      position: absolute; inset: 0; border-radius: 18px; padding: 20px 22px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .pv-card-sit {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: rgba(255,255,255,0.55); margin-bottom: 8px;
+    }
+    .pv-card-txt {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 17px; line-height: 1.55; color: white; margin: 0;
+    }
+    .pv-card-fade {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 55px; pointer-events: none;
+    }
+    .pv-more { text-align: center; font-size: 13px; color: var(--text-muted); margin: 6px 0 0; }
+    .pv-ws-wrap {
+      position: relative; overflow: hidden; border-radius: 16px;
+      background: #fdf8f2; padding: 18px 20px; max-height: 150px; margin-bottom: 6px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .pv-ws-wrap { background: rgba(32,25,50,0.96); }
+      .pv-ws-wrap-title { color: #c9b48e !important; }
+      .pv-ws-wrap-quote { color: #9e7e4e !important; }
+      .pv-ws-field { color: #9e7e4e !important; border-color: #5c4020 !important; }
+      .pv-ws-fade { background: linear-gradient(transparent, rgba(32,25,50,0.96)) !important; }
+    }
+    .pv-ws-wrap-title { font-size: 15px; font-weight: 600; color: #5c4a1e; margin-bottom: 6px; }
+    .pv-ws-wrap-quote { font-size: 13px; font-style: italic; color: #8b6f3e; line-height: 1.5; margin-bottom: 10px; }
+    .pv-ws-field { padding: 7px 0; border-bottom: 1px solid #d4b483; font-size: 13px; color: #a07840; }
+    .pv-ws-fade {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(transparent, #fdf8f2); pointer-events: none;
+    }
+    .pv-cta { margin-top: 36px; }
+    .pv-already { text-align: center; font-size: 15px; color: var(--accent); padding: 16px 0; }
 
     /* ── Legal View ── */
     .legal-footer {
@@ -867,6 +987,115 @@
 
     .ws-divider { border: none; border-top: 1.5px solid #C4A35A; margin: 8px 0 0; }
 
+    /* ── Breath Technique Cards ── */
+    .breath-tech-card {
+      background: var(--block-bg); border: 1px solid var(--block-border);
+      border-radius: 20px; padding: 20px 22px; margin-bottom: 12px;
+      cursor: pointer; touch-action: manipulation; display: block; width: 100%;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04); text-align: left;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .breath-tech-card:active { background: var(--accent-soft); transform: scale(0.99); }
+    .breath-tech-name {
+      font-size: 20px; font-weight: 600; color: var(--text);
+      font-family: 'Lora', serif; display: block; margin-bottom: 4px;
+    }
+    .breath-tech-timing {
+      font-size: 13px; color: var(--accent); display: block; margin-bottom: 10px;
+      font-family: -apple-system, system-ui, sans-serif; letter-spacing: 1px;
+      font-weight: 700; text-transform: uppercase;
+    }
+    .breath-tech-desc {
+      font-size: 16px; color: var(--text-muted); line-height: 1.65;
+      font-family: -apple-system, system-ui, sans-serif; margin: 0;
+    }
+
+    /* ── Hamburger / Nav Menu ── */
+    .hamburger-btn {
+      position: fixed; top: 16px; right: 16px; z-index: 500;
+      background: var(--block-bg); border: 1px solid var(--block-border);
+      border-radius: 14px; width: 46px; height: 46px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 5px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent; padding: 0;
+    }
+    .hamburger-btn span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 498;
+      background: rgba(0,0,0,0.42);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .nav-menu {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 499;
+      width: min(82vw, 300px);
+      background: var(--block-bg); border-left: 1px solid var(--block-border);
+      transform: translateX(105%);
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; flex-direction: column;
+      border-radius: 24px 0 0 24px;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.18);
+    }
+    .nav-menu.open { transform: translateX(0); }
+    .nav-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 56px 20px 18px;
+      border-bottom: 1px solid var(--block-border);
+    }
+    .nav-brand {
+      font-family: 'Lora', serif; font-size: 16px; font-weight: 600;
+      color: var(--text); letter-spacing: 3px; text-transform: uppercase;
+    }
+    .nav-close {
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 15px;
+      color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+      touch-action: manipulation; flex-shrink: 0;
+    }
+    .nav-items { padding: 12px 10px; overflow-y: auto; flex: 1; }
+    .nav-item {
+      display: flex; align-items: center; width: 100%; padding: 15px 14px;
+      background: none; border: none; border-radius: 14px;
+      font-size: 16px; color: var(--text); cursor: pointer;
+      font-family: -apple-system, system-ui, sans-serif;
+      text-decoration: none; text-align: left;
+      touch-action: manipulation; transition: background 0.15s; margin-bottom: 2px;
+    }
+    .nav-item:active, .nav-item:hover { background: var(--accent-soft); }
+    .nav-divider { border: none; border-top: 1px solid var(--block-border); margin: 10px 4px; }
+    .nav-lang { padding: 10px 14px 6px; }
+    .nav-lang-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px;
+      color: var(--text-muted); font-family: -apple-system, system-ui, sans-serif;
+      display: block; margin-bottom: 10px; font-weight: 600;
+    }
+    .nav-lang-btns { display: flex; gap: 8px; }
+    .nav-lang-btn {
+      flex: 1; padding: 11px 8px; border-radius: 12px;
+      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
+      color: var(--btn-ghost-color); font-size: 14px; cursor: pointer;
+      touch-action: manipulation; font-family: -apple-system, system-ui, sans-serif;
+      transition: all 0.2s; text-align: center;
+    }
+    .nav-lang-btn.active {
+      background: var(--accent-soft); border-color: var(--accent);
+      color: var(--accent); font-weight: 700;
+    }
+    .nav-footer {
+      padding: 16px 20px 36px;
+      border-top: 1px solid var(--block-border);
+      font-size: 11px; color: var(--text-muted);
+      font-family: -apple-system, system-ui, sans-serif;
+      text-align: center; letter-spacing: 0.5px;
+    }
+
     @media print {
       body * { visibility: hidden; }
       #ui-worksheet, #ui-worksheet * { visibility: visible; }
@@ -922,6 +1151,12 @@
       <div class="welcome-actions">
         <button class="btn-ghost" id="btnQuick">💨 Atemübung (3 min)</button>
         <button class="btn-ghost" id="btnFavorites" style="display:none;">❤️ Meine Affirmationen</button>
+        <button class="btn-ghost" id="btnPremiumPreview"
+                data-de="✨ Premium entdecken"
+                data-en="✨ Discover Premium">✨ Premium entdecken</button>
+        <button class="btn-ghost" id="btnSongsPreview"
+                data-de="🎵 Klangwelten anhören"
+                data-en="🎵 Listen to Soundscapes">🎵 Klangwelten anhören</button>
         <button class="btn-ghost" id="btnCards"
                 data-de="💫 Affirmationskarten"
                 data-en="💫 Affirmation Cards">💫 Affirmationskarten</button>
@@ -956,7 +1191,7 @@
         <div id="homeSituationsList"></div>
 
         <!-- Unten, nach den Situationen -->
-        <div class="support-links-sm" style="margin-top:40px;">
+        <div id="homeSupportLinks" class="support-links-sm" style="margin-top:40px;">
           <a href="http://ko-fi.com/seelenimpuls/tiers" target="_blank" rel="noopener"
              class="support-link-sm"
              data-de="✨ Exklusive Inhalte"
@@ -968,7 +1203,8 @@
              data-en="☕ Support this work">☕ Diese Arbeit unterstützen</a>
         </div>
         <div class="legal-footer">
-          <button class="legal-link" id="btnLegal">Datenschutz &amp; Impressum</button>
+          <button class="legal-link" id="btnLegal"
+                  data-de="Datenschutz &amp; Impressum" data-en="Privacy &amp; Legal Notice">Datenschutz &amp; Impressum</button>
         </div>
       </div>
     </div>
@@ -1106,7 +1342,7 @@
       <button id="btnBackBottom">Übung beenden</button>
       <div id="lyricsBox"><div id="lyricsContent"></div></div>
 
-      <div class="situation-end-support">
+      <div id="situationEndSupport" class="situation-end-support">
         <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener"
            class="support-link-sm"
            data-de="☕ Diese Arbeit unterstützen"
@@ -1119,6 +1355,18 @@
       </div>
     </div>
 
+    <!-- ── BREATH SELECT ── -->
+    <div id="ui-breath-select" class="hidden">
+      <button class="btn-back-sm" id="btnBackFromBreathSelect"
+              data-de="← Zurück" data-en="← Back">← Zurück</button>
+      <h2 data-de="Atemübung wählen" data-en="Choose a Breathing Exercise"
+          style="font-weight:400; letter-spacing:1px; margin:0 0 6px; font-size:22px;">Atemübung wählen</h2>
+      <p data-de="Wähle die Technik, die sich heute richtig anfühlt."
+         data-en="Choose the technique that feels right for you today."
+         style="color:var(--text-muted); font-style:italic; margin:0 0 20px; line-height:1.6;"></p>
+      <div id="breathTechGrid"></div>
+    </div>
+
     <!-- ── QUICK MODE ── -->
     <div id="ui-quick" class="hidden">
       <div class="quick-wrap">
@@ -1128,6 +1376,7 @@
         <div class="quick-breath-circle">
           <span id="quickBreathLabel" style="font-weight:bold; letter-spacing:1px; font-size:20px; font-family:-apple-system,sans-serif; color:#0056b3;">EIN</span>
         </div>
+        <p class="quick-tap-hint" data-de="Tippen = nächste Phase" data-en="Tap = next phase">Tippen = nächste Phase</p>
         <button class="btn-ghost" id="btnStopQuick" style="max-width:260px; margin:0 auto; display:block;">Beenden</button>
       </div>
     </div>
@@ -1196,6 +1445,7 @@
            data-en="✓ You already have Premium – enjoy all content.">✓ Du hast bereits Premium – genieße alle Inhalte.</p>
       </div>
     </div>
+
     <!-- ── FAVORITES ── -->
     <div id="ui-favorites" class="hidden">
       <h2 id="favTitle" style="font-weight:400; text-align:center; margin-bottom:24px;">❤️ Meine Affirmationen</h2>
@@ -1205,54 +1455,101 @@
 
     <!-- ── LEGAL ── -->
     <div id="ui-legal" class="hidden">
-      <button class="btn-ghost" id="btnBackFromLegal" style="margin-bottom:28px;">← Zurück</button>
+      <button class="btn-ghost" id="btnBackFromLegal" style="margin-bottom:28px;"
+              data-de="← Zurück" data-en="← Back">← Zurück</button>
       <div class="legal-content">
 
-        <!-- GESUNDHEITLICHER HINWEIS -->
-        <div class="disclaimer-box">
-          <p>⚕️ <strong>Kein ärztlicher Rat.</strong> Diese App dient ausschließlich der allgemeinen Entspannung und Achtsamkeit. Sie ersetzt keine medizinische, psychologische oder therapeutische Beratung. Bei gesundheitlichen Beschwerden wende dich bitte an eine qualifizierte Fachkraft.</p>
+        <!-- DEUTSCH -->
+        <div class="legal-lang-de">
+          <div class="disclaimer-box">
+            <p>⚕️ <strong>Kein ärztlicher Rat.</strong> Diese App dient ausschließlich der allgemeinen Entspannung und Achtsamkeit. Sie ersetzt keine medizinische, psychologische oder therapeutische Beratung. Bei gesundheitlichen Beschwerden wende dich bitte an eine qualifizierte Fachkraft.</p>
+          </div>
+
+          <h2>Datenschutzerklärung</h2>
+
+          <h3>Verantwortliche Person</h3>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
+
+          <h3>Welche Daten werden gespeichert?</h3>
+          <p>Diese App speichert ausschließlich folgende Daten <strong>lokal auf deinem Gerät</strong> (im Browser-Speicher / localStorage). Es werden keine Daten an uns oder Dritte übermittelt:</p>
+          <ul>
+            <li>Tages-Streak (wie viele Tage du die App genutzt hast)</li>
+            <li>Gespeicherte Lieblingsaffirmationen</li>
+            <li>Spracheinstellung (Deutsch / Englisch)</li>
+            <li>Ob du die App schon einmal geöffnet hast</li>
+          </ul>
+          <p>Diese Daten bleiben nur auf deinem Gerät und können jederzeit durch Löschen des Browser-Caches entfernt werden.</p>
+
+          <h3>Hosting (GitHub Pages)</h3>
+          <p>Diese App wird über GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf der App kann GitHub technische Verbindungsdaten (z. B. IP-Adresse) verarbeiten. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">Datenschutzerklärung von GitHub</a>.</p>
+
+          <h3>Externe Links (Ko-fi)</h3>
+          <p>Die App enthält Links zur Plattform Ko-fi (Ko-fi Labs Limited). Wenn du auf diese Links klickst, gelangst du auf eine externe Website. Für deren Datenschutz ist Ko-fi verantwortlich. Weitere Informationen: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
+
+          <h3>Deine Rechte</h3>
+          <p>Da wir keine personenbezogenen Daten erheben oder verarbeiten, entstehen keine datenschutzrechtlichen Ansprüche gegenüber uns. Alle lokal gespeicherten Daten kannst du jederzeit selbst löschen (Browser-Einstellungen → Websitedaten löschen).</p>
+
+          <h2>Impressum</h2>
+          <p>Angaben gemäß § 5 TMG:</p>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Stand: April 2025</p>
         </div>
 
-        <!-- DATENSCHUTZERKLÄRUNG -->
-        <h2>Datenschutzerklärung</h2>
+        <!-- ENGLISH -->
+        <div class="legal-lang-en hidden">
+          <div class="disclaimer-box">
+            <p>⚕️ <strong>Not medical advice.</strong> This app is intended solely for general relaxation and mindfulness. It does not replace medical, psychological, or therapeutic consultation. If you have health concerns, please consult a qualified professional.</p>
+          </div>
 
-        <h3>Verantwortliche Person</h3>
-        <p>
-          <strong>Diana Thieme</strong><br>
-          Königsberger Straße 5<br>
-          50170 Kerpen<br>
-          E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
-        </p>
+          <h2>Privacy Policy</h2>
 
-        <h3>Welche Daten werden gespeichert?</h3>
-        <p>Diese App speichert ausschließlich folgende Daten <strong>lokal auf deinem Gerät</strong> (im Browser-Speicher / localStorage). Es werden keine Daten an uns oder Dritte übermittelt:</p>
-        <ul>
-          <li>Tages-Streak (wie viele Tage du die App genutzt hast)</li>
-          <li>Gespeicherte Lieblingsaffirmationen</li>
-          <li>Spracheinstellung (Deutsch / Englisch)</li>
-          <li>Ob du die App schon einmal geöffnet hast</li>
-        </ul>
-        <p>Diese Daten bleiben nur auf deinem Gerät und können jederzeit durch Löschen des Browser-Caches entfernt werden.</p>
+          <h3>Controller</h3>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen, Germany<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
 
-        <h3>Hosting (GitHub Pages)</h3>
-        <p>Diese App wird über GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) bereitgestellt. Beim Aufruf der App kann GitHub technische Verbindungsdaten (z. B. IP-Adresse) verarbeiten. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">Datenschutzerklärung von GitHub</a>.</p>
+          <h3>What data is stored?</h3>
+          <p>This app stores only the following data <strong>locally on your device</strong> (in browser storage / localStorage). No data is transmitted to us or any third party:</p>
+          <ul>
+            <li>Daily streak (number of days you have used the app)</li>
+            <li>Saved favourite affirmations</li>
+            <li>Language setting (German / English)</li>
+            <li>Whether you have opened the app before</li>
+          </ul>
+          <p>This data stays only on your device and can be deleted at any time by clearing your browser cache.</p>
 
-        <h3>Externe Links (Ko-fi)</h3>
-        <p>Die App enthält Links zur Plattform Ko-fi (Ko-fi Labs Limited). Wenn du auf diese Links klickst, gelangst du auf eine externe Website. Für deren Datenschutz ist Ko-fi verantwortlich. Weitere Informationen: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
+          <h3>Hosting (GitHub Pages)</h3>
+          <p>This app is hosted via GitHub Pages (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA). When you access the app, GitHub may process technical connection data (e.g. IP address). For more information, see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">GitHub Privacy Statement</a>.</p>
 
-        <h3>Deine Rechte</h3>
-        <p>Da wir keine personenbezogenen Daten erheben oder verarbeiten, entstehen keine datenschutzrechtlichen Ansprüche gegenüber uns. Alle lokal gespeicherten Daten kannst du jederzeit selbst löschen (Browser-Einstellungen → Websitedaten löschen).</p>
+          <h3>External Links (Ko-fi)</h3>
+          <p>This app contains links to the Ko-fi platform (Ko-fi Labs Limited). When you click these links, you will be taken to an external website. Ko-fi is responsible for their own privacy practices. For more information: <a href="https://ko-fi.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">ko-fi.com/privacy</a>.</p>
 
-        <!-- IMPRESSUM -->
-        <h2>Impressum</h2>
-        <p>Angaben gemäß § 5 TMG:</p>
-        <p>
-          <strong>Diana Thieme</strong><br>
-          Königsberger Straße 5<br>
-          50170 Kerpen<br>
-          E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
-        </p>
-        <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Stand: April 2025</p>
+          <h3>Your Rights</h3>
+          <p>Since we do not collect or process any personal data, no data protection claims arise against us. All locally stored data can be deleted by you at any time (Browser Settings → Clear website data).</p>
+
+          <h2>Legal Notice</h2>
+          <p>Information pursuant to § 5 TMG (German Telemedia Act):</p>
+          <p>
+            <strong>Diana Thieme</strong><br>
+            Königsberger Straße 5<br>
+            50170 Kerpen, Germany<br>
+            E-Mail: <a href="mailto:hallo@seelenimpuls.app" style="color:var(--accent);">hallo@seelenimpuls.app</a>
+          </p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:30px;">Last updated: April 2025</p>
+        </div>
 
       </div>
     </div>
@@ -1296,6 +1593,37 @@
               data-de="Verstanden" data-en="Got it">Verstanden</button>
     </div>
   </div>
+
+  <!-- Hamburger Button -->
+  <button id="menuBtn" class="hamburger-btn" aria-label="Menü öffnen">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Nav Overlay -->
+  <div id="navOverlay" class="nav-overlay hidden"></div>
+
+  <!-- Nav Menu -->
+  <nav id="navMenu" class="nav-menu" aria-hidden="true">
+    <div class="nav-header">
+      <span class="nav-brand">Seelenimpuls</span>
+      <button id="menuClose" class="nav-close" aria-label="Menü schließen">✕</button>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item" id="menuPremium">✨&nbsp;&nbsp;<span data-de="Premium werden" data-en="Get Premium">Premium werden</span></button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" id="menuLegalNav">📋&nbsp;&nbsp;<span data-de="Datenschutz &amp; Impressum" data-en="Privacy &amp; Legal Notice">Datenschutz &amp; Impressum</span></button>
+      <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener" class="nav-item">☕&nbsp;&nbsp;Diese Arbeit unterstützen</a>
+      <div class="nav-divider"></div>
+      <div class="nav-lang">
+        <span class="nav-lang-label">Sprache / Language</span>
+        <div class="nav-lang-btns">
+          <button id="menuLangDe" class="nav-lang-btn active">🇩🇪 Deutsch</button>
+          <button id="menuLangEn" class="nav-lang-btn">🇬🇧 English</button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-footer">© 2025 Seelenimpuls · Diana Thieme</div>
+  </nav>
 
   <script src="situations/situation-1.js"></script>
   <script src="situations/situation-2.js"></script>

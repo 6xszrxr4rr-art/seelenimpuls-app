@@ -36,7 +36,7 @@ window.SITUATIONS[8] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-8.mp3",
+  songFile: "audio/situation-8-deutsch.mp3",
   songOutro: "✨ Klarheit darf sich in deinem Tempo zeigen.",
 
   ankommenText_en:
