@@ -96,14 +96,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showPaymentSuccess() {
+    const u = ui[lang];
     const el = document.createElement('div');
     el.className = 'upgrade-overlay';
     el.innerHTML =
       '<div class="upgrade-sheet">' +
         '<span class="upgrade-icon">🎉</span>' +
-        '<h3 class="upgrade-title">Vielen Dank!</h3>' +
-        '<p style="text-align:center;margin:12px 0 20px">Dein Zugang ist jetzt aktiv.</p>' +
-        '<button class="btn-primary upgrade-btn" id="paySuccessClose">Zur App</button>' +
+        '<h3 class="upgrade-title">' + u.paySuccessTitle + '</h3>' +
+        '<p style="text-align:center;margin:12px 0 20px">' + u.paySuccessMsg + '</p>' +
+        '<button class="btn-primary upgrade-btn" id="paySuccessClose">' + u.paySuccessBtn + '</button>' +
       '</div>';
     document.body.appendChild(el);
     el.$id = el;
@@ -140,14 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showGiftWelcome(name) {
+    const u = ui[lang];
     const el = document.createElement('div');
     el.id = 'giftOverlay';
     el.innerHTML =
       '<div class="gift-sheet">' +
         '<span class="gift-icon">🎁</span>' +
-        '<h3 class="gift-title">' + (name ? 'Willkommen, ' + name + '!' : 'Willkommen!') + '</h3>' +
-        '<p class="gift-msg">Du hast exklusiven Zugang zu allen Inhalten freigeschaltet.<br>Viel Freude mit Seelenimpuls. 🌿</p>' +
-        '<button id="btnCloseGift">Los geht\'s ✨</button>' +
+        '<h3 class="gift-title">' + u.giftTitle(name) + '</h3>' +
+        '<p class="gift-msg">' + u.giftMsg + '</p>' +
+        '<button id="btnCloseGift">' + u.giftBtn + '</button>' +
       '</div>';
     document.body.appendChild(el);
     document.getElementById('btnCloseGift').addEventListener('click', () => el.remove());
@@ -161,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     de: [
       "Atme tief ein. Du darfst gehalten sein.",
       "Du darfst langsam sein.",
-      "Dein Herz kennt den Weg.",
+      "Du weißt mehr, als du gerade denkst.",
       "Alles darf leicht werden.",
       "Du darfst in Sicherheit ankommen.",
       "Dieser Atemzug trägt dich.",
@@ -169,15 +171,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "Ruhe ist kein Luxus. Sie ist dein Recht.",
       "Vertrauen darf wachsen.",
       "Du bist nicht allein.",
-      "Dieser Moment gehört dir.",
+      "Lass die Schultern sinken.",
       "Sanftheit beginnt bei dir selbst.",
-      "Alles findet seinen Weg.",
+      "Du hast schon mehr gemeistert, als du gerade siehst.",
       "Du darfst ankommen."
     ],
     en: [
       "Breathe deeply in. You may be held.",
       "You may be slow.",
-      "Your heart knows the way.",
+      "You know more than you think right now.",
       "Everything may become light.",
       "You may arrive in safety.",
       "This breath holds you.",
@@ -185,9 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "Rest is not a luxury. It is your right.",
       "Trust may grow.",
       "You are not alone.",
-      "This moment belongs to you.",
+      "Let your shoulders drop.",
       "Gentleness begins with yourself.",
-      "Everything finds its way.",
+      "You've already handled more than you can see.",
       "You may arrive."
     ]
   };
@@ -214,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btnQuick: "💨 Atemübung (3 min)",
       btnFavorites: "❤️ Meine Affirmationen",
       btnBack: "Zurück",
-      btnBackBottom: "ÜBUNG BEENDEN",
+      btnBackBottom: "Übung beenden",
       impulsDefault: "Atme tief ein.",
       headers: { b1:"🌿 Ankommen", b2:"💡 Einblick", b3:"✨ Kraftsätze", b4:"🌙 Mini-Ritual", b5:"🎶 Abschluss" },
       breathLabels: { ein:"EIN", aus:"AUS" },
@@ -231,7 +233,26 @@ document.addEventListener("DOMContentLoaded", () => {
       quickStop: "Beenden",
       favTitle: "❤️ Meine Affirmationen",
       favEmpty: "Noch keine gespeichert.<br>Tippe ♡ bei einer Affirmation.",
-      streak: (n) => `🔥 ${n} Tag${n === 1 ? "" : "e"} dabei`
+      streak: (n) => `🔥 ${n} Tag${n === 1 ? "" : "e"} dabei`,
+      upgradeFeatures: ['💫 Affirmationskarten','📝 Arbeitsblätter für alle Situationen','📖 Tiefgang-Texte & Hintergrundwissen','🎵 Premium-Songs zu jeder Situation','🧘 Geführte Meditationen'],
+      upgradeBtnMonthly: (p) => `✨ Monatsabo – ${p}`,
+      upgradeBtnYearly:  (p) => `🌟 Jahresabo – ${p}`,
+      upgradeRestoreLink: 'Zugang bereits erworben? Wiederherstellen',
+      restoreTitle: 'Zugang wiederherstellen',
+      restoreInstr: 'Gib deine E-Mail-Adresse ein, mit der du bezahlt hast.',
+      restorePlaceholder: 'deine@email.de',
+      restoreBtn: 'Zugang prüfen',
+      restoreChecking: 'Wird geprüft…',
+      restoreNotFound: 'Kein aktiver Zugang für diese E-Mail gefunden.',
+      restoreError: 'Fehler beim Prüfen. Bitte versuche es erneut.',
+      paySuccessTitle: 'Vielen Dank!',
+      paySuccessMsg: 'Dein Zugang ist jetzt aktiv.',
+      paySuccessBtn: 'Zur App',
+      giftTitle: (name) => name ? 'Willkommen, ' + name + '!' : 'Willkommen!',
+      giftMsg: 'Du hast exklusiven Zugang zu allen Inhalten freigeschaltet.<br>Viel Freude mit Seelenimpuls. 🌿',
+      giftBtn: "Los geht's ✨",
+      premiumPlay: 'abspielen',
+      premiumPlaying: 'spielt…'
     },
     en: {
       impulsLabel: "✨ Daily Impulse",
@@ -241,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btnQuick: "💨 Breathing (3 min)",
       btnFavorites: "❤️ My Affirmations",
       btnBack: "Back",
-      btnBackBottom: "END EXERCISE",
+      btnBackBottom: "End exercise",
       impulsDefault: "Breathe deeply in.",
       headers: { b1:"🌿 Arriving", b2:"💡 Insight", b3:"✨ Power Phrases", b4:"🌙 Mini Ritual", b5:"🎶 Closing" },
       breathLabels: { ein:"IN", aus:"OUT" },
@@ -258,7 +279,26 @@ document.addEventListener("DOMContentLoaded", () => {
       quickStop: "Stop",
       favTitle: "❤️ My Affirmations",
       favEmpty: "None saved yet.<br>Tap ♡ on an affirmation.",
-      streak: (n) => `🔥 ${n} day${n === 1 ? "" : "s"} with you`
+      streak: (n) => `🔥 ${n} day${n === 1 ? "" : "s"} with you`,
+      upgradeFeatures: ['💫 Affirmation Cards','📝 Worksheets for all Situations','📖 In-Depth Texts & Background','🎵 Premium Songs for each Situation','🧘 Guided Meditations'],
+      upgradeBtnMonthly: (p) => `✨ Monthly – ${p}`,
+      upgradeBtnYearly:  (p) => `🌟 Yearly – ${p}`,
+      upgradeRestoreLink: 'Already purchased? Restore access',
+      restoreTitle: 'Restore Access',
+      restoreInstr: 'Enter the email address you used to pay.',
+      restorePlaceholder: 'your@email.com',
+      restoreBtn: 'Check Access',
+      restoreChecking: 'Checking…',
+      restoreNotFound: 'No active access found for this email.',
+      restoreError: 'Error while checking. Please try again.',
+      paySuccessTitle: 'Thank you!',
+      paySuccessMsg: 'Your access is now active.',
+      paySuccessBtn: 'To the App',
+      giftTitle: (name) => name ? 'Welcome, ' + name + '!' : 'Welcome!',
+      giftMsg: 'You have unlocked exclusive access to all content.<br>Enjoy Seelenimpuls. 🌿',
+      giftBtn: "Let's go ✨",
+      premiumPlay: 'play',
+      premiumPlaying: 'playing…'
     }
   };
 
@@ -274,7 +314,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { emoji:"🤔", label:"Zweifelnd",      situation:7  },
       { emoji:"🌀", label:"Unentschlossen", situation:8  },
       { emoji:"🌱", label:"Im Wandel",      situation:9  },
-      { emoji:"😰", label:"Ängstlich",      situation:10 }
+      { emoji:"😰", label:"Ängstlich",      situation:10 },
+      { emoji:"🕊️", label:"Im Konflikt",   situation:11 }
     ],
     en: [
       { emoji:"🌊", label:"Restless",       situation:1  },
@@ -286,7 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { emoji:"🤔", label:"Doubtful",       situation:7  },
       { emoji:"🌀", label:"Undecided",      situation:8  },
       { emoji:"🌱", label:"In Transition",  situation:9  },
-      { emoji:"😰", label:"Anxious",        situation:10 }
+      { emoji:"😰", label:"Anxious",        situation:10 },
+      { emoji:"🕊️", label:"In Conflict",   situation:11 }
     ]
   };
 
@@ -363,20 +405,20 @@ document.addEventListener("DOMContentLoaded", () => {
             en:"I am becoming soft.\nI am letting go." },
       accent:"#A8C5D4", bg1:"#1e2d38", bg2:"#0f1920" },
     { nr:4,  sit:{ de:"Erschöpfung",           en:"Exhaustion" },
-      txt:{ de:"Tief in mir\nbrennt ein\ngoldenes Licht.\nEs erlischt nicht.",
-            en:"I am not empty —\nI am just finding\nmy way free." },
+      txt:{ de:"Ich bin nicht leer.\nIch bin erschöpft.\nDas ist nicht\ndasselbe.",
+            en:"I am not empty.\nI am resting." },
       accent:"#D4A84B", bg1:"#2a2210", bg2:"#1a1508" },
     { nr:5,  sit:{ de:"Traurigkeit",           en:"Sadness" },
       txt:{ de:"Komm rein,\ndu stiller Gast.\nIch halte dich.\nIch halte mich.",
-            en:"Yes, come in,\nyou quiet guest.\nI'll hold you true." },
+            en:"Come in, quiet guest.\nI've been waiting\nfor you." },
       accent:"#8B9EAF", bg1:"#1a2030", bg2:"#0d1018" },
     { nr:6,  sit:{ de:"Innere Leere",          en:"Inner Emptiness" },
       txt:{ de:"Ich bin schon da.\nIch bin schon\nganz bei mir.",
             en:"I'm already here.\nI'm already mine." },
       accent:"#9BA8B4", bg1:"#1e2228", bg2:"#10141a" },
     { nr:7,  sit:{ de:"Selbstzweifel",         en:"Self-Doubt" },
-      txt:{ de:"Ich steh auf\nmeiner Seite.\nIch bin\nmein eigenes Licht.",
-            en:"I am here\nand I am enough.\nLet that sink." },
+      txt:{ de:"Ich steh auf\nmeiner Seite.\nDas fühlt sich an\nwie Heimkommen.",
+            en:"I'm on my side.\nThat is enough." },
       accent:"#C49A6C", bg1:"#2a1e14", bg2:"#1a120a" },
     { nr:8,  sit:{ de:"Entscheidungszweifel",  en:"Decision Doubt" },
       txt:{ de:"In meiner Tiefe\nliegt ein stiller See.\nEr kennt\ndie Antwort.",
@@ -388,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
       accent:"#8AAF7A", bg1:"#1a2818", bg2:"#0d180a" },
     { nr:10, sit:{ de:"Angst",                 en:"Fear" },
       txt:{ de:"Nach dem Gewitter\nwird es still.\nEs wird immer\nstill danach.",
-            en:"After the storm,\nit all grows still." },
+            en:"After the storm,\nit all grows still.\nIt always does." },
       accent:"#B89EC4", bg1:"#221a2a", bg2:"#14101a" },
     { nr:11, sit:{ de:"Konflikte & Frieden",  en:"Conflicts & Peace" },
       txt:{ de:"In mir ist ein Ort,\nden kein Streit\nerreicht.",
@@ -422,7 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
           '<div class="cg-line" style="background:linear-gradient(90deg,transparent,' + a + '60,transparent);margin-top:14px"></div>' +
           '<div class="cg-brand" style="color:' + a + '50">Seelenimpuls</div>' +
         '</div>' +
-        '<span class="cg-num" style="color:' + a + '30">' + card.nr + '/10</span>';
+        '<span class="cg-num" style="color:' + a + '30">' + card.nr + '/11</span>';
       el.addEventListener('click', () => openCardFullscreen(card));
       grid.appendChild(el);
     });
@@ -459,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const WORKSHEETS = {
     1: {
       title: "Innere Unruhe & Gedankenkarussell",
-      quote: '„Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen."',
+      quote: '„Dein Körper löst sich, wenn er sich sicher fühlt."',
       sections: [
         {
           heading: null,
@@ -933,33 +975,470 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // ── ARBEITSBLÄTTER EN ────────────────────────────────────────────────
+  const WORKSHEETS_EN = {
+    1: {
+      title: "Inner Restlessness & the Thought Spiral",
+      quote: '"Your body releases when it feels safe."',
+      sections: [
+        {
+          heading: "Course of the Day",
+          body: null,
+          fields: [
+            { label: "Morning:" },
+            { label: "During the day:" },
+            { label: "In the evening:" },
+          ]
+        },
+        {
+          heading: "What lies beneath the restlessness?",
+          body: "What do I really need right now?",
+          fields: [
+            { options: ["Clarity about a particular situation","Belonging / connection","Safety / control","Calm / distance"] },
+            { label: "Something else:" },
+          ]
+        },
+        {
+          heading: "My Thought Spiral",
+          body: "Write down the 3 thoughts that repeat most often:",
+          fields: [
+            null,
+            null,
+            null,
+            { label: "What need is behind these thoughts?" },
+          ]
+        },
+        {
+          heading: "My Anchor Phrase",
+          body: "Choose a phrase to say to yourself in moments of restlessness:",
+          fields: [
+            { options: ["I am here. I am safe.","My thoughts are not me.","I may slow down."] },
+            { label: "My own phrase:" },
+          ]
+        }
+      ]
+    },
+
+    2: {
+      title: "Overwhelm & Inner Pressure",
+      quote: '"Relief begins with a conscious decision. I don't need to solve everything right now."',
+      sections: [
+        {
+          heading: "Brain Dump",
+          body: "Write down EVERYTHING that\'s occupying your mind right now. Without order, without judgment.",
+          fields: [ null ]
+        },
+        {
+          heading: "Sorting",
+          body: "Sort the items from above:",
+          fields: [
+            { col1: "Truly urgent (today/tomorrow)", col2: "Can wait (this week+)" },
+            null, null, null,
+            { col1: "My task", col2: "Others\' expectations" },
+            null, null,
+          ]
+        },
+        {
+          heading: "Overwhelm Check",
+          body: "How overwhelmed are you feeling right now?",
+          fields: [
+            { min_label: "not at all", max_label: "extremely" },
+            { label: "What is ONE small step that would bring relief right now?" },
+          ]
+        },
+        {
+          heading: "Practice: Saying No",
+          body: "What could you say no to this week?",
+          fields: [ null, null ]
+        }
+      ]
+    },
+
+    3: {
+      title: "Tension & Inner Holding",
+      quote: '"Your body lets go when it feels safe."',
+      sections: [
+        {
+          heading: "Body Scan",
+          body: "Note where you feel tension:",
+          fields: [
+            { options: ["Forehead / temples","Jaw / teeth","Neck / shoulders","Chest / diaphragm","Abdomen / pelvis","Hands / fists","Legs / feet"] },
+            { label: "Another area:" },
+          ]
+        },
+        {
+          heading: "Tension Diary (3 days)",
+          body: "Note when tension is particularly strong for 3 days:",
+          fields: [
+            { label: "Day 1 – Situation:" },
+            { label: "Day 1 – Body area:" },
+            { label: "Day 2 – Situation:" },
+            { label: "Day 2 – Body area:" },
+            { label: "Day 3 – Situation:" },
+            { label: "Day 3 – Body area:" },
+          ]
+        },
+        {
+          heading: "My Release Strategy",
+          body: "What helps me let go? (Choose or add)",
+          fields: [
+            { options: ["Slow, deep breathing","Progressive muscle relaxation","Warm bath / warm shower","Gentle movement / stretching","Touch / self-embrace"] },
+            { label: "My own method:" },
+          ]
+        }
+      ]
+    },
+
+    4: {
+      title: "Exhaustion & Missing Energy",
+      quote: '"Your body recovers through genuine rest."',
+      sections: [
+        {
+          heading: "Energy Check",
+          body: "How full is your energy tank right now?",
+          fields: [ { min_label: "empty", max_label: "full" } ]
+        },
+        {
+          heading: "Energy Drains",
+          body: "What costs you energy without giving anything back?",
+          fields: [
+            { label: "People:" },
+            { label: "Habits:" },
+            { label: "Situations:" },
+          ]
+        },
+        {
+          heading: "Energy Sources",
+          body: "What gives you energy? What fills you up?",
+          fields: [ null, null ]
+        },
+        {
+          heading: "Real Rest vs. Distraction",
+          body: null,
+          fields: [
+            { col1: "Real rest (nourishes me)", col2: "Distraction (numbs me)" },
+            null, null, null,
+            { label: "When did I last truly rest (without a screen)?" },
+          ]
+        },
+        {
+          heading: "My Rest Promise",
+          body: "I allow myself ___ minutes of genuine rest every day.",
+          fields: [ null ]
+        }
+      ]
+    },
+
+    5: {
+      title: "Sadness & Quiet Weight",
+      quote: '"Sadness shows us what truly matters to us."',
+      sections: [
+        {
+          heading: "Letter to My Sadness",
+          body: "Write a letter to your sadness. Begin with: \u201eDear sadness, I see you\u2026\u201c",
+          fields: [ null ]
+        },
+        {
+          heading: "What does the sadness want to show me?",
+          body: "Ask yourself gently:",
+          fields: [
+            { label: "What am I missing?" },
+            { label: "What was never spoken?" },
+            { label: "What needs space right now?" },
+          ]
+        },
+        {
+          heading: "My Anchor",
+          body: "What or who holds me when I feel sad?",
+          fields: [ null, null ]
+        }
+      ]
+    },
+
+    6: {
+      title: "Inner Emptiness & Loss of Direction",
+      quote: '"Emptiness is not a lack. It is a transition."',
+      sections: [
+        {
+          heading: "Purposeless Doing",
+          body: "Try these things this week consciously WITHOUT a goal. Note how it feels:",
+          fields: [
+            { label: "Walking without a destination:" },
+            { label: "Painting / drawing without a result:" },
+            { label: "Listening to music without searching for anything:" },
+          ]
+        },
+        {
+          heading: "Remembering Your True Self",
+          body: "Answer these questions from the gut:",
+          fields: [
+            { label: "What fascinated me as a child?" },
+            { label: "What dreams have I let go of?" },
+            { label: "Who was I before I became what others expected?" },
+          ]
+        },
+        {
+          heading: "My Inner Compass",
+          body: null,
+          fields: [ null ]
+        },
+        {
+          heading: null,
+          body: null,
+          fields: [ { label: "When I grow very still, I sense:" } ]
+        }
+      ]
+    },
+
+    7: {
+      title: "Self-Doubt & Inner Insecurity",
+      quote: '"You can listen to your inner critic without believing it."',
+      sections: [
+        {
+          heading: "My Inner Critic",
+          body: "What phrases does it say most often?",
+          fields: [
+            null,
+            { label: "Give it a name (e.g. \u2018Mr. Doubt,\u2019 \u2018the strict teacher\u2019):" },
+          ]
+        },
+        {
+          heading: "Where does this voice come from?",
+          body: "From whom did I first hear these phrases?",
+          fields: [ null ]
+        },
+        {
+          heading: "Success Diary (7 days)",
+          body: "Write down 3 things you accomplished today, every evening:",
+          fields: [
+            { label: "Day 1:" },
+            { label: "Day 2:" },
+            { label: "Day 3:" },
+            { text: "Days 4\u20137: Continue noting for yourself." },
+          ]
+        },
+        {
+          heading: "My Counter-Phrase",
+          body: "Formulate a sentence that counters the inner critic:",
+          fields: [ null ]
+        }
+      ]
+    },
+
+    8: {
+      title: "Decision Doubt & Inner Wavering",
+      quote: '"There is no wrong decision. Only paths that allow different experiences."',
+      sections: [
+        {
+          heading: "My Current Decision",
+          body: "What is it about?",
+          fields: [ null ]
+        },
+        {
+          heading: "Option A vs. Option B",
+          body: null,
+          fields: [ null, null ]
+        },
+        {
+          heading: "Body Check",
+          body: "Imagine each path and sense into your body:",
+          fields: [
+            { label: "Option A feels like:", options: ["Openness / expansion","Tightness / pressure","Calm","Restlessness","Neutral"] },
+            { label: "Option B feels like:", options: ["Openness / expansion","Tightness / pressure","Calm","Restlessness","Neutral"] },
+          ]
+        },
+        {
+          heading: "The Coin Toss Question",
+          body: "Toss a coin. In the moment it\u2019s in the air:",
+          fields: [
+            null,
+            { label: "What did you wish it would show?" },
+          ]
+        },
+        {
+          heading: "The Fear-Free Question",
+          body: "What decision would I make if I knew there was no such thing as failure?",
+          fields: [ null ]
+        }
+      ]
+    },
+
+    9: {
+      title: "Transition, Change & New Beginnings",
+      quote: '"Trust grows through the memory of all the transitions you have already moved through."',
+      sections: [
+        {
+          heading: "My Previous Transitions",
+          body: "List all the major changes you have already lived through:",
+          fields: [
+            null, null, null,
+            { text: "With each one, you didn\u2019t know at the start how it would turn out. And yet you are here." },
+          ]
+        },
+        {
+          heading: "Farewell Ritual",
+          body: null,
+          fields: [
+            { col1: "What I take with me:", col2: "What I leave behind:" },
+            null, null, null,
+          ]
+        },
+        {
+          heading: "Letter to My Future Self",
+          body: "Write yourself a letter from the perspective of one year from now:",
+          fields: [ null ]
+        },
+        {
+          heading: "My Trust Phrase",
+          body: null,
+          fields: [ null ]
+        },
+        {
+          heading: null,
+          body: null,
+          fields: [ { label: "I am ready, because:" } ]
+        }
+      ]
+    },
+
+    10: {
+      title: "Fear & Inner Safety",
+      quote: '"After fear, stillness always comes. It always grows quiet again."',
+      sections: [
+        {
+          heading: "Fear Map",
+          body: "Write down your fears and categorize them:",
+          fields: [
+            { col1: "Real threat", col2: "Imagined threat" },
+            null, null, null,
+            { text: "Most fears fall in the right column. That doesn\u2019t make them less real, but it changes how you work with them." },
+          ]
+        },
+        {
+          heading: "My Fear Symptoms",
+          body: "How does fear show up in my body?",
+          fields: [
+            { options: ["Heart racing","Tightness in the chest","Shallow breath","Sweating","Nausea","Weak knees","Mind goes blank"] },
+            { label: "Other:" },
+          ]
+        },
+        {
+          heading: "5-4-3-2-1 Emergency Exercise",
+          body: "Fill in when fear becomes acute:",
+          fields: [
+            { label: "5 things I SEE:" },
+            { label: "4 things I HEAR:" },
+            { label: "3 things I can TOUCH:" },
+            { label: "2 things I SMELL:" },
+            { label: "1 thing I TASTE:" },
+          ]
+        },
+        {
+          heading: "My Safety Anchor",
+          body: "What gives me an immediate sense of safety?",
+          fields: [ null ]
+        }
+      ]
+    },
+
+    11: {
+      title: "Conflicts & Inner Peace",
+      quote: '"The most important step in any conflict is the pause."',
+      sections: [
+        {
+          heading: "My Current Conflict",
+          body: "Describe the situation briefly (without judgment, only the facts):",
+          fields: [ null ]
+        },
+        {
+          heading: "What am I really feeling?",
+          body: "What was my first feeling \u2013 before I said anything?",
+          fields: [
+            { options: ["Anger","Sadness","Fear","Shame","Helplessness","Disappointment"] },
+            { label: "Other:" },
+          ]
+        },
+        {
+          heading: "What do I actually need?",
+          body: "Which need lies behind my feeling?",
+          fields: [
+            { options: ["To be heard","Respect","Safety","Belonging","Autonomy","Recognition","Honesty","Closeness"] },
+            { label: "Other:" },
+          ]
+        },
+        {
+          heading: "Rosenberg Translation",
+          body: "Translate the accusation into a need:",
+          fields: [
+            { label: "What the other person said/did:" },
+            { label: "What they perhaps actually meant:" },
+            { label: "What I actually wanted to say:" },
+            { label: "What I actually need:" },
+          ]
+        },
+        {
+          heading: "The 90-Second Rule",
+          body: "Try this week: When you feel triggered, wait 90 seconds. Note your experience:",
+          fields: [
+            { label: "Situation:" },
+            { label: "What I would normally have said/done right away:" },
+            { label: "What I did instead after 90 seconds:" },
+            { label: "How did that feel?" },
+          ]
+        },
+        {
+          heading: "Body Check in Conflict",
+          body: "Where do I feel the conflict in my body?",
+          fields: [
+            { options: ["Jaw/teeth clenched","Shoulders raised","Tightness in the chest","Heat in the face","Knot in the stomach","Lump in the throat","Weak knees","Trembling hands"] },
+            { label: "Other:" },
+          ]
+        },
+        {
+          heading: "My Peace Phrase",
+          body: "Choose or formulate a phrase for conflict situations:",
+          fields: [
+            { options: ["Peace begins within me.","I don\u2019t need to win to be worthy.","I respond from stillness, not from the storm."] },
+            { label: "My own phrase:" },
+          ]
+        }
+      ]
+    }
+  };
+
+
   let currentWorksheet = null;
 
   function wsEscape(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
-  function wsFieldHTML(field) {
+  function wsFieldHTML(field, fEN) {
     const lsKey = 'ws_' + field.key;
+    const lbl   = (fEN && fEN.label    !== undefined) ? fEN.label    : field.label;
+    const opts  = (fEN && fEN.options)                ? fEN.options  : field.options;
+    const txt   = (fEN && fEN.text     !== undefined) ? fEN.text     : field.text;
 
     if (field.type === 'input') {
       const val = wsEscape(localStorage.getItem(lsKey) || '');
-      return (field.label ? '<label class="ws-field-label">' + field.label + '</label>' : '') +
+      return (lbl ? '<label class="ws-field-label">' + lbl + '</label>' : '') +
         '<input type="text" class="ws-input" data-ws-key="' + field.key + '" value="' + val + '" autocomplete="off">';
     }
 
     if (field.type === 'textarea') {
       const val = localStorage.getItem(lsKey) || '';
-      return (field.label ? '<label class="ws-field-label">' + field.label + '</label>' : '') +
+      return (lbl ? '<label class="ws-field-label">' + lbl + '</label>' : '') +
         '<textarea class="ws-textarea" data-ws-key="' + field.key + '" rows="' + (field.rows || 3) + '">' + wsEscape(val) + '</textarea>';
     }
 
     if (field.type === 'note') {
-      return '<p class="ws-note">' + field.text + '</p>';
+      return '<p class="ws-note">' + txt + '</p>';
     }
 
     if (field.type === 'cols-header') {
+      const c1 = (fEN && fEN.col1 !== undefined) ? fEN.col1 : field.col1;
+      const c2 = (fEN && fEN.col2 !== undefined) ? fEN.col2 : field.col2;
       return '<div class="ws-cols-header">' +
-        '<span class="ws-cols-header-label">' + field.col1 + '</span>' +
-        '<span class="ws-cols-header-label">' + field.col2 + '</span>' +
+        '<span class="ws-cols-header-label">' + c1 + '</span>' +
+        '<span class="ws-cols-header-label">' + c2 + '</span>' +
         '</div>';
     }
 
@@ -980,9 +1459,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (field.type === 'checklist') {
       const checked = JSON.parse(localStorage.getItem('ws_' + field.key) || '[]');
-      let html = (field.label ? '<span class="ws-field-label">' + field.label + '</span>' : '') +
+      let html = (lbl ? '<span class="ws-field-label">' + lbl + '</span>' : '') +
         '<div class="ws-check-grid">';
-      field.options.forEach(opt => {
+      opts.forEach(opt => {
         const isChecked = checked.includes(opt) ? ' checked' : '';
         html += '<label class="ws-check-item"><input type="checkbox" data-ws-key="' + field.key + '" data-ws-opt="' + wsEscape(opt) + '"' + isChecked + '> ' + opt + '</label>';
       });
@@ -993,15 +1472,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (field.type === 'statt') {
       const v1 = wsEscape(localStorage.getItem('ws_' + field.key1) || '');
       const v2 = wsEscape(localStorage.getItem('ws_' + field.key2) || '');
+      const isEN = lang === 'en';
+      if (isEN) {
+        return '<div class="ws-statt-row">Instead of \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key1 + '" value="' + v1 + '">\u201c \u2192 Now: \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key2 + '" value="' + v2 + '">\u201c</div>';
+      }
       return '<div class="ws-statt-row">Statt \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key1 + '" value="' + v1 + '">\u201c sage ich: \u201e<input type="text" class="ws-statt-input" data-ws-key="' + field.key2 + '" value="' + v2 + '">\u201c</div>';
     }
 
     if (field.type === 'range') {
       const val = localStorage.getItem('ws_' + field.key) || '5';
+      const minL = (fEN && fEN.min_label) ? fEN.min_label : (field.min_label || 'gar nicht');
+      const maxL = (fEN && fEN.max_label) ? fEN.max_label : (field.max_label || 'extrem');
       return '<div class="ws-range-wrap">' +
-        '<span class="ws-range-edge">' + (field.min_label || 'gar nicht') + '</span>' +
+        '<span class="ws-range-edge">' + minL + '</span>' +
         '<input type="range" class="ws-range" min="1" max="10" value="' + val + '" data-ws-key="' + field.key + '">' +
-        '<span class="ws-range-edge">' + (field.max_label || 'extrem') + '</span>' +
+        '<span class="ws-range-edge">' + maxL + '</span>' +
       '</div>';
     }
 
@@ -1009,20 +1494,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderWorksheet(n) {
-    const ws = WORKSHEETS[n];
+    const ws   = WORKSHEETS[n];
+    const wsEN = (lang === 'en' && typeof WORKSHEETS_EN !== 'undefined') ? WORKSHEETS_EN[n] : null;
+    const wsTitle = wsEN ? wsEN.title : ws.title;
+    const wsQuote = wsEN ? wsEN.quote : ws.quote;
     let html = '<div class="ws-header">';
     html += '<span class="ws-sit-label">SITUATION ' + n + '</span>';
-    html += '<h2 class="ws-main-title">' + ws.title + '</h2>';
-    html += '<p class="ws-quote">' + ws.quote + '</p>';
+    html += '<h2 class="ws-main-title">' + wsTitle + '</h2>';
+    html += '<p class="ws-quote">' + wsQuote + '</p>';
     html += '</div>';
 
-    ws.sections.forEach(section => {
+    ws.sections.forEach((section, si) => {
+      const sEN     = wsEN && wsEN.sections && wsEN.sections[si];
+      const heading = sEN && sEN.heading !== undefined ? sEN.heading : section.heading;
+      const body    = sEN && sEN.body    !== undefined ? sEN.body    : section.body;
       html += '<div class="ws-section">';
-      if (section.heading) html += '<h3 class="ws-section-heading">' + section.heading + '</h3>';
-      if (section.body)    html += '<p class="ws-section-body">' + section.body + '</p>';
-      section.fields.forEach(field => { html += wsFieldHTML(field); });
+      if (heading) html += '<h3 class="ws-section-heading">' + heading + '</h3>';
+      if (body)    html += '<p class="ws-section-body">' + body + '</p>';
+      section.fields.forEach((field, fi) => {
+        const fEN = sEN && sEN.fields && sEN.fields[fi] ? sEN.fields[fi] : null;
+        html += wsFieldHTML(field, fEN);
+      });
       html += '</div><hr class="ws-divider">';
     });
+
+    html += '<div class="ws-footer">Seelenimpuls • Premium Worksheet • www.seelenimpuls.app</div>';
 
     $("worksheetContent").innerHTML = html;
 
@@ -1056,7 +1552,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.innerHTML =
         '<div>' +
           '<span class="ws-list-num">SITUATION ' + n + '</span>' +
-          '<span class="ws-list-title">' + ws.title + '</span>' +
+          '<span class="ws-list-title">' + ((lang === 'en' && typeof WORKSHEETS_EN !== 'undefined' && WORKSHEETS_EN[n]) ? WORKSHEETS_EN[n].title : ws.title) + '</span>' +
         '</div>' +
         (hasData ? '<span class="ws-list-dot"></span>' : '<span class="ws-list-arrow">›</span>');
       btn.addEventListener("click", () => openWorksheet(n));
@@ -1086,6 +1582,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showUpgradePrompt() {
     if ($('upgradeOverlay')) return;
+    const u = ui[lang];
     const pd = window._siPriceData || {};
     const mLabel = _fmtPrice(pd.aboMonthly) || '2,99\u00a0€/Monat';
     const yLabel = _fmtPrice(pd.aboYearly)  || '19,99\u00a0€/Jahr';
@@ -1098,16 +1595,12 @@ document.addEventListener("DOMContentLoaded", () => {
         '<span class="upgrade-icon">✨</span>' +
         '<h3 class="upgrade-title">Seelenimpuls Premium</h3>' +
         '<ul class="upgrade-list">' +
-          '<li>💫 Affirmationskarten</li>' +
-          '<li>📝 Arbeitsblätter für alle Situationen</li>' +
-          '<li>📖 Tiefgang-Texte & Hintergrundwissen</li>' +
-          '<li>🎵 Premium-Songs zu jeder Situation</li>' +
-          '<li>🧘 Geführte Meditationen</li>' +
+          u.upgradeFeatures.map(f => '<li>' + f + '</li>').join('') +
         '</ul>' +
-        '<button class="btn-primary upgrade-btn" id="btnAboMonthly">✨ Monatsabo – ' + mLabel + '</button>' +
-        '<button class="btn-secondary upgrade-btn" id="btnAboYearly" style="margin-top:10px">🌟 Jahresabo – ' + yLabel + '</button>' +
+        '<button class="btn-primary upgrade-btn" id="btnAboMonthly">' + u.upgradeBtnMonthly(mLabel) + '</button>' +
+        '<button class="btn-secondary upgrade-btn" id="btnAboYearly" style="margin-top:10px">' + u.upgradeBtnYearly(yLabel) + '</button>' +
         '<p style="text-align:center;margin-top:16px;font-size:0.85em">' +
-          '<a href="#" id="btnRestoreAccess" style="color:var(--text-secondary);text-decoration:underline">Zugang bereits erworben? Wiederherstellen</a>' +
+          '<a href="#" id="btnRestoreAccess" style="color:var(--text-secondary);text-decoration:underline">' + u.upgradeRestoreLink + '</a>' +
         '</p>' +
       '</div>';
     document.body.appendChild(el);
@@ -1119,6 +1612,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showRestoreAccess() {
+    const u = ui[lang];
     const el = document.createElement('div');
     el.id = 'restoreOverlay';
     el.className = 'upgrade-overlay';
@@ -1126,10 +1620,10 @@ document.addEventListener("DOMContentLoaded", () => {
       '<div class="upgrade-sheet">' +
         '<button class="upgrade-close" id="restoreClose">✕</button>' +
         '<span class="upgrade-icon">🔑</span>' +
-        '<h3 class="upgrade-title">Zugang wiederherstellen</h3>' +
-        '<p style="text-align:center;margin:12px 0 16px">Gib deine E-Mail-Adresse ein, mit der du bezahlt hast.</p>' +
-        '<input type="email" id="restoreEmail" placeholder="deine@email.de" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);font-size:1rem;box-sizing:border-box">' +
-        '<button class="btn-primary upgrade-btn" id="btnRestoreCheck" style="margin-top:12px">Zugang prüfen</button>' +
+        '<h3 class="upgrade-title">' + u.restoreTitle + '</h3>' +
+        '<p style="text-align:center;margin:12px 0 16px">' + u.restoreInstr + '</p>' +
+        '<input type="email" id="restoreEmail" placeholder="' + u.restorePlaceholder + '" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);font-size:1rem;box-sizing:border-box">' +
+        '<button class="btn-primary upgrade-btn" id="btnRestoreCheck" style="margin-top:12px">' + u.restoreBtn + '</button>' +
         '<p id="restoreMsg" style="text-align:center;margin-top:12px;font-size:0.9em;min-height:1.2em"></p>' +
       '</div>';
     document.body.appendChild(el);
@@ -1141,7 +1635,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const msg = el.querySelector('#restoreMsg');
       const btn = el.querySelector('#btnRestoreCheck');
       btn.disabled = true;
-      msg.textContent = 'Wird geprüft\u2026';
+      msg.textContent = u.restoreChecking;
       try {
         const res  = await fetch(`${API_BASE}/api/verify?email=${encodeURIComponent(email)}`);
         const data = await res.json();
@@ -1152,11 +1646,11 @@ document.addEventListener("DOMContentLoaded", () => {
           el.remove();
           showPaymentSuccess();
         } else {
-          msg.textContent = 'Kein aktiver Zugang für diese E-Mail gefunden.';
+          msg.textContent = u.restoreNotFound;
           btn.disabled = false;
         }
       } catch (err) {
-        msg.textContent = 'Fehler beim Prüfen. Bitte versuche es erneut.';
+        msg.textContent = u.restoreError;
         btn.disabled = false;
       }
     };
@@ -1573,7 +2067,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const pBtn = document.createElement('button');
           pBtn.className = 'btn-primary';
           pBtn.style.marginTop = '16px';
-          pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' abspielen</span>';
+          pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' ' + ui[lang].premiumPlay + '</span>';
           pBtn.onclick = () => {
             if (bgAudio) { bgAudio.pause(); bgAudio = null; }
             if (currentSongAudio) { currentSongAudio.pause(); currentSongAudio = null; }
@@ -1582,7 +2076,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentSongAudio.volume = vol ? parseFloat(vol.value) : 0.7;
             currentSongAudio.play().catch(() => {});
             pBtn.disabled = true;
-            pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' \u2013 spielt\u2026</span>';
+            pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' \u2013 ' + ui[lang].premiumPlaying + '</span>';
           };
           $('b7').appendChild(pBtn);
         }

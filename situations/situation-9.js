@@ -84,6 +84,16 @@ window.SITUATIONS[9] = {
     '\n' +
     'Der wichtigste Begleiter ist Vertrauen. Nicht dass alles gut wird, sondern dass du fähig bist, mit dem umzugehen, was kommt.',
 
+
+  tiefgangText_en:
+    'The anthropologist Victor Turner called transitions liminal states: phases where the old no longer applies and the new isn\'t yet tangible. We are most vulnerable here, but also most open to transformation.\n' +
+    '\n' +
+    'Our brains love predictability. Change activates the amygdala. This is why even self-chosen changes often feel threatening. That is normal.\n' +
+    '\n' +
+    'In Japanese tradition, there is wabi-sabi: the beauty of the transient. Transitions are wabi-sabi moments. Not perfect, not smooth, but raw and real.\n' +
+    '\n' +
+    'The most important companion is trust. Not the trust that everything will be fine, but the trust that you are capable of meeting whatever comes.',
+
   // Premium Song
   songTitle_en: 'One Step',
   songLyrics_en:

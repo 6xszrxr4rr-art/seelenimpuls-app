@@ -82,6 +82,16 @@ window.SITUATIONS[7] = {
     '\n' +
     'Der erste Schritt: den inneren Kritiker als internalisierte Stimme erkennen, nicht als deine Wahrheit. Du kannst ihm zuhören, ohne ihm zu glauben.',
 
+
+  tiefgangText_en:
+    'Self-doubt has an important function: it protects you. But when the inner critic becomes too loud, it loses its protective function and becomes a saboteur. It repeats sentences you once heard from the outside.\n' +
+    '\n' +
+    'Studies show that up to 70% of all people experience imposter syndrome at least once. It most often affects highly sensitive and perfectionistic people.\n' +
+    '\n' +
+    'Self-doubt is often the echo of past judgments. It has little to do with your actual ability and much to do with internalized beliefs.\n' +
+    '\n' +
+    'The first step: recognize the inner critic as an internalized voice, not as your truth. You can listen to it without believing it.',
+
   // Premium Song
   songTitle_en: 'On My Side',
   songLyrics_en:

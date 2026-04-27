@@ -84,6 +84,16 @@ window.SITUATIONS[8] = {
     '\n' +
     'Frage: Welche Entscheidung kann ich am besten tragen? Welche fühlt sich in meinem Körper am ruhigsten an?',
 
+
+  tiefgangText_en:
+    'Decision doubt rarely arises because there is too little information. Most of the time, we already know what feels right, but we don\'t trust that knowing.\n' +
+    '\n' +
+    'Neuroscientists like António Damasio have shown that good decisions aren\'t made through pure reason. Emotions and body signals (somatic markers) play a central role.\n' +
+    '\n' +
+    'The problem with wavering is the fear of making the wrong choice. Yet in most life situations, there is no objectively wrong decision. There are paths that allow for different experiences.\n' +
+    '\n' +
+    'A question worth sitting with: which decision can I carry most easily? Which one feels quietest in my body?',
+
   // Premium Song
   songTitle_en: 'The Still Lake',
   songLyrics_en:

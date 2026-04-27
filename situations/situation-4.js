@@ -88,6 +88,16 @@ window.SITUATIONS[4] = {
     '\n' +
     'Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun: Liegen, Atmen, Stille. Der Körper braucht Signale der Sicherheit, um in den parasympathischen Modus umzuschalten.',
 
+
+  tiefgangText_en:
+    'Exhaustion is not just the result of doing too much. It can also arise when you have lived against yourself for a long time: against your needs, against your pace, against your limits. At some point, the body pulls the emergency brake.\n' +
+    '\n' +
+    'From a neuroscientific perspective, exhaustion is a state in which the neurotransmitters dopamine and serotonin drop below their optimal levels. Drive diminishes, motivation fades. That is not laziness. It is a biochemical reality.\n' +
+    '\n' +
+    'In traditional Chinese medicine, exhaustion is understood as a deficiency of qi: vital energy has been depleted and needs to be rebuilt through rest, nourishment, and gentle movement.\n' +
+    '\n' +
+    'True regeneration does not happen through distraction, but through genuine stillness: lying down, breathing, quiet. The body needs signals of safety in order to shift into parasympathetic mode.',
+
   // Premium Song
   songTitle_en: 'Golden Light',
   songLyrics_en:

@@ -88,6 +88,16 @@ window.SITUATIONS[1] = {
     '\n' +
     'Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen. Wenn das Nervensystem reguliert wird, verlangsamen sich die Gedanken von selbst. Die folgenden Übungen setzen genau hier an: bei der körperlichen Ebene, die den Gedanken vorausgeht.',
 
+
+  tiefgangText_en:
+    'Inner restlessness is more than just an uncomfortable feeling. It is a signal from your autonomic nervous system, which has shifted into a state of heightened alertness. In polyvagal theory, developed by Stephen Porges, this state is described as sympathetic activation: your body is preparing for a response, even when no acute danger is present.\n' +
+    '\n' +
+    'The thought carousel arises when your prefrontal cortex tries to gain control over a situation that feels unsafe. Thoughts don\'t repeat themselves because they\'re unresolved, but because your system is trying to create a sense of predictability through repetition. It is a protective mechanism, not a flaw.\n' +
+    '\n' +
+    'On a physical level, inner restlessness often shows up as shallow breathing, increased muscle tension in the neck and shoulders, a faster heartbeat, and a diffuse feeling of tightness in the chest. These signals are not dangerous, but they keep the cycle of restlessness going when they aren\'t consciously interrupted.\n' +
+    '\n' +
+    'The key is not to stop the thoughts, but to calm the body. When the nervous system regulates, the thoughts slow down on their own. The exercises that follow begin right here: at the level of the body, which always comes before the thoughts.',
+
   // Premium Song
   songTitle_en: 'Sky Behind the Clouds',
   songLyrics_en:

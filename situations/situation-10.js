@@ -78,6 +78,16 @@ window.SITUATIONS[10] = {
     '\n' +
     'Der wirksamste Weg führt über den Körper: Verlängertes Ausatmen aktiviert den Vagusnerv. Berührung aktiviert das Oxytocin-System. Der Körper ist dein stärkstes Werkzeug gegen Angst.',
 
+
+  tiefgangText_en:
+    'Fear is the oldest emotion of our species. Your nervous system can distinguish between safety and threat within fractions of a second. That system is not broken.\n' +
+    '\n' +
+    'Through early experiences of insecurity, the amygdala can learn to sound the alarm even at harmless stimuli. A particular tone of voice, a memory can be enough.\n' +
+    '\n' +
+    'Fear shows up in the body before it reaches the mind: a racing heart, tightness in the chest, shallow breath. These symptoms are not dangerous, but they are often interpreted as dangerous.\n' +
+    '\n' +
+    'The most effective path runs through the body: extended exhaling activates the vagus nerve. Touch activates the oxytocin system. The body is your strongest tool against fear.',
+
   // Premium Song
   songTitle_en: 'After the Storm',
   songLyrics_en:

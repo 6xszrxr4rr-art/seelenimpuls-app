@@ -92,6 +92,16 @@ window.SITUATIONS[2] = {
     '\n' +
     'Entlastung beginnt mit einer bewussten Entscheidung: Ich muss jetzt nicht alles lösen. Ich muss nur diesen einen Moment bewältigen. Diese Reduktion auf das Jetzt ist kein Vermeiden, sondern ein neurobiologisch wirksamer Weg, das Nervensystem zu deeskalieren.',
 
+
+  tiefgangText_en:
+    'Overwhelm is not a sign of weakness. It arises when the sum of outer and inner demands exceeds the resources currently available. The nervous system shifts into survival mode, where prioritizing and clear thinking become harder. Paradoxically, in this state we want to do more, not less.\n' +
+    '\n' +
+    'Stress research distinguishes between eustress (positive, stimulating stress) and distress (burdening, overwhelming stress). Overwhelm marks the point where eustress tips into distress. The body releases more cortisol and adrenaline, the heart rate rises, digestion slows, and thinking narrows down to seemingly urgent tasks.\n' +
+    '\n' +
+    'A significant factor is the inner critic: the voice that tells you that you should get more done, move faster, function better. This inner driver was often shaped in childhood and intensifies the feeling of overwhelm, because it signals that pausing is the same as failing.\n' +
+    '\n' +
+    'Relief begins with a conscious choice: I don\'t have to solve everything right now. I only have to get through this one moment. This reduction to the present is not avoidance. It is a neurobiologically effective way to de-escalate the nervous system.',
+
   // Premium Song
   songTitle_en: 'Set It Down',
   songLyrics_en:

@@ -84,6 +84,16 @@ window.SITUATIONS[6] = {
     '\n' +
     'Der wichtigste Rat: Versuche nicht, die Leere zu füllen. Halte den Raum offen und vertraue darauf, dass Klarheit sich zeigen wird.',
 
+
+  tiefgangText_en:
+    'Inner emptiness is often experienced as frightening because we live in a culture that celebrates constant stimulation. But emptiness is not a lack. It is a transition. A space between what was and what wants to come.\n' +
+    '\n' +
+    'In Gestalt therapy, this state is described as a fertile void: a point where old patterns have dissolved and new ones aren\'t yet visible. Like a seed germinating beneath the ground.\n' +
+    '\n' +
+    'Disorientation is the absence of familiar reference points. That is uncomfortable, but it is also a sign that you are growing.\n' +
+    '\n' +
+    'The most important guidance: don\'t try to fill the emptiness. Hold the space open, and trust that clarity will come.',
+
   // Premium Song
   songTitle_en: 'Between the Worlds',
   songLyrics_en:
