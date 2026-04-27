@@ -103,6 +103,28 @@ window.SITUATIONS[2] = {
     'Relief begins with a conscious choice: I don\'t have to solve everything right now. I only have to get through this one moment. This reduction to the present is not avoidance. It is a neurobiologically effective way to de-escalate the nervous system.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Zu viele Stimmen, zu viele Worte,\n' +
+    'zu viele offene, wartende Orte.\n' +
+    'Mein Kopf ist voll, mein Atem flach,\n' +
+    'doch irgendwas in mir sagt: Bleib wach.\n' +
+    '\n' +
+    'Ich leg es ab, nur für jetzt, nur für hier.\n' +
+    'Ich atme durch, und ich bleibe bei mir.\n' +
+    'Nicht alles muss heute gelöst sein,\n' +
+    'dieser Moment ist genug, ich bin nicht allein.\n' +
+    '\n' +
+    'Die Schultern sinken, die Hände weich,\n' +
+    'der Druck wird leiser, der Atem gleich.\n' +
+    'Ich trage nur, was jetzt zu mir passt,\n' +
+    'und alles andere, das kann warten, hat keine Last.\n' +
+    '\n' +
+    'Es reicht, es reicht, ich darf jetzt ruhn,\n' +
+    'ich muss jetzt gar nichts weiter tun.\n' +
+    'Der Boden trägt, die Luft ist mild,\n' +
+    'und in mir wird es endlich still.',
+
   songTitle_en: 'Set It Down',
   songLyrics_en:
     'Verse 1:\n' +

@@ -99,6 +99,23 @@ window.SITUATIONS[4] = {
     'True regeneration does not happen through distraction, but through genuine stillness: lying down, breathing, quiet. The body needs signals of safety in order to shift into parasympathetic mode.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Ich bin so müde, schon so lang,\n' +
+    'als wäre in mir kein Gesang.\n' +
+    'Die Tage ziehen schwer vorbei,\n' +
+    'doch leise flüstert etwas: Sei frei.\n' +
+    '\n' +
+    'Tief in mir brennt ein goldenes Licht,\n' +
+    'es flackert leise, erlischt aber nicht.\n' +
+    'Es wartet geduldig, bis ich es seh:\n' +
+    'Ich bin nicht leer, ich bin nur auf dem Weg.\n' +
+    '\n' +
+    'Ich leg mich hin, die Erde trägt,\n' +
+    'ich spür, wie sich die Stille regt.\n' +
+    'Kein Müssen mehr, kein schneller Takt,\n' +
+    'nur Atem, sanft und unverpackt.',
+
   songTitle_en: 'Golden Light',
   songLyrics_en:
     'Verse 1:\n' +

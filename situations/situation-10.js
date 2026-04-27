@@ -89,6 +89,28 @@ window.SITUATIONS[10] = {
     'The most effective path runs through the body: extended exhaling activates the vagus nerve. Touch activates the oxytocin system. The body is your strongest tool against fear.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Mein Herz schlägt schnell, die Brust wird eng,\n' +
+    'als ob die Luft nicht mehr zu mir kommt.\n' +
+    'Doch meine Hände liegen warm,\n' +
+    'auf meiner Brust, ein stiller Alarm.\n' +
+    '\n' +
+    'Nach dem Gewitter wird es still,\n' +
+    'die Angst darf gehen, wenn sie will.\n' +
+    'Ich halte mich, ich halt mich fest,\n' +
+    'mein Herz ist mehr als dieser Rest.\n' +
+    '\n' +
+    'Ein Licht in mir, es flackert zart,\n' +
+    'doch es erlischt nicht, es bewahrt.\n' +
+    'Die Angst ist Gast, nicht mein Zuhause,\n' +
+    'ich atme durch und mache Pause.\n' +
+    '\n' +
+    'Und wenn die Nacht am dunkelsten ist,\n' +
+    'dann weiß mein Herz: Du wirst vermisst.\n' +
+    'Nicht von der Welt, nein, von dir selbst,\n' +
+    'komm heim zu dir, wo du dich hältst.',
+
   songTitle_en: 'After the Storm',
   songLyrics_en:
     'Verse 1:\n' +

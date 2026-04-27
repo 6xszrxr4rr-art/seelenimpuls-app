@@ -97,6 +97,23 @@ window.SITUATIONS[5] = {
     'There is an important distinction between sadness and depression. Sadness is an emotion. It comes and goes in waves. Depression is a sustained state that requires professional support.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Da ist ein Gefühl, das nicht sprechen kann,\n' +
+    'es liegt in mir, seit ich denken kann.\n' +
+    'Kein Name, kein Grund, nur ein leises Sein,\n' +
+    'es klopft an mein Herz: Darf ich herein?\n' +
+    '\n' +
+    'Ja, komm rein, du stiller Gast.\n' +
+    'Leg dich hin, nimm dir eine Rast.\n' +
+    'Ich halt dich aus, ich halt dich fest,\n' +
+    'auch wenn die Welt nicht stehen lässt.\n' +
+    '\n' +
+    'Die Tränen fließen oder auch nicht,\n' +
+    'ich schau mich an in diesem Licht.\n' +
+    'Da ist kein Fehler, nur ein Gefühl,\n' +
+    'das endlich Raum hat, endlich sein Ziel.',
+
   songTitle_en: 'Quiet Guest',
   songLyrics_en:
     'Verse 1:\n' +

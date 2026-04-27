@@ -99,6 +99,23 @@ window.SITUATIONS[3] = {
     'Release does not happen through willpower. Release happens through safety: through gentle touch, through slow breathing, through the experience that nothing threatening is happening in this moment.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Mein Kiefer presst, die Schultern eng,\n' +
+    'als hätte jemand alles verrenkt.\n' +
+    'Ich halt mich fest an dem, was war,\n' +
+    'doch tief in mir wird etwas klar.\n' +
+    '\n' +
+    'Ich darf weich werden, ich darf loslassen,\n' +
+    'ich muss mich nicht mehr so zusammenfassen.\n' +
+    'Mein Körper weiß, was er jetzt braucht:\n' +
+    'nur Atem, Stille, und etwas Vertrauen, das taucht.\n' +
+    '\n' +
+    'Die Hände öffnen sich ganz sacht,\n' +
+    'die Stirn wird glatt, der Griff wird zart.\n' +
+    'Was festgehalten, darf jetzt gehn,\n' +
+    'ich lerne, mich im Loslassen zu sehn.',
+
   songTitle_en: 'Becoming Soft',
   songLyrics_en:
     'Verse 1:\n' +

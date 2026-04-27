@@ -111,6 +111,30 @@ window.SITUATIONS[11] = {
   guidedMeditationDuration_en: "12–15 minutes",
 
   // Song
+
+  songLyrics_de:
+    'Worte wie Pfeile, scharf und schnell,\n' +
+    'ein Sturm, der nicht bleiben will.\n' +
+    'Mein Brustkorb eng, die Fäuste fest,\n' +
+    'doch tief in mir liegt etwas still.\n' +
+    '\n' +
+    'Ich trete zurück, ich schau durch das Fenster,\n' +
+    'ich seh den Sturm, doch ich geh nicht rein.\n' +
+    'Ich atme, ich spüre, ich find meine Mitte,\n' +
+    'Frieden beginnt in mir allein.\n' +
+    '\n' +
+    'Unter der Wut steht noch ein Kind,\n' +
+    'das einfach nur wertvoll sein will.\n' +
+    'Unter den Worten, die ich nicht sprach,\n' +
+    'ein Herz, das nach einem Weg sucht, still.\n' +
+    '\n' +
+    'Ich muss nicht gewinnen, ich muss nicht kämpfen,\n' +
+    'ich muss nicht beweisen, dass ich recht hab.\n' +
+    'Was, wenn das Mutigste, was ich tun kann,\n' +
+    'ist hier zu bleiben und einfach zu atmen?\n' +
+    '\n' +
+    'Du darfst aus dieser Ruhe heraus antworten – wenn du bereit bist.',
+
   songTitle_en: "Through the Window",
   songLyrics_en:
     "Verse 1:\n" +

@@ -99,6 +99,28 @@ window.SITUATIONS[1] = {
     'The key is not to stop the thoughts, but to calm the body. When the nervous system regulates, the thoughts slow down on their own. The exercises that follow begin right here: at the level of the body, which always comes before the thoughts.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Die Gedanken kreisen, sie finden kein Ziel,\n' +
+    'wie Blätter im Wind, ein endloses Spiel.\n' +
+    'Doch unter dem Sturm liegt ein ruhiger Grund,\n' +
+    'in mir ist ein Ort, der ist heil und gesund.\n' +
+    '\n' +
+    'Ich bin der Himmel, nicht die Wolken darin.\n' +
+    'Ich lass sie ziehen, ich find meinen Sinn.\n' +
+    'Langsam, ganz langsam, komm ich bei mir an.\n' +
+    'Atme, und spüre: Hier fängt Ruhe an.\n' +
+    '\n' +
+    'Der Atem wird leiser, die Welt wird weit,\n' +
+    'in mir entsteht Raum, ich hab jetzt Zeit.\n' +
+    'Kein Festhalten mehr, kein Müssen, kein Muss,\n' +
+    'nur dieser Moment, nur Anfang, kein Schluss.\n' +
+    '\n' +
+    'Und wenn die Nacht die Stille bringt,\n' +
+    'und alles in mir leiser klingt,\n' +
+    'dann weiß ich: Ich bin schon da,\n' +
+    'genau so, wie ich immer war.',
+
   songTitle_en: 'Sky Behind the Clouds',
   songLyrics_en:
     'Verse 1:\n' +

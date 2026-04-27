@@ -2402,7 +2402,7 @@ document.addEventListener("DOMContentLoaded", () => {
         softScroll();
         await sleep(400);
       }
-      const lyrics = s.songLyrics_en;
+      const lyrics = lang === 'de' ? (s.songLyrics_de || s.songLyrics_en) : s.songLyrics_en;
       const songTitle = s.songTitle_en || '';
       if (lyrics && alive()) {
         await sleep(600);

@@ -95,6 +95,28 @@ window.SITUATIONS[9] = {
     'The most important companion is trust. Not the trust that everything will be fine, but the trust that you are capable of meeting whatever comes.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Die Tür fällt zu, die Stille bleibt,\n' +
+    'was gestern war, hat sich verkleidet.\n' +
+    'Vor mir liegt Nebel, leise und weit,\n' +
+    'doch meine Füße sind bereit.\n' +
+    '\n' +
+    'Ein Schritt, nur einer, mehr brauch ich nicht,\n' +
+    'der Weg entsteht erst, wenn er bricht.\n' +
+    'Ich lass das Alte hinter mir,\n' +
+    'und sage leise: Ich bin hier.\n' +
+    '\n' +
+    'Der Wind dreht sich, die Luft wird klar,\n' +
+    'was mich gehalten hat, wird wahr:\n' +
+    'Nicht Sicherheit, nicht Kontrolle, nein,\n' +
+    'Vertrauen war es, ganz allein.\n' +
+    '\n' +
+    'Und wenn ich falle, falle ich weich,\n' +
+    'die Erde fängt mich, immer gleich.\n' +
+    'Kein Weg war falsch, kein Schritt zu viel,\n' +
+    'ich war schon immer mein eigenes Ziel.',
+
   songTitle_en: 'One Step',
   songLyrics_en:
     'Verse 1:\n' +

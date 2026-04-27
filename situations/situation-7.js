@@ -93,6 +93,23 @@ window.SITUATIONS[7] = {
     'The first step: recognize the inner critic as an internalized voice, not as your truth. You can listen to it without believing it.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Da ist eine Stimme, die sagt: Du genügst nicht,\n' +
+    'die alte Geschichte, die nie zur Ruhe kommt.\n' +
+    'Doch unter dem Lärm, unter all dem Gewicht,\n' +
+    'da schlägt ein Herz, das leise verspricht.\n' +
+    '\n' +
+    'Ich steh auf meiner Seite, ich bin mein eigenes Licht.\n' +
+    'Ich brauch mich nicht zu beweisen, ich zerbrech daran nicht.\n' +
+    'Was auch immer sie sagen, was auch immer ich denk:\n' +
+    'Ich bin hier und ich bin genug, das ist mein Geschenk.\n' +
+    '\n' +
+    'Das Kind in mir schaut mich an und lacht,\n' +
+    'als hätte es schon immer gewacht.\n' +
+    'Es sagt: Du hast vergessen, wer du bist.\n' +
+    'Komm her, ich zeig dir, dass du alles bist.',
+
   songTitle_en: 'On My Side',
   songLyrics_en:
     'Verse 1:\n' +

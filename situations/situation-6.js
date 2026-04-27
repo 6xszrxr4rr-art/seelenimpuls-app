@@ -95,6 +95,23 @@ window.SITUATIONS[6] = {
     'The most important guidance: don\'t try to fill the emptiness. Hold the space open, and trust that clarity will come.',
 
   // Premium Song
+
+  songLyrics_de:
+    'Hier ist kein Weg und kein Gestern mehr,\n' +
+    'die Karte ist leer und das Herz so schwer.\n' +
+    'Doch etwas in mir flüstert leis:\n' +
+    'Vertrau dem Raum, er weiß, er weiß.\n' +
+    '\n' +
+    'Zwischen den Welten bin ich zu Haus,\n' +
+    'die Stille atmet in mir ein und aus.\n' +
+    'Ich brauche keinen Plan, kein Ziel, kein Wort,\n' +
+    'ich bin schon da, ich bin schon dort.\n' +
+    '\n' +
+    'Ein Licht, so zart, im Irgendwo,\n' +
+    'es leuchtet leise, irgendwo.\n' +
+    'Ich folge nicht, ich warte nur,\n' +
+    'und finde langsam meine Spur.',
+
   songTitle_en: 'Between the Worlds',
   songLyrics_en:
     'Verse 1:\n' +

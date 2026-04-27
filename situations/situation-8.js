@@ -95,6 +95,23 @@ window.SITUATIONS[8] = {
     'A question worth sitting with: which decision can I carry most easily? Which one feels quietest in my body?',
 
   // Premium Song
+
+  songLyrics_de:
+    'Links oder rechts, vor oder zurück,\n' +
+    'mein Kopf dreht Schleifen, Stück für Stück.\n' +
+    'Doch unter dem Denken, unter dem Lärm,\n' +
+    'liegt etwas Stilles, ruhig und warm.\n' +
+    '\n' +
+    'Da ist ein See in mir, ganz tief und klar,\n' +
+    'er weiß die Antwort, die schon immer da war.\n' +
+    'Ich tauche ab, lass die Wellen oben sein,\n' +
+    'und in der Tiefe bin ich nicht allein.\n' +
+    '\n' +
+    'Ich muss nicht wissen, nicht heute, nicht jetzt,\n' +
+    'der Weg zeigt sich, wenn mein Herz mich setzt.\n' +
+    'Kein richtig, kein falsch, nur ein: Fühl mal hin,\n' +
+    'und plötzlich weiß ich, wer ich bin.',
+
   songTitle_en: 'The Still Lake',
   songLyrics_en:
     'Verse 1:\n' +
