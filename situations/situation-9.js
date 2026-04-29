@@ -36,7 +36,7 @@ window.SITUATIONS[9] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-9.mp3",
+  songFile: "audio/situation-9-deutsch.mp3",
   songOutro: "✨ Nimm dieses Gefühl behutsam mit in deinen weiteren Weg.",
 
   ankommenText_en:
@@ -84,7 +84,39 @@ window.SITUATIONS[9] = {
     '\n' +
     'Der wichtigste Begleiter ist Vertrauen. Nicht dass alles gut wird, sondern dass du fähig bist, mit dem umzugehen, was kommt.',
 
+
+  tiefgangText_en:
+    'The anthropologist Victor Turner called transitions liminal states: phases where the old no longer applies and the new isn\'t yet tangible. We are most vulnerable here, but also most open to transformation.\n' +
+    '\n' +
+    'Our brains love predictability. Change activates the amygdala. This is why even self-chosen changes often feel threatening. That is normal.\n' +
+    '\n' +
+    'In Japanese tradition, there is wabi-sabi: the beauty of the transient. Transitions are wabi-sabi moments. Not perfect, not smooth, but raw and real.\n' +
+    '\n' +
+    'The most important companion is trust. Not the trust that everything will be fine, but the trust that you are capable of meeting whatever comes.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Die Tür fällt zu, die Stille bleibt,\n' +
+    'was gestern war, hat sich verkleidet.\n' +
+    'Vor mir liegt Nebel, leise und weit,\n' +
+    'doch meine Füße sind bereit.\n' +
+    '\n' +
+    'Ein Schritt, nur einer, mehr brauch ich nicht,\n' +
+    'der Weg entsteht erst, wenn er bricht.\n' +
+    'Ich lass das Alte hinter mir,\n' +
+    'und sage leise: Ich bin hier.\n' +
+    '\n' +
+    'Der Wind dreht sich, die Luft wird klar,\n' +
+    'was mich gehalten hat, wird wahr:\n' +
+    'Nicht Sicherheit, nicht Kontrolle, nein,\n' +
+    'Vertrauen war es, ganz allein.\n' +
+    '\n' +
+    'Und wenn ich falle, falle ich weich,\n' +
+    'die Erde fängt mich, immer gleich.\n' +
+    'Kein Weg war falsch, kein Schritt zu viel,\n' +
+    'ich war schon immer mein eigenes Ziel.',
+
   songTitle_en: 'One Step',
   songLyrics_en:
     'Verse 1:\n' +

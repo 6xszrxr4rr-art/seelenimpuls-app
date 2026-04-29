@@ -36,7 +36,7 @@ window.SITUATIONS[6] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-6.mp3",
+  songFile: "audio/situation-6-deutsch.mp3",
   songOutro: "✨ Auch diese Phase darf ihren eigenen Rhythmus haben.",
 
   ankommenText_en:
@@ -84,7 +84,34 @@ window.SITUATIONS[6] = {
     '\n' +
     'Der wichtigste Rat: Versuche nicht, die Leere zu füllen. Halte den Raum offen und vertraue darauf, dass Klarheit sich zeigen wird.',
 
+
+  tiefgangText_en:
+    'Inner emptiness is often experienced as frightening because we live in a culture that celebrates constant stimulation. But emptiness is not a lack. It is a transition. A space between what was and what wants to come.\n' +
+    '\n' +
+    'In Gestalt therapy, this state is described as a fertile void: a point where old patterns have dissolved and new ones aren\'t yet visible. Like a seed germinating beneath the ground.\n' +
+    '\n' +
+    'Disorientation is the absence of familiar reference points. That is uncomfortable, but it is also a sign that you are growing.\n' +
+    '\n' +
+    'The most important guidance: don\'t try to fill the emptiness. Hold the space open, and trust that clarity will come.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Hier ist kein Weg und kein Gestern mehr,\n' +
+    'die Karte ist leer und das Herz so schwer.\n' +
+    'Doch etwas in mir flüstert leis:\n' +
+    'Vertrau dem Raum, er weiß, er weiß.\n' +
+    '\n' +
+    'Zwischen den Welten bin ich zu Haus,\n' +
+    'die Stille atmet in mir ein und aus.\n' +
+    'Ich brauche keinen Plan, kein Ziel, kein Wort,\n' +
+    'ich bin schon da, ich bin schon dort.\n' +
+    '\n' +
+    'Ein Licht, so zart, im Irgendwo,\n' +
+    'es leuchtet leise, irgendwo.\n' +
+    'Ich folge nicht, ich warte nur,\n' +
+    'und finde langsam meine Spur.',
+
   songTitle_en: 'Between the Worlds',
   songLyrics_en:
     'Verse 1:\n' +

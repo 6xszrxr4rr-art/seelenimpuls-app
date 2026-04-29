@@ -43,7 +43,7 @@ window.SITUATIONS[11] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-11.mp3",
+  songFile: "audio/situation-11-deutsch.mp3",
   songOutro: "✨ Du darfst aus dieser Ruhe heraus antworten – wenn du bereit bist.",
 
   ankommenText_en:
@@ -96,11 +96,45 @@ window.SITUATIONS[11] = {
     "Ein weiterer wichtiger Aspekt: Wir können in Konflikten oft nicht klar denken, weil der präfrontale Cortex unter Stress heruntergefahren wird, während die Amygdala übernimmt. Deshalb sagen wir im Streit Dinge, die wir später bereuen. Nicht weil wir schlechte Menschen sind, sondern weil unser kluges Gehirn vorübergehend offline ist.\n\n" +
     "Der wichtigste Schritt in jedem Konflikt ist deshalb nicht die Lösung, sondern die Pause. Bevor du antwortest, bevor du reagierst: Atme. Spüre deinen Körper. Komm bei dir an. Aus diesem ruhigeren Ort heraus kannst du dann wählen, wie du reagieren möchtest.",
 
+
+  tiefgangText_en:
+    'Conflict is one of the most intense emotional experiences we can have as social beings. The reason lies in our evolutionary history: for our ancestors, social exclusion meant death. This is why our nervous system responds to interpersonal conflict much like it responds to physical threats, with heightened alertness, stress hormones, and the impulse to fight or flee.\n' +
+    '\n' +
+    'Neuroscientific studies show that social rejection activates the same brain regions as physical pain. When someone says something hurtful, we feel it literally, as a sting in the chest, a tightness in the throat, a heat in the face. The body does not lie.\n' +
+    '\n' +
+    'Most conflicts don\'t escalate because of the actual issue, but because of the feelings underneath: the fear of not being heard, the fear of being left, the fear of not being enough, anger that is really pain. When we look at conflict only on the surface level, we miss its actual message.\n' +
+    '\n' +
+    'The psychologist Marshall Rosenberg, founder of Nonviolent Communication, showed that behind every accusation lies an unmet need. "You never listen to me!" really means: "I need to feel that I matter to you." When we learn to make this translation, in ourselves and in others, the entire dynamic shifts.',
+
   // Guided Meditation — for future audio use
   guidedMeditationTitle_en: "Finding Peace in Conflict",
   guidedMeditationDuration_en: "12–15 minutes",
 
   // Song
+
+  songLyrics_de:
+    'Worte wie Pfeile, scharf und schnell,\n' +
+    'ein Sturm, der nicht bleiben will.\n' +
+    'Mein Brustkorb eng, die Fäuste fest,\n' +
+    'doch tief in mir liegt etwas still.\n' +
+    '\n' +
+    'Ich trete zurück, ich schau durch das Fenster,\n' +
+    'ich seh den Sturm, doch ich geh nicht rein.\n' +
+    'Ich atme, ich spüre, ich find meine Mitte,\n' +
+    'Frieden beginnt in mir allein.\n' +
+    '\n' +
+    'Unter der Wut steht noch ein Kind,\n' +
+    'das einfach nur wertvoll sein will.\n' +
+    'Unter den Worten, die ich nicht sprach,\n' +
+    'ein Herz, das nach einem Weg sucht, still.\n' +
+    '\n' +
+    'Ich muss nicht gewinnen, ich muss nicht kämpfen,\n' +
+    'ich muss nicht beweisen, dass ich recht hab.\n' +
+    'Was, wenn das Mutigste, was ich tun kann,\n' +
+    'ist hier zu bleiben und einfach zu atmen?\n' +
+    '\n' +
+    'Du darfst aus dieser Ruhe heraus antworten – wenn du bereit bist.',
+
   songTitle_en: "Through the Window",
   songLyrics_en:
     "Verse 1:\n" +

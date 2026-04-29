@@ -36,7 +36,7 @@ window.SITUATIONS[8] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-8.mp3",
+  songFile: "audio/situation-8-deutsch.mp3",
   songOutro: "✨ Klarheit darf sich in deinem Tempo zeigen.",
 
   ankommenText_en:
@@ -84,7 +84,34 @@ window.SITUATIONS[8] = {
     '\n' +
     'Frage: Welche Entscheidung kann ich am besten tragen? Welche fühlt sich in meinem Körper am ruhigsten an?',
 
+
+  tiefgangText_en:
+    'Decision doubt rarely arises because there is too little information. Most of the time, we already know what feels right, but we don\'t trust that knowing.\n' +
+    '\n' +
+    'Neuroscientists like António Damasio have shown that good decisions aren\'t made through pure reason. Emotions and body signals (somatic markers) play a central role.\n' +
+    '\n' +
+    'The problem with wavering is the fear of making the wrong choice. Yet in most life situations, there is no objectively wrong decision. There are paths that allow for different experiences.\n' +
+    '\n' +
+    'A question worth sitting with: which decision can I carry most easily? Which one feels quietest in my body?',
+
   // Premium Song
+
+  songLyrics_de:
+    'Links oder rechts, vor oder zurück,\n' +
+    'mein Kopf dreht Schleifen, Stück für Stück.\n' +
+    'Doch unter dem Denken, unter dem Lärm,\n' +
+    'liegt etwas Stilles, ruhig und warm.\n' +
+    '\n' +
+    'Da ist ein See in mir, ganz tief und klar,\n' +
+    'er weiß die Antwort, die schon immer da war.\n' +
+    'Ich tauche ab, lass die Wellen oben sein,\n' +
+    'und in der Tiefe bin ich nicht allein.\n' +
+    '\n' +
+    'Ich muss nicht wissen, nicht heute, nicht jetzt,\n' +
+    'der Weg zeigt sich, wenn mein Herz mich setzt.\n' +
+    'Kein richtig, kein falsch, nur ein: Fühl mal hin,\n' +
+    'und plötzlich weiß ich, wer ich bin.',
+
   songTitle_en: 'The Still Lake',
   songLyrics_en:
     'Verse 1:\n' +

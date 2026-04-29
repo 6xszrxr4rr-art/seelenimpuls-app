@@ -33,7 +33,7 @@ window.SITUATIONS[10] = {
     "Bleibe noch drei tiefe, bewusste Atemzüge bei diesem Gefühl von Halt."
   ],
 
-  songFile: "audio/Song-Situation-10.mp3",
+  songFile: "audio/situation-10-deutsch.mp3",
   songOutro: "✨ Du darfst diese innere Sicherheit mit in deinen Tag nehmen.",
   songOutro_en: "✨ You may carry this inner safety with you into your day.",
 
@@ -78,7 +78,39 @@ window.SITUATIONS[10] = {
     '\n' +
     'Der wirksamste Weg führt über den Körper: Verlängertes Ausatmen aktiviert den Vagusnerv. Berührung aktiviert das Oxytocin-System. Der Körper ist dein stärkstes Werkzeug gegen Angst.',
 
+
+  tiefgangText_en:
+    'Fear is the oldest emotion of our species. Your nervous system can distinguish between safety and threat within fractions of a second. That system is not broken.\n' +
+    '\n' +
+    'Through early experiences of insecurity, the amygdala can learn to sound the alarm even at harmless stimuli. A particular tone of voice, a memory can be enough.\n' +
+    '\n' +
+    'Fear shows up in the body before it reaches the mind: a racing heart, tightness in the chest, shallow breath. These symptoms are not dangerous, but they are often interpreted as dangerous.\n' +
+    '\n' +
+    'The most effective path runs through the body: extended exhaling activates the vagus nerve. Touch activates the oxytocin system. The body is your strongest tool against fear.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Mein Herz schlägt schnell, die Brust wird eng,\n' +
+    'als ob die Luft nicht mehr zu mir kommt.\n' +
+    'Doch meine Hände liegen warm,\n' +
+    'auf meiner Brust, ein stiller Alarm.\n' +
+    '\n' +
+    'Nach dem Gewitter wird es still,\n' +
+    'die Angst darf gehen, wenn sie will.\n' +
+    'Ich halte mich, ich halt mich fest,\n' +
+    'mein Herz ist mehr als dieser Rest.\n' +
+    '\n' +
+    'Ein Licht in mir, es flackert zart,\n' +
+    'doch es erlischt nicht, es bewahrt.\n' +
+    'Die Angst ist Gast, nicht mein Zuhause,\n' +
+    'ich atme durch und mache Pause.\n' +
+    '\n' +
+    'Und wenn die Nacht am dunkelsten ist,\n' +
+    'dann weiß mein Herz: Du wirst vermisst.\n' +
+    'Nicht von der Welt, nein, von dir selbst,\n' +
+    'komm heim zu dir, wo du dich hältst.',
+
   songTitle_en: 'After the Storm',
   songLyrics_en:
     'Verse 1:\n' +
