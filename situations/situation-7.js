@@ -35,7 +35,7 @@ window.SITUATIONS[7] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-7.mp3",
+  songFile: "audio/situation-7-deutsch.mp3",
   songOutro: "✨ Dieses Vertrauen darf weiter in dir wirken.",
 
   ankommenText_en:
@@ -82,7 +82,34 @@ window.SITUATIONS[7] = {
     '\n' +
     'Der erste Schritt: den inneren Kritiker als internalisierte Stimme erkennen, nicht als deine Wahrheit. Du kannst ihm zuhören, ohne ihm zu glauben.',
 
+
+  tiefgangText_en:
+    'Self-doubt has an important function: it protects you. But when the inner critic becomes too loud, it loses its protective function and becomes a saboteur. It repeats sentences you once heard from the outside.\n' +
+    '\n' +
+    'Studies show that up to 70% of all people experience imposter syndrome at least once. It most often affects highly sensitive and perfectionistic people.\n' +
+    '\n' +
+    'Self-doubt is often the echo of past judgments. It has little to do with your actual ability and much to do with internalized beliefs.\n' +
+    '\n' +
+    'The first step: recognize the inner critic as an internalized voice, not as your truth. You can listen to it without believing it.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Da ist eine Stimme, die sagt: Du genügst nicht,\n' +
+    'die alte Geschichte, die nie zur Ruhe kommt.\n' +
+    'Doch unter dem Lärm, unter all dem Gewicht,\n' +
+    'da schlägt ein Herz, das leise verspricht.\n' +
+    '\n' +
+    'Ich steh auf meiner Seite, ich bin mein eigenes Licht.\n' +
+    'Ich brauch mich nicht zu beweisen, ich zerbrech daran nicht.\n' +
+    'Was auch immer sie sagen, was auch immer ich denk:\n' +
+    'Ich bin hier und ich bin genug, das ist mein Geschenk.\n' +
+    '\n' +
+    'Das Kind in mir schaut mich an und lacht,\n' +
+    'als hätte es schon immer gewacht.\n' +
+    'Es sagt: Du hast vergessen, wer du bist.\n' +
+    'Komm her, ich zeig dir, dass du alles bist.',
+
   songTitle_en: 'On My Side',
   songLyrics_en:
     'Verse 1:\n' +

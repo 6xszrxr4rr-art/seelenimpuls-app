@@ -38,7 +38,7 @@ window.SITUATIONS[4] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-4.mp3",
+  songFile: "audio/situation-4-deutsch.mp3",
   songOutro: "✨ Diese Ruhe darf dich weiter begleiten.",
 
   ankommenText_en:
@@ -88,7 +88,34 @@ window.SITUATIONS[4] = {
     '\n' +
     'Wahre Regeneration geschieht nicht durch Ablenkung, sondern durch echtes Nichtstun: Liegen, Atmen, Stille. Der Körper braucht Signale der Sicherheit, um in den parasympathischen Modus umzuschalten.',
 
+
+  tiefgangText_en:
+    'Exhaustion is not just the result of doing too much. It can also arise when you have lived against yourself for a long time: against your needs, against your pace, against your limits. At some point, the body pulls the emergency brake.\n' +
+    '\n' +
+    'From a neuroscientific perspective, exhaustion is a state in which the neurotransmitters dopamine and serotonin drop below their optimal levels. Drive diminishes, motivation fades. That is not laziness. It is a biochemical reality.\n' +
+    '\n' +
+    'In traditional Chinese medicine, exhaustion is understood as a deficiency of qi: vital energy has been depleted and needs to be rebuilt through rest, nourishment, and gentle movement.\n' +
+    '\n' +
+    'True regeneration does not happen through distraction, but through genuine stillness: lying down, breathing, quiet. The body needs signals of safety in order to shift into parasympathetic mode.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Ich bin so müde, schon so lang,\n' +
+    'als wäre in mir kein Gesang.\n' +
+    'Die Tage ziehen schwer vorbei,\n' +
+    'doch leise flüstert etwas: Sei frei.\n' +
+    '\n' +
+    'Tief in mir brennt ein goldenes Licht,\n' +
+    'es flackert leise, erlischt aber nicht.\n' +
+    'Es wartet geduldig, bis ich es seh:\n' +
+    'Ich bin nicht leer, ich bin nur auf dem Weg.\n' +
+    '\n' +
+    'Ich leg mich hin, die Erde trägt,\n' +
+    'ich spür, wie sich die Stille regt.\n' +
+    'Kein Müssen mehr, kein schneller Takt,\n' +
+    'nur Atem, sanft und unverpackt.',
+
   songTitle_en: 'Golden Light',
   songLyrics_en:
     'Verse 1:\n' +
