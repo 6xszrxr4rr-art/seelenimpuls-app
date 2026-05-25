@@ -37,7 +37,7 @@ window.SITUATIONS[5] = {
     "Bleibe noch drei ruhige Atemzüge dabei."
   ],
 
-  songFile: "audio/Song-Situation-5.mp3",
+  songFile: "audio/situation-5-deutsch.mp3",
   songOutro: "✨ Du bist mit diesem Gefühl nicht allein.",
 
   ankommenText_en:
@@ -86,7 +86,34 @@ window.SITUATIONS[5] = {
     '\n' +
     'Es gibt einen wichtigen Unterschied zwischen Traurigkeit und Depression. Traurigkeit ist eine Emotion, sie kommt und geht in Wellen. Depression ist ein anhaltender Zustand, der professionelle Unterstützung erfordert.',
 
+
+  tiefgangText_en:
+    'Sadness is one of the most misunderstood emotions. In a society that rewards optimism and positivity, sadness is often perceived as a disruption. And yet it is one of the most important emotions we have. It shows us what truly matters to us.\n' +
+    '\n' +
+    'Neurologically, sadness activates the parasympathetic nervous system and slows the body down. Tears contain stress hormones that are released from the body through crying. Crying is a natural cleansing process.\n' +
+    '\n' +
+    'Carl Gustav Jung wrote that we find light only where the shadow is deepest. Sadness invites us to go inward and discover parts of ourselves there: longing, vulnerability, love.\n' +
+    '\n' +
+    'There is an important distinction between sadness and depression. Sadness is an emotion. It comes and goes in waves. Depression is a sustained state that requires professional support.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Da ist ein Gefühl, das nicht sprechen kann,\n' +
+    'es liegt in mir, seit ich denken kann.\n' +
+    'Kein Name, kein Grund, nur ein leises Sein,\n' +
+    'es klopft an mein Herz: Darf ich herein?\n' +
+    '\n' +
+    'Ja, komm rein, du stiller Gast.\n' +
+    'Leg dich hin, nimm dir eine Rast.\n' +
+    'Ich halt dich aus, ich halt dich fest,\n' +
+    'auch wenn die Welt nicht stehen lässt.\n' +
+    '\n' +
+    'Die Tränen fließen oder auch nicht,\n' +
+    'ich schau mich an in diesem Licht.\n' +
+    'Da ist kein Fehler, nur ein Gefühl,\n' +
+    'das endlich Raum hat, endlich sein Ziel.',
+
   songTitle_en: 'Quiet Guest',
   songLyrics_en:
     'Verse 1:\n' +

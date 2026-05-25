@@ -38,7 +38,7 @@ window.SITUATIONS[1] = {
     "Bleibe noch einen Moment bei diesem Gefühl von Ruhe."
   ],
 
-  songFile: "audio/Song-Situation-1.mp3",
+  songFile: "audio/situation-1-deutsch.mp3",
   songOutro: "✨ Du darfst jetzt in dieser Ruhe bleiben.",
 
   ankommenText_en:
@@ -88,7 +88,39 @@ window.SITUATIONS[1] = {
     '\n' +
     'Der Schlüssel liegt nicht darin, die Gedanken zu stoppen, sondern den Körper zu beruhigen. Wenn das Nervensystem reguliert wird, verlangsamen sich die Gedanken von selbst. Die folgenden Übungen setzen genau hier an: bei der körperlichen Ebene, die den Gedanken vorausgeht.',
 
+
+  tiefgangText_en:
+    'Inner restlessness is more than just an uncomfortable feeling. It is a signal from your autonomic nervous system, which has shifted into a state of heightened alertness. In polyvagal theory, developed by Stephen Porges, this state is described as sympathetic activation: your body is preparing for a response, even when no acute danger is present.\n' +
+    '\n' +
+    'The thought carousel arises when your prefrontal cortex tries to gain control over a situation that feels unsafe. Thoughts don\'t repeat themselves because they\'re unresolved, but because your system is trying to create a sense of predictability through repetition. It is a protective mechanism, not a flaw.\n' +
+    '\n' +
+    'On a physical level, inner restlessness often shows up as shallow breathing, increased muscle tension in the neck and shoulders, a faster heartbeat, and a diffuse feeling of tightness in the chest. These signals are not dangerous, but they keep the cycle of restlessness going when they aren\'t consciously interrupted.\n' +
+    '\n' +
+    'The key is not to stop the thoughts, but to calm the body. When the nervous system regulates, the thoughts slow down on their own. The exercises that follow begin right here: at the level of the body, which always comes before the thoughts.',
+
   // Premium Song
+
+  songLyrics_de:
+    'Die Gedanken kreisen, sie finden kein Ziel,\n' +
+    'wie Blätter im Wind, ein endloses Spiel.\n' +
+    'Doch unter dem Sturm liegt ein ruhiger Grund,\n' +
+    'in mir ist ein Ort, der ist heil und gesund.\n' +
+    '\n' +
+    'Ich bin der Himmel, nicht die Wolken darin.\n' +
+    'Ich lass sie ziehen, ich find meinen Sinn.\n' +
+    'Langsam, ganz langsam, komm ich bei mir an.\n' +
+    'Atme, und spüre: Hier fängt Ruhe an.\n' +
+    '\n' +
+    'Der Atem wird leiser, die Welt wird weit,\n' +
+    'in mir entsteht Raum, ich hab jetzt Zeit.\n' +
+    'Kein Festhalten mehr, kein Müssen, kein Muss,\n' +
+    'nur dieser Moment, nur Anfang, kein Schluss.\n' +
+    '\n' +
+    'Und wenn die Nacht die Stille bringt,\n' +
+    'und alles in mir leiser klingt,\n' +
+    'dann weiß ich: Ich bin schon da,\n' +
+    'genau so, wie ich immer war.',
+
   songTitle_en: 'Sky Behind the Clouds',
   songLyrics_en:
     'Verse 1:\n' +
