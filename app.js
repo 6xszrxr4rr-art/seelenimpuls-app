@@ -1178,7 +1178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     2: {
       title: "Overwhelm & Inner Pressure",
-      quote: '"Relief begins with a conscious decision. I don't need to solve everything right now."',
+      quote: '"Relief begins with a conscious decision. I don\'t need to solve everything right now."',
       sections: [
         {
           heading: "Brain Dump",
