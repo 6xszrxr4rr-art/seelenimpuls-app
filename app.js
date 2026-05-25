@@ -1652,6 +1652,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("btnBackFromChooser").textContent = t.btnBack;
     $("btnBackFromMood").textContent    = t.btnBack;
     $("btnBackFromFavorites").textContent = t.btnBack;
+    $("btnBackFromRun").textContent     = t.btnBack;
     $("btnBackBottom").textContent      = t.btnBackBottom;
     $("moodTitle").textContent          = t.moodTitle;
     $("recLabel").textContent           = t.recLabel;
@@ -1811,9 +1812,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showView("ui-run");
 
-    bgAudio = new Audio("audio/stillness-space.mp3");
+    bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.15;
+    bgAudio.volume = 0.30;
+    bgAudio.onerror = () => {
+      bgAudio = new Audio("audio/stillness-space.mp3");
+      bgAudio.loop = true; bgAudio.volume = 0.30; bgAudio.play().catch(() => {});
+    };
     bgAudio.play().catch(() => {});
 
     ["b1","b2","b3","b4","b5"].forEach(id => $(id).classList.add("hidden"));
@@ -2122,6 +2127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
   $("btnBackBottom").onclick    = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
+  $("btnBackFromRun").onclick   = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
   $("btnStopQuick").onclick     = () => { stopSession(); $("ui-breath-select") ? showView("ui-breath-select") : showView("ui-welcome"); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
