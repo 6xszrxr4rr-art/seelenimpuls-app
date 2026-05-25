@@ -1,0 +1,80 @@
+/* ── Seelenimpuls Design Tokens (SEEAA-33) ─────────────────────────── */
+
+:root {
+  /* ── Basis-Farbpalette ── */
+  --color-creme:        #FAF7F2;
+  --color-sand:         #EDE6DA;
+  --color-warm-stone:   #D8CEC0;
+  --color-earth:        #B5A090;
+  --color-waldgruen:    #4A5E42;
+  --color-warm-gold:    #B8943A;
+  --color-terrakotta:   #C4977A;
+  --color-anthrazit:    #2E2A26;
+  --color-soft-white:   #FDFAF6;
+
+  /* ── Semantische Aliasse ── */
+  --color-bg-page:      var(--color-creme);
+  --color-bg-card:      var(--color-sand);
+  --color-bg-surface:   var(--color-soft-white);
+  --color-border:       var(--color-warm-stone);
+  --color-text-primary: var(--color-anthrazit);
+  --color-text-helper:  var(--color-earth);
+  --color-accent:       var(--color-waldgruen);
+  --color-premium:      var(--color-warm-gold);
+
+  /* ── Situations-Farbwelten (11 Gradienten) ── */
+  --situation-1-a:  #EEF2F5; --situation-1-b:  #D6E2EA;
+  --situation-2-a:  #F5EFE8; --situation-2-b:  #E8D8C8;
+  --situation-3-a:  #EEE8F2; --situation-3-b:  #D8D0E8;
+  --situation-4-a:  #EBF0F4; --situation-4-b:  #C8D8E4;
+  --situation-5-a:  #EBF2EC; --situation-5-b:  #C8DFC8;
+  --situation-6-a:  #F5EFDF; --situation-6-b:  #E8D8B0;
+  --situation-7-a:  #F5ECEC; --situation-7-b:  #E8C8C8;
+  --situation-8-a:  #F5EDEA; --situation-8-b:  #E8C8B8;
+  --situation-9-a:  #EEF2EC; --situation-9-b:  #D4DDD0;
+  --situation-10-a: #F5F2E0; --situation-10-b: #E8DFB0;
+  --situation-11-a: #E8EFEC; --situation-11-b: #C4D8D0;
+
+  /* ── Typografie ── */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+
+  --text-display:   32px;
+  --text-h1:        28px;
+  --text-h2:        22px;
+  --text-body:      16px;
+  --text-ui-label:  14px;
+  --text-caption:   13px;
+  --text-micro:     11px;
+
+  --lh-display:  1.4;
+  --lh-h1:       1.5;
+  --lh-h2:       1.6;
+  --lh-body:     1.65;
+  --lh-ui-label: 1.4;
+  --lh-caption:  1.5;
+  --lh-micro:    1.4;
+
+  --ls-micro: 0.08em;
+
+  /* ── Abstände ── */
+  --space-xs: 8px;
+  --space-s:  12px;
+  --space-m:  20px;
+  --space-l:  32px;
+  --space-xl: 48px;
+
+  /* ── Border-Radius ── */
+  --radius-card:         16px;
+  --radius-impulse-card: 20px;
+  --radius-button:       12px;
+  --radius-tag:          20px;
+  --radius-tile:         14px;
+  --radius-modal:        20px;
+
+  /* ── Schatten ── */
+  --shadow-card:        0 4px 24px rgba(46, 42, 38, 0.08);
+  --shadow-card-hover:  0 8px 32px rgba(46, 42, 38, 0.12);
+  --shadow-impulse:     0 6px 28px rgba(46, 42, 38, 0.10);
+  --shadow-tile:        0 2px 12px rgba(46, 42, 38, 0.06);
+}

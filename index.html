@@ -5,14 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Seelenimpuls</title>
 
-  <!-- Google Font -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Design Tokens -->
+  <link rel="stylesheet" href="styles/tokens.css">
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#4a90e2" />
+  <meta name="theme-color" content="#4A5E42" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -22,34 +25,40 @@
   <style>
     /* ── CSS Variables ── */
     :root {
-      --accent: #4a90e2;
-      --accent-soft: rgba(74, 144, 226, 0.12);
-      --text: #2c3e50;
-      --text-muted: #536471;
-      --bg-gradient: linear-gradient(-45deg, #eef2f3, #e3f2fd, #e8f5e9, #f3e5f5);
-      --block-bg: rgba(255, 255, 255, 0.94);
-      --block-border: rgba(255, 255, 255, 0.7);
-      --btn-ghost-bg: rgba(255, 255, 255, 0.6);
-      --btn-ghost-border: #d1d5db;
-      --btn-ghost-color: #718096;
-      --situation-bg: rgba(255, 255, 255, 0.8);
-      --situation-border: #eee;
+      --accent:             var(--color-waldgruen);
+      --accent-soft:        rgba(74, 94, 66, 0.10);
+      --text:               var(--color-anthrazit);
+      --text-muted:         var(--color-earth);
+      --bg-gradient:        linear-gradient(160deg, var(--color-creme) 0%, var(--color-sand) 100%);
+      --block-bg:           var(--color-soft-white);
+      --block-border:       var(--color-warm-stone);
+      --btn-ghost-bg:       rgba(253, 250, 246, 0.92);
+      --btn-ghost-border:   var(--color-warm-stone);
+      --btn-ghost-color:    var(--color-earth);
+      --situation-bg:       var(--color-soft-white);
+      --situation-border:   var(--color-warm-stone);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --accent: #8ab4f8;
-        --accent-soft: rgba(138, 180, 248, 0.15);
-        --text: #ddd6f3;
-        --text-muted: #b8aecb;
-        --bg-gradient: linear-gradient(-45deg, #1a1625, #1e1b2e, #1b2535, #251528);
-        --block-bg: rgba(32, 25, 50, 0.96);
-        --block-border: rgba(255, 255, 255, 0.07);
-        --btn-ghost-bg: rgba(32, 25, 50, 0.7);
-        --btn-ghost-border: rgba(255, 255, 255, 0.12);
-        --btn-ghost-color: #a09ab8;
-        --situation-bg: rgba(32, 25, 50, 0.85);
-        --situation-border: rgba(255, 255, 255, 0.1);
+        --color-creme:      #2A2520;
+        --color-sand:       #1E1A16;
+        --color-soft-white: #352F28;
+        --color-warm-stone: rgba(200, 180, 160, 0.18);
+        --color-earth:      #8A7A6A;
+        --color-anthrazit:  #F0E8DC;
+        --accent:           #7A9E72;
+        --accent-soft:      rgba(122, 158, 114, 0.15);
+        --text:             #F0E8DC;
+        --text-muted:       #8A7A6A;
+        --bg-gradient:      linear-gradient(160deg, #2A2520 0%, #1E1A16 100%);
+        --block-bg:         rgba(53, 47, 40, 0.96);
+        --block-border:     rgba(200, 180, 160, 0.12);
+        --btn-ghost-bg:     rgba(53, 47, 40, 0.8);
+        --btn-ghost-border: rgba(200, 180, 160, 0.18);
+        --btn-ghost-color:  #8A7A6A;
+        --situation-bg:     rgba(53, 47, 40, 0.85);
+        --situation-border: rgba(200, 180, 160, 0.12);
       }
     }
 
@@ -57,20 +66,13 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Lora', Georgia, serif;
+      font-family: var(--font-sans);
       color: var(--text);
       background: var(--bg-gradient);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
       min-height: 100vh;
       padding: 20px;
-      line-height: 1.7;
+      line-height: var(--lh-body);
       -webkit-font-smoothing: antialiased;
-    }
-    @keyframes gradientBG {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     .wrap { max-width: 500px; margin: 0 auto; padding-bottom: 100px; }
@@ -78,8 +80,8 @@
     /* ── Blocks ── */
     .block {
       background: var(--block-bg);
-      padding: 30px; border-radius: 28px; margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      padding: 30px; border-radius: var(--radius-card); margin-bottom: 30px;
+      box-shadow: var(--shadow-card);
       border: 1px solid var(--block-border);
       transition: all 0.5s ease;
     }
@@ -107,53 +109,70 @@
     /* ── Home Hero ── */
     .home-hero {
       text-align: center;
-      padding: 10px 0 4px;
+      padding: 16px 0 8px;
+      position: relative; overflow: hidden;
+    }
+    .home-hero::after {
+      content: '';
+      position: absolute; bottom: -20%; right: -8%;
+      width: 55%; height: 55%;
+      background-image: url('/assets/botanical-texture.svg');
+      background-repeat: no-repeat; background-size: contain;
+      opacity: 0.06; pointer-events: none; color: var(--color-earth);
     }
     .home-logo {
-      width: 76px; height: 76px;
-      border-radius: 20px;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.16);
+      width: 72px; height: 72px;
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
       margin: 0 auto 12px;
       display: block;
     }
     .home-title {
-      font-size: 20px; font-weight: 400; letter-spacing: 5px;
-      margin: 0 0 6px; color: var(--text);
-      font-family: 'Lora', serif;
+      font-family: var(--font-sans);
+      font-size: var(--text-caption); font-weight: 500; letter-spacing: 0.20em;
+      text-transform: uppercase; margin: 0 0 6px; color: var(--color-earth);
     }
 
     /* ── Streak ── */
     .streak-display {
-      text-align: center; font-size: 14px; color: var(--text-muted);
-      margin-bottom: 6px; letter-spacing: 0.5px;
-      font-family: -apple-system, system-ui, sans-serif;
+      text-align: center; font-family: var(--font-sans);
+      font-size: var(--text-caption); color: var(--color-earth);
+      margin-bottom: 6px; letter-spacing: 0.03em;
     }
 
     /* ── Impulse Card ── */
     .impulse-card {
-      background: var(--block-bg);
-      border: 1px solid var(--block-border);
-      border-radius: 28px;
-      padding: 32px 28px 26px;
+      background: var(--color-soft-white);
+      border-radius: var(--radius-impulse-card);
+      border-top: 2px solid var(--color-warm-gold);
+      padding: 24px 24px 20px;
       margin: 14px 0 18px;
       text-align: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-      min-height: 160px;
+      box-shadow: var(--shadow-impulse);
+      min-height: 150px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
+      animation: cardFadeIn 400ms ease-out both;
     }
     .impulse-label {
-      font-size: 13px; text-transform: uppercase;
-      letter-spacing: 2.5px; color: var(--accent);
-      margin-bottom: 16px;
-      font-family: -apple-system, system-ui, sans-serif;
-      font-weight: 700;
+      font-family: var(--font-sans);
+      font-size: var(--text-micro);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--color-earth);
+      margin-bottom: var(--space-xs);
     }
     #impuls {
-      font-size: 24px; font-weight: 400; font-style: italic;
-      color: var(--text); line-height: 1.7;
-      margin: 0 0 22px;
+      font-family: var(--font-serif);
+      font-size: 26px; font-weight: 300; font-style: italic;
+      color: var(--color-anthrazit); line-height: 1.8;
+      margin: 0 0 18px;
       display: block;
       transition: opacity 0.5s ease;
+    }
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── Support & Premium Buttons ── */
@@ -183,54 +202,71 @@
 
     /* ── Buttons ── */
     #btnImpuls {
-      background: transparent; border: 1.5px solid var(--accent);
-      color: var(--accent); padding: 11px 28px; border-radius: 30px;
-      font-size: 15px; font-family: 'Lora', serif;
-      cursor: pointer; transition: all 0.3s ease;
-      touch-action: manipulation; font-weight: 600;
+      background: transparent; border: 1.5px solid var(--color-warm-gold);
+      color: var(--color-warm-gold); padding: 10px 26px; border-radius: var(--radius-tag);
+      font-family: var(--font-sans); font-size: var(--text-ui-label); font-weight: 500;
+      cursor: pointer; transition: background 0.2s ease;
+      touch-action: manipulation;
     }
-    #btnImpuls:hover { background: var(--accent-soft); }
+    #btnImpuls:hover { background: rgba(184, 148, 58, 0.08); }
 
     .btn-primary {
-      background: var(--accent); color: white; border: none;
-      padding: 20px; border-radius: 20px; width: 100%;
-      font-size: 18px; font-weight: 600; cursor: pointer;
-      font-family: 'Lora', serif; touch-action: manipulation;
+      background: var(--color-waldgruen); color: white; border: none;
+      padding: 18px; border-radius: var(--radius-button); width: 100%;
+      font-family: var(--font-sans); font-size: var(--text-body);
+      font-weight: 500; cursor: pointer; touch-action: manipulation;
       transition: opacity 0.2s;
+      box-shadow: 0 4px 16px rgba(74, 94, 66, 0.28);
     }
     .btn-primary:active { opacity: 0.85; }
 
     .btn-secondary {
-      background: var(--accent-soft); color: var(--accent);
-      border: 1px solid var(--accent); padding: 16px;
-      border-radius: 18px; width: 100%; font-size: 17px;
-      font-weight: 600; cursor: pointer; font-family: 'Lora', serif;
-      margin-top: 12px; touch-action: manipulation;
+      background: var(--accent-soft); color: var(--color-waldgruen);
+      border: 1px solid rgba(74, 94, 66, 0.25); padding: 15px;
+      border-radius: var(--radius-button); width: 100%;
+      font-family: var(--font-sans); font-size: var(--text-body); font-weight: 500;
+      cursor: pointer; margin-top: 12px; touch-action: manipulation;
     }
 
     .btn-ghost {
-      background: var(--btn-ghost-bg); border: 1px solid var(--btn-ghost-border);
-      color: var(--btn-ghost-color); width: 100%; padding: 16px;
-      border-radius: 18px; font-size: 15px; cursor: pointer;
-      margin-top: 12px; font-family: -apple-system, system-ui, sans-serif;
-      touch-action: manipulation;
+      background: var(--color-soft-white); border: 1px solid var(--color-warm-stone);
+      color: var(--color-anthrazit); width: 100%; padding: 15px;
+      border-radius: var(--radius-tile); font-family: var(--font-sans);
+      font-size: var(--text-ui-label); font-weight: 400; cursor: pointer;
+      touch-action: manipulation; box-shadow: var(--shadow-tile);
+      transition: box-shadow 0.15s ease;
     }
-    /* Atemübung button: stärkere Farbe + mehr Abstand nach oben */
+    .btn-ghost:active { box-shadow: none; }
+
+    /* welcome-actions: 2-column tile grid */
+    .welcome-actions {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; margin-top: 14px;
+    }
+    .welcome-actions .btn-ghost { margin-top: 0; }
     #btnQuick {
-      color: var(--text); margin-top: 22px;
+      grid-column: span 2;
+      color: var(--color-anthrazit); margin-top: 8px;
     }
 
     /* ── Situation Buttons ── */
     .situationBtn {
-      width: 100%; background: var(--situation-bg);
-      border: 1px solid var(--situation-border);
-      padding: 22px; border-radius: 22px; margin-bottom: 12px;
+      width: 100%; background: var(--color-soft-white);
+      border: 1px solid var(--color-warm-stone);
+      padding: 20px 22px; border-radius: var(--radius-card); margin-bottom: 10px;
       text-align: left; cursor: pointer; touch-action: manipulation;
-      transition: background 0.2s;
+      box-shadow: var(--shadow-tile);
+      transition: box-shadow 0.15s ease, transform 0.15s ease;
     }
-    .situationBtn:active { background: var(--accent-soft); }
-    .headline { font-size: 19px; font-weight: 600; display: block; color: var(--accent); font-family: 'Lora', serif; }
-    .hint { font-size: 14px; color: var(--text-muted); font-family: -apple-system, system-ui, sans-serif; }
+    .situationBtn:active { transform: scale(0.985); box-shadow: none; }
+    .headline {
+      font-family: var(--font-serif); font-size: 19px; font-weight: 400;
+      display: block; color: var(--color-waldgruen);
+    }
+    .hint {
+      font-family: var(--font-sans); font-size: var(--text-ui-label);
+      color: var(--color-earth); margin-top: 2px;
+    }
 
     /* ── Onboarding ── */
     .onboarding-wrap { text-align: center; padding: 60px 20px 40px; }
@@ -241,28 +277,36 @@
     /* ── Mood Grid ── */
     .mood-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 12px; margin: 20px 0;
+      gap: 10px; margin: 20px 0;
     }
     .mood-btn {
-      background: var(--situation-bg); border: 2px solid transparent;
-      border-radius: 20px; padding: 16px 8px; text-align: center;
-      cursor: pointer; transition: all 0.3s; touch-action: manipulation;
+      background: var(--color-soft-white); border: 2px solid transparent;
+      border-radius: var(--radius-tile); padding: 14px 8px; text-align: center;
+      cursor: pointer; transition: all 0.2s; touch-action: manipulation;
+      box-shadow: var(--shadow-tile);
     }
-    .mood-btn.selected { border-color: var(--accent); background: var(--accent-soft); }
-    .mood-emoji { font-size: 32px; display: block; margin-bottom: 5px; }
-    .mood-label { font-size: 13px; color: var(--text-muted); font-family: -apple-system, system-ui, sans-serif; }
+    .mood-btn.selected { border-color: var(--color-waldgruen); background: var(--accent-soft); }
+    .mood-emoji { font-size: 28px; display: block; margin-bottom: 4px; }
+    .mood-label {
+      font-family: var(--font-sans); font-size: var(--text-caption);
+      color: var(--color-earth);
+    }
 
     /* ── Recommendation card ── */
     .rec-card {
-      background: var(--accent-soft); border: 1px solid var(--accent);
-      border-radius: 20px; padding: 20px; margin: 16px 0; text-align: center;
+      background: var(--accent-soft); border: 1px solid rgba(74, 94, 66, 0.20);
+      border-radius: var(--radius-card); padding: 20px; margin: 16px 0; text-align: center;
     }
     .rec-label {
-      font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--accent); margin-bottom: 8px;
-      font-family: -apple-system, system-ui, sans-serif;
+      font-family: var(--font-sans); font-size: var(--text-micro);
+      text-transform: uppercase; letter-spacing: 0.10em;
+      color: var(--color-waldgruen); margin-bottom: var(--space-xs);
+      font-weight: 500;
     }
-    .rec-title { font-size: 22px; color: var(--text); font-weight: 600; }
+    .rec-title {
+      font-family: var(--font-serif); font-size: 22px; font-weight: 400;
+      color: var(--color-anthrazit);
+    }
 
     /* ── Back buttons ── */
     #btnBackBottom {
@@ -629,16 +673,16 @@
 
     /* ── Home recommendation section ── */
     .home-rec-label {
-      font-size: 18px; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--accent); margin-bottom: 14px; text-align: center;
-      font-family: -apple-system, system-ui, sans-serif; font-weight: 700;
+      font-family: var(--font-sans); font-size: var(--text-micro);
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.10em;
+      color: var(--color-earth); margin-bottom: 14px; text-align: center;
     }
     .home-rec-btn {
-      width: 100%; background: var(--accent); color: white; border: none;
-      padding: 22px 20px; border-radius: 22px; cursor: pointer;
-      font-family: 'Lora', serif; font-size: 20px; font-weight: 600;
+      width: 100%; background: var(--color-waldgruen); color: white; border: none;
+      padding: 22px 20px; border-radius: var(--radius-card); cursor: pointer;
+      font-family: var(--font-serif); font-size: 20px; font-weight: 400; font-style: italic;
       touch-action: manipulation; transition: opacity 0.2s; text-align: center;
-      box-shadow: 0 6px 20px rgba(74, 144, 226, 0.3);
+      box-shadow: 0 6px 20px rgba(74, 94, 66, 0.30);
     }
     .home-rec-btn:active { opacity: 0.85; }
 
@@ -650,17 +694,19 @@
 
     /* ── Home situations list ── */
     .home-situation-btn {
-      width: 100%; background: var(--situation-bg);
-      border: 1px solid var(--situation-border);
-      padding: 16px 20px; border-radius: 16px; margin-bottom: 9px;
+      width: 100%; background: var(--color-soft-white);
+      border: 1px solid var(--color-warm-stone);
+      padding: 14px 20px; border-radius: var(--radius-tile); margin-bottom: 8px;
       text-align: left; cursor: pointer; touch-action: manipulation;
-      font-size: 17px; color: var(--text); font-family: 'Lora', serif;
-      transition: background 0.2s;
+      font-family: var(--font-serif); font-size: 17px; font-weight: 400;
+      color: var(--color-anthrazit);
+      box-shadow: var(--shadow-tile);
+      transition: box-shadow 0.15s ease;
     }
     .home-situation-btn:active { background: var(--accent-soft); }
 
     /* ── Welcome screen quick-action buttons ── */
-    .welcome-actions { margin-top: 14px; }
+    /* placeholder – grid is defined above in btn-ghost section */
 
     /* ── Support links at end of situation ── */
     .situation-end-support {
@@ -671,8 +717,8 @@
 
     /* ── Home nav & small support links ── */
     .home-nav-greeting {
-      text-align: center; font-family: 'Lora', serif; font-size: 17px;
-      color: var(--text-muted); font-style: italic; margin: 24px 0 20px;
+      text-align: center; font-family: var(--font-serif); font-size: 17px;
+      font-style: italic; color: var(--color-earth); margin: 24px 0 20px;
     }
     .support-links-sm {
       display: flex; align-items: center; justify-content: center;

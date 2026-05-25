@@ -2310,6 +2310,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showView("ui-run");
 
+    // Situation-spezifische Hintergrundfarbe (CSS-Tokens)
+    document.body.style.background =
+      'linear-gradient(160deg, var(--situation-' + n + '-a) 0%, var(--situation-' + n + '-b) 100%)';
+
     bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
     bgAudio.volume = 0.30;
@@ -2624,8 +2628,12 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnStartRec").onclick      = () => { if (recommendedSituation) runSituation(recommendedSituation); };
 
   $("btnBackFromChooser").onclick = () => showView("ui-home");
-  $("btnBackBottom").onclick    = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
-  $("btnBackFromRun").onclick   = () => { stopSession(); renderHomeScreen(); showView("ui-home"); showStreak(); };
+  function leaveRun() {
+    document.body.style.background = '';
+    stopSession(); renderHomeScreen(); showView("ui-home"); showStreak();
+  }
+  $("btnBackBottom").onclick    = leaveRun;
+  $("btnBackFromRun").onclick   = leaveRun;
   $("btnStopQuick").onclick     = () => { stopSession(); $("ui-breath-select") ? showView("ui-breath-select") : showView("ui-welcome"); };
   $("btnBackFromFavorites").onclick = () => { updateFavBtn(); showView("ui-home"); };
   $("btnLegal").onclick             = () => showView("ui-legal");
