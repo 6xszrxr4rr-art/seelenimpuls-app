@@ -549,24 +549,53 @@
     .btn-install:active { opacity: 0.85; }
     .ios-install-modal {
       display: none; position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,0.5); align-items: flex-end;
+      background: rgba(0,0,0,0.55); align-items: flex-end;
     }
     .ios-install-modal.visible { display: flex; }
     .ios-install-sheet {
       background: var(--block-bg); width: 100%; border-radius: 28px 28px 0 0;
-      padding: 28px 24px 40px; text-align: center;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+      padding: 24px 24px 44px; text-align: left;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.18);
+      position: relative;
     }
     .ios-install-sheet h3 {
-      font-size: 18px; font-weight: 600; margin: 0 0 12px;
-      font-family: 'Lora', serif; color: var(--text);
+      font-size: 19px; font-weight: 600; margin: 0 0 4px;
+      font-family: 'Lora', serif; color: var(--text); text-align: center;
     }
-    .ios-install-sheet p {
-      font-size: 15px; color: var(--text-muted); line-height: 1.7;
-      margin: 0 0 20px; font-family: -apple-system, system-ui, sans-serif;
+    .ios-install-subtitle {
+      font-size: 13px; color: var(--text-muted); text-align: center;
+      margin: 0 0 22px; font-family: -apple-system, system-ui, sans-serif;
     }
-    .ios-install-sheet .share-icon {
-      font-size: 28px; display: block; margin-bottom: 8px;
+    .ios-install-close {
+      position: absolute; top: 16px; right: 18px;
+      background: var(--bg-secondary); border: none; color: var(--text-muted);
+      width: 30px; height: 30px; border-radius: 50%; font-size: 16px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+    .ios-step {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 16px;
+    }
+    .ios-step-badge {
+      width: 40px; height: 40px; border-radius: 14px; flex-shrink: 0;
+      background: var(--accent-soft); display: flex; align-items: center;
+      justify-content: center; font-size: 20px;
+    }
+    .ios-step-text {
+      font-family: -apple-system, system-ui, sans-serif;
+      padding-top: 2px;
+    }
+    .ios-step-text strong {
+      display: block; font-size: 15px; color: var(--text); font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .ios-step-text span {
+      font-size: 13px; color: var(--text-muted); line-height: 1.5;
+    }
+    .ios-steps-divider {
+      width: 1px; height: 10px; background: var(--block-border);
+      margin: 0 0 6px 19px;
     }
 
     /* ── Home mood heading ── */
@@ -1585,14 +1614,40 @@
   <!-- iOS Install Modal -->
   <div class="ios-install-modal" id="iosInstallModal">
     <div class="ios-install-sheet">
-      <div class="share-icon">⬆️</div>
+      <button class="ios-install-close" id="btnCloseIosModal" aria-label="Schließen">✕</button>
       <h3 data-de="App installieren" data-en="Install App">App installieren</h3>
-      <p class="ios-modal-hint">
-        Tippe auf das <strong>Teilen-Symbol ⬆️</strong> in Safari<br>
-        und dann auf <strong>„Zum Home-Bildschirm"</strong>.
-      </p>
-      <button class="btn-primary" id="btnCloseIosModal" style="max-width:200px;margin:0 auto;display:block;"
-              data-de="Verstanden" data-en="Got it">Verstanden</button>
+      <p class="ios-install-subtitle"
+         data-de="So fügst du Seelenimpuls zum Startbildschirm hinzu:"
+         data-en="How to add Seelenimpuls to your home screen:">So fügst du Seelenimpuls zum Startbildschirm hinzu:</p>
+
+      <div class="ios-step">
+        <div class="ios-step-badge">⬆️</div>
+        <div class="ios-step-text">
+          <strong data-de="Teilen-Symbol tippen" data-en="Tap the Share button">Teilen-Symbol tippen</strong>
+          <span data-de="Das Symbol unten in der Safari-Menüleiste" data-en="The icon at the bottom of the Safari toolbar">Das Symbol unten in der Safari-Menüleiste</span>
+        </div>
+      </div>
+      <div class="ios-steps-divider"></div>
+
+      <div class="ios-step">
+        <div class="ios-step-badge">📋</div>
+        <div class="ios-step-text">
+          <strong data-de="„Zum Home-Bildschirm" wählen" data-en="Tap „Add to Home Screen"">"Zum Home-Bildschirm" wählen</strong>
+          <span data-de="Im Menü nach unten scrollen, bis du diesen Eintrag siehst" data-en="Scroll down in the menu until you see this option">Im Menü nach unten scrollen, bis du diesen Eintrag siehst</span>
+        </div>
+      </div>
+      <div class="ios-steps-divider"></div>
+
+      <div class="ios-step">
+        <div class="ios-step-badge">✅</div>
+        <div class="ios-step-text">
+          <strong data-de="„Hinzufügen" bestätigen" data-en="Tap „Add" to confirm">„Hinzufügen" bestätigen</strong>
+          <span data-de="Fertig – die App erscheint auf deinem Startbildschirm" data-en="Done – the app will appear on your home screen">Fertig – die App erscheint auf deinem Startbildschirm</span>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnIosModalOk" style="margin-top:20px;"
+              data-de="Verstanden ✓" data-en="Got it ✓">Verstanden ✓</button>
     </div>
   </div>
 
@@ -1612,6 +1667,7 @@
     </div>
     <div class="nav-items">
       <button class="nav-item" id="menuPremium">✨&nbsp;&nbsp;<span data-de="Premium werden" data-en="Get Premium">Premium werden</span></button>
+      <button class="nav-item" id="menuInstall">📲&nbsp;&nbsp;<span data-de="App installieren" data-en="Install App">App installieren</span></button>
       <div class="nav-divider"></div>
       <button class="nav-item" id="menuLegalNav">📋&nbsp;&nbsp;<span data-de="Datenschutz &amp; Impressum" data-en="Privacy &amp; Legal Notice">Datenschutz &amp; Impressum</span></button>
       <a href="https://ko-fi.com/seelenimpuls" target="_blank" rel="noopener" class="nav-item">☕&nbsp;&nbsp;Diese Arbeit unterstützen</a>

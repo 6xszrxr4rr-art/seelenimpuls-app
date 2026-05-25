@@ -2682,10 +2682,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   let deferredInstallPrompt = null;
 
-  if (!isStandalone) {
-    if (isIOS) {
-      $("btnInstall").style.display = "block";
+  function showInstallModal() { $("iosInstallModal").classList.add("visible"); }
+  function hideInstallModal() { $("iosInstallModal").classList.remove("visible"); }
+
+  async function triggerInstall() {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      if (outcome === 'accepted') {
+        deferredInstallPrompt = null;
+        $("btnInstall").style.display = "none";
+      }
+    } else {
+      showInstallModal();
     }
+  }
+
+  if (!isStandalone) {
+    if (isIOS) $("btnInstall").style.display = "block";
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredInstallPrompt = e;
@@ -2693,18 +2707,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  $("btnInstall").onclick = async () => {
-    if (deferredInstallPrompt) {
-      deferredInstallPrompt.prompt();
-      await deferredInstallPrompt.userChoice;
-      deferredInstallPrompt = null;
-      $("btnInstall").style.display = "none";
-    } else if (isIOS) {
-      $("iosInstallModal").classList.add("visible");
-    }
-  };
-
-  $("btnCloseIosModal").onclick = () => $("iosInstallModal").classList.remove("visible");
+  $("btnInstall").onclick = triggerInstall;
+  if ($("menuInstall")) $("menuInstall").addEventListener("click", () => { closeNavMenu(); triggerInstall(); });
+  $("btnCloseIosModal").onclick = hideInstallModal;
+  if ($("btnIosModalOk")) $("btnIosModalOk").onclick = hideInstallModal;
+  $("iosInstallModal").addEventListener("click", (e) => { if (e.target === $("iosInstallModal")) hideInstallModal(); });
 
   // ── SW Update Notification ────────────────────────────────────────────
   if ('serviceWorker' in navigator) {
