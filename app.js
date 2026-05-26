@@ -607,21 +607,17 @@ document.addEventListener("DOMContentLoaded", () => {
     CARD_DATA.forEach(card => {
       const s = card.sit[lang] || card.sit.de;
       const t = card.txt[lang] || card.txt.de;
-      const a = card.accent;
+      const sitColor = 'var(--situation-' + card.nr + '-b)';
       const el = document.createElement('div');
       el.className = 'cg-card';
-      el.style.background = cgBg(card);
+      el.style.borderTop = '3px solid ' + sitColor;
       el.innerHTML =
-        '<div class="cg-grain"></div>' +
-        '<div class="cg-orb" style="background:radial-gradient(ellipse,' + a + '12,transparent)"></div>' +
         '<div class="cg-content">' +
-          '<div class="cg-line" style="background:linear-gradient(90deg,transparent,' + a + '60,transparent)"></div>' +
-          '<div class="cg-sit" style="color:' + a + '90">' + s + '</div>' +
+          '<div class="cg-sit">' + s + '</div>' +
           '<p class="cg-text">' + t.replace(/\n/g, '<br>') + '</p>' +
-          '<div class="cg-line" style="background:linear-gradient(90deg,transparent,' + a + '60,transparent);margin-top:14px"></div>' +
-          '<div class="cg-brand" style="color:' + a + '50">Seelenimpuls</div>' +
+          '<div class="cg-brand">Seelenimpuls</div>' +
         '</div>' +
-        '<span class="cg-num" style="color:' + a + '30">' + card.nr + '/11</span>';
+        '<span class="cg-num">' + card.nr + '/11</span>';
       el.addEventListener('click', () => openCardFullscreen(card));
       grid.appendChild(el);
     });
@@ -1781,7 +1777,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!grid) return;
     grid.innerHTML = '';
 
-    const pd          = window._siPriceData || {};
+    const pd           = window._siPriceData || {};
     const albumDePrice = _fmtPrice(pd.songDeAll)  || '4,99 €';
     const albumEnPrice = _fmtPrice(pd.songEnAll)  || '4,99 €';
     const singlePrice  = _fmtPrice(pd.songSingle) || '0,99 €';
@@ -1797,19 +1793,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const header = document.createElement('div');
       header.className = 'pv-album-header';
-      header.innerHTML =
-        '<div class="pv-album-left">' +
-          '<span class="pv-album-flag">' + album.flag + '</span>' +
-          '<div>' +
-            '<div class="pv-album-name">' + album.name + '</div>' +
-            '<div class="pv-album-meta">' + album.meta + '</div>' +
+      if (isPremium) {
+        header.innerHTML =
+          '<div class="pv-album-left">' +
+            '<span class="pv-album-flag">' + album.flag + '</span>' +
+            '<div>' +
+              '<div class="pv-album-name">' + album.name + '</div>' +
+              '<div class="pv-album-meta">' + album.meta + '</div>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-        '<div class="pv-album-right">' +
-          '<span class="pv-album-price">' + album.price + '</span>' +
-          '<button class="pv-album-buy">' + (lang==='de' ? 'Album kaufen' : 'Buy album') + '</button>' +
-        '</div>';
-      header.querySelector('.pv-album-buy').addEventListener('click', () => startSongCheckout(album.priceKey));
+          '<div class="pv-album-right">' +
+            '<span class="pv-album-price" style="color:var(--color-waldgruen);">' +
+              (lang === 'de' ? '✓ Enthalten' : '✓ Included') +
+            '</span>' +
+          '</div>';
+      } else {
+        header.innerHTML =
+          '<div class="pv-album-left">' +
+            '<span class="pv-album-flag">' + album.flag + '</span>' +
+            '<div>' +
+              '<div class="pv-album-name">' + album.name + '</div>' +
+              '<div class="pv-album-meta">' + album.meta + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="pv-album-right">' +
+            '<span class="pv-album-price">' + album.price + '</span>' +
+            '<button class="pv-album-buy">' + (lang==='de' ? 'Album kaufen' : 'Buy album') + '</button>' +
+          '</div>';
+        header.querySelector('.pv-album-buy').addEventListener('click', () => startSongCheckout(album.priceKey));
+      }
       card.appendChild(header);
 
       const divider = document.createElement('div');
@@ -1823,18 +1835,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const row = document.createElement('div');
         row.className = 'pv-song-row';
-        row.innerHTML =
-          '<button class="pv-play-btn" aria-label="Vorschau">▶</button>' +
-          '<div class="pv-song-row-info">' +
-            '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
-            '<span class="pv-song-row-sit">' + sitName + '</span>' +
-          '</div>' +
-          '<button class="pv-song-buy">' + singlePrice + ' ↗</button>';
 
-        row.querySelector('.pv-play-btn').addEventListener('click', function() {
-          previewSong(file, this);
-        });
-        row.querySelector('.pv-song-buy').addEventListener('click', () => startSongCheckout('songSingle'));
+        if (isPremium) {
+          row.innerHTML =
+            '<button class="pv-play-btn" aria-label="Abspielen">▶</button>' +
+            '<div class="pv-song-row-info">' +
+              '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
+              '<span class="pv-song-row-sit">' + sitName + '</span>' +
+            '</div>';
+          row.querySelector('.pv-play-btn').addEventListener('click', function() {
+            playSong(file, this);
+          });
+        } else {
+          row.innerHTML =
+            '<button class="pv-play-btn" aria-label="Vorschau">▶</button>' +
+            '<div class="pv-song-row-info">' +
+              '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
+              '<span class="pv-song-row-sit">' + sitName + '</span>' +
+            '</div>' +
+            '<button class="pv-song-buy">' + singlePrice + ' ↗</button>';
+          row.querySelector('.pv-play-btn').addEventListener('click', function() {
+            previewSong(file, this);
+          });
+          row.querySelector('.pv-song-buy').addEventListener('click', () => startSongCheckout('songSingle'));
+        }
         card.appendChild(row);
       });
 
@@ -1842,7 +1866,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function renderPvCards() {
+  // Vollstaendige Song-Wiedergabe fuer Premium (ohne 25s-Limit)
+  function playSong(file, btn) {
+    if (currentSongAudio) {
+      currentSongAudio.pause(); currentSongAudio = null;
+      document.querySelectorAll('.pv-song-row.pv-playing').forEach(r => r.classList.remove('pv-playing'));
+      if (btn._lastFile === file) { btn._lastFile = null; return; }
+    }
+    btn._lastFile = file;
+    btn.closest('.pv-song-row')?.classList.add('pv-playing');
+    currentSongAudio = new Audio(file);
+    currentSongAudio.volume = 0.8;
+    currentSongAudio.play().catch(() => {});
+    currentSongAudio.onended = () => {
+      btn.closest('.pv-song-row')?.classList.remove('pv-playing');
+      currentSongAudio = null; btn._lastFile = null;
+    };
+  }
+
+    function renderPvCards() {
     const wrap = $('pvCardPreview');
     if (!wrap) return;
     const c1 = CARD_DATA[0], c2 = CARD_DATA[1];
@@ -1905,11 +1947,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cta)    cta.classList.toggle('hidden', isPremium);
     if (already) already.classList.toggle('hidden', !isPremium);
 
-    // Startseiten-Buttons nur für Nicht-Premium sichtbar
-    ['btnPremiumPreview','btnSongsPreview'].forEach(id => {
-      const b = $(id);
-      if (b) b.style.display = isPremium ? 'none' : '';
-    });
+    // Upgrade-Button nur für Nicht-Premium; Klangwelten immer sichtbar
+    const bUpgrade = $('btnPremiumPreview');
+    if (bUpgrade) bUpgrade.style.display = isPremium ? 'none' : '';
+    // btnSongsPreview bleibt immer sichtbar (Klangwelten für alle)
 
     showView('ui-premium-preview');
   }
@@ -2134,6 +2175,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-de]").forEach(el => {
       el.textContent = el.getAttribute("data-" + lang);
     });
+
+    // Streaming links: switch Spotify href + show/hide secondary alt links
+    const spotifyEl = $("streamSpotify");
+    if (spotifyEl) spotifyEl.href = spotifyEl.getAttribute("data-href-" + lang);
+    const spotifyAlt = $("streamSpotifyAlt");
+    if (spotifyAlt) {
+      spotifyAlt.href = spotifyAlt.getAttribute("data-href-" + lang);
+      spotifyAlt.textContent = lang === "de"
+        ? "Auch auf Spotify Englisch" : "Also on Spotify Deutsch";
+      spotifyAlt.classList.remove("hidden");
+    }
+    const appleNote = $("streamAppleNote");
+    if (appleNote) appleNote.classList.toggle("hidden", lang === "de");
 
     document.querySelectorAll(".legal-lang-de, .legal-lang-en").forEach(el => {
       el.classList.toggle("hidden", !el.classList.contains("legal-lang-" + lang));
