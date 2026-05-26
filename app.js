@@ -1807,15 +1807,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!grid) return;
     grid.innerHTML = '';
 
-    const pd           = window._siPriceData || {};
-    const albumDePrice = _fmtPrice(pd.songDeAll)  || '4,99 €';
-    const albumEnPrice = _fmtPrice(pd.songEnAll)  || '4,99 €';
-    const singlePrice  = _fmtPrice(pd.songSingle) || '0,99 €';
-
     const albums = [
-      { key:'de', flag:'🇩🇪', name:'Seelenmusik', meta: lang==='de' ? '11 Songs · Deutsch' : '11 songs · German',  priceKey:'songDeAll', price: albumDePrice },
-      { key:'en', flag:'🇬🇧', name:'Soul Songs',  meta: lang==='de' ? '11 Songs · Englisch' : '11 songs · English', priceKey:'songEnAll', price: albumEnPrice },
+      { key:'de', flag:'🇩🇪', name:'Seelenmusik', meta: lang==='de' ? '11 Songs · Deutsch'  : '11 songs · German'  },
+      { key:'en', flag:'🇬🇧', name:'Soul Songs',  meta: lang==='de' ? '11 Songs · Englisch' : '11 songs · English' },
     ];
+
+    const streamHint = lang === 'de'
+      ? 'Die Musik in voller Länge auf Spotify und Apple Music'
+      : 'Full-length music available on Spotify and Apple Music';
 
     albums.forEach(album => {
       const card = document.createElement('div');
@@ -1823,35 +1822,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const header = document.createElement('div');
       header.className = 'pv-album-header';
-      if (isPremium) {
-        header.innerHTML =
-          '<div class="pv-album-left">' +
-            '<span class="pv-album-flag">' + album.flag + '</span>' +
-            '<div>' +
-              '<div class="pv-album-name">' + album.name + '</div>' +
-              '<div class="pv-album-meta">' + album.meta + '</div>' +
-            '</div>' +
+      header.innerHTML =
+        '<div class="pv-album-left">' +
+          '<span class="pv-album-flag">' + album.flag + '</span>' +
+          '<div>' +
+            '<div class="pv-album-name">' + album.name + '</div>' +
+            '<div class="pv-album-meta">' + album.meta + '</div>' +
           '</div>' +
-          '<div class="pv-album-right">' +
-            '<span class="pv-album-price" style="color:var(--color-waldgruen);">' +
-              (lang === 'de' ? '✓ Enthalten' : '✓ Included') +
-            '</span>' +
-          '</div>';
-      } else {
-        header.innerHTML =
-          '<div class="pv-album-left">' +
-            '<span class="pv-album-flag">' + album.flag + '</span>' +
-            '<div>' +
-              '<div class="pv-album-name">' + album.name + '</div>' +
-              '<div class="pv-album-meta">' + album.meta + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="pv-album-right">' +
-            '<span class="pv-album-price">' + album.price + '</span>' +
-            '<button class="pv-album-buy">' + (lang==='de' ? 'Album kaufen' : 'Buy album') + '</button>' +
-          '</div>';
-        header.querySelector('.pv-album-buy').addEventListener('click', () => startSongCheckout(album.priceKey));
-      }
+        '</div>' +
+        (isPremium
+          ? '<span class="pv-album-price" style="color:var(--color-waldgruen);">' +
+              (lang === 'de' ? '\u2713 Enthalten' : '\u2713 Included') + '</span>'
+          : '<span class="pv-album-price" style="color:var(--color-earth);font-size:12px;">' +
+              (lang === 'de' ? '25 Sek. Vorschau' : '25 sec preview') + '</span>');
       card.appendChild(header);
 
       const divider = document.createElement('div');
@@ -1865,32 +1848,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const row = document.createElement('div');
         row.className = 'pv-song-row';
-
-        if (isPremium) {
-          row.innerHTML =
-            '<button class="pv-play-btn" aria-label="Abspielen">▶</button>' +
-            '<div class="pv-song-row-info">' +
-              '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
-              '<span class="pv-song-row-sit">' + sitName + '</span>' +
-            '</div>';
-          row.querySelector('.pv-play-btn').addEventListener('click', function() {
-            playSong(file, this);
-          });
-        } else {
-          row.innerHTML =
-            '<button class="pv-play-btn" aria-label="Vorschau">▶</button>' +
-            '<div class="pv-song-row-info">' +
-              '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
-              '<span class="pv-song-row-sit">' + sitName + '</span>' +
-            '</div>' +
-            '<button class="pv-song-buy">' + singlePrice + ' ↗</button>';
-          row.querySelector('.pv-play-btn').addEventListener('click', function() {
-            previewSong(file, this);
-          });
-          row.querySelector('.pv-song-buy').addEventListener('click', () => startSongCheckout('songSingle'));
-        }
+        row.innerHTML =
+          '<button class="pv-play-btn" aria-label="' + (isPremium ? 'Abspielen' : 'Vorschau') + '">▶</button>' +
+          '<div class="pv-song-row-info">' +
+            '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
+            '<span class="pv-song-row-sit">' + sitName + '</span>' +
+          '</div>';
+        row.querySelector('.pv-play-btn').addEventListener('click', function() {
+          isPremium ? playSong(file, this) : previewSong(file, this);
+        });
         card.appendChild(row);
       });
+
+      const hint = document.createElement('p');
+      hint.className = 'pv-stream-hint';
+      hint.textContent = streamHint;
+      card.appendChild(hint);
 
       grid.appendChild(card);
     });
