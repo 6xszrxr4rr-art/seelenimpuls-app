@@ -50,6 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem('si_gift_ts');
     localStorage.removeItem('si_premium_name');
   }
+
+  // Ablauf-Check für zeitlich begrenzte Gast-Token
+  const _timedExp = localStorage.getItem('si_timed_expiry');
+  if (_timedExp && Date.now() > new Date(_timedExp + 'T23:59:59').getTime()) {
+    localStorage.removeItem('si_premium');
+    localStorage.removeItem('si_premium_gift');
+    localStorage.removeItem('si_timed_expiry');
+  }
+
   let isPremium = localStorage.getItem('si_premium') === '1';
 
   // Stripe Checkout aufrufen
@@ -152,6 +161,26 @@ document.addEventListener("DOMContentLoaded", () => {
       // also persist for this browser so it survives navigation within the app
       localStorage.setItem('si_premium', '1');
       localStorage.setItem('si_premium_gift', '1');
+      return;
+    }
+
+    // Zeitlich begrenzte Gast-Token (30 Tage, ablaufend am jeweiligen Datum)
+    const TIMED_TOKENS = {
+      'si-guest-aZRrKBoe': '2026-06-26',
+      'si-guest-0LIxPzhG': '2026-06-26',
+      'si-guest-mYB6ARJB': '2026-06-26',
+      'si-guest-OlqFR2tC': '2026-06-26',
+      'si-guest-4vPg473z': '2026-06-26',
+    };
+    const timedToken = params.get('si_access');
+    if (timedToken && TIMED_TOKENS[timedToken]) {
+      const expiry = TIMED_TOKENS[timedToken];
+      if (Date.now() <= new Date(expiry + 'T23:59:59').getTime()) {
+        isPremium = true;
+        localStorage.setItem('si_premium', '1');
+        localStorage.setItem('si_premium_gift', '1');
+        localStorage.setItem('si_timed_expiry', expiry);
+      }
       return;
     }
 
