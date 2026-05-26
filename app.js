@@ -2176,6 +2176,19 @@ document.addEventListener("DOMContentLoaded", () => {
       el.textContent = el.getAttribute("data-" + lang);
     });
 
+    // Streaming links: switch Spotify href + show/hide secondary alt links
+    const spotifyEl = $("streamSpotify");
+    if (spotifyEl) spotifyEl.href = spotifyEl.getAttribute("data-href-" + lang);
+    const spotifyAlt = $("streamSpotifyAlt");
+    if (spotifyAlt) {
+      spotifyAlt.href = spotifyAlt.getAttribute("data-href-" + lang);
+      spotifyAlt.textContent = lang === "de"
+        ? "Auch auf Spotify Englisch" : "Also on Spotify Deutsch";
+      spotifyAlt.classList.remove("hidden");
+    }
+    const appleNote = $("streamAppleNote");
+    if (appleNote) appleNote.classList.toggle("hidden", lang === "de");
+
     document.querySelectorAll(".legal-lang-de, .legal-lang-en").forEach(el => {
       el.classList.toggle("hidden", !el.classList.contains("legal-lang-" + lang));
     });
