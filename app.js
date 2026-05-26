@@ -2700,7 +2700,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if ($("btnSongsPreview")) {
     $("btnSongsPreview").addEventListener("click", () => openPremiumPreview('songs'));
-    $("btnSongsPreview").style.display = isPremium ? 'none' : '';
   }
   if ($("btnBackFromPremiumPreview")) {
     $("btnBackFromPremiumPreview").addEventListener("click", () => {
