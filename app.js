@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
   verifySubscription();
 
   function applyPremiumVisibility() {
-    ['homeSupportLinks','situationEndSupport'].forEach(id => {
+    ['homeSupportLinks','situationEndSupport','menuPremium'].forEach(id => {
       const el = $(id);
       if (el) el.style.display = isPremium ? 'none' : '';
     });
