@@ -610,6 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const sitColor = 'var(--situation-' + card.nr + '-b)';
       const el = document.createElement('div');
       el.className = 'cg-card';
+      el.style.background = 'var(--situation-' + card.nr + '-a)';
       el.style.borderTop = '3px solid ' + sitColor;
       el.innerHTML =
         '<div class="cg-content">' +
