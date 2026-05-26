@@ -525,17 +525,18 @@
     }
     .pv-more { text-align: center; font-size: 13px; color: var(--text-muted); margin: 6px 0 0; }
     .streaming-links-wrap {
-      margin-top: 24px; padding-top: 20px;
-      border-top: 1px solid var(--color-warm-stone);
+      margin-bottom: 4px; padding: 16px 0 18px;
+      border-bottom: 1px solid var(--color-warm-stone);
       text-align: center;
     }
+    .streaming-links-wrap.streaming-top { border-bottom: 1px solid var(--color-warm-stone); margin-bottom: 0; }
     .streaming-label {
       font-size: var(--text-caption); color: var(--color-earth);
       text-transform: uppercase; letter-spacing: var(--ls-micro);
-      margin: 0 0 14px;
+      margin: 0 0 12px;
     }
     .streaming-btns {
-      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
     }
     .btn-stream {
       display: inline-flex; align-items: center; gap: 8px;
@@ -546,21 +547,26 @@
     }
     .btn-stream:active { transform: scale(0.97); }
     .btn-stream:hover { transform: translateY(-2px); box-shadow: var(--shadow-card-hover); }
-    .btn-stream-spotify {
-      background: #1DB954; color: #fff;
-    }
-    .btn-stream-apple {
-      background: #fc3c44; color: #fff;
-    }
+    .btn-stream-spotify { background: #1DB954; color: #fff; }
+    .btn-stream-apple   { background: #fc3c44; color: #fff; }
     .btn-stream svg { width: 18px; height: 18px; flex-shrink: 0; fill: currentColor; }
     .streaming-alt {
-      margin: 10px 0 0; font-size: var(--text-micro); text-align: center;
+      margin: 8px 0 0; font-size: var(--text-micro); text-align: center;
       display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
     }
     .stream-alt-link { color: var(--color-earth); cursor: pointer; }
     a.stream-alt-link { text-decoration: underline; text-underline-offset: 2px; }
+    .streaming-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 16px 0 14px; color: var(--color-earth);
+      font-size: var(--text-micro); text-transform: uppercase; letter-spacing: var(--ls-micro);
+    }
+    .streaming-divider::before, .streaming-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--color-warm-stone);
+    }
     @media (prefers-color-scheme: dark) {
-      .streaming-links-wrap { border-top-color: rgba(255,255,255,0.12); }
+      .streaming-links-wrap { border-bottom-color: rgba(255,255,255,0.12); }
+      .streaming-divider::before, .streaming-divider::after { background: rgba(255,255,255,0.12); }
     }
     .pv-ws-wrap {
       position: relative; overflow: hidden; border-radius: 16px;
@@ -1532,16 +1538,12 @@
 
       <!-- ── SONGS (25-Sek.-Vorschau) ── -->
       <div id="pvSecSongs" class="hidden">
-        <p class="pv-sub" style="text-align:center;margin-bottom:20px;"
-           data-de="Höre 25 Sekunden in jede Klangwelt hinein."
-           data-en="Listen to 25 seconds of each soundscape.">Höre 25 Sekunden in jede Klangwelt hinein.</p>
-        <div id="pvSongGrid" class="pv-song-grid"></div>
-        <div class="streaming-links-wrap">
+        <!-- ── Streaming-Links OBEN ── -->
+        <div class="streaming-links-wrap streaming-top">
           <p class="streaming-label"
-             data-de="Auch auf den Streaming-Diensten"
-             data-en="Also on streaming platforms">Auch auf den Streaming-Diensten</p>
+             data-de="Musik auch hier hören &amp; kaufen"
+             data-en="Listen &amp; buy on streaming platforms">Musik auch hier hören &amp; kaufen</p>
           <div class="streaming-btns">
-            <!-- Spotify: href switched by applyLang() -->
             <a id="streamSpotify"
                href="https://open.spotify.com/album/3UG4EQnay0OSuN2RQabBAd"
                data-href-de="https://open.spotify.com/album/3UG4EQnay0OSuN2RQabBAd"
@@ -1553,7 +1555,6 @@
               </svg>
               <span id="streamSpotifyLabel">Spotify</span>
             </a>
-            <!-- Apple Music: DE link (EN coming soon) -->
             <a id="streamApple"
                href="https://music.apple.com/de/album/innerer-frieden-heilende-affirmationen-meditationen/6770768010"
                target="_blank" rel="noopener"
@@ -1564,7 +1565,6 @@
               Apple Music
             </a>
           </div>
-          <!-- secondary: other-language Spotify + Apple Music EN note (toggled by applyLang) -->
           <p class="streaming-alt">
             <a id="streamSpotifyAlt"
                href="https://open.spotify.com/album/7cvBAJGIsqM03BKpyYFUnQ"
@@ -1575,6 +1575,13 @@
             <span id="streamAppleNote" class="stream-alt-link hidden">Apple Music English – coming soon</span>
           </p>
         </div>
+        <!-- ── Trennlinie ── -->
+        <div class="streaming-divider">
+          <span data-de="Oder direkt hier reinhören"
+                data-en="Or preview tracks here">Oder direkt hier reinhören</span>
+        </div>
+        <!-- ── Song-Liste ── -->
+        <div id="pvSongGrid" class="pv-song-grid"></div>
       </div>
 
       <!-- ── CARDS (Vorschau) ── -->
