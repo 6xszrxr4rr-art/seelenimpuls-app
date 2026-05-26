@@ -1970,8 +1970,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if ($('upgradeOverlay')) return;
     const u = ui[lang];
     const pd = window._siPriceData || {};
-    const mLabel = _fmtPrice(pd.aboMonthly) || '0,99\u00a0€/Monat';
-    const yLabel = _fmtPrice(pd.aboYearly)  || '9,99\u00a0€/Jahr';
+    const mLabel = _fmtPrice(pd.aboMonthly) || '4,99\u00a0€/Monat';
+    const yLabel = _fmtPrice(pd.aboYearly)  || '39,99\u00a0€/Jahr';
     const el = document.createElement('div');
     el.id = 'upgradeOverlay';
     el.className = 'upgrade-overlay';
