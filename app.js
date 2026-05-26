@@ -2726,6 +2726,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("menuClose"))    $("menuClose").addEventListener("click", closeNavMenu);
   if ($("navOverlay"))   $("navOverlay").addEventListener("click", closeNavMenu);
   if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
+  if ($("menuSongs"))    $("menuSongs").addEventListener("click",   () => { closeNavMenu(); openPremiumPreview('songs'); });
   if ($("menuLegalNav")) $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
   if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
   if ($("menuLangEn"))   $("menuLangEn").addEventListener("click", () => setLang("en"));
