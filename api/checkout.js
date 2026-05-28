@@ -1,5 +1,3 @@
-const Stripe = require('stripe');
-
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://seelenimpuls.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -11,23 +9,30 @@ module.exports = async (req, res) => {
   if (!priceId || !mode) return res.status(400).json({ error: 'Missing priceId or mode' });
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      maxNetworkRetries: 0,
-      timeout: 8000,
-    });
-
-    const session = await stripe.checkout.sessions.create({
+    const params = new URLSearchParams({
       mode,
-      line_items: [{ price: priceId, quantity: 1 }],
-      customer_email: email || undefined,
-      success_url: `https://seelenimpuls.app/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://seelenimpuls.app/?payment=cancelled`,
-      allow_promotion_codes: true,
+      'line_items[0][price]': priceId,
+      'line_items[0][quantity]': '1',
+      success_url: 'https://seelenimpuls.app/?payment=success&session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://seelenimpuls.app/?payment=cancelled',
+      allow_promotion_codes: 'true',
+    });
+    if (email) params.append('customer_email', email);
+
+    const stripeRes = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
     });
 
-    res.json({ url: session.url });
+    const data = await stripeRes.json();
+    if (!stripeRes.ok) return res.status(stripeRes.status).json({ error: data.error?.message || 'Stripe error' });
+    res.json({ url: data.url });
   } catch (e) {
-    console.error('Stripe checkout error:', e.type, e.message);
-    res.status(500).json({ error: e.message, type: e.type });
+    console.error('checkout error:', e.message);
+    res.status(500).json({ error: e.message });
   }
 };
