@@ -629,12 +629,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCardGrid() {
     const grid = $('cgGrid');
     grid.innerHTML = '';
-    CARD_DATA.forEach(card => {
+    CARD_DATA.forEach((card, idx) => {
       const s = card.sit[lang] || card.sit.de;
       const t = card.txt[lang] || card.txt.de;
       const sitColor = 'var(--situation-' + card.nr + '-b)';
       const el = document.createElement('div');
-      el.className = 'cg-card';
+      el.className = 'cg-card si-fade-in';
+      el.style.animationDelay = (idx * 60) + 'ms';
       el.style.background = 'var(--situation-' + card.nr + '-a)';
       el.style.borderTop = '3px solid ' + sitColor;
       el.innerHTML =
@@ -1727,7 +1728,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const ws = WORKSHEETS[n];
       const hasData = Object.keys(localStorage).some(k => k.startsWith('ws_s' + n + '_'));
       const btn = document.createElement("button");
-      btn.className = "ws-list-item";
+      btn.className = "ws-list-item si-fade-in";
+      btn.style.animationDelay = ((n - 1) * 50) + 'ms';
       btn.innerHTML =
         '<div>' +
           '<span class="ws-list-num">SITUATION ' + n + '</span>' +
@@ -1812,9 +1814,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ? 'Die Musik in voller Länge auf Spotify und Apple Music'
       : 'Full-length music available on Spotify and Apple Music';
 
-    albums.forEach(album => {
+    albums.forEach((album, albumIdx) => {
       const card = document.createElement('div');
-      card.className = 'pv-album-card';
+      card.className = 'pv-album-card si-fade-in';
+      card.style.animationDelay = (albumIdx * 120) + 'ms';
 
       const header = document.createElement('div');
       header.className = 'pv-album-header';
@@ -1890,7 +1893,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const fadeEnd = isDark ? 'rgba(30,22,46,1)' : 'rgba(238,242,243,1)';
     wrap.innerHTML =
-      '<div class="pv-card-wrap">' +
+      '<div class="pv-card-wrap si-fade-in">' +
         '<div class="pv-card-back" style="background:' + cgBg(c2) + '"></div>' +
         '<div class="pv-card-main" style="background:' + cgBg(c1) + '">' +
           '<div class="pv-card-sit">' + (c1.sit[lang] || c1.sit.de) + '</div>' +
@@ -1905,7 +1908,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!wrap) return;
     const ws = WORKSHEETS[1];
     wrap.innerHTML =
-      '<div class="pv-ws-wrap">' +
+      '<div class="pv-ws-wrap si-fade-in">' +
         '<div class="pv-ws-wrap-title">' + ws.title + '</div>' +
         '<div class="pv-ws-wrap-quote">' + ws.quote + '</div>' +
         '<div class="pv-ws-field">Morgens:</div>' +
@@ -2458,7 +2461,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const tiefgang = t('tiefgangText');
       if (tiefgang) {
         await sleep(800);
-        $('b6').classList.remove('hidden');
+        const b6el = $('b6');
+        b6el.classList.remove('hidden', 'si-fade-in');
+        void b6el.offsetWidth;
+        b6el.classList.add('si-fade-in');
         $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
           '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
         softScroll();
@@ -2468,7 +2474,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const songTitle = s.songTitle_en || '';
       if (lyrics && alive()) {
         await sleep(600);
-        $('b7').classList.remove('hidden');
+        const b7el = $('b7');
+        b7el.classList.remove('hidden', 'si-fade-in');
+        void b7el.offsetWidth;
+        b7el.classList.add('si-fade-in');
         if (songTitle) $('t7title').textContent = '\u201c' + songTitle + '\u201d';
         $('t7').textContent = lyrics;
         // Add premium song play button if file is available
@@ -2477,8 +2486,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const fileToPlay = premiumFile || premiumFileEn;
         if (fileToPlay) {
           const pBtn = document.createElement('button');
-          pBtn.className = 'btn-primary';
+          pBtn.className = 'btn-primary si-fade-in';
           pBtn.style.marginTop = '16px';
+          pBtn.style.animationDelay = '200ms';
           pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' ' + ui[lang].premiumPlay + '</span>';
           pBtn.onclick = () => {
             if (bgAudio) { bgAudio.pause(); bgAudio = null; }
