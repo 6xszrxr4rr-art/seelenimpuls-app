@@ -166,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'si-guest-mYB6ARJB': '2026-06-26',
       'si-guest-OlqFR2tC': '2026-06-26',
       'si-guest-4vPg473z': '2026-06-26',
+      'si-beta-WG2026': '2026-07-28',
     };
     const timedToken = params.get('si_access');
     if (timedToken && TIMED_TOKENS[timedToken]) {
