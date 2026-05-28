@@ -70,7 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ priceId, mode, email }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch(_) {
+        alert('Server-Antwort (kein JSON): ' + res.status + ' | ' + text.substring(0, 150));
+        return;
+      }
       if (data.url) window.location.href = data.url;
       else alert('Stripe-Fehler: ' + (data.error || 'Unbekannt'));
     } catch (e) {
