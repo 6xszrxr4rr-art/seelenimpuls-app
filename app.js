@@ -62,25 +62,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let isPremium = localStorage.getItem('si_premium') === '1';
 
   // Stripe Checkout aufrufen
-  async function startCheckout(priceId, mode) {
-    const email = localStorage.getItem('si_email') || undefined;
-    try {
-      const res = await fetch(`${API_BASE}/api/checkout`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, mode, email }),
-      });
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); } catch(_) {
-        alert('Server-Antwort (kein JSON): ' + res.status + ' | ' + text.substring(0, 150));
-        return;
-      }
-      if (data.url) window.location.href = data.url;
-      else alert('Stripe-Fehler: ' + (data.error || 'Unbekannt'));
-    } catch (e) {
-      alert('Netzwerkfehler: ' + e.message);
-    }
+  const PAYMENT_LINKS = {
+    monthly: 'https://buy.stripe.com/cNifZj4Gt8t6cXx6F9f7i00',
+    yearly:  'https://buy.stripe.com/fZueVfa0N6kY3mX6F9f7i01',
+  };
+
+  function startCheckout(priceId) {
+    const link = priceId === PRICE.aboYearly ? PAYMENT_LINKS.yearly : PAYMENT_LINKS.monthly;
+    window.location.href = link;
   }
 
   // Nach erfolgreicher Zahlung: Session verifizieren
