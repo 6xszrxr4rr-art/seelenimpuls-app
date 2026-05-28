@@ -2237,7 +2237,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startBreathingText() {
     if (breathInterval) { clearInterval(breathInterval); breathInterval = null; }
-    const colorEin = "#0056b3";
+    const colorEin = 'var(--color-waldgruen)';
     const colorAus = "#2d5a27";
 
     const update = () => {
@@ -2635,8 +2635,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const circle = document.querySelector('.quick-breath-circle');
     const labelEl = $("quickBreathLabel");
 
-    const col = phase.expand === null    ? '#7b5ea7'
-              : phase.expand === true    ? '#1a6fd4'
+    const col = phase.expand === null    ? 'var(--color-warm-gold)'
+              : phase.expand === true    ? 'var(--color-waldgruen)'
               : phase.expand === 'push'  ? '#c07800' : '#2d7a3a';
     if (labelEl) {
       labelEl.textContent = lbl;
@@ -2645,21 +2645,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (circle) {
       const d = `${phase.ms / 1000}s`;
       if (phase.expand === true) {
-        // Light → deep blue as circle expands
+        // Light → deep green (--color-waldgruen #4A5E42 = rgb 74,94,66) as circle expands
         circle.style.transition  = 'none';
-        circle.style.background  = 'rgba(30,110,210,0.06)';
+        circle.style.background  = 'rgba(74,94,66,0.06)';
         void circle.offsetWidth;
         circle.style.transition  = `transform ${d} ease-in, background ${d} ease-in, border-color ${d} ease-in, box-shadow ${d} ease-in`;
         circle.style.transform   = 'scale(1.25)';
-        circle.style.background  = 'rgba(30,110,210,0.50)';
-        circle.style.borderColor = '#1a6fd4';
-        circle.style.boxShadow   = '0 0 40px rgba(30,110,210,0.38)';
+        circle.style.background  = 'rgba(74,94,66,0.50)';
+        circle.style.borderColor = 'var(--color-waldgruen)';
+        circle.style.boxShadow   = '0 0 40px rgba(74,94,66,0.38)';
       } else if (phase.expand === null) {
-        // Steady purple (hold)
+        // Steady gold (--color-warm-gold #B8943A = rgb 184,148,58) on hold
         circle.style.transition  = 'background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease';
-        circle.style.background  = 'rgba(123,94,167,0.45)';
-        circle.style.borderColor = '#7b5ea7';
-        circle.style.boxShadow   = '0 0 26px rgba(123,94,167,0.32)';
+        circle.style.background  = 'rgba(184,148,58,0.45)';
+        circle.style.borderColor = 'var(--color-warm-gold)';
+        circle.style.boxShadow   = '0 0 26px rgba(184,148,58,0.32)';
       } else if (phase.expand === 'push') {
         // Amber – push last air out
         circle.style.transition  = 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease';
