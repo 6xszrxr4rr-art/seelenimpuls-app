@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let sessionGen = 0;
 
   // ── PREMIUM / BETA-ZUGANG ─────────────────────────────────────────────
-  const API_BASE = 'https://seelenimpuls-app.vercel.app';
+  const API_BASE = 'https://seelenimpuls-app-five.vercel.app';
 
   // Price IDs (Stripe) — populated on startup from /api/prices
   let PRICE = {
