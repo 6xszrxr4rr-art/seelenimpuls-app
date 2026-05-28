@@ -2379,7 +2379,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     bgAudio.play().catch(() => {});
 
-    ["b1","b2","b3","b4","b5"].forEach(id => $(id).classList.add("hidden"));
+    ["b1","b2","b3","b4","b5","b6","b7","b8"].forEach(id => {
+      const el = $(id); if (el) { el.classList.add("hidden"); el.classList.remove("si-fade-in"); }
+    });
+    $("b8Card").innerHTML = ""; $("b8Worksheet").innerHTML = "";
     $("audioContainer").innerHTML = "";
     $("volumeRow").classList.add("hidden");
     $("lyricsBox").style.display = "none";
@@ -2502,6 +2505,50 @@ document.addEventListener("DOMContentLoaded", () => {
           };
           $('b7').appendChild(pBtn);
         }
+        softScroll();
+      }
+    }
+
+    // ── SITUATION-ABSCHLUSS: passende Karte + Arbeitsblatt ───────────────
+    if (alive()) {
+      const endCard = CARD_DATA[n - 1];
+      const endWs   = WORKSHEETS[n];
+      if (endCard && endWs) {
+        await sleep(500);
+        const b8el = $('b8');
+        b8el.classList.remove('hidden', 'si-fade-in');
+        void b8el.offsetWidth;
+        b8el.classList.add('si-fade-in');
+
+        const isDE = lang === 'de';
+        const b8h = $('b8Header');
+        if (b8h) b8h.textContent = isDE ? '🌿 Deine Begleiter' : '🌿 Your Companions';
+
+        const cardEl = $('b8Card');
+        cardEl.innerHTML =
+          '<p class="sit-end-section-label">' + (isDE ? '💫 Affirmationskarte' : '💫 Affirmation Card') + '</p>' +
+          '<div class="sit-end-card">' +
+            '<div class="sit-end-card-sit">' + (endCard.sit[lang] || endCard.sit.de) + '</div>' +
+            '<p class="sit-end-card-txt">' + (endCard.txt[lang] || endCard.txt.de) + '</p>' +
+            '<div class="sit-end-card-hint">' + (isDE ? 'Tippe zum Öffnen ↗' : 'Tap to open ↗') + '</div>' +
+          '</div>';
+        cardEl.querySelector('.sit-end-card').style.background = cgBg(endCard);
+        cardEl.querySelector('.sit-end-card').addEventListener('click', () => openCardFullscreen(endCard));
+
+        const wsTitle = (lang === 'en' && typeof WORKSHEETS_EN !== 'undefined' && WORKSHEETS_EN[n])
+          ? WORKSHEETS_EN[n].title : endWs.title;
+        const wsEl = $('b8Worksheet');
+        wsEl.innerHTML =
+          '<p class="sit-end-section-label">' + (isDE ? '📝 Arbeitsblatt' : '📝 Worksheet') + '</p>' +
+          '<button class="sit-end-ws-btn">' +
+            '<div>' +
+              '<span class="sit-end-ws-num">SITUATION ' + n + '</span>' +
+              '<span class="sit-end-ws-title">' + wsTitle + '</span>' +
+            '</div>' +
+            '<span class="sit-end-ws-arrow">›</span>' +
+          '</button>';
+        wsEl.querySelector('button').addEventListener('click', () => openWorksheet(n));
+
         softScroll();
       }
     }
