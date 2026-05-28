@@ -72,8 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
+      else alert('Stripe-Fehler: ' + (data.error || 'Unbekannt'));
     } catch (e) {
-      alert('Fehler beim Starten des Bezahlvorgangs. Bitte versuche es erneut.');
+      alert('Netzwerkfehler: ' + e.message);
     }
   }
 
