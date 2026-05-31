@@ -61,13 +61,14 @@ Strength may gently reach me.<break time="3.5s" />
 
 ## Module 4 — Mini Ritual
 
-> **Note:** In this situation the breathing animation does not appear in the English version (no explicit exhale cue in the ritual steps). All steps use regular 3.5-second pauses.
+> **Note:** The breathing circle appears after step 4 ("Breathe softly out."). The 28-second pause represents the 24-second breathing exercise plus 4 seconds of buffer.
 
 ### Clean Text
 Feel the floor or surface beneath you.
 Let yourself be held inwardly.
 Breathe calmly in.
 Breathe softly out.
+[— Breathing exercise: 3 breath cycles —]
 Notice where your body is tired.
 Place one hand there.
 Imagine your body lying down to rest.
@@ -78,7 +79,7 @@ Stay with this for three calm breaths.
 Feel the floor or surface beneath you.<break time="3.5s" />
 Let yourself be held inwardly.<break time="3.5s" />
 Breathe calmly in.<break time="3.5s" />
-Breathe softly out.<break time="3.5s" />
+Breathe softly out.<break time="28.0s" />
 Notice where your body is tired.<break time="3.5s" />
 Place one hand there.<break time="3.5s" />
 Imagine your body lying down to rest.<break time="3.5s" />

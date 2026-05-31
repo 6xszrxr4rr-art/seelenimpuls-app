@@ -58,12 +58,13 @@ My path is unfolding.<break time="3.5s" />
 
 ## Module 4 — Mini Ritual
 
-> **Note:** In this situation the breathing animation does not appear in the English version (no explicit exhale cue in the ritual steps). All steps use regular 3.5-second pauses.
+> **Note:** The breathing circle appears after step 3 ("Breathe calmly in and out."). The 28-second pause represents the 24-second breathing exercise plus 4 seconds of buffer.
 
 ### Clean Text
 Place both feet consciously on the floor.
 Feel your steady grounding.
 Breathe calmly in and out.
+[— Breathing exercise: 3 breath cycles —]
 Imagine an inner circle – the familiar.
 Take a gentle step outward in your mind.
 Feel the new space.
@@ -73,7 +74,7 @@ Stay with this for three calm breaths.
 ### With Pause Markers
 Place both feet consciously on the floor.<break time="3.5s" />
 Feel your steady grounding.<break time="3.5s" />
-Breathe calmly in and out.<break time="3.5s" />
+Breathe calmly in and out.<break time="28.0s" />
 Imagine an inner circle – the familiar.<break time="3.5s" />
 Take a gentle step outward in your mind.<break time="3.5s" />
 Feel the new space.<break time="3.5s" />

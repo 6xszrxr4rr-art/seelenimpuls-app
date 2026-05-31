@@ -490,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const EXHALE_KW = ["ausatmen","lass das aus","durch den mund aus","breathe out","exhale"];
   function hasExhaleKW(text) {
     const lower = text.toLowerCase();
-    return EXHALE_KW.some(kw => lower.includes(kw)) || /atme\b.*\baus/.test(lower);
+    return EXHALE_KW.some(kw => lower.includes(kw)) || /atme\b.*\baus/.test(lower) || /breathe\b.*\bout/.test(lower);
   }
 
   function hasBreathKW(text) {

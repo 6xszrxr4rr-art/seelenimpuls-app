@@ -55,12 +55,13 @@ I allow myself to grow calm.<break time="3.5s" />
 
 ## Module 4 — Mini Ritual
 
-> **Note:** In this situation the breathing animation does not appear in the English version (no explicit exhale cue in the ritual steps). All steps use regular 3.5-second pauses.
+> **Note:** The breathing circle appears after step 3 ("Breathe deeply in through your nose and very slowly out through your mouth."). The 28-second pause represents the 24-second breathing exercise plus 4 seconds of buffer.
 
 ### Clean Text
 Place both hands gently on your chest, one on top of the other.
 Feel the warmth and weight of your hands.
 Breathe deeply in through your nose and very slowly out through your mouth.
+[— Breathing exercise: 3 breath cycles —]
 Say inwardly: "I love myself, just as I am."
 Repeat this phrase three times, very gently.
 Feel how a small space for holding opens in your chest.
@@ -70,7 +71,7 @@ Stay with this feeling of support for three deep, conscious breaths.
 ### With Pause Markers
 Place both hands gently on your chest, one on top of the other.<break time="3.5s" />
 Feel the warmth and weight of your hands.<break time="3.5s" />
-Breathe deeply in through your nose and very slowly out through your mouth.<break time="3.5s" />
+Breathe deeply in through your nose and very slowly out through your mouth.<break time="28.0s" />
 Say inwardly: "I love myself, just as I am."<break time="3.5s" />
 Repeat this phrase three times, very gently.<break time="3.5s" />
 Feel how a small space for holding opens in your chest.<break time="3.5s" />

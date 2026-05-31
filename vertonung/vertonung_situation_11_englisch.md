@@ -72,12 +72,13 @@ Peace begins within me.<break time="3.5s" />
 
 ## Module 4 — Mini Ritual
 
-> **Note:** In this situation the breathing animation does not appear in the English version (no explicit exhale cue in the ritual steps). All steps use regular 3.5-second pauses.
+> **Note:** The breathing circle appears after step 3 ("Breathe calmly in through your nose and slowly out through your mouth."). The 28-second pause represents the 24-second breathing exercise plus 4 seconds of buffer.
 
 ### Clean Text
 Place both feet consciously on the floor.
 Feel your steady grounding.
 Breathe calmly in through your nose and slowly out through your mouth.
+[— Breathing exercise: 3 breath cycles —]
 Place one hand on your heart, the other on your belly.
 Feel the warmth of both hands.
 Imagine the other person or situation – at a distance, as if through a window.
@@ -88,7 +89,7 @@ Stay with this for three calm breaths.
 ### With Pause Markers
 Place both feet consciously on the floor.<break time="3.5s" />
 Feel your steady grounding.<break time="3.5s" />
-Breathe calmly in through your nose and slowly out through your mouth.<break time="3.5s" />
+Breathe calmly in through your nose and slowly out through your mouth.<break time="28.0s" />
 Place one hand on your heart, the other on your belly.<break time="3.5s" />
 Feel the warmth of both hands.<break time="3.5s" />
 Imagine the other person or situation – at a distance, as if through a window.<break time="3.5s" />

@@ -58,12 +58,13 @@ Clarity is growing within me.<break time="3.5s" />
 
 ## Module 4 — Mini Ritual
 
-> **Note:** In this situation the breathing animation does not appear in the English version (no explicit exhale cue in the ritual steps). All steps use regular 3.5-second pauses.
+> **Note:** The breathing circle appears after step 3 ("Breathe calmly in and out."). The 28-second pause represents the 24-second breathing exercise plus 4 seconds of buffer.
 
 ### Clean Text
 Place both feet on the floor.
 Feel your grounding.
 Breathe calmly in and out.
+[— Breathing exercise: 3 breath cycles —]
 Notice the stillness.
 Place one hand on your heart or belly.
 Feel your breath there.
@@ -73,7 +74,7 @@ Stay with this for three calm breaths.
 ### With Pause Markers
 Place both feet on the floor.<break time="3.5s" />
 Feel your grounding.<break time="3.5s" />
-Breathe calmly in and out.<break time="3.5s" />
+Breathe calmly in and out.<break time="28.0s" />
 Notice the stillness.<break time="3.5s" />
 Place one hand on your heart or belly.<break time="3.5s" />
 Feel your breath there.<break time="3.5s" />
