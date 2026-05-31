@@ -2188,8 +2188,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "Auch auf Spotify Englisch" : "Also on Spotify Deutsch";
       spotifyAlt.classList.remove("hidden");
     }
-    const appleNote = $("streamAppleNote");
-    if (appleNote) appleNote.classList.toggle("hidden", lang === "de");
 
     document.querySelectorAll(".legal-lang-de, .legal-lang-en").forEach(el => {
       el.classList.toggle("hidden", !el.classList.contains("legal-lang-" + lang));
