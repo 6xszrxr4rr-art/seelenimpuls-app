@@ -2463,7 +2463,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isPremium && alive()) {
       const tiefgang = t('tiefgangText');
       if (tiefgang) {
-        await sleep(800);
+        await sleep(1200);
         const b6el = $('b6');
         b6el.classList.remove('hidden', 'si-fade-in');
         void b6el.offsetWidth;
@@ -2471,12 +2471,12 @@ document.addEventListener("DOMContentLoaded", () => {
         $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
           '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
         softScroll();
-        await sleep(400);
+        await sleep(700);
       }
       const lyrics = lang === 'de' ? (s.songLyrics_de || s.songLyrics_en) : s.songLyrics_en;
       const songTitle = s.songTitle_en || '';
       if (lyrics && alive()) {
-        await sleep(600);
+        await sleep(1000);
         const b7el = $('b7');
         b7el.classList.remove('hidden', 'si-fade-in');
         void b7el.offsetWidth;
