@@ -2434,7 +2434,10 @@ document.addEventListener("DOMContentLoaded", () => {
       await typeEffect("t5", t("songOutro"), alive);
       if (!alive()) return;
 
-      if (s.songFile) {
+      const meditationFile = lang === 'de'
+        ? (s.songFile_de || s.songFile)
+        : (s.songFile_en || s.songFile_de || s.songFile);
+      if (meditationFile) {
         $("volumeRow").classList.remove("hidden");
         const btn = document.createElement("button");
         btn.className = "btn-primary";
@@ -2442,7 +2445,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
         btn.onclick = () => {
           if (bgAudio) { bgAudio.pause(); bgAudio = null; }
-          currentSongAudio = new Audio(s.songFile);
+          currentSongAudio = new Audio(meditationFile);
           currentSongAudio.volume = parseFloat($("volumeSlider").value);
           currentSongAudio.play();
           btn.disabled = true;

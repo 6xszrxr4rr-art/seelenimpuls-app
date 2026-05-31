@@ -38,7 +38,8 @@ window.SITUATIONS[1] = {
     "Bleibe noch einen Moment bei diesem Gefühl von Ruhe."
   ],
 
-  songFile: "audio/situation-1-deutsch.mp3",
+  songFile_de: "audio/meditation-situation-1-de.mp3",
+  songFile_en: "audio/meditation-situation-1-en.mp3",
   songOutro: "✨ Du darfst jetzt in dieser Ruhe bleiben.",
 
   ankommenText_en:
