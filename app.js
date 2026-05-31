@@ -2370,10 +2370,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.30;
+    bgAudio.volume = 0.10;
     bgAudio.onerror = () => {
       bgAudio = new Audio("audio/stillness-space.mp3");
-      bgAudio.loop = true; bgAudio.volume = 0.30; bgAudio.play().catch(() => {});
+      bgAudio.loop = true; bgAudio.volume = 0.10; bgAudio.play().catch(() => {});
     };
     bgAudio.play().catch(() => {});
 
@@ -2432,18 +2432,40 @@ document.addEventListener("DOMContentLoaded", () => {
       await typeEffect("t5", t("songOutro"), alive);
       if (!alive()) return;
 
-      const meditationFile = lang === 'de'
-        ? (s.songFile_de || s.songFile)
-        : (s.songFile_en || s.songFile_de || s.songFile);
-      if (meditationFile) {
+      const hasDE = !!(s.songFile_de || s.songFile);
+      const hasEN = !!s.songFile_en;
+      let meditLang = (lang === 'en' && hasEN) ? 'en' : 'de';
+
+      if (hasDE || hasEN) {
         $("volumeRow").classList.remove("hidden");
+
+        // Flag-Toggle nur anzeigen wenn beide Sprachversionen vorhanden
+        if (hasDE && hasEN) {
+          const toggle = document.createElement('div');
+          toggle.className = 'medit-lang-toggle';
+          toggle.innerHTML =
+            `<button class="medit-lang-btn${meditLang === 'de' ? ' active' : ''}" data-l="de">🇩🇪</button>` +
+            `<button class="medit-lang-btn${meditLang === 'en' ? ' active' : ''}" data-l="en">🇬🇧</button>`;
+          toggle.querySelectorAll('.medit-lang-btn').forEach(b => {
+            b.onclick = () => {
+              meditLang = b.dataset.l;
+              toggle.querySelectorAll('.medit-lang-btn').forEach(x =>
+                x.classList.toggle('active', x.dataset.l === meditLang));
+            };
+          });
+          $("audioContainer").appendChild(toggle);
+        }
+
         const btn = document.createElement("button");
         btn.className = "btn-primary";
-        btn.style.marginTop = "16px";
+        btn.style.marginTop = "12px";
         btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
         btn.onclick = () => {
+          const fileToPlay = meditLang === 'en'
+            ? (s.songFile_en || s.songFile_de || s.songFile)
+            : (s.songFile_de || s.songFile);
           if (bgAudio) { bgAudio.pause(); bgAudio = null; }
-          currentSongAudio = new Audio(meditationFile);
+          currentSongAudio = new Audio(fileToPlay);
           currentSongAudio.volume = parseFloat($("volumeSlider").value);
           currentSongAudio.play();
           btn.disabled = true;
@@ -2595,7 +2617,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.15;
+    bgAudio.volume = 0.10;
     bgAudio.play().catch(() => {});
 
     const circle = document.querySelector('.quick-breath-circle');
