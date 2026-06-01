@@ -166,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       'si-guest-mYB6ARJB': '2026-06-26',
       'si-guest-OlqFR2tC': '2026-06-26',
       'si-guest-4vPg473z': '2026-06-26',
+      'si-beta-WG2026': '2026-07-28',
     };
     const timedToken = params.get('si_access');
     if (timedToken && TIMED_TOKENS[timedToken]) {
@@ -489,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const EXHALE_KW = ["ausatmen","lass das aus","durch den mund aus","breathe out","exhale"];
   function hasExhaleKW(text) {
     const lower = text.toLowerCase();
-    return EXHALE_KW.some(kw => lower.includes(kw)) || /atme\b.*\baus/.test(lower);
+    return EXHALE_KW.some(kw => lower.includes(kw)) || /atme\b.*\baus/.test(lower) || /breathe\b.*\bout/.test(lower);
   }
 
   function hasBreathKW(text) {
@@ -498,7 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-meditations","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => { const el = $(v); if (el) el.classList.add("hidden"); });
@@ -628,12 +629,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCardGrid() {
     const grid = $('cgGrid');
     grid.innerHTML = '';
-    CARD_DATA.forEach(card => {
+    CARD_DATA.forEach((card, idx) => {
       const s = card.sit[lang] || card.sit.de;
       const t = card.txt[lang] || card.txt.de;
       const sitColor = 'var(--situation-' + card.nr + '-b)';
       const el = document.createElement('div');
-      el.className = 'cg-card';
+      el.className = 'cg-card si-fade-in';
+      el.style.animationDelay = (idx * 60) + 'ms';
       el.style.background = 'var(--situation-' + card.nr + '-a)';
       el.style.borderTop = '3px solid ' + sitColor;
       el.innerHTML =
@@ -1726,7 +1728,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const ws = WORKSHEETS[n];
       const hasData = Object.keys(localStorage).some(k => k.startsWith('ws_s' + n + '_'));
       const btn = document.createElement("button");
-      btn.className = "ws-list-item";
+      btn.className = "ws-list-item si-fade-in";
+      btn.style.animationDelay = ((n - 1) * 50) + 'ms';
       btn.innerHTML =
         '<div>' +
           '<span class="ws-list-num">SITUATION ' + n + '</span>' +
@@ -1748,6 +1751,90 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isPremium) { openPremiumPreview('worksheets'); return; }
     renderWorksheetList();
     showView('ui-worksheets');
+  }
+
+  // ── MEDITATIONEN ──────────────────────────────────────────────────────
+  function openMeditations() {
+    if (!isPremium) { openPremiumPreview('overview'); return; }
+    renderMeditationList();
+    showView('ui-meditations');
+  }
+
+  function renderMeditationList() {
+    const container = $('meditationsList');
+    if (!container) return;
+    container.innerHTML = '';
+    const titles = situationTitles[lang];
+
+    for (let i = 1; i <= 11; i++) {
+      const s = window.SITUATIONS && window.SITUATIONS[i];
+      if (!s) continue;
+      const fileDE = s.songFile_de;
+      const fileEN = s.songFile_en;
+      const hasDE = !!fileDE;
+      const hasEN = !!fileEN;
+      if (!hasDE && !hasEN) continue;
+
+      const item = document.createElement('div');
+      item.className = 'med-item';
+
+      const titleEl = document.createElement('div');
+      titleEl.className = 'med-item-title';
+      titleEl.textContent = `${i}) ${titles[i]}`;
+      item.appendChild(titleEl);
+
+      const controls = document.createElement('div');
+      controls.className = 'med-item-controls';
+
+      let meditLang = (lang === 'en' && hasEN) ? 'en' : 'de';
+
+      if (hasDE && hasEN) {
+        const toggle = document.createElement('div');
+        toggle.className = 'medit-lang-toggle';
+        toggle.style.margin = '0';
+        toggle.innerHTML =
+          `<button class="medit-lang-btn${meditLang === 'de' ? ' active' : ''}" data-l="de">🇩🇪</button>` +
+          `<button class="medit-lang-btn${meditLang === 'en' ? ' active' : ''}" data-l="en">🇬🇧</button>`;
+        toggle.querySelectorAll('.medit-lang-btn').forEach(b => {
+          b.onclick = () => {
+            meditLang = b.dataset.l;
+            toggle.querySelectorAll('.medit-lang-btn').forEach(x =>
+              x.classList.toggle('active', x.dataset.l === meditLang));
+          };
+        });
+        controls.appendChild(toggle);
+      }
+
+      const btn = document.createElement('button');
+      btn.className = 'btn-primary med-play-btn';
+      btn.textContent = lang === 'de' ? '▶ Hören' : '▶ Listen';
+      btn.onclick = () => {
+        if (bgAudio) { bgAudio.pause(); bgAudio = null; }
+        if (currentSongAudio) { currentSongAudio.pause(); currentSongAudio = null; }
+        container.querySelectorAll('.med-play-btn').forEach(b => {
+          b.textContent = lang === 'de' ? '▶ Hören' : '▶ Listen';
+        });
+        const file = (meditLang === 'en' && hasEN) ? fileEN : (fileDE || fileEN);
+        currentSongAudio = new Audio(file);
+        currentSongAudio.volume = 0.9;
+        currentSongAudio.play().catch(() => {});
+        btn.textContent = lang === 'de' ? '⏸ läuft …' : '⏸ playing …';
+        currentSongAudio.onended = () => {
+          btn.textContent = lang === 'de' ? '▶ Hören' : '▶ Listen';
+        };
+      };
+      controls.appendChild(btn);
+
+      item.appendChild(controls);
+      container.appendChild(item);
+    }
+
+    const meditTitleEl = $('meditTitle');
+    const meditSubEl   = $('meditSub');
+    if (meditTitleEl) meditTitleEl.textContent = lang === 'de' ? '🧘 Meditationen' : '🧘 Meditations';
+    if (meditSubEl)   meditSubEl.textContent   = lang === 'de'
+      ? 'Geführte Meditationen für jede Situation'
+      : 'Guided meditations for every situation';
   }
 
   // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
@@ -1811,9 +1898,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ? 'Die Musik in voller Länge auf Spotify und Apple Music'
       : 'Full-length music available on Spotify and Apple Music';
 
-    albums.forEach(album => {
+    albums.forEach((album, albumIdx) => {
       const card = document.createElement('div');
-      card.className = 'pv-album-card';
+      card.className = 'pv-album-card si-fade-in';
+      card.style.animationDelay = (albumIdx * 120) + 'ms';
 
       const header = document.createElement('div');
       header.className = 'pv-album-header';
@@ -1889,7 +1977,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const fadeEnd = isDark ? 'rgba(30,22,46,1)' : 'rgba(238,242,243,1)';
     wrap.innerHTML =
-      '<div class="pv-card-wrap">' +
+      '<div class="pv-card-wrap si-fade-in">' +
         '<div class="pv-card-back" style="background:' + cgBg(c2) + '"></div>' +
         '<div class="pv-card-main" style="background:' + cgBg(c1) + '">' +
           '<div class="pv-card-sit">' + (c1.sit[lang] || c1.sit.de) + '</div>' +
@@ -1904,7 +1992,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!wrap) return;
     const ws = WORKSHEETS[1];
     wrap.innerHTML =
-      '<div class="pv-ws-wrap">' +
+      '<div class="pv-ws-wrap si-fade-in">' +
         '<div class="pv-ws-wrap-title">' + ws.title + '</div>' +
         '<div class="pv-ws-wrap-quote">' + ws.quote + '</div>' +
         '<div class="pv-ws-field">Morgens:</div>' +
@@ -2184,8 +2272,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "Auch auf Spotify Englisch" : "Also on Spotify Deutsch";
       spotifyAlt.classList.remove("hidden");
     }
-    const appleNote = $("streamAppleNote");
-    if (appleNote) appleNote.classList.toggle("hidden", lang === "de");
 
     document.querySelectorAll(".legal-lang-de, .legal-lang-en").forEach(el => {
       el.classList.toggle("hidden", !el.classList.contains("legal-lang-" + lang));
@@ -2233,7 +2319,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startBreathingText() {
     if (breathInterval) { clearInterval(breathInterval); breathInterval = null; }
-    const colorEin = "#0056b3";
+    const colorEin = 'var(--color-waldgruen)';
     const colorAus = "#2d5a27";
 
     const update = () => {
@@ -2368,14 +2454,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.30;
+    bgAudio.volume = 0.10;
     bgAudio.onerror = () => {
       bgAudio = new Audio("audio/stillness-space.mp3");
-      bgAudio.loop = true; bgAudio.volume = 0.30; bgAudio.play().catch(() => {});
+      bgAudio.loop = true; bgAudio.volume = 0.10; bgAudio.play().catch(() => {});
     };
     bgAudio.play().catch(() => {});
 
-    ["b1","b2","b3","b4","b5"].forEach(id => $(id).classList.add("hidden"));
+    ["b1","b2","b3","b4","b5","b6","b7","b8"].forEach(id => {
+      const el = $(id); if (el) { el.classList.add("hidden"); el.classList.remove("si-fade-in"); }
+    });
+    $("b8Card").innerHTML = ""; $("b8Worksheet").innerHTML = "";
     $("audioContainer").innerHTML = "";
     $("volumeRow").classList.add("hidden");
     $("lyricsBox").style.display = "none";
@@ -2427,15 +2516,40 @@ document.addEventListener("DOMContentLoaded", () => {
       await typeEffect("t5", t("songOutro"), alive);
       if (!alive()) return;
 
-      if (s.songFile) {
+      const hasDE = !!(s.songFile_de || s.songFile);
+      const hasEN = !!s.songFile_en;
+      let meditLang = (lang === 'en' && hasEN) ? 'en' : 'de';
+
+      if (hasDE || hasEN) {
         $("volumeRow").classList.remove("hidden");
+
+        // Flag-Toggle nur anzeigen wenn beide Sprachversionen vorhanden
+        if (hasDE && hasEN) {
+          const toggle = document.createElement('div');
+          toggle.className = 'medit-lang-toggle';
+          toggle.innerHTML =
+            `<button class="medit-lang-btn${meditLang === 'de' ? ' active' : ''}" data-l="de">🇩🇪</button>` +
+            `<button class="medit-lang-btn${meditLang === 'en' ? ' active' : ''}" data-l="en">🇬🇧</button>`;
+          toggle.querySelectorAll('.medit-lang-btn').forEach(b => {
+            b.onclick = () => {
+              meditLang = b.dataset.l;
+              toggle.querySelectorAll('.medit-lang-btn').forEach(x =>
+                x.classList.toggle('active', x.dataset.l === meditLang));
+            };
+          });
+          $("audioContainer").appendChild(toggle);
+        }
+
         const btn = document.createElement("button");
         btn.className = "btn-primary";
-        btn.style.marginTop = "16px";
+        btn.style.marginTop = "12px";
         btn.innerHTML = `<span>${ui[lang].songBtn}</span>`;
         btn.onclick = () => {
+          const fileToPlay = meditLang === 'en'
+            ? (s.songFile_en || s.songFile_de || s.songFile)
+            : (s.songFile_de || s.songFile);
           if (bgAudio) { bgAudio.pause(); bgAudio = null; }
-          currentSongAudio = new Audio(s.songFile);
+          currentSongAudio = new Audio(fileToPlay);
           currentSongAudio.volume = parseFloat($("volumeSlider").value);
           currentSongAudio.play();
           btn.disabled = true;
@@ -2456,18 +2570,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isPremium && alive()) {
       const tiefgang = t('tiefgangText');
       if (tiefgang) {
-        await sleep(800);
-        $('b6').classList.remove('hidden');
+        await sleep(1200);
+        const b6el = $('b6');
+        b6el.classList.remove('hidden', 'si-fade-in');
+        void b6el.offsetWidth;
+        b6el.classList.add('si-fade-in');
         $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
           '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
         softScroll();
-        await sleep(400);
+        await sleep(700);
       }
       const lyrics = lang === 'de' ? (s.songLyrics_de || s.songLyrics_en) : s.songLyrics_en;
       const songTitle = s.songTitle_en || '';
       if (lyrics && alive()) {
-        await sleep(600);
-        $('b7').classList.remove('hidden');
+        await sleep(1000);
+        const b7el = $('b7');
+        b7el.classList.remove('hidden', 'si-fade-in');
+        void b7el.offsetWidth;
+        b7el.classList.add('si-fade-in');
         if (songTitle) $('t7title').textContent = '\u201c' + songTitle + '\u201d';
         $('t7').textContent = lyrics;
         // Add premium song play button if file is available
@@ -2476,8 +2596,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const fileToPlay = premiumFile || premiumFileEn;
         if (fileToPlay) {
           const pBtn = document.createElement('button');
-          pBtn.className = 'btn-primary';
+          pBtn.className = 'btn-primary si-fade-in';
           pBtn.style.marginTop = '16px';
+          pBtn.style.animationDelay = '200ms';
           pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' ' + ui[lang].premiumPlay + '</span>';
           pBtn.onclick = () => {
             if (bgAudio) { bgAudio.pause(); bgAudio = null; }
@@ -2491,6 +2612,50 @@ document.addEventListener("DOMContentLoaded", () => {
           };
           $('b7').appendChild(pBtn);
         }
+        softScroll();
+      }
+    }
+
+    // ── SITUATION-ABSCHLUSS: passende Karte + Arbeitsblatt ───────────────
+    if (alive()) {
+      const endCard = CARD_DATA[n - 1];
+      const endWs   = WORKSHEETS[n];
+      if (endCard && endWs) {
+        await sleep(500);
+        const b8el = $('b8');
+        b8el.classList.remove('hidden', 'si-fade-in');
+        void b8el.offsetWidth;
+        b8el.classList.add('si-fade-in');
+
+        const isDE = lang === 'de';
+        const b8h = $('b8Header');
+        if (b8h) b8h.textContent = isDE ? '🌿 Deine Begleiter' : '🌿 Your Companions';
+
+        const cardEl = $('b8Card');
+        cardEl.innerHTML =
+          '<p class="sit-end-section-label">' + (isDE ? '💫 Affirmationskarte' : '💫 Affirmation Card') + '</p>' +
+          '<div class="sit-end-card">' +
+            '<div class="sit-end-card-sit">' + (endCard.sit[lang] || endCard.sit.de) + '</div>' +
+            '<p class="sit-end-card-txt">' + (endCard.txt[lang] || endCard.txt.de) + '</p>' +
+            '<div class="sit-end-card-hint">' + (isDE ? 'Tippe zum Öffnen ↗' : 'Tap to open ↗') + '</div>' +
+          '</div>';
+        cardEl.querySelector('.sit-end-card').style.background = cgBg(endCard);
+        cardEl.querySelector('.sit-end-card').addEventListener('click', () => openCardFullscreen(endCard));
+
+        const wsTitle = (lang === 'en' && typeof WORKSHEETS_EN !== 'undefined' && WORKSHEETS_EN[n])
+          ? WORKSHEETS_EN[n].title : endWs.title;
+        const wsEl = $('b8Worksheet');
+        wsEl.innerHTML =
+          '<p class="sit-end-section-label">' + (isDE ? '📝 Arbeitsblatt' : '📝 Worksheet') + '</p>' +
+          '<button class="sit-end-ws-btn">' +
+            '<div>' +
+              '<span class="sit-end-ws-num">SITUATION ' + n + '</span>' +
+              '<span class="sit-end-ws-title">' + wsTitle + '</span>' +
+            '</div>' +
+            '<span class="sit-end-ws-arrow">›</span>' +
+          '</button>';
+        wsEl.querySelector('button').addEventListener('click', () => openWorksheet(n));
+
         softScroll();
       }
     }
@@ -2536,7 +2701,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.15;
+    bgAudio.volume = 0.10;
     bgAudio.play().catch(() => {});
 
     const circle = document.querySelector('.quick-breath-circle');
@@ -2577,8 +2742,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const circle = document.querySelector('.quick-breath-circle');
     const labelEl = $("quickBreathLabel");
 
-    const col = phase.expand === null    ? '#7b5ea7'
-              : phase.expand === true    ? '#1a6fd4'
+    const col = phase.expand === null    ? 'var(--color-warm-gold)'
+              : phase.expand === true    ? 'var(--color-waldgruen)'
               : phase.expand === 'push'  ? '#c07800' : '#2d7a3a';
     if (labelEl) {
       labelEl.textContent = lbl;
@@ -2587,21 +2752,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (circle) {
       const d = `${phase.ms / 1000}s`;
       if (phase.expand === true) {
-        // Light → deep blue as circle expands
+        // Light → deep green (--color-waldgruen #4A5E42 = rgb 74,94,66) as circle expands
         circle.style.transition  = 'none';
-        circle.style.background  = 'rgba(30,110,210,0.06)';
+        circle.style.background  = 'rgba(74,94,66,0.06)';
         void circle.offsetWidth;
         circle.style.transition  = `transform ${d} ease-in, background ${d} ease-in, border-color ${d} ease-in, box-shadow ${d} ease-in`;
         circle.style.transform   = 'scale(1.25)';
-        circle.style.background  = 'rgba(30,110,210,0.50)';
-        circle.style.borderColor = '#1a6fd4';
-        circle.style.boxShadow   = '0 0 40px rgba(30,110,210,0.38)';
+        circle.style.background  = 'rgba(74,94,66,0.50)';
+        circle.style.borderColor = 'var(--color-waldgruen)';
+        circle.style.boxShadow   = '0 0 40px rgba(74,94,66,0.38)';
       } else if (phase.expand === null) {
-        // Steady purple (hold)
+        // Steady gold (--color-warm-gold #B8943A = rgb 184,148,58) on hold
         circle.style.transition  = 'background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease';
-        circle.style.background  = 'rgba(123,94,167,0.45)';
-        circle.style.borderColor = '#7b5ea7';
-        circle.style.boxShadow   = '0 0 26px rgba(123,94,167,0.32)';
+        circle.style.background  = 'rgba(184,148,58,0.45)';
+        circle.style.borderColor = 'var(--color-warm-gold)';
+        circle.style.boxShadow   = '0 0 26px rgba(184,148,58,0.32)';
       } else if (phase.expand === 'push') {
         // Amber – push last air out
         circle.style.transition  = 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease';
@@ -2670,6 +2835,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
+  $("btnMeditations").addEventListener("click", () => openMeditations());
+  $("btnBackFromMeditations").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+
   $("btnQuick").onclick                  = () => startQuickMode();
   if ($("btnBackFromBreathSelect"))
     $("btnBackFromBreathSelect").onclick = () => { showView("ui-welcome"); showStreak(); };
@@ -2723,8 +2891,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("menuClose"))    $("menuClose").addEventListener("click", closeNavMenu);
   if ($("navOverlay"))   $("navOverlay").addEventListener("click", closeNavMenu);
   if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
-  if ($("menuSongs"))    $("menuSongs").addEventListener("click",   () => { closeNavMenu(); openPremiumPreview('songs'); });
-  if ($("menuLegalNav")) $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
+  if ($("menuSongs"))       $("menuSongs").addEventListener("click",       () => { closeNavMenu(); openPremiumPreview('songs'); });
+  if ($("menuMeditations")) $("menuMeditations").addEventListener("click", () => { closeNavMenu(); openMeditations(); });
+  if ($("menuLegalNav"))    $("menuLegalNav").addEventListener("click",    () => { closeNavMenu(); showView("ui-legal"); });
   if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
   if ($("menuLangEn"))   $("menuLangEn").addEventListener("click", () => setLang("en"));
 

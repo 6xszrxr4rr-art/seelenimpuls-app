@@ -1,26 +1,36 @@
-const CACHE = 'seelenimpuls-v27';
+const CACHE = 'seelenimpuls-v29';
 
 const FILES = [
   './audio/stillness-space.mp3',
-  './audio/Song-Situation-1.mp3',
-  './audio/Song-Situation-2.mp3',
-  './audio/Song-Situation-3.mp3',
-  './audio/Song-Situation-4.mp3',
-  './audio/Song-Situation-5.mp3',
-  './audio/Song-Situation-6.mp3',
-  './audio/Song-Situation-7.mp3',
-  './audio/Song-Situation-8.mp3',
-  './audio/Song-Situation-9.mp3',
-  './audio/Song-Situation-10.mp3',
+  './audio/meditation-situation-1-de.mp3',
+  './audio/meditation-situation-2-de.mp3',
+  './audio/meditation-situation-3-de.mp3',
+  './audio/meditation-situation-4-de.mp3',
+  './audio/meditation-situation-5-de.mp3',
+  './audio/meditation-situation-6-de.mp3',
+  './audio/meditation-situation-7-de.mp3',
+  './audio/meditation-situation-8-de.mp3',
+  './audio/meditation-situation-9-de.mp3',
+  './audio/meditation-situation-10-de.mp3',
+  './audio/meditation-situation-11-de.mp3',
+  './audio/meditation-situation-1-en.mp3',
+  './audio/meditation-situation-2-en.mp3',
+  './audio/meditation-situation-3-en.mp3',
+  './audio/meditation-situation-4-en.mp3',
+  './audio/meditation-situation-5-en.mp3',
+  './audio/meditation-situation-6-en.mp3',
+  './audio/meditation-situation-7-en.mp3',
+  './audio/meditation-situation-8-en.mp3',
+  './audio/meditation-situation-9-en.mp3',
+  './audio/meditation-situation-10-en.mp3',
+  './audio/meditation-situation-11-en.mp3',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
 
 self.addEventListener('install', event => {
-  // Nur cachen — KEIN skipWaiting(), damit der Nutzer
-  // den Reload-Banner bestätigen kann
   event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(FILES))
+    caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())
   );
 });
 
