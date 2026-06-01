@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-meditations","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => { const el = $(v); if (el) el.classList.add("hidden"); });
@@ -1753,6 +1753,90 @@ document.addEventListener("DOMContentLoaded", () => {
     showView('ui-worksheets');
   }
 
+  // ── MEDITATIONEN ──────────────────────────────────────────────────────
+  function openMeditations() {
+    if (!isPremium) { openPremiumPreview('overview'); return; }
+    renderMeditationList();
+    showView('ui-meditations');
+  }
+
+  function renderMeditationList() {
+    const container = $('meditationsList');
+    if (!container) return;
+    container.innerHTML = '';
+    const titles = situationTitles[lang];
+
+    for (let i = 1; i <= 11; i++) {
+      const s = window.SITUATIONS && window.SITUATIONS[i];
+      if (!s) continue;
+      const fileDE = s.songFile_de;
+      const fileEN = s.songFile_en;
+      const hasDE = !!fileDE;
+      const hasEN = !!fileEN;
+      if (!hasDE && !hasEN) continue;
+
+      const item = document.createElement('div');
+      item.className = 'med-item';
+
+      const titleEl = document.createElement('div');
+      titleEl.className = 'med-item-title';
+      titleEl.textContent = `${i}) ${titles[i]}`;
+      item.appendChild(titleEl);
+
+      const controls = document.createElement('div');
+      controls.className = 'med-item-controls';
+
+      let meditLang = (lang === 'en' && hasEN) ? 'en' : 'de';
+
+      if (hasDE && hasEN) {
+        const toggle = document.createElement('div');
+        toggle.className = 'medit-lang-toggle';
+        toggle.style.margin = '0';
+        toggle.innerHTML =
+          `<button class="medit-lang-btn${meditLang === 'de' ? ' active' : ''}" data-l="de">🇩🇪</button>` +
+          `<button class="medit-lang-btn${meditLang === 'en' ? ' active' : ''}" data-l="en">🇬🇧</button>`;
+        toggle.querySelectorAll('.medit-lang-btn').forEach(b => {
+          b.onclick = () => {
+            meditLang = b.dataset.l;
+            toggle.querySelectorAll('.medit-lang-btn').forEach(x =>
+              x.classList.toggle('active', x.dataset.l === meditLang));
+          };
+        });
+        controls.appendChild(toggle);
+      }
+
+      const btn = document.createElement('button');
+      btn.className = 'btn-primary med-play-btn';
+      btn.textContent = lang === 'de' ? '▶ Hören' : '▶ Listen';
+      btn.onclick = () => {
+        if (bgAudio) { bgAudio.pause(); bgAudio = null; }
+        if (currentSongAudio) { currentSongAudio.pause(); currentSongAudio = null; }
+        container.querySelectorAll('.med-play-btn').forEach(b => {
+          b.textContent = lang === 'de' ? '▶ Hören' : '▶ Listen';
+        });
+        const file = (meditLang === 'en' && hasEN) ? fileEN : (fileDE || fileEN);
+        currentSongAudio = new Audio(file);
+        currentSongAudio.volume = 0.9;
+        currentSongAudio.play().catch(() => {});
+        btn.textContent = lang === 'de' ? '⏸ läuft …' : '⏸ playing …';
+        currentSongAudio.onended = () => {
+          btn.textContent = lang === 'de' ? '▶ Hören' : '▶ Listen';
+        };
+      };
+      controls.appendChild(btn);
+
+      item.appendChild(controls);
+      container.appendChild(item);
+    }
+
+    const meditTitleEl = $('meditTitle');
+    const meditSubEl   = $('meditSub');
+    if (meditTitleEl) meditTitleEl.textContent = lang === 'de' ? '🧘 Meditationen' : '🧘 Meditations';
+    if (meditSubEl)   meditSubEl.textContent   = lang === 'de'
+      ? 'Geführte Meditationen für jede Situation'
+      : 'Guided meditations for every situation';
+  }
+
   // ── PREMIUM PREVIEW ───────────────────────────────────────────────────
   function stopPreview() {
     if (pvTimer)   { clearTimeout(pvTimer);    pvTimer   = null; }
@@ -2751,6 +2835,9 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
+  $("btnMeditations").addEventListener("click", () => openMeditations());
+  $("btnBackFromMeditations").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+
   $("btnQuick").onclick                  = () => startQuickMode();
   if ($("btnBackFromBreathSelect"))
     $("btnBackFromBreathSelect").onclick = () => { showView("ui-welcome"); showStreak(); };
@@ -2804,8 +2891,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("menuClose"))    $("menuClose").addEventListener("click", closeNavMenu);
   if ($("navOverlay"))   $("navOverlay").addEventListener("click", closeNavMenu);
   if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
-  if ($("menuSongs"))    $("menuSongs").addEventListener("click",   () => { closeNavMenu(); openPremiumPreview('songs'); });
-  if ($("menuLegalNav")) $("menuLegalNav").addEventListener("click", () => { closeNavMenu(); showView("ui-legal"); });
+  if ($("menuSongs"))       $("menuSongs").addEventListener("click",       () => { closeNavMenu(); openPremiumPreview('songs'); });
+  if ($("menuMeditations")) $("menuMeditations").addEventListener("click", () => { closeNavMenu(); openMeditations(); });
+  if ($("menuLegalNav"))    $("menuLegalNav").addEventListener("click",    () => { closeNavMenu(); showView("ui-legal"); });
   if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
   if ($("menuLangEn"))   $("menuLangEn").addEventListener("click", () => setLang("en"));
 

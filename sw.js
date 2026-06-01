@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v28';
+const CACHE = 'seelenimpuls-v29';
 
 const FILES = [
   './audio/stillness-space.mp3',
@@ -29,10 +29,8 @@ const FILES = [
 ];
 
 self.addEventListener('install', event => {
-  // Nur cachen — KEIN skipWaiting(), damit der Nutzer
-  // den Reload-Banner bestätigen kann
   event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(FILES))
+    caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())
   );
 });
 
