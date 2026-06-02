@@ -592,9 +592,28 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.floor((Date.now() - start) / 86400000) % THEMEN_REIHENFOLGE.length;
   }
 
-  const CHAKRA_EINFUEHRUNGSTEXT = 'Willkommen bei den Chakra-Affirmationen von Seelenimpuls.\n\nChakra-Affirmationen sind bewusst formulierte Sätze, die mit den sieben Energiezentren des Körpers verbunden sind. Jedes Chakra steht für bestimmte Lebensthemen:\n\n• Wurzelchakra: Sicherheit, Vertrauen, Stabilität\n• Sakralchakra: Lebensfreude, Kreativität, Gefühle\n• Solarplexuschakra: Selbstvertrauen, Stärke, Erfolg\n• Herzchakra: Liebe, Heilung, Harmonie\n• Halschakra: Ausdruck, Wahrheit, Kommunikation\n• Stirnchakra: Klarheit, Intuition, innere Bilder\n• Kronenchakra: Spiritualität, Vertrauen, Verbundenheit\n\nChakra-Affirmationen gehen sanfter vor als klassische Affirmationen. Statt zu behaupten „Ich bin gesund", beschreiben sie einen Prozess: „Mein Körper aktiviert seine Heilung." Diese Formulierungen fühlen sich natürlicher an — der innere Widerstand sinkt.\n\nIhre Kraft entfalten sie in ruhigen Momenten: morgens, vor dem Einschlafen, beim bewussten Atmen.\n\nVertraue deinem eigenen Tempo. Du darfst in deiner Zeit ankommen.';
+  const CHAKRA_INTRO_SEITEN = [
+    {
+      titel: 'Was sind Chakra-Affirmationen?',
+      text: 'Chakra-Affirmationen sind bewusst formulierte Sätze, die mit den sieben Energiezentren deines Körpers verbunden sind.\n\nJedes Chakra steht für bestimmte Lebensthemen:\n\n• Wurzel: Sicherheit & Vertrauen\n• Sakral: Lebensfreude & Kreativität\n• Solarplexus: Selbstvertrauen & Stärke\n• Herz: Liebe & Heilung\n• Hals: Ausdruck & Wahrheit\n• Stirn: Klarheit & Intuition\n• Krone: Spiritualität & Verbundenheit\n\nSie verbinden innere Arbeit mit dem Körperwissen – sanft, ohne Druck.'
+    },
+    {
+      titel: 'Warum sie tiefer wirken',
+      text: 'Klassische Affirmationen behaupten einen Zustand: „Ich bin selbstbewusst." Wenn wir das innerlich noch nicht glauben, erzeugt das Widerstand – der Satz fühlt sich falsch an.\n\nChakra-Affirmationen beschreiben einen Prozess: „Mein Selbstvertrauen wächst, Schritt für Schritt." Das fühlt sich ehrlicher an.\n\nSie treffen die Energie des Chakras, nicht nur die Oberfläche des Denkens. Der innere Widerstand sinkt – und echte Veränderung hat Raum.'
+    },
+    {
+      titel: 'Die Kraft von Wiederholung & Gefühl',
+      text: 'Affirmationen wirken nicht durch einmaliges Lesen. Ihre Kraft entfaltet sich durch ruhige Wiederholung – verbunden mit einem echten inneren Gefühl.\n\nLass jeden Satz in deinen Körper sinken. Wo spürst du ihn? Was verändert sich, wenn du ihn wirklich einlässt?\n\nBesonders wirksam: morgens beim Aufwachen, abends vor dem Einschlafen, oder in einem ruhigen Atemmoment zwischendurch. Du brauchst dafür nur wenige Minuten.'
+    },
+    {
+      titel: 'Dein innerer Raum für Veränderung',
+      text: 'Es gibt kein „Richtig" oder „Falsch" bei Chakra-Affirmationen. Manche Sätze berühren dich sofort – andere brauchen Zeit, oder passen gerade nicht.\n\nDein Tages-Chakra wechselt automatisch nach Wochentag, das Thema rotiert wöchentlich. So begegnest du allen sieben Energiezentren regelmäßig.\n\nVertraue deinem eigenen Tempo. Du darfst in deiner Zeit ankommen. Die Veränderung geschieht von innen.'
+    }
+  ];
 
   let aktivesChakraThema = THEMEN_REIHENFOLGE[getTagesThemaIndex()];
+  let aktivesChakraKey = null;
+  let chakraIntroSeite = 0;
   const CHAKRA_INTRO_KEY = 'chakra_intro_gesehen';
 
   function chakraBlumeSVG(chakraKey, groesse) {
@@ -617,8 +636,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const m = CHAKRA_META[chakraKey];
     const a = CHAKRA_AFFIRMATIONEN[themaKey][chakraKey];
     const premiumBlock = isPremium
-      ? `<p class="chakra-card__premium-text">${a.premium}</p>`
-      : `<div class="chakra-card__premium-gate"><p class="chakra-card__premium-text">${a.premium}</p><button class="chakra-card__premium-cta" id="chakra-upgrade-cta">Jetzt Premium entdecken ›</button></div>`;
+      ? `<span class="chakra-card__affirmation-label" style="color:${m.farbe}">Ausführliche Affirmation</span>
+         <p class="chakra-card__premium-text">${a.premium}</p>`
+      : `<div class="chakra-card__premium-gate">
+           <p class="chakra-card__premium-text">${a.premium}</p>
+           <button class="chakra-card__premium-cta" id="chakra-upgrade-cta">Jetzt Premium entdecken ›</button>
+         </div>`;
     return `<div class="chakra-card${isPremium ? ' chakra-card--premium' : ''}">
       <div class="chakra-card__stripe" style="background:${m.farbe}"></div>
       <div class="chakra-card__body" style="background:${m.hintergrund}">
@@ -631,6 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           ${isPremium ? '<span class="chakra-card__premium-badge">✦</span>' : ''}
         </div>
+        <span class="chakra-card__affirmation-label" style="color:${m.farbe}">Kurze Affirmation</span>
         <p class="chakra-card__basis">${a.basis}</p>
         <div class="chakra-card__divider"></div>
         ${premiumBlock}
@@ -638,10 +662,11 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>`;
   }
 
-  function renderChakraMiniCard(chakraKey, tagesChakra) {
+  function renderChakraMiniCard(chakraKey, tagesChakra, aktivKey) {
     const m = CHAKRA_META[chakraKey];
     const heute = chakraKey === tagesChakra;
-    return `<div class="chakra-mini-card${heute ? ' chakra-mini-card--heute' : ''}" style="background:${m.hintergrund}">
+    const aktiv = chakraKey === aktivKey;
+    return `<div class="chakra-mini-card${heute ? ' chakra-mini-card--heute' : ''}${aktiv ? ' chakra-mini-card--aktiv' : ''}" data-chakra="${chakraKey}" style="background:${m.hintergrund}; cursor:pointer;">
       ${chakraBlumeSVG(chakraKey, 40)}
       <span class="chakra-mini-card__name" style="color:${m.farbe}">${m.name}</span>
       <span class="chakra-mini-card__sanskrit">${m.sanskrit}</span>
@@ -656,46 +681,81 @@ document.addEventListener("DOMContentLoaded", () => {
     const a = CHAKRA_AFFIRMATIONEN[themaKey][chakraKey];
     const wochentage = ['So','Mo','Di','Mi','Do','Fr','Sa'];
     const wochentag  = wochentage[new Date().getDay()];
-    return `<div class="chakra-daily-card" id="chakra-daily-card" style="background:${m.hintergrund}">
+    return `<div class="chakra-daily-card chakra-daily-card--static" style="background:${m.hintergrund}">
       <div class="chakra-daily-card__stripe" style="background:${m.farbe}"></div>
       <div class="chakra-daily-card__body">
         <div class="chakra-daily-card__header">
           <span class="chakra-daily-card__dot" style="background:${m.farbe}"></span>
-          <span class="chakra-daily-card__label" style="color:${m.farbe}">${wochentag} · ${m.name}</span>
+          <span class="chakra-daily-card__label" style="color:${m.farbe}">${wochentag} · ${m.name} · ${THEMEN_LABELS[themaKey]}</span>
         </div>
         <p class="chakra-daily-card__affirmation">${a.basis}</p>
-        <span class="chakra-daily-card__cta">Zur Chakra-Welt ›</span>
       </div>
     </div>`;
+  }
+
+  function renderChakraVollkarte() {
+    return `<div id="chakra-vollkarte-wrapper">${renderChakraKarte(aktivesChakraKey, aktivesChakraThema)}</div>`;
   }
 
   function renderChakraScreen() {
     const screen = $('ui-chakra');
     const tagesChakra = getTagesChakra();
+    if (!aktivesChakraKey) aktivesChakraKey = tagesChakra;
+
     screen.innerHTML =
       `<div class="chakra-screen__header">
         <button class="chakra-screen__back" id="chakra-back" aria-label="Zurück">‹</button>
         <h1 class="chakra-screen__title">Chakra-Affirmationen</h1>
-        <button class="chakra-screen__info-btn" id="chakra-info" aria-label="Einführung">ℹ</button>
       </div>` +
-      renderChakraKarte(tagesChakra, aktivesChakraThema) +
+      `<div class="chakra-daily-banner">${renderDailyChakraCard()}</div>` +
+      renderChakraVollkarte() +
       `<span class="chakra-section-label">Alle Chakren</span>
       <div class="chakra-carousel">` +
-        CHAKRA_REIHENFOLGE.map(k => renderChakraMiniCard(k, tagesChakra)).join('') +
+        CHAKRA_REIHENFOLGE.map(k => renderChakraMiniCard(k, tagesChakra, aktivesChakraKey)).join('') +
       `</div>
       <span class="chakra-section-label">Thema wählen</span>
       <div class="chakra-themen-grid">` +
         THEMEN_REIHENFOLGE.map(t =>
           `<button class="chakra-chip${t === aktivesChakraThema ? ' chakra-chip--aktiv' : ''}" data-thema="${t}">${THEMEN_LABELS[t]}</button>`
         ).join('') +
-      `</div>`;
+      `</div>
+      <div class="chakra-info-teaser" id="chakra-info-teaser">
+        <span class="chakra-info-teaser__icon" style="color:${CHAKRA_META[aktivesChakraKey].farbe}">✦</span>
+        <div class="chakra-info-teaser__text">
+          <p class="chakra-info-teaser__title">Was sind Chakra-Affirmationen?</p>
+          <p class="chakra-info-teaser__sub">Hintergrund & Wirkweise in 4 Schritten</p>
+        </div>
+        <button class="chakra-info-teaser__btn" id="chakra-info-open">Entdecken →</button>
+      </div>`;
 
-    // Attach listeners after render
     screen.querySelector('#chakra-back').onclick = () => { showView('ui-welcome'); showStreak(); };
-    screen.querySelector('#chakra-info').onclick = () => chakraZeigeIntroVoll();
-    screen.querySelectorAll('.chakra-chip').forEach(chip => {
-      chip.onclick = () => { aktivesChakraThema = chip.dataset.thema; renderChakraScreen(); };
+    screen.querySelector('#chakra-info-open').onclick = () => chakraZeigeIntro(0);
+
+    screen.querySelectorAll('.chakra-mini-card').forEach(card => {
+      card.onclick = () => {
+        aktivesChakraKey = card.dataset.chakra;
+        $('chakra-vollkarte-wrapper').innerHTML = renderChakraKarte(aktivesChakraKey, aktivesChakraThema);
+        const upgradeCta = $('chakra-upgrade-cta');
+        if (upgradeCta) upgradeCta.onclick = () => showUpgradePrompt();
+        screen.querySelectorAll('.chakra-mini-card').forEach(c =>
+          c.classList.toggle('chakra-mini-card--aktiv', c.dataset.chakra === aktivesChakraKey)
+        );
+        $('chakra-vollkarte-wrapper').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      };
     });
+
+    screen.querySelectorAll('.chakra-chip').forEach(chip => {
+      chip.onclick = () => {
+        aktivesChakraThema = chip.dataset.thema;
+        $('chakra-vollkarte-wrapper').innerHTML = renderChakraKarte(aktivesChakraKey, aktivesChakraThema);
+        const upgradeCta = $('chakra-upgrade-cta');
+        if (upgradeCta) upgradeCta.onclick = () => showUpgradePrompt();
+        screen.querySelectorAll('.chakra-chip').forEach(c =>
+          c.classList.toggle('chakra-chip--aktiv', c.dataset.thema === aktivesChakraThema)
+        );
+      };
+    });
+
     const upgradeCta = screen.querySelector('#chakra-upgrade-cta');
     if (upgradeCta) upgradeCta.onclick = () => showUpgradePrompt();
   }
@@ -706,16 +766,27 @@ document.addEventListener("DOMContentLoaded", () => {
     chakraPruefeIntro();
   }
 
-  function chakraPruefeIntro() {
-    if (!localStorage.getItem(CHAKRA_INTRO_KEY)) {
-      $('chakra-intro-overlay').classList.remove('hidden');
-      localStorage.setItem(CHAKRA_INTRO_KEY, '1');
-    }
+  function chakraIntroRendern(seite) {
+    const page = CHAKRA_INTRO_SEITEN[seite];
+    $('chakra-intro-titel').textContent = page.titel;
+    $('chakra-intro-text').textContent  = page.text;
+    $('chakra-intro-weiter').textContent = seite < CHAKRA_INTRO_SEITEN.length - 1 ? 'Weiter →' : 'Verstanden · Jetzt entdecken';
+    Array.from($('chakra-intro-dots').children).forEach((dot, i) =>
+      dot.classList.toggle('chakra-intro-dot--aktiv', i === seite)
+    );
   }
 
-  function chakraZeigeIntroVoll() {
-    $('chakra-intro-text').textContent = CHAKRA_EINFUEHRUNGSTEXT;
+  function chakraZeigeIntro(seite) {
+    chakraIntroSeite = seite || 0;
+    chakraIntroRendern(chakraIntroSeite);
     $('chakra-intro-overlay').classList.remove('hidden');
+  }
+
+  function chakraPruefeIntro() {
+    if (!localStorage.getItem(CHAKRA_INTRO_KEY)) {
+      chakraZeigeIntro(0);
+      localStorage.setItem(CHAKRA_INTRO_KEY, '1');
+    }
   }
 
   function chakraSchliessIntro() {
@@ -3036,10 +3107,14 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHomeScreen();
   updateFavBtn();
   $("impuls").textContent = getDailyImpulse();
-  $("chakra-daily-container").innerHTML = renderDailyChakraCard();
-  $("chakra-daily-card").addEventListener("click", showChakraScreen);
-  $("chakra-intro-close").addEventListener("click", chakraSchliessIntro);
-  $("chakra-intro-mehr").addEventListener("click", chakraZeigeIntroVoll);
+  $("chakra-intro-weiter").addEventListener("click", () => {
+    if (chakraIntroSeite < CHAKRA_INTRO_SEITEN.length - 1) {
+      chakraIntroSeite++;
+      chakraIntroRendern(chakraIntroSeite);
+    } else {
+      chakraSchliessIntro();
+    }
+  });
 
   if (!localStorage.getItem("si_visited")) {
     localStorage.setItem("si_visited", "1");
@@ -3081,6 +3156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("btnMeditations").addEventListener("click", () => openMeditations());
   $("btnBackFromMeditations").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
+  if ($("btnChakra")) $("btnChakra").addEventListener("click", () => showChakraScreen());
 
   $("btnQuick").onclick                  = () => startQuickMode();
   if ($("btnBackFromBreathSelect"))
@@ -3137,6 +3213,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
   if ($("menuSongs"))       $("menuSongs").addEventListener("click",       () => { closeNavMenu(); openPremiumPreview('songs'); });
   if ($("menuMeditations")) $("menuMeditations").addEventListener("click", () => { closeNavMenu(); openMeditations(); });
+  if ($("menuChakra"))     $("menuChakra").addEventListener("click",     () => { closeNavMenu(); showChakraScreen(); });
   if ($("menuLegalNav"))    $("menuLegalNav").addEventListener("click",    () => { closeNavMenu(); showView("ui-legal"); });
   if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
   if ($("menuLangEn"))   $("menuLangEn").addEventListener("click", () => setLang("en"));

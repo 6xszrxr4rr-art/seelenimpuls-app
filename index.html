@@ -808,8 +808,10 @@
     }
 
     /* ── Chakra-Affirmationen ── */
+    .chakra-daily-banner { padding: 0 20px; }
     .chakra-daily-card { border-radius: 16px; box-shadow: 0 2px 12px rgba(42,32,24,.07); display: flex; overflow: hidden; margin: 12px 0 0; cursor: pointer; transition: transform 120ms ease; animation: chakraFadeInUp 200ms ease-out both; }
-    .chakra-daily-card:active { transform: scale(0.97); }
+    .chakra-daily-card--static { cursor: default; animation: none; }
+    .chakra-daily-card:not(.chakra-daily-card--static):active { transform: scale(0.97); }
     .chakra-daily-card__stripe { width: 3px; flex-shrink: 0; }
     .chakra-daily-card__body { flex: 1; padding: 16px 20px; }
     .chakra-daily-card__header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
@@ -838,6 +840,7 @@
     .chakra-card__basis { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #2A2018; line-height: 1.45; margin: 0; }
     .chakra-card__divider { height: 1px; background: #E8D5B0; margin: 16px 0; }
     .chakra-card__premium-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: #2A2018; line-height: 1.5; margin: 0; }
+    .chakra-card__affirmation-label { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; display: block; margin-bottom: 6px; opacity: 0.7; }
     .chakra-card__premium-gate { opacity: 0.5; }
     .chakra-card__premium-cta { margin-top: 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #C9908A; background: none; border: none; cursor: pointer; padding: 0; opacity: 1; }
 
@@ -847,6 +850,7 @@
     .chakra-carousel::-webkit-scrollbar { display: none; }
     .chakra-mini-card { min-width: 150px; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; align-items: center; text-align: center; scroll-snap-align: start; box-shadow: 0 2px 8px rgba(42,32,24,.07); flex-shrink: 0; }
     .chakra-mini-card--heute { outline: 1.5px solid #C4A83A; }
+    .chakra-mini-card--aktiv { outline: 2px solid #2A2018; }
     .chakra-mini-card__name { font-family: 'Cormorant Garamond', serif; font-size: 13px; margin-top: 8px; }
     .chakra-mini-card__sanskrit { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-style: italic; color: #7A6A58; margin-top: 2px; }
     .chakra-mini-card__heute-badge { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-top: 6px; }
@@ -857,10 +861,19 @@
 
     .chakra-intro-overlay { position: fixed; inset: 0; background: rgba(42,32,24,.35); z-index: 100; display: flex; flex-direction: column; justify-content: flex-end; }
     .chakra-intro-sheet { background: #FDFAF5; border-radius: 24px 24px 0 0; padding: 28px 28px 40px; max-height: 85vh; overflow-y: auto; }
+    .chakra-intro-dots { display: flex; gap: 6px; margin-bottom: 20px; }
+    .chakra-intro-dot { width: 8px; height: 8px; border-radius: 50%; background: #D9CBC0; transition: background 200ms; }
+    .chakra-intro-dot--aktiv { background: #2A2018; }
     .chakra-intro-sheet__title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #2A2018; margin: 0 0 12px; }
-    .chakra-intro-sheet__text { font-family: 'DM Sans', sans-serif; font-size: 15px; color: #7A6A58; line-height: 1.6; margin: 0 0 16px; white-space: pre-line; }
-    .chakra-intro-sheet__mehr-link { font-size: 13px; color: #C9908A; background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; display: block; margin-bottom: 20px; }
+    .chakra-intro-sheet__text { font-family: 'DM Sans', sans-serif; font-size: 15px; color: #7A6A58; line-height: 1.6; margin: 0 0 24px; white-space: pre-line; min-height: 120px; }
     .chakra-intro-sheet__close-btn { width: 100%; background: #2A2018; color: #FDFAF5; font-family: 'DM Sans', sans-serif; font-size: 15px; border: none; border-radius: 12px; padding: 14px; cursor: pointer; }
+
+    .chakra-info-teaser { display: flex; align-items: center; gap: 14px; margin: 24px 20px 8px; padding: 18px 20px; background: #F2E8D5; border-radius: 16px; }
+    .chakra-info-teaser__icon { font-size: 20px; flex-shrink: 0; }
+    .chakra-info-teaser__text { flex: 1; }
+    .chakra-info-teaser__title { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: #2A2018; margin: 0 0 2px; }
+    .chakra-info-teaser__sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #7A6A58; margin: 0; }
+    .chakra-info-teaser__btn { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #C9908A; background: none; border: none; cursor: pointer; padding: 0; white-space: nowrap; flex-shrink: 0; }
 
     /* ── Gift / Beta-Zugang Overlay ── */
     #giftOverlay {
@@ -1400,8 +1413,6 @@
         <p id="impuls">Atme tief ein.</p>
         <button id="btnImpuls">Neuer Impuls</button>
       </div>
-      <div id="chakra-daily-container"></div>
-
       <button class="btn-primary" id="btnBeginnen"
               data-de="Beginnen" data-en="Begin">Beginnen</button>
 
@@ -1423,6 +1434,9 @@
         <button class="btn-ghost" id="btnMeditations"
                 data-de="🧘 Meditationen"
                 data-en="🧘 Meditations">🧘 Meditationen</button>
+        <button class="btn-ghost" id="btnChakra"
+                data-de="🔮 Chakra-Affirmationen"
+                data-en="🔮 Chakra Affirmations">🔮 Chakra-Affirmationen</button>
       </div>
 
       <button class="btn-install" id="btnInstall"
@@ -1932,13 +1946,18 @@
   <!-- Chakra Screen -->
   <div id="ui-chakra" class="hidden"></div>
 
-  <!-- Chakra Intro Bottom-Sheet -->
+  <!-- Chakra Intro Bottom-Sheet (paginated) -->
   <div id="chakra-intro-overlay" class="chakra-intro-overlay hidden" role="dialog" aria-modal="true">
     <div class="chakra-intro-sheet">
-      <h2 class="chakra-intro-sheet__title">Willkommen in der Chakra-Welt</h2>
-      <p class="chakra-intro-sheet__text" id="chakra-intro-text">Chakra-Affirmationen sind sanfte, prozesshafte Sätze, die mit den sieben Energiezentren des Körpers arbeiten. Sie helfen, inneren Widerstand aufzulösen und Veränderung auf tiefere Weise einzuladen.</p>
-      <button class="chakra-intro-sheet__mehr-link" id="chakra-intro-mehr">Mehr erfahren</button>
-      <button class="chakra-intro-sheet__close-btn" id="chakra-intro-close">Verstanden · Jetzt entdecken</button>
+      <div class="chakra-intro-dots" id="chakra-intro-dots">
+        <span class="chakra-intro-dot chakra-intro-dot--aktiv"></span>
+        <span class="chakra-intro-dot"></span>
+        <span class="chakra-intro-dot"></span>
+        <span class="chakra-intro-dot"></span>
+      </div>
+      <h2 class="chakra-intro-sheet__title" id="chakra-intro-titel">Was sind Chakra-Affirmationen?</h2>
+      <p class="chakra-intro-sheet__text" id="chakra-intro-text"></p>
+      <button class="chakra-intro-sheet__close-btn" id="chakra-intro-weiter">Weiter →</button>
     </div>
   </div>
 
@@ -1955,6 +1974,7 @@
       <button class="nav-item" id="menuPremium">✨&nbsp;&nbsp;<span data-de="Premium werden" data-en="Get Premium">Premium werden</span></button>
       <button class="nav-item" id="menuSongs">🎵&nbsp;&nbsp;<span data-de="Klangwelten" data-en="Soundscapes">Klangwelten</span></button>
       <button class="nav-item" id="menuMeditations">🧘&nbsp;&nbsp;<span data-de="Meditationen" data-en="Meditations">Meditationen</span></button>
+      <button class="nav-item" id="menuChakra">🔮&nbsp;&nbsp;<span data-de="Chakra-Affirmationen" data-en="Chakra Affirmations">Chakra-Affirmationen</span></button>
       <button class="nav-item" id="menuInstall">📲&nbsp;&nbsp;<span data-de="App installieren" data-en="Install App">App installieren</span></button>
       <div class="nav-divider"></div>
       <button class="nav-item" id="menuLegalNav">📋&nbsp;&nbsp;<span data-de="Datenschutz &amp; Impressum" data-en="Privacy &amp; Legal Notice">Datenschutz &amp; Impressum</span></button>
