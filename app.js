@@ -482,6 +482,246 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
+  // ── CHAKRA-AFFIRMATIONEN ──────────────────────────────────────────────
+  const CHAKRA_META = {
+    wurzel:      { name: 'Wurzelchakra',      sanskrit: 'Muladhara',    nummer: '01', farbe: '#7A3535', hintergrund: '#FBF0EE' },
+    sakral:      { name: 'Sakralchakra',      sanskrit: 'Svadhisthana', nummer: '02', farbe: '#B87333', hintergrund: '#FBF3EC' },
+    solarplexus: { name: 'Solarplexuschakra', sanskrit: 'Manipura',     nummer: '03', farbe: '#B8953A', hintergrund: '#FBF5E0' },
+    herz:        { name: 'Herzchakra',        sanskrit: 'Anahata',      nummer: '04', farbe: '#3A7055', hintergrund: '#EEF5F1' },
+    hals:        { name: 'Halschakra',        sanskrit: 'Vishuddha',    nummer: '05', farbe: '#3D5E8A', hintergrund: '#EEF1F8' },
+    stirn:       { name: 'Stirnchakra',       sanskrit: 'Ajna',         nummer: '06', farbe: '#4A3D7A', hintergrund: '#F0EEF8' },
+    krone:       { name: 'Kronenchakra',      sanskrit: 'Sahasrara',    nummer: '07', farbe: '#7A5E96', hintergrund: '#F5F0FB' },
+  };
+
+  const CHAKRA_REIHENFOLGE = ['wurzel','sakral','solarplexus','herz','hals','stirn','krone'];
+
+  const CHAKRA_NACH_WOCHENTAG = { 1:'wurzel',2:'sakral',3:'solarplexus',4:'herz',5:'hals',6:'stirn',0:'krone' };
+
+  const THEMEN_REIHENFOLGE = ['innerer-frieden','selbstvertrauen','liebe','harmonie','gesundheit','glueck','erfolg','wohlstand'];
+
+  const THEMEN_LABELS = {
+    'innerer-frieden': 'Innerer Frieden',
+    'selbstvertrauen': 'Selbstvertrauen',
+    liebe:             'Liebe',
+    harmonie:          'Harmonie',
+    gesundheit:        'Gesundheit',
+    glueck:            'Glück',
+    erfolg:            'Erfolg',
+    wohlstand:         'Wohlstand & Reichtum',
+  };
+
+  const CHAKRA_AFFIRMATIONEN = {
+    'innerer-frieden': {
+      wurzel:      { basis: 'Ich bin sicher und ruhig.', premium: 'Ich bin sicher, geerdet und vollkommen ruhig in mir selbst.' },
+      sakral:      { basis: 'Gelassenheit erfüllt mich.', premium: 'Sanfte Gelassenheit erfüllt meinen Körper und meine Seele.' },
+      solarplexus: { basis: 'Ich lasse los.', premium: 'Ich lasse Anspannung los und finde Ruhe in meiner inneren Mitte.' },
+      herz:        { basis: 'Frieden beginnt in mir.', premium: 'Frieden beginnt in meinem Herzen und breitet sich durch mein ganzes Leben aus.' },
+      hals:        { basis: 'Meine Worte bringen Frieden.', premium: 'Ich kommuniziere sanft, klar und im tiefen Frieden mit mir und meiner Umwelt.' },
+      stirn:       { basis: 'Mein Geist ist still.', premium: 'Mein Geist wird still und klar. Ich vertraue vollkommen dem gegenwärtigen Moment.' },
+      krone:       { basis: 'Ich vertraue dem Leben.', premium: 'Ich bin verbunden mit einer tiefen universellen Ruhe und allumfassendem Frieden.' },
+    },
+    selbstvertrauen: {
+      wurzel:      { basis: 'Ich stehe sicher zu mir.', premium: 'Ich stehe sicher im Leben und vertraue meinem ganz eigenen Weg.' },
+      sakral:      { basis: 'Ich vertraue meinem Gefühl.', premium: 'Ich erlaube mir, authentisch zu sein und meine Einzigartigkeit frei auszudrücken.' },
+      solarplexus: { basis: 'Ich glaube an mich.', premium: 'Meine innere Stärke wächst jeden Tag. Ich glaube an mich und mein unendliches Potenzial.' },
+      herz:        { basis: 'Ich nehme mich liebevoll an.', premium: 'Ich nehme mich selbst liebevoll an und erkenne meinen unschätzbaren eigenen Wert.' },
+      hals:        { basis: 'Meine Stimme ist wichtig.', premium: 'Ich spreche klar, mutig und selbstbewusst meine ganz persönliche Wahrheit aus.' },
+      stirn:       { basis: 'Ich erkenne meine Stärke.', premium: 'Ich sehe meine Fähigkeiten deutlich vor mir und vertraue meinen Entscheidungen.' },
+      krone:       { basis: 'Ich bin geführt und getragen.', premium: 'Ich bin geführt, getragen und voller Vertrauen in meinen göttlichen Lebensweg.' },
+    },
+    liebe: {
+      wurzel:      { basis: 'Ich bin wertvoll und geliebt.', premium: 'Ich bin sicher, geborgen und offen für Liebe. Mein Herz darf vertrauen und sich vollkommen öffnen.' },
+      sakral:      { basis: 'Liebe fließt durch mich.', premium: 'Liebe fließt frei durch mein Leben. Ich genieße Nähe, Wärme und echte Verbundenheit.' },
+      solarplexus: { basis: 'Ich öffne mich der Liebe.', premium: 'Ich erkenne meinen Wert und empfange Liebe mit Selbstvertrauen und innerer Stärke.' },
+      herz:        { basis: 'Mein Herz strahlt Liebe aus.', premium: 'Mein Herz strahlt Liebe, Mitgefühl und Frieden aus. Ich bin Liebe und ich werde geliebt.' },
+      hals:        { basis: 'Ich spreche mit Liebe.', premium: 'Ich spreche ehrlich, liebevoll und offen über meine Gefühle. Meine Worte schaffen echte Nähe.' },
+      stirn:       { basis: 'Ich erkenne wahre Liebe.', premium: 'Ich erkenne wahre Liebe klar und vertraue meiner inneren, Herz-basierten Weisheit.' },
+      krone:       { basis: 'Liebe verbindet alles.', premium: 'Ich bin eins mit der universellen Liebe, die alles im Kosmos miteinander verbindet.' },
+    },
+    harmonie: {
+      wurzel:      { basis: 'Ich bin im Frieden mit dem Leben.', premium: 'Ich bin tief geerdet und finde Frieden in mir selbst und in allem, was ist.' },
+      sakral:      { basis: 'Leichtigkeit erfüllt mich.', premium: 'Sanfte, fließende Energie erfüllt mich und bringt Harmonie in meinen gesamten Alltag.' },
+      solarplexus: { basis: 'Innere Ruhe stärkt mich.', premium: 'Ich lasse starre Kontrolle los und vertraue dem natürlichen Fluss des Lebens.' },
+      herz:        { basis: 'Liebe harmonisiert mein Leben.', premium: 'Liebe und tiefes Mitgefühl schaffen inneren Frieden und Harmonie in all meinen Beziehungen.' },
+      hals:        { basis: 'Ich spreche friedvoll.', premium: 'Ich kommuniziere ehrlich, ruhig und im harmonischen Einklang mit meiner Umwelt.' },
+      stirn:       { basis: 'Ich sehe Klarheit und Balance.', premium: 'Ich erkenne und fühle die vollkommene Balance zwischen Körper, Geist und Seele.' },
+      krone:       { basis: 'Ich bin eins mit dem Universum.', premium: 'Ich bin bewusst verbunden mit der großen, universellen Harmonie des Lebens.' },
+    },
+    gesundheit: {
+      wurzel:      { basis: 'Die Erde nährt meine Gesundheit.', premium: 'Ich bin sicher, getragen und tief mit der Erde verbunden. Jeder Atemzug stärkt meinen Körper und schenkt mir neue Vitalität.' },
+      sakral:      { basis: 'Lebenskraft erneuert mich.', premium: 'Lebensenergie fließt frei durch mich. Jede Zelle meines Körpers erneuert sich jetzt in vollkommener Harmonie und Kraft.' },
+      solarplexus: { basis: 'Mein Körper aktiviert seine Heilung.', premium: 'Mein inneres Licht aktiviert meine Selbstheilungskräfte. Ich vertraue meinem Körper und seiner unendlichen Weisheit.' },
+      herz:        { basis: 'Ich nehme meinen Körper liebevoll an.', premium: 'Ich begegne meinem Körper mit Liebe, Dankbarkeit und Mitgefühl. Gesundheit darf sich von Tag zu Tag sanfter in mir entfalten.' },
+      hals:        { basis: 'Ich höre auf meinen Körper.', premium: 'Ich höre auf die feinen Botschaften meines Körpers. Mein authentischer Ausdruck bringt mir Heilung.' },
+      stirn:       { basis: 'Ich lenke Heilkraft in mein Sein.', premium: 'Ich erkenne meine innere Heilkraft und visualisiere meinen Körper in kraftvoller Gesundheit.' },
+      krone:       { basis: 'Gesundheit darf mein Zustand sein.', premium: 'Ich öffne mich für die universelle Heilenergie. Gesundheit erfüllt meinen Geist, meinen Körper und meine Seele.' },
+    },
+    glueck: {
+      wurzel:      { basis: 'Glück trägt mich durchs Leben.', premium: 'Ich bin sicher im Leben verankert und öffne mich bereitwillig den glücklichen Momenten des Alltags.' },
+      sakral:      { basis: 'Freude fließt frei durch mich.', premium: 'Freude tanzt durch mein Leben. Ich genieße jeden kostbaren Augenblick mit einem offenen, staunenden Herzen.' },
+      solarplexus: { basis: 'Ich erlaube mir Glück.', premium: 'Ich verdiene Glück, Erfüllung und Erfolg. Mein inneres Strahlen zieht positive Erfahrungen magisch an.' },
+      herz:        { basis: 'Mein Herz ist voller Freude.', premium: 'Mein Herz ist zutiefst erfüllt von Liebe, Dankbarkeit und echter, reiner Lebensfreude.' },
+      hals:        { basis: 'Ich spreche Glück in mein Leben.', premium: 'Meine Worte und Gespräche erschaffen Glück, Leichtigkeit und wunderbare Begegnungen.' },
+      stirn:       { basis: 'Ich erkenne die Schönheit des Lebens.', premium: 'Ich erkenne die großen und kleinen Wunder des Lebens und öffne mich neuen, glücklichen Möglichkeiten.' },
+      krone:       { basis: 'Das Universum führt mich ins Glück.', premium: 'Das Universum schenkt mir liebevolle Führung, tiefes Vertrauen und bleibendes inneres Glück.' },
+    },
+    erfolg: {
+      wurzel:      { basis: 'Ich gehe sicher meinen Weg.', premium: 'Ich gehe mutig, stabil und aufrecht meinen eigenen Weg. Jeder Schritt führt mich näher zu meiner Erfüllung.' },
+      sakral:      { basis: 'Kreativität führt mich zum Erfolg.', premium: 'Meine kreative Energie öffnet mir neue Türen. Inspiration fließt leicht, frei und produktiv durch mich.' },
+      solarplexus: { basis: 'Ich bin kraftvoll ausgerichtet.', premium: 'Ich glaube unerschütterlich an mich und meine Fähigkeiten. Wahrer Erfolg entsteht aus meiner inneren Stärke.' },
+      herz:        { basis: 'Ich verbinde Erfolg mit Liebe.', premium: 'Ich empfange Erfolg mit tiefer Dankbarkeit und nutze mein Licht, um auch andere Menschen zu inspirieren.' },
+      hals:        { basis: 'Ich zeige meine Wahrheit.', premium: 'Ich spreche klar und selbstbewusst über meine Visionen und zeige der Welt mein wahres Potenzial.' },
+      stirn:       { basis: 'Ich erkenne meine Möglichkeiten.', premium: 'Ich erkenne Erfolgschancen intuitiv und handle mit absoluter innerer Klarheit und Vertrauen.' },
+      krone:       { basis: 'Das Leben unterstützt meinen Erfolg.', premium: 'Das Universum führt mich auf den Pfad von Erfolg, wahrer Erfüllung und tiefer Sinnhaftigkeit.' },
+    },
+    wohlstand: {
+      wurzel:      { basis: 'Ich bin sicher versorgt.', premium: 'Ich bin bedingungslos getragen, sicher und im festen Vertrauen, dass das Leben immer für mich sorgt.' },
+      sakral:      { basis: 'Fülle fließt zu mir.', premium: 'Fülle fließt frei und ungehindert durch mein Leben. Ich öffne mich für Wohlstand auf allen Ebenen des Seins.' },
+      solarplexus: { basis: 'Ich öffne mich für Wohlstand.', premium: 'Ich erkenne meinen unendlichen Wert und erlaube finanziellem Erfolg, mit Leichtigkeit in mein Leben zu kommen.' },
+      herz:        { basis: 'Ich empfange Reichtum mit Freude.', premium: 'Ich empfange materiellen und spirituellen Reichtum voller Dankbarkeit und teile meine Fülle mit Liebe.' },
+      hals:        { basis: 'Ich spreche Fülle in mein Leben.', premium: 'Meine Worte, Gedanken und Absichten erschaffen täglich neuen Wohlstand und wunderbare Möglichkeiten.' },
+      stirn:       { basis: 'Ich denke in Möglichkeiten.', premium: 'Ich sehe Chancen und Fülle überall um mich herum und vertraue meiner klugen inneren Führung.' },
+      krone:       { basis: 'Das Universum versorgt mich reichlich.', premium: 'Das Universum unterstützt mich zu jeder Zeit mit grenzenloser Fülle, Reichtum und Segen.' },
+    },
+  };
+
+  function getTagesChakra() { return CHAKRA_NACH_WOCHENTAG[new Date().getDay()]; }
+
+  function getTagesThemaIndex() {
+    const start = new Date(new Date().getFullYear(), 0, 0);
+    return Math.floor((Date.now() - start) / 86400000) % THEMEN_REIHENFOLGE.length;
+  }
+
+  const CHAKRA_EINFUEHRUNGSTEXT = 'Willkommen bei den Chakra-Affirmationen von Seelenimpuls.\n\nChakra-Affirmationen sind bewusst formulierte Sätze, die mit den sieben Energiezentren des Körpers verbunden sind. Jedes Chakra steht für bestimmte Lebensthemen:\n\n• Wurzelchakra: Sicherheit, Vertrauen, Stabilität\n• Sakralchakra: Lebensfreude, Kreativität, Gefühle\n• Solarplexuschakra: Selbstvertrauen, Stärke, Erfolg\n• Herzchakra: Liebe, Heilung, Harmonie\n• Halschakra: Ausdruck, Wahrheit, Kommunikation\n• Stirnchakra: Klarheit, Intuition, innere Bilder\n• Kronenchakra: Spiritualität, Vertrauen, Verbundenheit\n\nChakra-Affirmationen gehen sanfter vor als klassische Affirmationen. Statt zu behaupten „Ich bin gesund", beschreiben sie einen Prozess: „Mein Körper aktiviert seine Heilung." Diese Formulierungen fühlen sich natürlicher an — der innere Widerstand sinkt.\n\nIhre Kraft entfalten sie in ruhigen Momenten: morgens, vor dem Einschlafen, beim bewussten Atmen.\n\nVertraue deinem eigenen Tempo. Du darfst in deiner Zeit ankommen.';
+
+  let aktivesChakraThema = THEMEN_REIHENFOLGE[getTagesThemaIndex()];
+  const CHAKRA_INTRO_KEY = 'chakra_intro_gesehen';
+
+  function chakraBlumeSVG(chakraKey, groesse) {
+    groesse = groesse || 48;
+    const farbe = CHAKRA_META[chakraKey].farbe;
+    const cx = groesse / 2;
+    const r  = groesse * 0.14;
+    const dist = groesse * 0.22;
+    let petals = '';
+    for (let i = 0; i < 8; i++) {
+      const angle = i * 45 * Math.PI / 180;
+      const px = (cx + dist * Math.cos(angle)).toFixed(1);
+      const py = (cx + dist * Math.sin(angle)).toFixed(1);
+      petals += `<ellipse cx="${px}" cy="${py}" rx="${r.toFixed(1)}" ry="${(r*0.55).toFixed(1)}" transform="rotate(${i*45},${px},${py})" fill="${farbe}" fill-opacity="0.35"/>`;
+    }
+    return `<svg width="${groesse}" height="${groesse}" viewBox="0 0 ${groesse} ${groesse}" xmlns="http://www.w3.org/2000/svg">${petals}<circle cx="${cx}" cy="${cx}" r="${(r*0.75).toFixed(1)}" fill="${farbe}" fill-opacity="0.7"/><circle cx="${cx}" cy="${cx}" r="${(r*0.4).toFixed(1)}" fill="${farbe}"/></svg>`;
+  }
+
+  function renderChakraKarte(chakraKey, themaKey) {
+    const m = CHAKRA_META[chakraKey];
+    const a = CHAKRA_AFFIRMATIONEN[themaKey][chakraKey];
+    const premiumBlock = isPremium
+      ? `<p class="chakra-card__premium-text">${a.premium}</p>`
+      : `<div class="chakra-card__premium-gate"><p class="chakra-card__premium-text">${a.premium}</p><button class="chakra-card__premium-cta" id="chakra-upgrade-cta">Jetzt Premium entdecken ›</button></div>`;
+    return `<div class="chakra-card${isPremium ? ' chakra-card--premium' : ''}">
+      <div class="chakra-card__stripe" style="background:${m.farbe}"></div>
+      <div class="chakra-card__body" style="background:${m.hintergrund}">
+        <div class="chakra-card__header-row">
+          <div class="chakra-card__flower">${chakraBlumeSVG(chakraKey, 48)}</div>
+          <div class="chakra-card__meta">
+            <span class="chakra-card__nummer" style="color:${m.farbe}">${m.nummer}</span>
+            <span class="chakra-card__chakraname" style="color:${m.farbe}">${m.name}</span>
+            <span class="chakra-card__sanskrit">${m.sanskrit}</span>
+          </div>
+          ${isPremium ? '<span class="chakra-card__premium-badge">✦</span>' : ''}
+        </div>
+        <p class="chakra-card__basis">${a.basis}</p>
+        <div class="chakra-card__divider"></div>
+        ${premiumBlock}
+      </div>
+    </div>`;
+  }
+
+  function renderChakraMiniCard(chakraKey, tagesChakra) {
+    const m = CHAKRA_META[chakraKey];
+    const heute = chakraKey === tagesChakra;
+    return `<div class="chakra-mini-card${heute ? ' chakra-mini-card--heute' : ''}" style="background:${m.hintergrund}">
+      ${chakraBlumeSVG(chakraKey, 40)}
+      <span class="chakra-mini-card__name" style="color:${m.farbe}">${m.name}</span>
+      <span class="chakra-mini-card__sanskrit">${m.sanskrit}</span>
+      ${heute ? `<span class="chakra-mini-card__heute-badge" style="color:${m.farbe}">Heute</span>` : ''}
+    </div>`;
+  }
+
+  function renderDailyChakraCard() {
+    const chakraKey = getTagesChakra();
+    const themaKey  = THEMEN_REIHENFOLGE[getTagesThemaIndex()];
+    const m = CHAKRA_META[chakraKey];
+    const a = CHAKRA_AFFIRMATIONEN[themaKey][chakraKey];
+    const wochentage = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+    const wochentag  = wochentage[new Date().getDay()];
+    return `<div class="chakra-daily-card" id="chakra-daily-card" style="background:${m.hintergrund}">
+      <div class="chakra-daily-card__stripe" style="background:${m.farbe}"></div>
+      <div class="chakra-daily-card__body">
+        <div class="chakra-daily-card__header">
+          <span class="chakra-daily-card__dot" style="background:${m.farbe}"></span>
+          <span class="chakra-daily-card__label" style="color:${m.farbe}">${wochentag} · ${m.name}</span>
+        </div>
+        <p class="chakra-daily-card__affirmation">${a.basis}</p>
+        <span class="chakra-daily-card__cta">Zur Chakra-Welt ›</span>
+      </div>
+    </div>`;
+  }
+
+  function renderChakraScreen() {
+    const screen = $('ui-chakra');
+    const tagesChakra = getTagesChakra();
+    screen.innerHTML =
+      `<div class="chakra-screen__header">
+        <button class="chakra-screen__back" id="chakra-back" aria-label="Zurück">‹</button>
+        <h1 class="chakra-screen__title">Chakra-Affirmationen</h1>
+        <button class="chakra-screen__info-btn" id="chakra-info" aria-label="Einführung">ℹ</button>
+      </div>` +
+      renderChakraKarte(tagesChakra, aktivesChakraThema) +
+      `<span class="chakra-section-label">Alle Chakren</span>
+      <div class="chakra-carousel">` +
+        CHAKRA_REIHENFOLGE.map(k => renderChakraMiniCard(k, tagesChakra)).join('') +
+      `</div>
+      <span class="chakra-section-label">Thema wählen</span>
+      <div class="chakra-themen-grid">` +
+        THEMEN_REIHENFOLGE.map(t =>
+          `<button class="chakra-chip${t === aktivesChakraThema ? ' chakra-chip--aktiv' : ''}" data-thema="${t}">${THEMEN_LABELS[t]}</button>`
+        ).join('') +
+      `</div>`;
+
+    // Attach listeners after render
+    screen.querySelector('#chakra-back').onclick = () => { showView('ui-welcome'); showStreak(); };
+    screen.querySelector('#chakra-info').onclick = () => chakraZeigeIntroVoll();
+    screen.querySelectorAll('.chakra-chip').forEach(chip => {
+      chip.onclick = () => { aktivesChakraThema = chip.dataset.thema; renderChakraScreen(); };
+    });
+    const upgradeCta = screen.querySelector('#chakra-upgrade-cta');
+    if (upgradeCta) upgradeCta.onclick = () => showUpgradePrompt();
+  }
+
+  function showChakraScreen() {
+    renderChakraScreen();
+    showView('ui-chakra');
+    chakraPruefeIntro();
+  }
+
+  function chakraPruefeIntro() {
+    if (!localStorage.getItem(CHAKRA_INTRO_KEY)) {
+      $('chakra-intro-overlay').classList.remove('hidden');
+      localStorage.setItem(CHAKRA_INTRO_KEY, '1');
+    }
+  }
+
+  function chakraZeigeIntroVoll() {
+    $('chakra-intro-text').textContent = CHAKRA_EINFUEHRUNGSTEXT;
+    $('chakra-intro-overlay').classList.remove('hidden');
+  }
+
+  function chakraSchliessIntro() {
+    $('chakra-intro-overlay').classList.add('hidden');
+  }
+
   // Atemkreis-Schlüsselwörter (DE + EN)
   const BREATH_KW = ["atme","atem","einatmen","ausatmen","atemzüge","atemzug",
                      "breath","breathe","inhale","exhale","breathing","atemzügen"];
@@ -499,7 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
-  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-meditations","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
+  const VIEWS = ["ui-onboarding","ui-welcome","ui-home","ui-cards","ui-worksheets","ui-worksheet","ui-meditations","ui-chakra","ui-mood","ui-chooser","ui-run","ui-breath-select","ui-quick","ui-premium-preview","ui-favorites","ui-legal"];
 
   function showView(id) {
     VIEWS.forEach(v => { const el = $(v); if (el) el.classList.add("hidden"); });
@@ -2796,6 +3036,10 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHomeScreen();
   updateFavBtn();
   $("impuls").textContent = getDailyImpulse();
+  $("chakra-daily-container").innerHTML = renderDailyChakraCard();
+  $("chakra-daily-card").addEventListener("click", showChakraScreen);
+  $("chakra-intro-close").addEventListener("click", chakraSchliessIntro);
+  $("chakra-intro-mehr").addEventListener("click", chakraZeigeIntroVoll);
 
   if (!localStorage.getItem("si_visited")) {
     localStorage.setItem("si_visited", "1");
