@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v36';
+const CACHE = 'seelenimpuls-v37';
 
 const FILES = [
   './audio/stillness-space.mp3',
@@ -39,6 +39,8 @@ self.addEventListener('activate', event => {
     caches.keys()
       .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then(clients => clients.forEach(client => client.navigate(client.url)))
   );
 });
 
