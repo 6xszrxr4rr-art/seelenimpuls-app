@@ -635,12 +635,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderChakraKarte(chakraKey, themaKey) {
     const m = CHAKRA_META[chakraKey];
     const a = CHAKRA_AFFIRMATIONEN[themaKey][chakraKey];
-    const premiumBlock = isPremium
-      ? `<span class="chakra-card__affirmation-label" style="color:${m.farbe}">Ausführliche Affirmation</span>
-         <p class="chakra-card__premium-text">${a.premium}</p>`
+    const body = isPremium
+      ? `<p class="chakra-card__premium-text chakra-card__premium-text--full">${a.premium}</p>`
       : `<div class="chakra-card__premium-gate">
-           <p class="chakra-card__premium-text">${a.premium}</p>
-           <button class="chakra-card__premium-cta" id="chakra-upgrade-cta">Jetzt Premium entdecken ›</button>
+           <p class="chakra-card__premium-text chakra-card__premium-text--blurred">${a.premium}</p>
+           <div class="chakra-card__premium-lock">
+             <span class="chakra-card__premium-lock-label">✦ Ausführliche Affirmation</span>
+             <button class="chakra-card__premium-cta" id="chakra-upgrade-cta">Jetzt Premium freischalten ›</button>
+           </div>
          </div>`;
     return `<div class="chakra-card${isPremium ? ' chakra-card--premium' : ''}">
       <div class="chakra-card__stripe" style="background:${m.farbe}"></div>
@@ -654,12 +656,27 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           ${isPremium ? '<span class="chakra-card__premium-badge">✦</span>' : ''}
         </div>
-        <span class="chakra-card__affirmation-label" style="color:${m.farbe}">Kurze Affirmation</span>
-        <p class="chakra-card__basis">${a.basis}</p>
-        <div class="chakra-card__divider"></div>
-        ${premiumBlock}
+        ${body}
       </div>
     </div>`;
+  }
+
+  function renderChakraUebersicht(themaKey) {
+    const tagesChakra = getTagesChakra();
+    const rows = CHAKRA_REIHENFOLGE.map(key => {
+      const m = CHAKRA_META[key];
+      const a = CHAKRA_AFFIRMATIONEN[themaKey][key];
+      const isHeute = key === tagesChakra;
+      return `<div class="chakra-uebersicht-row${isHeute ? ' chakra-uebersicht-row--heute' : ''}" style="${isHeute ? 'background:' + m.hintergrund + '; border-left:3px solid ' + m.farbe + ';' : ''}">
+        <span class="chakra-uebersicht-blume">${chakraBlumeSVG(key, 28)}</span>
+        <div class="chakra-uebersicht-meta">
+          <span class="chakra-uebersicht-name" style="color:${m.farbe}">${m.name}</span>
+          <span class="chakra-uebersicht-sanskrit">${m.sanskrit}</span>
+        </div>
+        <p class="chakra-uebersicht-affirmation">${a.basis}</p>
+      </div>`;
+    }).join('');
+    return `<div class="chakra-uebersicht"><div class="chakra-uebersicht-inner">${rows}</div></div>`;
   }
 
   function renderChakraMiniCard(chakraKey, tagesChakra, aktivKey) {
@@ -693,8 +710,25 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>`;
   }
 
-  function renderChakraVollkarte() {
-    return `<div id="chakra-vollkarte-wrapper">${renderChakraKarte(aktivesChakraKey, aktivesChakraThema)}</div>`;
+  function chakraVollkarteModalAktualisieren() {
+    const modal = $('chakra-vollkarte-modal');
+    if (!modal || modal.classList.contains('hidden')) return;
+    modal.querySelector('.chakra-vollkarte-modal__card').innerHTML = renderChakraKarte(aktivesChakraKey, aktivesChakraThema);
+    const cta = modal.querySelector('#chakra-upgrade-cta');
+    if (cta) cta.onclick = () => { chakraSchliesseModal(); showUpgradePrompt(); };
+  }
+
+  function chakraZeigeVollkarteModal(chakraKey) {
+    aktivesChakraKey = chakraKey;
+    const modal = $('chakra-vollkarte-modal');
+    modal.querySelector('.chakra-vollkarte-modal__card').innerHTML = renderChakraKarte(chakraKey, aktivesChakraThema);
+    modal.classList.remove('hidden');
+    const cta = modal.querySelector('#chakra-upgrade-cta');
+    if (cta) cta.onclick = () => { chakraSchliesseModal(); showUpgradePrompt(); };
+  }
+
+  function chakraSchliesseModal() {
+    $('chakra-vollkarte-modal').classList.add('hidden');
   }
 
   function renderChakraScreen() {
@@ -703,12 +737,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!aktivesChakraKey) aktivesChakraKey = tagesChakra;
 
     screen.innerHTML =
-      `<div class="chakra-screen__header">
-        <button class="chakra-screen__back" id="chakra-back" aria-label="Zurück">‹</button>
-        <h1 class="chakra-screen__title">Chakra-Affirmationen</h1>
-      </div>` +
+      `<button class="btn-back-sm" id="chakra-back">← Zurück</button>
+       <h2 class="ws-page-title">🔮 Chakra-Affirmationen</h2>` +
       `<div class="chakra-daily-banner">${renderDailyChakraCard()}</div>` +
-      renderChakraVollkarte() +
+      `<span class="chakra-section-label">Ausführliche Affirmation</span>
+       <div id="chakra-vollkarte-wrapper">${renderChakraKarte(aktivesChakraKey, aktivesChakraThema)}</div>` +
+      `<span class="chakra-section-label">Alle sieben Kurz-Affirmationen</span>
+       <div id="chakra-uebersicht-wrapper">${renderChakraUebersicht(aktivesChakraThema)}</div>` +
       `<span class="chakra-section-label">Alle Chakren</span>
       <div class="chakra-carousel">` +
         CHAKRA_REIHENFOLGE.map(k => renderChakraMiniCard(k, tagesChakra, aktivesChakraKey)).join('') +
@@ -732,27 +767,20 @@ document.addEventListener("DOMContentLoaded", () => {
     screen.querySelector('#chakra-info-open').onclick = () => chakraZeigeIntro(0);
 
     screen.querySelectorAll('.chakra-mini-card').forEach(card => {
-      card.onclick = () => {
-        aktivesChakraKey = card.dataset.chakra;
-        $('chakra-vollkarte-wrapper').innerHTML = renderChakraKarte(aktivesChakraKey, aktivesChakraThema);
-        const upgradeCta = $('chakra-upgrade-cta');
-        if (upgradeCta) upgradeCta.onclick = () => showUpgradePrompt();
-        screen.querySelectorAll('.chakra-mini-card').forEach(c =>
-          c.classList.toggle('chakra-mini-card--aktiv', c.dataset.chakra === aktivesChakraKey)
-        );
-        $('chakra-vollkarte-wrapper').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      };
+      card.onclick = () => chakraZeigeVollkarteModal(card.dataset.chakra);
     });
 
     screen.querySelectorAll('.chakra-chip').forEach(chip => {
       chip.onclick = () => {
         aktivesChakraThema = chip.dataset.thema;
         $('chakra-vollkarte-wrapper').innerHTML = renderChakraKarte(aktivesChakraKey, aktivesChakraThema);
-        const upgradeCta = $('chakra-upgrade-cta');
+        const upgradeCta = $('chakra-vollkarte-wrapper').querySelector('#chakra-upgrade-cta');
         if (upgradeCta) upgradeCta.onclick = () => showUpgradePrompt();
+        $('chakra-uebersicht-wrapper').innerHTML = renderChakraUebersicht(aktivesChakraThema);
         screen.querySelectorAll('.chakra-chip').forEach(c =>
           c.classList.toggle('chakra-chip--aktiv', c.dataset.thema === aktivesChakraThema)
         );
+        chakraVollkarteModalAktualisieren();
       };
     });
 
@@ -2066,7 +2094,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── MEDITATIONEN ──────────────────────────────────────────────────────
   function openMeditations() {
-    if (!isPremium) { openPremiumPreview('overview'); return; }
     renderMeditationList();
     showView('ui-meditations');
   }
@@ -2097,24 +2124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const controls = document.createElement('div');
       controls.className = 'med-item-controls';
 
-      let meditLang = (lang === 'en' && hasEN) ? 'en' : 'de';
-
-      if (hasDE && hasEN) {
-        const toggle = document.createElement('div');
-        toggle.className = 'medit-lang-toggle';
-        toggle.style.margin = '0';
-        toggle.innerHTML =
-          `<button class="medit-lang-btn${meditLang === 'de' ? ' active' : ''}" data-l="de">🇩🇪</button>` +
-          `<button class="medit-lang-btn${meditLang === 'en' ? ' active' : ''}" data-l="en">🇬🇧</button>`;
-        toggle.querySelectorAll('.medit-lang-btn').forEach(b => {
-          b.onclick = () => {
-            meditLang = b.dataset.l;
-            toggle.querySelectorAll('.medit-lang-btn').forEach(x =>
-              x.classList.toggle('active', x.dataset.l === meditLang));
-          };
-        });
-        controls.appendChild(toggle);
-      }
+      const meditLang = (lang === 'en' && hasEN) ? 'en' : 'de';
 
       const btn = document.createElement('button');
       btn.className = 'btn-primary med-play-btn';
@@ -2200,67 +2210,96 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!grid) return;
     grid.innerHTML = '';
 
-    const albums = [
-      { key:'de', flag:'🇩🇪', name:'Seelenmusik', meta: lang==='de' ? '11 Songs · Deutsch'  : '11 songs · German'  },
-      { key:'en', flag:'🇬🇧', name:'Soul Songs',  meta: lang==='de' ? '11 Songs · Englisch' : '11 songs · English' },
-    ];
-
     const streamHint = lang === 'de'
       ? 'Die Musik in voller Länge auf Spotify und Apple Music'
       : 'Full-length music available on Spotify and Apple Music';
 
-    albums.forEach((album, albumIdx) => {
-      const card = document.createElement('div');
-      card.className = 'pv-album-card si-fade-in';
-      card.style.animationDelay = (albumIdx * 120) + 'ms';
+    const card = document.createElement('div');
+    card.className = 'pv-album-card si-fade-in';
 
-      const header = document.createElement('div');
-      header.className = 'pv-album-header';
-      header.innerHTML =
-        '<div class="pv-album-left">' +
-          '<span class="pv-album-flag">' + album.flag + '</span>' +
-          '<div>' +
-            '<div class="pv-album-name">' + album.name + '</div>' +
-            '<div class="pv-album-meta">' + album.meta + '</div>' +
-          '</div>' +
+    const header = document.createElement('div');
+    header.className = 'pv-album-header';
+    header.innerHTML =
+      '<div class="pv-album-left">' +
+        '<div>' +
+          '<div class="pv-album-name">' + (lang === 'de' ? 'Klangwelten' : 'Soundscapes') + '</div>' +
+          '<div class="pv-album-meta">' + (lang === 'de' ? '11 Songs' : '11 songs') + '</div>' +
         '</div>' +
-        (isPremium
-          ? '<span class="pv-album-price" style="color:var(--color-waldgruen);">' +
-              (lang === 'de' ? '\u2713 Enthalten' : '\u2713 Included') + '</span>'
-          : '<span class="pv-album-price" style="color:var(--color-earth);font-size:12px;">' +
-              (lang === 'de' ? '25 Sek. Vorschau' : '25 sec preview') + '</span>');
-      card.appendChild(header);
+      '</div>' +
+      (isPremium
+        ? '<span class="pv-album-price" style="color:var(--color-waldgruen);">' +
+            (lang === 'de' ? '\u2713 Enthalten' : '\u2713 Included') + '</span>'
+        : '<span class="pv-album-price" style="color:var(--color-earth);font-size:12px;">' +
+            (lang === 'de' ? '25 Sek. Vorschau' : '25 sec preview') + '</span>');
+    card.appendChild(header);
 
-      const divider = document.createElement('div');
-      divider.className = 'pv-album-divider';
-      card.appendChild(divider);
+    const divider = document.createElement('div');
+    divider.className = 'pv-album-divider';
+    card.appendChild(divider);
 
-      SONG_DATA.forEach(song => {
-        const title   = album.key === 'de' ? song.de    : song.en;
-        const file    = album.key === 'de' ? song.fileDE : song.fileEN;
-        const sitName = song.sit[lang] || song.sit.de;
+    SONG_DATA.forEach(song => {
+      let songLang = lang;
+      const sitName = song.sit[lang] || song.sit.de;
 
-        const row = document.createElement('div');
-        row.className = 'pv-song-row';
-        row.innerHTML =
-          '<button class="pv-play-btn" aria-label="' + (isPremium ? 'Abspielen' : 'Vorschau') + '">▶</button>' +
-          '<div class="pv-song-row-info">' +
-            '<span class="pv-song-row-title">' + song.nr + '. ' + title + '</span>' +
-            '<span class="pv-song-row-sit">' + sitName + '</span>' +
-          '</div>';
-        row.querySelector('.pv-play-btn').addEventListener('click', function() {
-          isPremium ? playSong(file, this) : previewSong(file, this);
-        });
-        card.appendChild(row);
+      const row = document.createElement('div');
+      row.className = 'pv-song-row';
+
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'pv-song-row-title';
+      titleSpan.textContent = song.nr + '. ' + (songLang === 'en' ? song.en : song.de);
+
+      const sitSpan = document.createElement('span');
+      sitSpan.className = 'pv-song-row-sit';
+      sitSpan.textContent = sitName;
+
+      const info = document.createElement('div');
+      info.className = 'pv-song-row-info';
+      info.appendChild(titleSpan);
+      info.appendChild(sitSpan);
+
+      const playBtn = document.createElement('button');
+      playBtn.className = 'pv-play-btn';
+      playBtn.setAttribute('aria-label', isPremium ? 'Abspielen' : 'Vorschau');
+      playBtn.textContent = '\u25b6';
+
+      const btnDE = document.createElement('button');
+      btnDE.className = 'pv-lang-btn' + (songLang === 'de' ? ' active' : '');
+      btnDE.textContent = '🇩🇪';
+      const btnEN = document.createElement('button');
+      btnEN.className = 'pv-lang-btn' + (songLang === 'en' ? ' active' : '');
+      btnEN.textContent = '🇬🇧';
+
+      const langToggle = document.createElement('div');
+      langToggle.className = 'pv-song-lang-toggle';
+      langToggle.appendChild(btnDE);
+      langToggle.appendChild(btnEN);
+
+      function updateSongLang(l) {
+        songLang = l;
+        titleSpan.textContent = song.nr + '. ' + (l === 'en' ? song.en : song.de);
+        btnDE.classList.toggle('active', l === 'de');
+        btnEN.classList.toggle('active', l === 'en');
+      }
+      btnDE.onclick = (e) => { e.stopPropagation(); updateSongLang('de'); };
+      btnEN.onclick = (e) => { e.stopPropagation(); updateSongLang('en'); };
+
+      playBtn.addEventListener('click', function() {
+        const file = songLang === 'en' ? song.fileEN : song.fileDE;
+        isPremium ? playSong(file, this) : previewSong(file, this);
       });
 
-      const hint = document.createElement('p');
-      hint.className = 'pv-stream-hint';
-      hint.textContent = streamHint;
-      card.appendChild(hint);
-
-      grid.appendChild(card);
+      row.appendChild(playBtn);
+      row.appendChild(info);
+      row.appendChild(langToggle);
+      card.appendChild(row);
     });
+
+    const hint = document.createElement('p');
+    hint.className = 'pv-stream-hint';
+    hint.textContent = streamHint;
+    card.appendChild(hint);
+
+    grid.appendChild(card);
   }
 
   // Vollstaendige Song-Wiedergabe fuer Premium (ohne 25s-Limit)
@@ -3107,6 +3146,10 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHomeScreen();
   updateFavBtn();
   $("impuls").textContent = getDailyImpulse();
+  $("chakra-modal-close").addEventListener("click", chakraSchliesseModal);
+  $("chakra-vollkarte-modal").querySelector(".chakra-vollkarte-modal__backdrop")
+    .addEventListener("click", chakraSchliesseModal);
+
   $("chakra-intro-weiter").addEventListener("click", () => {
     if (chakraIntroSeite < CHAKRA_INTRO_SEITEN.length - 1) {
       chakraIntroSeite++;
@@ -3154,7 +3197,10 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromWorksheet").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheetBottom").addEventListener("click", () => openWorksheets());
 
-  $("btnMeditations").addEventListener("click", () => openMeditations());
+  if ($("btnMeditations")) {
+    $("btnMeditations").style.display = isPremium ? '' : 'none';
+    $("btnMeditations").addEventListener("click", () => openMeditations());
+  }
   $("btnBackFromMeditations").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
   if ($("btnChakra")) $("btnChakra").addEventListener("click", () => showChakraScreen());
 
@@ -3212,7 +3258,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("navOverlay"))   $("navOverlay").addEventListener("click", closeNavMenu);
   if ($("menuPremium"))  $("menuPremium").addEventListener("click", () => { closeNavMenu(); showUpgradePrompt(); });
   if ($("menuSongs"))       $("menuSongs").addEventListener("click",       () => { closeNavMenu(); openPremiumPreview('songs'); });
-  if ($("menuMeditations")) $("menuMeditations").addEventListener("click", () => { closeNavMenu(); openMeditations(); });
+  if ($("menuMeditations")) {
+    $("menuMeditations").style.display = isPremium ? '' : 'none';
+    $("menuMeditations").addEventListener("click", () => { closeNavMenu(); openMeditations(); });
+  }
   if ($("menuChakra"))     $("menuChakra").addEventListener("click",     () => { closeNavMenu(); showChakraScreen(); });
   if ($("menuLegalNav"))    $("menuLegalNav").addEventListener("click",    () => { closeNavMenu(); showView("ui-legal"); });
   if ($("menuLangDe"))   $("menuLangDe").addEventListener("click", () => setLang("de"));
