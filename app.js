@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-  const SPEED = 85;
   let lang = "de";
   let breathInterval = null;
   let breathPhaseTimer = null;
@@ -2702,90 +2701,49 @@ document.addEventListener("DOMContentLoaded", () => {
     breathInterval = setInterval(update, 8000);
   }
 
-  // ── TYPE EFFECTS ──────────────────────────────────────────────────────
-  // alive() = function that returns false when the session has been cancelled.
-  // Breath detection is intentionally absent here – prose text never triggers the circle.
-  async function typeEffect(id, text, alive) {
+  // ── RENDER EFFECTS ─────────────────────────────────────────────────────
+  function renderText(id, text) {
     const el = $(id);
-    if (!el) return;
-    el.innerHTML = `<span style="opacity:0">${text}</span>`;
-    const vis = document.createElement("span");
-    vis.style.cssText = "position:absolute; left:0; top:0;";
-    el.appendChild(vis);
-
-    let current = "";
-    for (let char of text) {
-      if (!alive()) return;
-      current += char;
-      vis.textContent = current;
-      if ([".", "!", "?"].includes(char)) { softScroll(); await sleep(700); }
-      await sleep(SPEED);
-    }
-    softScroll();
+    if (el) el.textContent = text;
   }
 
-  // opts.breath = true  → einmal pro Ritual den Atemkreis zeigen (beim ersten Atemschritt)
+  // opts.breath = true  → Atemkreis beim ersten Atemschritt im Ritual zeigen
   // opts.hearts = true  → ❤️ Speichern-Button (nur Affirmationen)
-  async function typeListEffect(id, items, opts = {}, alive) {
+  function renderList(id, items, opts = {}) {
     const list = $(id);
     if (!list) return;
-    list.innerHTML = "";
-    let breathShown = false; // nur ein Kreis pro Ritual
-
-    for (let item of items) {
-      if (!alive()) return;
-      const li = document.createElement("li");
-      list.appendChild(li);
-
-      li.innerHTML = `<span style="opacity:0">${item}</span>`;
-      const vis = document.createElement("span");
-      vis.style.cssText = "position:absolute; left:35px; top:0;";
-      li.appendChild(vis);
-
-      let current = "";
-      for (let char of item) {
-        if (!alive()) return;
-        current += char;
-        vis.textContent = current;
-        await sleep(SPEED);
-      }
-
-      // Inline-Atemkreis: nur beim ersten Atemschritt im Ritual
+    list.innerHTML = '';
+    let breathShown = false;
+    items.forEach(item => {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.textContent = item;
+      li.appendChild(span);
       if (opts.breath && !breathShown && hasExhaleKW(item)) {
         breathShown = true;
-        const breathDiv = document.createElement("div");
-        breathDiv.className = "inline-breath";
+        const breathDiv = document.createElement('div');
+        breathDiv.className = 'inline-breath';
         breathDiv.innerHTML =
           `<div class="inline-breath-circle-sm">` +
           `<span class="inline-breath-lbl">${ui[lang].breathLabels.ein}</span>` +
           `</div>`;
-        breathDiv.style.cssText = "opacity:0; transition:opacity 1.5s ease-in-out; padding:14px 0 6px; text-align:center;";
+        breathDiv.style.cssText = 'opacity:0; transition:opacity 1.5s ease-in-out; padding:14px 0 6px; text-align:center;';
         li.appendChild(breathDiv);
-        setTimeout(() => { breathDiv.style.opacity = "1"; }, 80);
+        setTimeout(() => { breathDiv.style.opacity = '1'; }, 80);
         startBreathingText();
-        softScroll();
-        // 3 vollständige Atemzyklen pausieren (3 × 8s = EIN + AUS je Zyklus)
-        for (let cycle = 0; cycle < 3; cycle++) {
-          await sleep(8000);
-          if (!alive()) return;
-        }
       }
-
-      // Herzchen für Affirmationen (b3)
       if (opts.hearts) {
-        const heart = document.createElement("button");
-        heart.className   = "heart-btn";
-        heart.textContent = getFavorites().includes(item) ? "❤️" : "🤍";
-        heart.onclick     = () => {
+        const heart = document.createElement('button');
+        heart.className = 'heart-btn';
+        heart.textContent = getFavorites().includes(item) ? '❤️' : '🤍';
+        heart.onclick = () => {
           toggleFavorite(item);
-          heart.textContent = getFavorites().includes(item) ? "❤️" : "🤍";
+          heart.textContent = getFavorites().includes(item) ? '❤️' : '🤍';
         };
         li.appendChild(heart);
       }
-
-      softScroll();
-      await sleep(3500);
-    }
+      list.appendChild(li);
+    });
   }
 
   // ── RUN SITUATION ─────────────────────────────────────────────────────
@@ -2829,47 +2787,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ["b1","b2","b3","b4","b5"].forEach(id => $(id).querySelector(".block-header").textContent = headers[id]);
 
+    // Alle Blöcke sofort rendern, dann gemeinsam einblenden
+    const uiRun = $("ui-run");
+    uiRun.style.opacity = "0";
+    uiRun.style.transition = "none";
+
     // 1. ANKOMMEN
+    renderText("t1", t("ankommenText"));
     $("b1").classList.remove("hidden");
-    await typeEffect("t1", t("ankommenText"), alive);
-    if (!alive()) return;
-    await sleep(1000);
 
     // 2. EINBLICK
     if (t("erklaerungText")) {
-      if (!alive()) return;
+      renderText("t2", t("erklaerungText"));
       $("b2").classList.remove("hidden");
-      await typeEffect("t2", t("erklaerungText"), alive);
-      if (!alive()) return;
-      await sleep(1000);
     }
-
-    if ([1,2,10].includes(n)) { softScroll(); if (!alive()) return; await sleep(1000); }
 
     // 3. KRAFTSÄTZE
     if (t("affirmations")) {
-      if (!alive()) return;
+      renderList("t3", t("affirmations"), { hearts: true });
       $("b3").classList.remove("hidden");
-      await typeListEffect("t3", t("affirmations"), { hearts: true }, alive);
-      if (!alive()) return;
-      await sleep(1000);
     }
 
-    // 4. MINI-RITUAL – Atemkreis erscheint nur hier
+    // 4. MINI-RITUAL
     if (t("ritual")) {
-      if (!alive()) return;
+      renderList("t4", t("ritual"), { breath: true });
       $("b4").classList.remove("hidden");
-      await typeListEffect("t4", t("ritual"), { breath: true }, alive);
-      if (!alive()) return;
-      await sleep(1000);
     }
 
     // 5. ABSCHLUSS
-    if (!alive()) return;
     if (t("songOutro")) {
+      renderText("t5", t("songOutro"));
       $("b5").classList.remove("hidden");
-      await typeEffect("t5", t("songOutro"), alive);
-      if (!alive()) return;
 
       const hasDE = !!(s.songFile_de || s.songFile);
       const hasEN = !!s.songFile_en;
@@ -2878,7 +2826,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (hasDE || hasEN) {
         $("volumeRow").classList.remove("hidden");
 
-        // Flag-Toggle nur anzeigen wenn beide Sprachversionen vorhanden
         if (hasDE && hasEN) {
           const toggle = document.createElement('div');
           toggle.className = 'medit-lang-toggle';
@@ -2913,13 +2860,21 @@ document.addEventListener("DOMContentLoaded", () => {
           if (s.lyrics) {
             $("lyricsBox").style.display = "block";
             $("lyricsContent").innerText = s.lyrics;
-            softScroll();
           }
         };
         $("audioContainer").appendChild(btn);
-        softScroll();
       }
     }
+
+    // Sanfter Gesamt-Fade-in aller Blöcke (700ms)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        uiRun.style.transition = "opacity 0.7s ease-out";
+        uiRun.style.opacity = "1";
+      });
+    });
+
+    if (!alive()) return;
 
     // ── PREMIUM BLOCKS ────────────────────────────────────────────────
     if (isPremium && alive()) {
