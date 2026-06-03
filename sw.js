@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v35';
+const CACHE = 'seelenimpuls-v36';
 
 const FILES = [
   './audio/stillness-space.mp3',
@@ -51,6 +51,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   const isAppFile = url.pathname.endsWith('.html') ||
                     url.pathname.endsWith('.js')   ||
+                    url.pathname.endsWith('.css')  ||
                     url.pathname === '/'            ||
                     url.pathname === '';
 
