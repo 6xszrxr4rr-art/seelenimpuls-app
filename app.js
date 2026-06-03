@@ -978,17 +978,16 @@ document.addEventListener("DOMContentLoaded", () => {
     CARD_DATA.forEach((card, idx) => {
       const s = card.sit[lang] || card.sit.de;
       const t = card.txt[lang] || card.txt.de;
-      const sitColor = 'var(--situation-' + card.nr + '-b)';
       const el = document.createElement('div');
       el.className = 'cg-card si-fade-in';
       el.style.animationDelay = (idx * 60) + 'ms';
-      el.style.background = 'var(--situation-' + card.nr + '-a)';
-      el.style.borderTop = '3px solid ' + sitColor;
+      el.style.background = cgBg(card);
+      el.style.borderTop = '3px solid ' + card.accent;
       el.innerHTML =
         '<div class="cg-content">' +
-          '<div class="cg-sit">' + s + '</div>' +
+          '<div class="cg-sit" style="color:' + card.accent + '">' + s + '</div>' +
           '<p class="cg-text">' + t.replace(/\n/g, '<br>') + '</p>' +
-          '<div class="cg-brand">Seelenimpuls</div>' +
+          '<div class="cg-brand" style="color:' + card.accent + '80">Seelenimpuls</div>' +
         '</div>' +
         '<span class="cg-num">' + card.nr + '/11</span>';
       el.addEventListener('click', () => openCardFullscreen(card));
@@ -3203,6 +3202,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("cgFullscreen").addEventListener("click", (e) => {
     if (e.target === $("cgFullscreen") || e.target === $("cgModal")) $("cgFullscreen").classList.add("hidden");
   });
+  $("cgFsClose").addEventListener("click", () => $("cgFullscreen").classList.add("hidden"));
 
   $("btnWorksheets").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheets").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
