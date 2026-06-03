@@ -430,6 +430,13 @@
     .si-fade-in {
       animation: siFadeUp 1000ms ease-out forwards;
     }
+    @keyframes siTiefgangFade {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .tiefgang-fade-in {
+      animation: siTiefgangFade 1800ms ease-out forwards;
+    }
 
     /* ── Lyrics ── */
     #lyricsBox {
@@ -851,7 +858,8 @@
     .chakra-card__premium-cta { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #FDFAF5; background: #2A2018; border: none; cursor: pointer; padding: 10px 20px; border-radius: 20px; }
 
     /* Chakra Übersichtskarte */
-    .chakra-uebersicht { margin: 0 20px 6px; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(42,32,24,.07); background: #FDFAF5; }
+    .chakra-uebersicht { margin: 0 20px 6px; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(42,32,24,.07); background: #FDFAF5; cursor: pointer; transition: box-shadow 120ms; }
+    .chakra-uebersicht:active { box-shadow: 0 1px 6px rgba(42,32,24,.05); }
     .chakra-uebersicht-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #F0E8D8; }
     .chakra-uebersicht-row:last-child { border-bottom: none; }
     .chakra-uebersicht-row--heute { border-left: 3px solid transparent; }
@@ -862,14 +870,15 @@
     .chakra-uebersicht-affirmation { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #2A2018; line-height: 1.45; margin: 0; flex: 1; }
 
     /* Vollkarte Modal */
-    .chakra-vollkarte-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-end; }
+    .chakra-vollkarte-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
     .chakra-vollkarte-modal__backdrop { position: absolute; inset: 0; background: rgba(42,32,24,.6); }
-    .chakra-vollkarte-modal__inner { position: relative; width: 100%; max-height: 92vh; overflow-y: auto; border-radius: 24px 24px 0 0; }
-    .chakra-vollkarte-modal__close { position: sticky; top: 12px; float: right; margin: 12px 12px 0 0; background: rgba(42,32,24,.15); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 14px; cursor: pointer; color: #2A2018; z-index: 1; }
-    .chakra-vollkarte-modal__card .chakra-card { margin: 0; border-radius: 0 0 0 0; box-shadow: none; }
+    .chakra-vollkarte-modal__inner { position: relative; width: 88%; max-width: 460px; max-height: 85vh; overflow-y: auto; border-radius: 20px; }
+    .chakra-vollkarte-modal__close { position: absolute; top: 10px; right: 10px; background: rgba(42,32,24,.18); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 14px; cursor: pointer; color: #2A2018; z-index: 1; display: flex; align-items: center; justify-content: center; }
+    .chakra-vollkarte-modal__card .chakra-card { margin: 0; border-radius: 20px; box-shadow: none; }
     .chakra-vollkarte-modal__card .chakra-card__body { padding: 32px 24px 40px; }
-    .chakra-vollkarte-modal__card .chakra-card__premium-text--full { font-size: 24px; }
-    .chakra-vollkarte-modal__card .chakra-card__premium-text--blurred { font-size: 22px; }
+    .chakra-vollkarte-modal__card .chakra-card__premium-text--full { font-size: 22px; }
+    .chakra-vollkarte-modal__card .chakra-card__premium-text--blurred { font-size: 20px; }
+    .chakra-vollkarte-modal__card .chakra-uebersicht { margin: 0; border-radius: 20px; box-shadow: none; }
 
     .chakra-section-label { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #7A6A58; text-transform: uppercase; letter-spacing: 1px; padding: 20px 20px 10px; display: block; }
 
@@ -1011,9 +1020,7 @@
       letter-spacing: 0.08em; text-transform: uppercase;
       text-align: center; color: var(--color-earth); margin: 0 0 28px;
     }
-    #btnBackFromCards {
-      display: block; max-width: 180px; margin: 0 auto;
-    }
+    #btnBackFromCards { margin-bottom: 4px; }
     /* Fullscreen phone preview */
     .cgfs {
       position: fixed; inset: 0; z-index: 500;
@@ -1070,7 +1077,7 @@
 
     /* ── Premium blocks ── */
     .premium-block { border-left: 3px solid var(--color-warm-gold); padding-left: 14px; }
-    .tiefgang-body p { font-size: 17px; line-height: 1.8; color: var(--text);
+    .tiefgang-body p { font-size: 18px; line-height: 1.7; color: #3A2A1A;
       margin: 0 0 18px; font-family: var(--font-serif);
       font-style: normal; font-weight: 400; }
     .song-lyrics-title { font-style: italic; color: var(--color-waldgruen); font-size: 17px;
@@ -1507,6 +1514,7 @@
 
     <!-- ── AFFIRMATIONSKARTEN ── -->
     <div id="ui-cards" class="hidden">
+      <button class="btn-back-sm" id="btnBackFromCards">← Zurück</button>
       <div class="cg-header">
         <span class="cg-premium">Seelenimpuls Premium</span>
         <h2 class="cg-title" id="cgTitle">Affirmationskarten</h2>
@@ -1516,7 +1524,6 @@
       <div class="cg-grid" id="cgGrid"></div>
       <div class="cg-footer-line"></div>
       <p class="cg-footer-text" id="cgFooter">Speichere deine Affirmation als Hintergrundbild</p>
-      <button class="btn-ghost" id="btnBackFromCards">← Zurück</button>
     </div>
 
     <!-- ── WORKSHEETS LIST ── -->

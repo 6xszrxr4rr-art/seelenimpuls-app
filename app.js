@@ -727,6 +727,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cta) cta.onclick = () => { chakraSchliesseModal(); showUpgradePrompt(); };
   }
 
+  function chakraZeigeUebersichtModal() {
+    const modal = $('chakra-vollkarte-modal');
+    modal.querySelector('.chakra-vollkarte-modal__card').innerHTML = renderChakraUebersicht(aktivesChakraThema);
+    modal.classList.remove('hidden');
+  }
+
   function chakraSchliesseModal() {
     $('chakra-vollkarte-modal').classList.add('hidden');
   }
@@ -765,6 +771,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     screen.querySelector('#chakra-back').onclick = () => { showView('ui-welcome'); showStreak(); };
     screen.querySelector('#chakra-info-open').onclick = () => chakraZeigeIntro(0);
+    screen.querySelector('.chakra-uebersicht').addEventListener('click', chakraZeigeUebersichtModal);
 
     screen.querySelectorAll('.chakra-mini-card').forEach(card => {
       card.onclick = () => chakraZeigeVollkarteModal(card.dataset.chakra);
@@ -2922,9 +2929,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (tiefgang) {
         await sleep(1200);
         const b6el = $('b6');
-        b6el.classList.remove('hidden', 'si-fade-in');
+        b6el.classList.remove('hidden', 'tiefgang-fade-in');
         void b6el.offsetWidth;
-        b6el.classList.add('si-fade-in');
+        b6el.classList.add('tiefgang-fade-in');
         $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
           '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
         softScroll();
