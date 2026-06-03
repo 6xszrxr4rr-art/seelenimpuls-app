@@ -1012,7 +1012,6 @@ document.addEventListener("DOMContentLoaded", () => {
     $('cgFsSit').textContent   = s;
     $('cgFsText').innerHTML    = t.replace(/\n/g, '<br>');
     $('cgFsBrand').style.color = a + '50';
-    $('cgFsHint').textContent  = lang === 'de' ? 'Tippe außerhalb zum Schließen' : 'Tap outside to close';
     $('cgFullscreen').classList.remove('hidden');
   }
 
