@@ -2927,24 +2927,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isPremium && alive()) {
       const tiefgang = t('tiefgangText');
       if (tiefgang) {
-        await sleep(1200);
+        await sleep(2500);
+        if (!alive()) return;
         const b6el = $('b6');
-        b6el.classList.remove('hidden', 'tiefgang-fade-in');
-        void b6el.offsetWidth;
-        b6el.classList.add('tiefgang-fade-in');
+        b6el.classList.remove('hidden', 'si-premium-rise');
         $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
           '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+        void b6el.offsetWidth;
+        b6el.classList.add('si-premium-rise');
+        await sleep(500);
         softScroll();
-        await sleep(700);
+        await sleep(4500);
       }
       const lyrics = lang === 'de' ? (s.songLyrics_de || s.songLyrics_en) : s.songLyrics_en;
       const songTitle = s.songTitle_en || '';
       if (lyrics && alive()) {
-        await sleep(1000);
+        if (!alive()) return;
         const b7el = $('b7');
-        b7el.classList.remove('hidden', 'si-fade-in');
+        b7el.classList.remove('hidden', 'tiefgang-fade-in');
         void b7el.offsetWidth;
-        b7el.classList.add('si-fade-in');
+        b7el.classList.add('tiefgang-fade-in');
         if (songTitle) $('t7title').textContent = '\u201c' + songTitle + '\u201d';
         $('t7').textContent = lyrics;
         // Add premium song play button if file is available
@@ -2969,7 +2971,9 @@ document.addEventListener("DOMContentLoaded", () => {
           };
           $('b7').appendChild(pBtn);
         }
+        await sleep(500);
         softScroll();
+        await sleep(3500);
       }
     }
 
@@ -2978,11 +2982,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const endCard = CARD_DATA[n - 1];
       const endWs   = WORKSHEETS[n];
       if (endCard && endWs) {
-        await sleep(500);
+        await sleep(1000);
         const b8el = $('b8');
-        b8el.classList.remove('hidden', 'si-fade-in');
+        b8el.classList.remove('hidden', 'si-premium-rise');
         void b8el.offsetWidth;
-        b8el.classList.add('si-fade-in');
+        b8el.classList.add('si-premium-rise');
 
         const isDE = lang === 'de';
         const b8h = $('b8Header');
@@ -3013,6 +3017,7 @@ document.addEventListener("DOMContentLoaded", () => {
           '</button>';
         wsEl.querySelector('button').addEventListener('click', () => openWorksheet(n));
 
+        await sleep(600);
         softScroll();
       }
     }
