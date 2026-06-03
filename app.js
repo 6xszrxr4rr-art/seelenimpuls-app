@@ -3202,7 +3202,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("cgFullscreen").addEventListener("click", (e) => {
     if (e.target === $("cgFullscreen") || e.target === $("cgModal")) $("cgFullscreen").classList.add("hidden");
   });
-  $("cgFsClose").addEventListener("click", () => $("cgFullscreen").classList.add("hidden"));
+  $("cgFsClose").addEventListener("click", (e) => { e.stopPropagation(); $("cgFullscreen").classList.add("hidden"); });
 
   $("btnWorksheets").addEventListener("click", () => openWorksheets());
   $("btnBackFromWorksheets").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
