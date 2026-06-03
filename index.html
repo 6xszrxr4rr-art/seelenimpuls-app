@@ -1093,17 +1093,13 @@
       font-family: 'Cormorant Garamond', 'Lora', Georgia, serif;
       text-align: center; margin: 0;
     }
-    .cgfs-top-bar {
-      width: 100%; display: flex; justify-content: flex-end;
-    }
     .cgfs-close {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.22); border: 1.5px solid rgba(255,255,255,0.45);
-      color: #fff; font-size: 20px; cursor: pointer;
+      width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,0.22); border: 1.5px solid rgba(255,255,255,0.5);
+      color: #fff; font-size: 22px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       line-height: 1; touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
-      flex-shrink: 0;
     }
 
     /* ── Premium blocks ── */
@@ -1942,9 +1938,6 @@
   <!-- Affirmation card fullscreen phone preview -->
   <div id="cgFullscreen" class="cgfs hidden">
     <div class="cgfs-modal" id="cgModal">
-      <div class="cgfs-top-bar">
-        <button class="cgfs-close" id="cgFsClose" aria-label="Schließen">✕</button>
-      </div>
       <div class="cgfs-phone" id="cgPhone">
         <div class="cgfs-notch"></div>
         <div class="cgfs-time">9:41</div>
@@ -1956,7 +1949,7 @@
           <div class="cgfs-brand" id="cgFsBrand">Seelenimpuls</div>
         </div>
       </div>
-      <p class="cgfs-hint" id="cgFsHint">Tippe außerhalb zum Schließen</p>
+      <button class="cgfs-close" id="cgFsClose" aria-label="Schließen">✕</button>
     </div>
   </div>
 
