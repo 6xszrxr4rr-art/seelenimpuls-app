@@ -703,7 +703,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="chakra-daily-card__body">
         <div class="chakra-daily-card__header">
           <span class="chakra-daily-card__dot" style="background:${m.farbe}"></span>
-          <span class="chakra-daily-card__label" style="color:${m.farbe}">${wochentag} · ${m.name} · ${THEMEN_LABELS[themaKey]}</span>
+          <span class="chakra-daily-card__label">${wochentag} · ${m.name} · ${THEMEN_LABELS[themaKey]}</span>
         </div>
         <p class="chakra-daily-card__affirmation">${a.basis}</p>
       </div>
