@@ -2767,10 +2767,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.10;
+    bgAudio.volume = 0.04;
     bgAudio.onerror = () => {
       bgAudio = new Audio("audio/stillness-space.mp3");
-      bgAudio.loop = true; bgAudio.volume = 0.10; bgAudio.play().catch(() => {});
+      bgAudio.loop = true; bgAudio.volume = 0.04; bgAudio.play().catch(() => {});
     };
     bgAudio.play().catch(() => {});
 
@@ -3016,7 +3016,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/stillness-space.mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.10;
+    bgAudio.volume = 0.04;
     bgAudio.play().catch(() => {});
 
     const circle = document.querySelector('.quick-breath-circle');
