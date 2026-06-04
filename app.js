@@ -3170,6 +3170,12 @@ document.addEventListener("DOMContentLoaded", () => {
   $("btnBackFromMeditations").addEventListener("click", () => { showView("ui-welcome"); showStreak(); });
   if ($("btnChakra")) $("btnChakra").addEventListener("click", () => showChakraScreen());
 
+  // Premium: 3×2 grid (Atemübungen|Affirmationskarten / Arbeitsblätter|Chakra / Klangwelten|Meditationen)
+  if (isPremium) {
+    const wa = document.querySelector('.welcome-actions');
+    if (wa) wa.classList.add('premium-layout');
+  }
+
   $("btnQuick").onclick                  = () => startQuickMode();
   if ($("btnBackFromBreathSelect"))
     $("btnBackFromBreathSelect").onclick = () => { showView("ui-welcome"); showStreak(); };
