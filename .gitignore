@@ -1,0 +1,14 @@
+# Secret keys — never commit
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+*.swp

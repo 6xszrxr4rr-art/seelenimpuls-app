@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let breathPhaseIdx = 0;
   let breathAudio = null;
   let breathAudioStopTimer = null;
+  let sitReadAudio = null;
   let pvAudio   = null;
   let pvTimer   = null;
   let pvFadeInt = null;
@@ -884,6 +885,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (breathInterval)    { clearInterval(breathInterval); breathInterval = null; }
     if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
     stopBreathPhase();
+    stopSitRead();
     if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
     if (bgAudio)           { bgAudio.pause(); bgAudio = null; }
   }
@@ -2752,6 +2754,96 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ── VORLESEN PLAYER ───────────────────────────────────────────────────
+  function stopSitRead() {
+    if (sitReadAudio) { sitReadAudio.pause(); sitReadAudio = null; }
+  }
+
+  function createVorlesenPlayer(container, audioSrc, extraClass) {
+    const lPlay   = lang === 'de' ? '🔊 Vorlesen'    : '🔊 Listen';
+    const lPause  = lang === 'de' ? '⏸ Pausieren'    : '⏸ Pause';
+    const lResume = lang === 'de' ? '▶ Weiterhören'  : '▶ Resume';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'vorlesen-wrap' + (extraClass ? ' ' + extraClass : '');
+
+    const btn = document.createElement('button');
+    btn.className = 'vorlesen-btn';
+    btn.textContent = lPlay;
+
+    const barOuter = document.createElement('div');
+    barOuter.className = 'vorlesen-bar-outer';
+    const barFill = document.createElement('div');
+    barFill.className = 'vorlesen-bar-fill';
+    barOuter.appendChild(barFill);
+
+    const timeEl = document.createElement('span');
+    timeEl.className = 'vorlesen-time';
+
+    wrap.append(btn, barOuter, timeEl);
+    container.appendChild(wrap);
+
+    let audio = null;
+    let rafId  = null;
+
+    const fmt = s => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
+
+    function tick() {
+      if (!audio || audio.paused) return;
+      if (audio.duration) {
+        barFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        timeEl.textContent  = fmt(audio.currentTime);
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function reset() {
+      btn.className = 'vorlesen-btn';
+      btn.textContent = lPlay;
+      barOuter.classList.remove('visible');
+      timeEl.classList.remove('visible');
+      barFill.style.width = '0%';
+      cancelAnimationFrame(rafId);
+      sitReadAudio = null;
+      audio = null;
+    }
+
+    barOuter.addEventListener('click', e => {
+      if (!audio || !audio.duration) return;
+      const r = barOuter.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+    });
+
+    btn.addEventListener('click', () => {
+      if (!audio) {
+        // Stop any other read audio first
+        stopSitRead();
+
+        audio = new Audio(audioSrc);
+        sitReadAudio = audio;
+        audio.addEventListener('ended', reset);
+        audio.addEventListener('error', reset);
+
+        barOuter.classList.add('visible');
+        timeEl.classList.add('visible');
+        btn.className = 'vorlesen-btn playing';
+        btn.textContent = lPause;
+        audio.play().then(() => tick()).catch(reset);
+      } else if (audio.paused) {
+        audio.play().then(() => tick()).catch(reset);
+        btn.className = 'vorlesen-btn playing';
+        btn.textContent = lPause;
+      } else {
+        audio.pause();
+        cancelAnimationFrame(rafId);
+        btn.className = 'vorlesen-btn';
+        btn.textContent = lResume;
+      }
+    });
+
+    return wrap;
+  }
+
   // ── BREATH AUDIO ENGINE (Web Audio API) ──────────────────────────────
   function createBreathAudio() {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2983,6 +3075,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ? (s.songFile_en || s.songFile_de || s.songFile)
             : (s.songFile_de || s.songFile);
           if (bgAudio) { bgAudio.pause(); bgAudio = null; }
+          stopSitRead();
           currentSongAudio = new Audio(fileToPlay);
           currentSongAudio.volume = parseFloat($("volumeSlider").value);
           currentSongAudio.play();
@@ -2996,6 +3089,15 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         $("audioContainer").appendChild(btn);
       }
+    }
+
+    // Vorlesen (read-aloud) basis player — covers blocks b1–b5
+    stopSitRead();
+    const basisBar = $('vorlesenBasisBar');
+    if (basisBar) {
+      basisBar.innerHTML = '';
+      const numStr = String(n).padStart(2, '0');
+      createVorlesenPlayer(basisBar, `audio/situation-${numStr}-${lang}-basis.v1.mp3`, '');
     }
 
     // Sanfter Gesamt-Fade-in aller Blöcke (700ms)
@@ -3018,6 +3120,10 @@ document.addEventListener("DOMContentLoaded", () => {
         b6el.classList.remove('hidden', 'si-premium-rise');
         $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
           '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+        // Tiefgang Vorlesen player
+        const premBar = document.createElement('div');
+        b6el.appendChild(premBar);
+        createVorlesenPlayer(premBar, `audio/situation-${String(n).padStart(2,'0')}-${lang}-premium.v1.mp3`, 'premium');
         void b6el.offsetWidth;
         b6el.classList.add('si-premium-rise');
         await sleep(500);

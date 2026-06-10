@@ -416,6 +416,39 @@
       color: var(--accent); font-weight: 500;
     }
 
+    /* ── Vorlesen Player ── */
+    .vorlesen-wrap {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px; margin-bottom: 14px;
+      background: var(--block-bg); border: 1.5px solid var(--block-border);
+      border-radius: var(--radius-tile);
+    }
+    .vorlesen-btn {
+      display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+      background: none; border: none; padding: 0;
+      font-family: var(--font-sans); font-size: 13.5px; font-weight: 500;
+      color: var(--text); cursor: pointer; touch-action: manipulation;
+      line-height: 1.4;
+    }
+    .vorlesen-btn.playing { color: var(--accent); }
+    .vorlesen-bar-outer {
+      flex: 1; height: 5px; background: var(--block-border); border-radius: 3px;
+      cursor: pointer; display: none; position: relative; overflow: hidden;
+    }
+    .vorlesen-bar-outer.visible { display: block; }
+    .vorlesen-bar-fill {
+      height: 100%; background: var(--accent); border-radius: 3px; width: 0%;
+      pointer-events: none;
+    }
+    .vorlesen-time {
+      font-size: 11px; color: var(--text-muted); min-width: 36px;
+      text-align: right; flex-shrink: 0; display: none;
+      font-variant-numeric: tabular-nums;
+    }
+    .vorlesen-time.visible { display: block; }
+    /* Premium Vorlesen inside b6 */
+    .vorlesen-wrap.premium { margin-top: 18px; margin-bottom: 0; }
+
     /* ── Favorites ── */
     .fav-item {
       background: var(--block-bg); border: 1px solid var(--block-border);
@@ -1671,6 +1704,7 @@
     <div id="ui-run" class="hidden">
       <button class="btn-back-sm" id="btnBackFromRun"
               data-de="← Zurück" data-en="← Back">← Zurück</button>
+      <div id="vorlesenBasisBar"></div>
       <div id="blocksContainer">
         <div class="block hidden" id="b1"><div class="block-header">🌿 Ankommen</div><div class="typed-anchor" id="t1"></div></div>
         <div class="block hidden" id="b2"><div class="block-header">💡 Einblick</div><div class="typed-anchor" id="t2"></div></div>
