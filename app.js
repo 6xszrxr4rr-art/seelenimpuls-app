@@ -3110,110 +3110,125 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!alive()) return;
 
-    // ── PREMIUM BLOCKS ────────────────────────────────────────────────
-    if (isPremium && alive()) {
-      const tiefgang = t('tiefgangText');
-      if (tiefgang) {
-        await sleep(2500);
-        if (!alive()) return;
-        const b6el = $('b6');
-        b6el.classList.remove('hidden', 'si-premium-rise');
-        $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
-          '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
-        // Tiefgang Vorlesen player
-        const premBar = document.createElement('div');
-        b6el.appendChild(premBar);
-        createVorlesenPlayer(premBar, `audio/situation-${String(n).padStart(2,'0')}-${lang}-premium.v1.mp3`, 'premium');
-        void b6el.offsetWidth;
-        b6el.classList.add('si-premium-rise');
-        await sleep(500);
-        softScroll();
-        await sleep(4500);
-      }
-      const lyrics = lang === 'de' ? (s.songLyrics_de || s.songLyrics_en) : s.songLyrics_en;
-      const songTitle = s.songTitle_en || '';
-      if (lyrics && alive()) {
-        if (!alive()) return;
-        const b7el = $('b7');
-        b7el.classList.remove('hidden', 'tiefgang-fade-in');
-        void b7el.offsetWidth;
-        b7el.classList.add('tiefgang-fade-in');
-        if (songTitle) $('t7title').textContent = '\u201c' + songTitle + '\u201d';
-        $('t7').textContent = lyrics;
-        // Add premium song play button if file is available
-        const premiumFile = lang === 'de' ? s.premiumSongFile_de : s.premiumSongFile_en;
-        const premiumFileEn = s.premiumSongFile_en;
-        const fileToPlay = premiumFile || premiumFileEn;
-        if (fileToPlay) {
-          const pBtn = document.createElement('button');
-          pBtn.className = 'btn-primary si-fade-in';
-          pBtn.style.marginTop = '16px';
-          pBtn.style.animationDelay = '200ms';
-          pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' ' + ui[lang].premiumPlay + '</span>';
-          pBtn.onclick = () => {
-            if (bgAudio) { bgAudio.pause(); bgAudio = null; }
-            if (currentSongAudio) { currentSongAudio.pause(); currentSongAudio = null; }
-            currentSongAudio = new Audio(fileToPlay);
-            const vol = $('volumeSlider');
-            currentSongAudio.volume = vol ? parseFloat(vol.value) : 0.7;
-            currentSongAudio.play().catch(() => {});
-            pBtn.disabled = true;
-            pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' \u2013 ' + ui[lang].premiumPlaying + '</span>';
-          };
-          $('b7').appendChild(pBtn);
-        }
-        await sleep(500);
-        softScroll();
-        await sleep(3500);
+    // ── PREMIUM BLOCKS + ABSCHLUSS ──────────────────────────────────────────
+    // All content pre-rendered hidden; IntersectionObserver reveals on scroll.
+    const numStr2 = String(n).padStart(2, '0');
+
+    // b6 — Tiefgang + Premium-Vorlesen
+    const tiefgang = t('tiefgangText');
+    const hasB6 = isPremium && !!tiefgang;
+    if (hasB6) {
+      $('t6').innerHTML = tiefgang.split('\n\n').map(p =>
+        '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+      $('b6').querySelectorAll('.vorlesen-wrap').forEach(el => el.remove());
+      const premBar = document.createElement('div');
+      $('b6').appendChild(premBar);
+      createVorlesenPlayer(premBar, `audio/situation-${numStr2}-${lang}-premium.v1.mp3`, 'premium');
+    }
+
+    // b7 — Lyrics + Premium-Song-Button
+    const lyrics = lang === 'de' ? (s.songLyrics_de || s.songLyrics_en) : s.songLyrics_en;
+    const songTitle = s.songTitle_en || '';
+    const hasB7 = isPremium && !!lyrics;
+    if (hasB7) {
+      if (songTitle) $('t7title').textContent = '“' + songTitle + '”';
+      $('t7').textContent = lyrics;
+      $('b7').querySelectorAll('button').forEach(el => el.remove());
+      const premiumFile = lang === 'de' ? s.premiumSongFile_de : s.premiumSongFile_en;
+      const fileToPlay = premiumFile || s.premiumSongFile_en;
+      if (fileToPlay) {
+        const pBtn = document.createElement('button');
+        pBtn.className = 'btn-primary si-fade-in';
+        pBtn.style.marginTop = '16px';
+        pBtn.style.animationDelay = '200ms';
+        pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' ' + ui[lang].premiumPlay + '</span>';
+        pBtn.onclick = () => {
+          if (bgAudio) { bgAudio.pause(); bgAudio = null; }
+          if (currentSongAudio) { currentSongAudio.pause(); currentSongAudio = null; }
+          currentSongAudio = new Audio(fileToPlay);
+          const vol = $('volumeSlider');
+          currentSongAudio.volume = vol ? parseFloat(vol.value) : 0.7;
+          currentSongAudio.play().catch(() => {});
+          pBtn.disabled = true;
+          pBtn.innerHTML = '<span>🎵 ' + (songTitle || 'Premium Song') + ' \u2013 ' + ui[lang].premiumPlaying + '</span>';
+        };
+        $('b7').appendChild(pBtn);
       }
     }
 
-    // ── SITUATION-ABSCHLUSS: passende Karte + Arbeitsblatt ───────────────
-    if (alive()) {
-      const endCard = CARD_DATA[n - 1];
-      const endWs   = WORKSHEETS[n];
-      if (endCard && endWs) {
-        await sleep(1000);
-        const b8el = $('b8');
-        b8el.classList.remove('hidden', 'si-premium-rise');
-        void b8el.offsetWidth;
-        b8el.classList.add('si-premium-rise');
+    // b8 — Affirmationskarte + Arbeitsblatt
+    const endCard = CARD_DATA[n - 1];
+    const endWs   = WORKSHEETS[n];
+    const hasB8 = !!(endCard && endWs);
+    if (hasB8) {
+      const isDE = lang === 'de';
+      const b8h = $('b8Header');
+      if (b8h) b8h.textContent = isDE ? '🌿 Deine Begleiter' : '🌿 Your Companions';
+      $('b8Card').innerHTML =
+        '<p class="sit-end-section-label">' + (isDE ? '💫 Affirmationskarte' : '💫 Affirmation Card') + '</p>' +
+        '<div class="sit-end-card">' +
+          '<div class="sit-end-card-sit">' + (endCard.sit[lang] || endCard.sit.de) + '</div>' +
+          '<p class="sit-end-card-txt">' + (endCard.txt[lang] || endCard.txt.de) + '</p>' +
+          '<div class="sit-end-card-hint">' + (isDE ? 'Tippe zum Öffnen ↗' : 'Tap to open ↗') + '</div>' +
+        '</div>';
+      $('b8Card').querySelector('.sit-end-card').style.background = cgBg(endCard);
+      $('b8Card').querySelector('.sit-end-card').addEventListener('click', () => openCardFullscreen(endCard));
+      const wsTitle = (lang === 'en' && typeof WORKSHEETS_EN !== 'undefined' && WORKSHEETS_EN[n])
+        ? WORKSHEETS_EN[n].title : endWs.title;
+      $('b8Worksheet').innerHTML =
+        '<p class="sit-end-section-label">' + (isDE ? '📝 Arbeitsblatt' : '📝 Worksheet') + '</p>' +
+        '<button class="sit-end-ws-btn">' +
+          '<div>' +
+            '<span class="sit-end-ws-num">SITUATION ' + n + '</span>' +
+            '<span class="sit-end-ws-title">' + wsTitle + '</span>' +
+          '</div>' +
+          '<span class="sit-end-ws-arrow">›</span>' +
+        '</button>';
+      $('b8Worksheet').querySelector('button').addEventListener('click', () => openWorksheet(n));
+    }
 
-        const isDE = lang === 'de';
-        const b8h = $('b8Header');
-        if (b8h) b8h.textContent = isDE ? '🌿 Deine Begleiter' : '🌿 Your Companions';
+    // ── Scroll-triggered reveal (IntersectionObserver) ────────────────────
+    function onScrollIntoView(watchEl, cb) {
+      const obs = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        obs.disconnect();
+        cb();
+      }, { threshold: 0.15 });
+      obs.observe(watchEl);
+    }
 
-        const cardEl = $('b8Card');
-        cardEl.innerHTML =
-          '<p class="sit-end-section-label">' + (isDE ? '💫 Affirmationskarte' : '💫 Affirmation Card') + '</p>' +
-          '<div class="sit-end-card">' +
-            '<div class="sit-end-card-sit">' + (endCard.sit[lang] || endCard.sit.de) + '</div>' +
-            '<p class="sit-end-card-txt">' + (endCard.txt[lang] || endCard.txt.de) + '</p>' +
-            '<div class="sit-end-card-hint">' + (isDE ? 'Tippe zum Öffnen ↗' : 'Tap to open ↗') + '</div>' +
-          '</div>';
-        cardEl.querySelector('.sit-end-card').style.background = cgBg(endCard);
-        cardEl.querySelector('.sit-end-card').addEventListener('click', () => openCardFullscreen(endCard));
-
-        const wsTitle = (lang === 'en' && typeof WORKSHEETS_EN !== 'undefined' && WORKSHEETS_EN[n])
-          ? WORKSHEETS_EN[n].title : endWs.title;
-        const wsEl = $('b8Worksheet');
-        wsEl.innerHTML =
-          '<p class="sit-end-section-label">' + (isDE ? '📝 Arbeitsblatt' : '📝 Worksheet') + '</p>' +
-          '<button class="sit-end-ws-btn">' +
-            '<div>' +
-              '<span class="sit-end-ws-num">SITUATION ' + n + '</span>' +
-              '<span class="sit-end-ws-title">' + wsTitle + '</span>' +
-            '</div>' +
-            '<span class="sit-end-ws-arrow">›</span>' +
-          '</button>';
-        wsEl.querySelector('button').addEventListener('click', () => openWorksheet(n));
-
-        await sleep(600);
-        softScroll();
+    function revealBlock(el, animClass) {
+      el.classList.remove('hidden');
+      if (animClass) {
+        el.classList.remove(animClass);
+        void el.offsetWidth;
+        el.classList.add(animClass);
       }
     }
 
-    if (alive()) showCompletion();
+    const revealSeq = [];
+    if (hasB6) revealSeq.push({ el: $('b6'), anim: 'si-premium-rise' });
+    if (hasB7) revealSeq.push({ el: $('b7'), anim: 'tiefgang-fade-in' });
+    if (hasB8) revealSeq.push({ el: $('b8'), anim: 'si-premium-rise' });
+
+    const lastBasisEl = ['b5','b4','b3','b2','b1']
+      .map(id => $(id))
+      .find(el => el && !el.classList.contains('hidden')) || $('b1');
+
+    function setupRevealChain(triggerEl, seq) {
+      if (seq.length === 0) {
+        onScrollIntoView(triggerEl, () => { if (alive()) showCompletion(); });
+        return;
+      }
+      const [head, ...tail] = seq;
+      onScrollIntoView(triggerEl, () => {
+        if (!alive()) return;
+        revealBlock(head.el, head.anim);
+        setupRevealChain(head.el, tail);
+      });
+    }
+
+    setupRevealChain(lastBasisEl, revealSeq);
   }
 
   // ── QUICK MODE ────────────────────────────────────────────────────────
