@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let breathSkipHandler = null;
   let activeTechnique = null;
   let breathPhaseIdx = 0;
+  let breathAudio = null;
+  let breathAudioStopTimer = null;
   let pvAudio   = null;
   let pvTimer   = null;
   let pvFadeInt = null;
@@ -859,6 +861,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function stopBreathPhase() {
     if (breathPhaseTimer) { clearTimeout(breathPhaseTimer); breathPhaseTimer = null; }
+    if (activeTechnique && breathAudio) {
+      breathAudio.fadeOut();
+      breathAudioStopTimer = setTimeout(() => { if (breathAudio) breathAudio.suspend(); }, 1200);
+    }
     activeTechnique = null;
     breathPhaseIdx = 0;
     const circle = document.querySelector('.quick-breath-circle');
@@ -2746,6 +2752,132 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ── BREATH AUDIO ENGINE (Web Audio API) ──────────────────────────────
+  function createBreathAudio() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const master = ctx.createGain(); master.gain.value = 0.0001;
+    const comp = ctx.createDynamicsCompressor();
+    master.connect(comp); comp.connect(ctx.destination);
+
+    // Klangteppich: warmer, tiefer Akkord (A2, E3, A3, E4), weich gefiltert
+    const padGain = ctx.createGain(); padGain.gain.value = 0;
+    const padFilter = ctx.createBiquadFilter();
+    padFilter.type = "lowpass"; padFilter.frequency.value = 220; padFilter.Q.value = 0.4;
+    padGain.connect(padFilter); padFilter.connect(master);
+
+    const freqs = [110, 164.81, 220, 329.63];
+    const oscs = freqs.map((f, i) => {
+      const o = ctx.createOscillator();
+      o.type = i < 2 ? "sine" : "triangle";
+      o.frequency.value = f;
+      o.detune.value = (i % 2 ? 4 : -4);
+      const g = ctx.createGain();
+      g.gain.value = i < 2 ? 0.16 : 0.05;
+      o.connect(g); g.connect(padGain);
+      o.start();
+      return o;
+    });
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.12;
+    const lfoG = ctx.createGain(); lfoG.gain.value = 5;
+    lfo.connect(lfoG); lfoG.connect(oscs[2].detune); lfo.start();
+
+    // Meereswelle: weiches, gefärbtes Rauschen
+    const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate);
+    const data = noiseBuf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < data.length; i++) {
+      const white = Math.random() * 2 - 1;
+      last = (last + 0.03 * white) / 1.03;
+      data[i] = last * 4.5;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = noiseBuf; noise.loop = true;
+    const oceanGain = ctx.createGain(); oceanGain.gain.value = 0;
+    const oceanFilter = ctx.createBiquadFilter();
+    oceanFilter.type = "lowpass"; oceanFilter.frequency.value = 350; oceanFilter.Q.value = 0.5;
+    noise.connect(oceanFilter); oceanFilter.connect(oceanGain); oceanGain.connect(master);
+    noise.start();
+
+    let mode = localStorage.getItem('si_breath_sound') || 'pad';
+
+    function bell(noteFreq) {
+      if (mode === "off") return;
+      const t = ctx.currentTime;
+      [1, 2.76].forEach((mult, i) => {
+        const o = ctx.createOscillator();
+        o.type = "sine"; o.frequency.value = noteFreq * mult;
+        const g = ctx.createGain();
+        const peak = i === 0 ? 0.10 : 0.03;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(peak, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
+        o.connect(g); g.connect(master);
+        o.start(t); o.stop(t + 3.4);
+      });
+    }
+
+    function setPhase(type, dur) {
+      const t = ctx.currentTime, end = t + dur;
+      padGain.gain.cancelScheduledValues(t);
+      padFilter.frequency.cancelScheduledValues(t);
+      oceanGain.gain.cancelScheduledValues(t);
+      oceanFilter.frequency.cancelScheduledValues(t);
+      const padOn = mode === "pad", oceanOn = mode === "ocean";
+
+      if (type === "in") {
+        padGain.gain.setValueAtTime(padGain.gain.value, t);
+        padGain.gain.linearRampToValueAtTime(padOn ? 0.55 : 0, end);
+        padFilter.frequency.setValueAtTime(padFilter.frequency.value, t);
+        padFilter.frequency.linearRampToValueAtTime(900, end);
+        oceanGain.gain.setValueAtTime(oceanGain.gain.value, t);
+        oceanGain.gain.linearRampToValueAtTime(oceanOn ? 0.5 : 0, end);
+        oceanFilter.frequency.setValueAtTime(oceanFilter.frequency.value, t);
+        oceanFilter.frequency.linearRampToValueAtTime(750, end);
+        bell(523.25); // C5
+      } else if (type === "out") {
+        padGain.gain.setValueAtTime(padGain.gain.value, t);
+        padGain.gain.linearRampToValueAtTime(padOn ? 0.06 : 0, end);
+        padFilter.frequency.setValueAtTime(padFilter.frequency.value, t);
+        padFilter.frequency.linearRampToValueAtTime(220, end);
+        oceanGain.gain.setValueAtTime(oceanGain.gain.value, t);
+        oceanGain.gain.linearRampToValueAtTime(oceanOn ? 0.04 : 0, end);
+        oceanFilter.frequency.setValueAtTime(oceanFilter.frequency.value, t);
+        oceanFilter.frequency.linearRampToValueAtTime(280, end);
+        bell(392.0); // G4
+      } else { // hold
+        bell(440.0); // A4
+      }
+    }
+
+    function setMode(m) {
+      mode = m;
+      const t = ctx.currentTime;
+      if (m !== "pad")   { padGain.gain.cancelScheduledValues(t);   padGain.gain.linearRampToValueAtTime(0, t + 0.8); }
+      if (m !== "ocean") { oceanGain.gain.cancelScheduledValues(t); oceanGain.gain.linearRampToValueAtTime(0, t + 0.8); }
+    }
+
+    function fadeIn() {
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.linearRampToValueAtTime(0.9, ctx.currentTime + 1.2);
+    }
+    function fadeOut() {
+      const t = ctx.currentTime;
+      master.gain.cancelScheduledValues(t);
+      master.gain.setValueAtTime(master.gain.value, t);
+      master.gain.linearRampToValueAtTime(0.0001, t + 1.0);
+    }
+    function resume()  { if (ctx.state === "suspended") ctx.resume(); }
+    function suspend() { ctx.suspend(); }
+
+    return { setPhase, setMode, fadeIn, fadeOut, resume, suspend };
+  }
+
+  function _updateBreathSoundUI(mode) {
+    document.querySelectorAll('.breath-sound-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+  }
+
   // ── RUN SITUATION ─────────────────────────────────────────────────────
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
@@ -3006,6 +3138,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startBreathTechnique(technique) {
+    // Cancel any pending Web Audio suspend from a previous session
+    if (breathAudioStopTimer) { clearTimeout(breathAudioStopTimer); breathAudioStopTimer = null; }
     stopSession();
     activeTechnique = technique;
     breathPhaseIdx = 0;
@@ -3014,10 +3148,13 @@ document.addEventListener("DOMContentLoaded", () => {
     $("quickTitle").textContent = technique.name[lang];
     $("quickSub").textContent   = technique.timing[lang];
 
-    bgAudio = new Audio("audio/stillness-space.mp3");
-    bgAudio.loop = true;
-    bgAudio.volume = 0.04;
-    bgAudio.play().catch(() => {});
+    // Lazy-create Web Audio engine (requires user gesture — fulfilled by the start tap)
+    if (!breathAudio) breathAudio = createBreathAudio();
+    const savedMode = localStorage.getItem('si_breath_sound') || 'pad';
+    breathAudio.setMode(savedMode);
+    breathAudio.resume();
+    breathAudio.fadeIn();
+    _updateBreathSoundUI(savedMode);
 
     const circle = document.querySelector('.quick-breath-circle');
     if (circle) {
@@ -3100,6 +3237,16 @@ document.addEventListener("DOMContentLoaded", () => {
         circle.style.boxShadow   = '0 0 10px rgba(45,122,58,0.1)';
       }
     }
+
+    // Notify Web Audio engine of the current phase
+    if (breathAudio) {
+      const audioType = phase.expand === true  ? 'in'
+                      : phase.expand === false ? 'out'
+                      : phase.expand === 'push'? 'out'
+                      : 'hold';
+      breathAudio.setPhase(audioType, phase.ms / 1000);
+    }
+
     breathPhaseTimer = setTimeout(() => {
       breathPhaseIdx = (breathPhaseIdx + 1) % activeTechnique.phases.length;
       runBreathPhase();
@@ -3107,6 +3254,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── INIT ──────────────────────────────────────────────────────────────
+
+  // Sound selector – init active state and wire up buttons
+  _updateBreathSoundUI(localStorage.getItem('si_breath_sound') || 'pad');
+  document.querySelectorAll('.breath-sound-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      localStorage.setItem('si_breath_sound', mode);
+      _updateBreathSoundUI(mode);
+      if (breathAudio) breathAudio.setMode(mode);
+    });
+  });
+
   renderMoodGrid();
   renderHomeScreen();
   updateFavBtn();
