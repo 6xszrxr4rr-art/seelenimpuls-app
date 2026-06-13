@@ -7,9 +7,11 @@
 //   node generate-audio.js --generate    Generate ALL audio files
 
 'use strict';
-const fs   = require('fs');
-const path = require('path');
-const https = require('https');
+const fs            = require('fs');
+const path          = require('path');
+const https         = require('https');
+const os            = require('os');
+const { execSync }  = require('child_process');
 
 // ─── Load .env without dotenv package ────────────────────────────────────────
 const envPath = path.join(__dirname, '.env');
@@ -94,14 +96,18 @@ function apiTTS(voiceId, text, outputPath) {
 }
 
 // ─── Text parsing ─────────────────────────────────────────────────────────────
-// Remove short breaks (< 1.5s) and collapse resulting bare newlines into spaces,
-// so ElevenLabs receives flowing sentences instead of many short isolated fragments
-// (which cause it to rush). Longer breaks (≥ 1.5s) stay as structural pauses.
+// ATEMPHASE marker: breaks ≥ 20s are the breathing exercise window.
+// They get replaced with this internal marker (duration preserved) so the
+// generation step can insert synthesised ocean-wave audio instead of silence.
+const ATEMPHASE_RE = /§ATEMPHASE:([\.\d]+)§/g;
+
 function stripShortBreaks(text) {
   let t = text.replace(/<break time="([\d.]+)s"\s*\/>/g, (match, secs) => {
-    return parseFloat(secs) < 1.5 ? ' ' : match;
+    const s = parseFloat(secs);
+    if (s >= 20) return `§ATEMPHASE:${s}§`;   // breathing phase → ocean wave
+    return s < 1.5 ? ' ' : match;              // short → join, medium → keep
   });
-  // Collapse stray whitespace/newlines left by removed breaks into a single space
+  // Collapse stray whitespace/newlines left by removed short breaks
   t = t.replace(/[ \t]*\n[ \t]*/g, ' ').replace(/ {2,}/g, ' ').trim();
   return t;
 }
@@ -163,10 +169,80 @@ function buildPremiumText(modules) {
 }
 
 function textChars(text) {
-  return text.replace(/<break[^>]*\/>/g, '').replace(/\s+/g, ' ').trim().length;
+  return text.replace(/<break[^>]*\/>/g, '').replace(/§ATEMPHASE:[^§]+§/g, '').replace(/\s+/g, ' ').trim().length;
 }
 function textWords(text) {
-  return text.replace(/<break[^>]*\/>/g, '').trim().split(/\s+/).filter(Boolean).length;
+  return text.replace(/<break[^>]*\/>/g, '').replace(/§ATEMPHASE:[^§]+§/g, '').trim().split(/\s+/).filter(Boolean).length;
+}
+
+// ─── ffmpeg + Atemphase-Ocean helpers ────────────────────────────────────────
+function hasFfmpeg() {
+  try { execSync('ffmpeg -version', { stdio: 'ignore' }); return true; }
+  catch { return false; }
+}
+
+// Synthesise ocean-wave audio: pink noise → lowpass → wave-rhythm tremolo → fade
+function synthesiseOcean(durationSec, outMp3Path) {
+  const d = durationSec;
+  const fadeOut = Math.max(0, d - 1.5).toFixed(2);
+  const filter = [
+    'anoisesrc=color=pink:amplitude=0.45',
+    'lowpass=f=380',
+    'lowpass=f=220',
+    `tremolo=f=0.07:d=0.5`,
+    'volume=4.0',
+    'afade=t=in:st=0:d=1.5',
+    `afade=t=out:st=${fadeOut}:d=1.5`
+  ].join(',');
+  execSync(
+    `ffmpeg -f lavfi -i "${filter}" -t ${d} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y -loglevel quiet`
+  );
+}
+
+// TTS call that detects §ATEMPHASE:Xs§ markers, splits the text, calls TTS
+// for each part, synthesises ocean-wave audio and concatenates with ffmpeg.
+// Falls back to normal TTS (without ocean) if ffmpeg is not installed.
+async function apiTTSWithOcean(voiceId, text, outputPath) {
+  const markerMatch = text.match(/§ATEMPHASE:([\d.]+)§/);
+  if (!markerMatch) return apiTTS(voiceId, text, outputPath);
+
+  const duration = parseFloat(markerMatch[1]);
+  const [partA, partB] = text.split(/§ATEMPHASE:[\d.]+§/);
+
+  if (!hasFfmpeg()) {
+    console.warn('\n  ⚠  ffmpeg nicht gefunden — Atemphase wird übersprungen.');
+    console.warn('     Installieren mit: brew install ffmpeg');
+    const joined = [partA, partB].filter(Boolean).join(' ').trim();
+    return apiTTS(voiceId, joined, outputPath);
+  }
+
+  const tmp       = os.tmpdir();
+  const pathA     = path.join(tmp, 'si_partA.mp3');
+  const pathOcean = path.join(tmp, `si_ocean_${Math.round(duration)}s.mp3`);
+  const pathB     = path.join(tmp, 'si_partB.mp3');
+  const pathList  = path.join(tmp, 'si_concat.txt');
+
+  // Part A — text before breathing
+  await apiTTS(voiceId, partA.trim(), pathA);
+  await new Promise(r => setTimeout(r, 600));
+
+  // Ocean wave
+  synthesiseOcean(duration, pathOcean);
+
+  // Part B — text after breathing (may be empty for some modules)
+  const hasPartB = partB && partB.trim().length > 0;
+  if (hasPartB) {
+    await apiTTS(voiceId, partB.trim(), pathB);
+    await new Promise(r => setTimeout(r, 600));
+  }
+
+  // Concatenate
+  let list = `file '${pathA}'\nfile '${pathOcean}'\n`;
+  if (hasPartB) list += `file '${pathB}'\n`;
+  fs.writeFileSync(pathList, list);
+  execSync(
+    `ffmpeg -f concat -safe 0 -i "${pathList}" -c copy "${outputPath}" -y -loglevel quiet`
+  );
 }
 
 // ─── Build task list ──────────────────────────────────────────────────────────
@@ -291,7 +367,7 @@ async function main() {
       const outFile = path.join(AUDIO_DIR, `test-${name.split(' ')[0]}.mp3`);
       process.stdout.write(`  test-${name.split(' ')[0]}.mp3  (${voice.name})  … `);
       try {
-        await apiTTS(voice.voice_id, text, outFile);
+        await apiTTSWithOcean(voice.voice_id, text, outFile);
         const kb = (fs.statSync(outFile).size / 1024).toFixed(1);
         console.log(`✓  ${kb} KB`);
       } catch (e) {
@@ -312,7 +388,7 @@ async function main() {
     console.log('TEXT PREVIEW (first 400 chars):\n');
     console.log(task.text.substring(0, 400) + '...\n');
     console.log('─'.repeat(60));
-    await apiTTS(task.voiceId, task.text, task.file);
+    await apiTTSWithOcean(task.voiceId, task.text, task.file);
     const stat = fs.statSync(task.file);
     console.log(`\n✓ Saved: ${task.file}`);
     console.log(`  Size: ${(stat.size / 1024).toFixed(1)} KB`);
@@ -327,7 +403,7 @@ async function main() {
     const label = `situation-${String(task.n).padStart(2,'0')}-${task.lang}-${task.type}.${VERSION}.mp3`;
     process.stdout.write(`  ${label.padEnd(48)} `);
     try {
-      await apiTTS(task.voiceId, task.text, task.file);
+      await apiTTSWithOcean(task.voiceId, task.text, task.file);
       const stat = fs.statSync(task.file);
       const kb = (stat.size / 1024).toFixed(1);
       console.log(`✓  ${kb} KB`);
