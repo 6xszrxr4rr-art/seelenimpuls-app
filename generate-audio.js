@@ -250,12 +250,12 @@ async function main() {
     process.exit(1);
   }
 
-  // Find EN voice (Erin)
-  let enVoice = voices.find(v => /^erin$/i.test(v.name.trim()));
-  if (!enVoice) enVoice = voices.find(v => /erin/i.test(v.name));
+  // Find EN voice (Eryn)
+  let enVoice = voices.find(v => /^eryn$/i.test(v.name.trim()));
+  if (!enVoice) enVoice = voices.find(v => /eryn/i.test(v.name));
   if (!enVoice) {
     console.log('Available voices:', voices.map(v => v.name).join(', '));
-    console.error('❌  Voice "Erin" not found in your account.');
+    console.error('❌  Voice "Eryn" not found in your account.');
     process.exit(1);
   }
 
