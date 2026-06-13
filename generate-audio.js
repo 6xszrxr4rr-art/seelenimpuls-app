@@ -196,10 +196,12 @@ function hasFfmpeg() {
   catch { return false; }
 }
 
-// Generate a silent audio segment (breathing pause — user practices in silence)
-function synthesiseSilence(durationSec, outMp3Path) {
+// Extract a section of stillness-space.mp3 as the breathing pause (with fade in/out)
+function synthesiseBreathe(durationSec, outMp3Path) {
+  const source = path.join(AUDIO_DIR, 'stillness-space.mp3');
+  const fadeOut = Math.max(0, durationSec - 2.0).toFixed(2);
   execSync(
-    `ffmpeg -f lavfi -i "anullsrc=r=44100:cl=mono" -t ${durationSec} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
+    `ffmpeg -ss 10 -i "${source}" -t ${durationSec} -af "afade=t=in:st=0:d=2.0,afade=t=out:st=${fadeOut}:d=2.0,volume=0.7" -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
     { stdio: 'inherit' }
   );
 }
@@ -253,9 +255,9 @@ async function apiTTSWithOcean(voiceId, text, outputPath) {
     }
 
     // Silent breathing pause
-    const silencePath = path.join(tmp, `si_silence_${Math.round(duration)}s.mp3`);
-    synthesiseSilence(duration, silencePath);
-    tempFiles.push(silencePath);
+    const breathePath = path.join(tmp, `si_breathe_${Math.round(duration)}s.mp3`);
+    synthesiseBreathe(duration, breathePath);
+    tempFiles.push(breathePath);
 
     if (afterOcean.trim()) {
       await gen(afterOcean, VOICE_SETTINGS_GUIDE);
