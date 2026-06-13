@@ -26,7 +26,7 @@ if (!API_KEY) { console.error('❌  ELEVENLABS_API_KEY not found in .env'); proc
 // ─── Config ───────────────────────────────────────────────────────────────────
 const AUDIO_DIR    = path.join(__dirname, 'audio');
 const VERTONUNG_DIR = path.join(__dirname, 'vertonung');
-const MODEL        = 'eleven_multilingual_v2';
+const MODEL        = 'eleven_turbo_v2_5';
 const FORMAT       = 'mp3_44100_128';
 const VERSION      = 'v1';
 const VOICE_SETTINGS = { stability: 0.7, similarity_boost: 0.8, style: 0.1, use_speaker_boost: true };
@@ -105,17 +105,12 @@ function stripShortBreaks(text) {
   return t;
 }
 
-// ElevenLabs max single break = 3.0s; cap longer breaks via chaining
+// ElevenLabs max single break = 3.0s; cap longer breaks at 3.0s (no chaining).
+// Chaining many 3.0s breaks in a row destabilises the model's pacing.
 function capBreaks(text) {
   return text.replace(/<break time="([\d.]+)s"\s*\/>/g, (_, t) => {
-    const secs = parseFloat(t);
-    if (secs <= 3.0) return `<break time="${Math.min(secs, 3.0).toFixed(1)}s" />`;
-    // Chain of 3s breaks + remainder
-    const count = Math.floor(secs / 3.0);
-    const rem   = +(secs - count * 3.0).toFixed(1);
-    let chain = '<break time="3.0s" />'.repeat(count);
-    if (rem >= 0.1) chain += `<break time="${rem}s" />`;
-    return chain;
+    const secs = Math.min(parseFloat(t), 3.0);
+    return `<break time="${secs.toFixed(1)}s" />`;
   });
 }
 
