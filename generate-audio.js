@@ -35,6 +35,7 @@ const VOICE_SETTINGS = { stability: 0.7, similarity_boost: 0.8, style: 0.1, use_
 const args = process.argv.slice(2);
 const MODE = args.includes('--generate') ? 'generate'
            : args.includes('--test')     ? 'test'
+           : args.includes('--compare')  ? 'compare'
            : args.includes('--voices')   ? 'voices'
            :                               'overview';
 
@@ -270,6 +271,37 @@ async function main() {
   console.log(`✓ EN voice: "${enVoice.name}" (${enVoice.voice_id})`);
 
   const tasks = buildTasks(deVoice.voice_id, enVoice.voice_id);
+
+  // ── COMPARE mode: situation-01-de-basis with multiple voices ──
+  if (MODE === 'compare') {
+    const COMPARE_VOICES = ['lana weiss', 'samantha', 'lyra', 'valory'];
+    const mods = parseVertonungFile('de', 1);
+    if (!mods) { console.error('vertonung_situation_01_deutsch.md not found'); process.exit(1); }
+    const text = buildBasisText(mods);
+    console.log(`\nComparing ${COMPARE_VOICES.length} voices with situation-01-de-basis text...\n`);
+    console.log('TEXT PREVIEW (first 300 chars):');
+    console.log(text.substring(0, 300) + '...\n');
+    console.log('─'.repeat(60));
+    for (const name of COMPARE_VOICES) {
+      const voice = voices.find(v => v.name.toLowerCase().includes(name));
+      if (!voice) {
+        console.log(`  test-${name.split(' ')[0]}.mp3  ✗  Voice "${name}" not found in your account`);
+        continue;
+      }
+      const outFile = path.join(AUDIO_DIR, `test-${name.split(' ')[0]}.mp3`);
+      process.stdout.write(`  test-${name.split(' ')[0]}.mp3  (${voice.name})  … `);
+      try {
+        await apiTTS(voice.voice_id, text, outFile);
+        const kb = (fs.statSync(outFile).size / 1024).toFixed(1);
+        console.log(`✓  ${kb} KB`);
+      } catch (e) {
+        console.log(`✗  ${e.message.substring(0, 80)}`);
+      }
+      await new Promise(r => setTimeout(r, 600));
+    }
+    console.log('\nAlle Dateien im audio/-Ordner. Anhören und Stimme wählen.');
+    return;
+  }
 
   // ── TEST mode: only situation-01-de-basis ──
   if (MODE === 'test') {
