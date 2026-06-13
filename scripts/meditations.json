@@ -1,11 +1,11 @@
 {
   "voices": {
     "lena": {
-      "voice_id": "TBD_LENA_WEISS_VOICE_ID",
+      "voice_id": "rAmra0SCIYOxYmRNDSm3",
       "label": "Lena Weiß"
     },
     "therapist": {
-      "voice_id": "TBD_THERAPIST_VOICE_ID",
+      "voice_id": "WuBPEavIaQB56EnsGvFh",
       "label": "Therapeut (zweite Stimme)"
     }
   },
@@ -338,7 +338,8 @@
           "silence_after_s": 15
         }
       ],
-      "background_music": "audio/Song-Situation-7.mp3"
+      "background_music": "audio/Song-Situation-7.mp3",
+      "voice": "therapist"
     },
     {
       "nr": 8,
@@ -378,7 +379,8 @@
           "silence_after_s": 15
         }
       ],
-      "background_music": "audio/Song-Situation-8.mp3"
+      "background_music": "audio/Song-Situation-8.mp3",
+      "voice": "therapist"
     },
     {
       "nr": 9,
@@ -426,7 +428,8 @@
           "silence_after_s": 15
         }
       ],
-      "background_music": "audio/Song-Situation-9.mp3"
+      "background_music": "audio/Song-Situation-9.mp3",
+      "voice": "therapist"
     },
     {
       "nr": 10,
@@ -562,7 +565,8 @@
           "silence_after_s": 0
         }
       ],
-      "background_music": "audio/Song-Situation-11.mp3"
+      "background_music": "audio/Song-Situation-11.mp3",
+      "voice": "therapist"
     }
   ]
 }
