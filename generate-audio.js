@@ -181,22 +181,19 @@ function hasFfmpeg() {
   catch { return false; }
 }
 
-// Synthesise ocean-wave audio: pink noise source → lowpass filters → tremolo → fade
+// Synthesise ocean-wave audio: brown noise → lowpass → volume → fades
 function synthesiseOcean(durationSec, outMp3Path) {
   const d = durationSec;
   const fadeOut = Math.max(0, d - 1.5).toFixed(2);
-  // Source and audio-filter chain must be separate in ffmpeg:
-  // -f lavfi -i "source" -af "processing chain"
   const af = [
-    'lowpass=f=380',
-    'lowpass=f=220',
-    'tremolo=f=0.07:d=0.5',
-    'volume=4.0',
+    'lowpass=f=350',
+    'volume=3.0',
     'afade=t=in:st=0:d=1.5',
     `afade=t=out:st=${fadeOut}:d=1.5`
   ].join(',');
   execSync(
-    `ffmpeg -f lavfi -i "anoisesrc=color=pink:amplitude=0.45" -af "${af}" -t ${d} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y -loglevel quiet`
+    `ffmpeg -f lavfi -i "anoisesrc=color=brown" -af "${af}" -t ${d} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
+    { stdio: 'inherit' }
   );
 }
 
