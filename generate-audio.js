@@ -29,7 +29,7 @@ const VERTONUNG_DIR = path.join(__dirname, 'vertonung');
 const MODEL        = 'eleven_multilingual_v2';
 const FORMAT       = 'mp3_44100_128';
 const VERSION      = 'v1';
-const VOICE_SETTINGS = { stability: 0.55, similarity_boost: 0.75, style: 0.2, use_speaker_boost: true };
+const VOICE_SETTINGS = { stability: 0.7, similarity_boost: 0.8, style: 0.0, use_speaker_boost: true };
 
 // ─── Argument parsing ─────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -93,7 +93,15 @@ function apiTTS(voiceId, text, outputPath) {
 }
 
 // ─── Text parsing ─────────────────────────────────────────────────────────────
-// ElevenLabs max single break = 3.0s; cap longer breaks
+// Remove short breaks (< 1.5s): replace with a space so sentence fragments join naturally.
+// Keep longer breaks (≥ 1.5s) at real section/paragraph transitions.
+function stripShortBreaks(text) {
+  return text.replace(/<break time="([\d.]+)s"\s*\/>/g, (match, t) => {
+    return parseFloat(t) < 1.5 ? ' ' : match;
+  });
+}
+
+// ElevenLabs max single break = 3.0s; cap longer breaks via chaining
 function capBreaks(text) {
   return text.replace(/<break time="([\d.]+)s"\s*\/>/g, (_, t) => {
     const secs = parseFloat(t);
@@ -142,8 +150,8 @@ function buildBasisText(modules) {
   const parts = ['<break time="1.0s" />'];
   for (let i = 1; i <= 5; i++) {
     if (!modules[i]) continue;
-    parts.push(capBreaks(modules[i]));
-    if (i < 5) parts.push('<break time="1.5s" />');
+    parts.push(capBreaks(stripShortBreaks(modules[i])));
+    if (i < 5) parts.push('<break time="2.0s" />');
   }
   parts.push('<break time="2.0s" />');
   return parts.join('\n');
@@ -151,7 +159,7 @@ function buildBasisText(modules) {
 
 function buildPremiumText(modules) {
   if (!modules[6]) return null;
-  return '<break time="1.0s" />\n' + capBreaks(modules[6]) + '\n<break time="2.0s" />';
+  return '<break time="1.0s" />\n' + capBreaks(stripShortBreaks(modules[6])) + '\n<break time="2.0s" />';
 }
 
 function textChars(text) {
