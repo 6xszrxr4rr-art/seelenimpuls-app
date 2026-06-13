@@ -29,7 +29,7 @@ const VERTONUNG_DIR = path.join(__dirname, 'vertonung');
 const MODEL        = 'eleven_multilingual_v2';
 const FORMAT       = 'mp3_44100_128';
 const VERSION      = 'v1';
-const VOICE_SETTINGS = { stability: 0.7, similarity_boost: 0.8, style: 0.0, use_speaker_boost: true };
+const VOICE_SETTINGS = { stability: 0.7, similarity_boost: 0.8, style: 0.1, use_speaker_boost: true };
 
 // ─── Argument parsing ─────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -93,12 +93,16 @@ function apiTTS(voiceId, text, outputPath) {
 }
 
 // ─── Text parsing ─────────────────────────────────────────────────────────────
-// Remove short breaks (< 1.5s): replace with a space so sentence fragments join naturally.
-// Keep longer breaks (≥ 1.5s) at real section/paragraph transitions.
+// Remove short breaks (< 1.5s) and collapse resulting bare newlines into spaces,
+// so ElevenLabs receives flowing sentences instead of many short isolated fragments
+// (which cause it to rush). Longer breaks (≥ 1.5s) stay as structural pauses.
 function stripShortBreaks(text) {
-  return text.replace(/<break time="([\d.]+)s"\s*\/>/g, (match, t) => {
-    return parseFloat(t) < 1.5 ? ' ' : match;
+  let t = text.replace(/<break time="([\d.]+)s"\s*\/>/g, (match, secs) => {
+    return parseFloat(secs) < 1.5 ? ' ' : match;
   });
+  // Collapse stray whitespace/newlines left by removed breaks into a single space
+  t = t.replace(/[ \t]*\n[ \t]*/g, ' ').replace(/ {2,}/g, ' ').trim();
+  return t;
 }
 
 // ElevenLabs max single break = 3.0s; cap longer breaks via chaining
