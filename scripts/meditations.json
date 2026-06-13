@@ -1,5 +1,15 @@
 {
-  "voice_id": "TBD_VOICE_ID",
+  "voices": {
+    "lena": {
+      "voice_id": "TBD_LENA_WEISS_VOICE_ID",
+      "label": "Lena Weiß"
+    },
+    "therapist": {
+      "voice_id": "TBD_THERAPIST_VOICE_ID",
+      "label": "Therapeut (zweite Stimme)"
+    }
+  },
+  "default_voice": "lena",
   "model": "eleven_multilingual_v2",
   "voice_settings": {
     "stability": 0.6,

@@ -111,21 +111,32 @@ async function audioDuration(path) {
 
 const dbToLin = (db) => Math.pow(10, db / 20);
 
+function resolveVoice(spec, med) {
+  const key = med.voice || spec.default_voice;
+  const v = spec.voices?.[key];
+  if (!v) throw new Error(`Voice "${key}" für Meditation ${med.nr} nicht in spec.voices definiert.`);
+  if (!v.voice_id || v.voice_id.startsWith("TBD_")) {
+    throw new Error(`voice_id für "${key}" (${v.label}) in meditations.json fehlt — bitte ElevenLabs Voice-ID eintragen.`);
+  }
+  return v;
+}
+
 async function generateOne(spec, med) {
   const id = String(med.nr).padStart(2, "0");
   const title = slug(med.title);
   const workDir = resolve(TMP, `med-${id}`);
   await mkdir(workDir, { recursive: true });
 
+  const voice = resolveVoice(spec, med);
   console.log(`\n=== Meditation ${med.nr}: ${med.title} ===`);
-  console.log(`   ${med.blocks.length} Blöcke, Stimme=${spec.voice_id}`);
+  console.log(`   ${med.blocks.length} Blöcke, Stimme=${voice.label} (${voice.voice_id})`);
 
   const parts = [];
   for (let i = 0; i < med.blocks.length; i++) {
     const b = med.blocks[i];
     const voicePart = resolve(workDir, `b${String(i).padStart(2, "0")}-v.mp3`);
     console.log(`   [${i + 1}/${med.blocks.length}] TTS: "${b.text.slice(0, 60)}…"`);
-    await tts(b.text, spec.voice_id, spec.voice_settings, spec.model, voicePart);
+    await tts(b.text, voice.voice_id, spec.voice_settings, spec.model, voicePart);
     parts.push(voicePart);
     if (b.silence_after_s > 0) {
       const silPart = resolve(workDir, `b${String(i).padStart(2, "0")}-s.mp3`);
@@ -155,10 +166,6 @@ async function generateOne(spec, med) {
 
 async function main() {
   const spec = JSON.parse(await readFile(SPEC, "utf-8"));
-  if (spec.voice_id === "TBD_VOICE_ID") {
-    console.error("Fehler: voice_id in scripts/meditations.json fehlt. Bitte ElevenLabs Voice-ID eintragen.");
-    process.exit(1);
-  }
   await mkdir(TMP, { recursive: true });
   await mkdir(OUT_DIR, { recursive: true });
 
