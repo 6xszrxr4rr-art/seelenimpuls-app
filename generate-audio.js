@@ -220,8 +220,8 @@ async function apiTTSWithOcean(voiceId, text, outputPath) {
   const pathB     = path.join(tmp, 'si_partB.mp3');
   const pathList  = path.join(tmp, 'si_concat.txt');
 
-  // Part A — text before breathing
-  await apiTTS(voiceId, partA.trim(), pathA);
+  // Part A — text before breathing; trailing break prevents last word from being cut off
+  await apiTTS(voiceId, partA.trim() + '\n<break time="0.8s" />', pathA);
   await new Promise(r => setTimeout(r, 600));
 
   // Ocean wave
@@ -234,12 +234,19 @@ async function apiTTSWithOcean(voiceId, text, outputPath) {
     await new Promise(r => setTimeout(r, 600));
   }
 
-  // Concatenate
+  // Log temp file sizes for debugging
+  const sizeA = (fs.statSync(pathA).size / 1024).toFixed(0);
+  const sizeOcean = (fs.statSync(pathOcean).size / 1024).toFixed(0);
+  const sizeB = hasPartB ? (fs.statSync(pathB).size / 1024).toFixed(0) : '—';
+  console.log(`  [concat] partA=${sizeA}KB  ocean=${sizeOcean}KB  partB=${sizeB}KB`);
+
+  // Concatenate with re-encode (-c copy causes duration metadata bugs with MP3)
   let list = `file '${pathA}'\nfile '${pathOcean}'\n`;
   if (hasPartB) list += `file '${pathB}'\n`;
   fs.writeFileSync(pathList, list);
   execSync(
-    `ffmpeg -f concat -safe 0 -i "${pathList}" -c copy "${outputPath}" -y -loglevel quiet`
+    `ffmpeg -f concat -safe 0 -i "${pathList}" -codec:a libmp3lame -b:a 128k "${outputPath}" -y`,
+    { stdio: 'inherit' }
   );
 }
 
