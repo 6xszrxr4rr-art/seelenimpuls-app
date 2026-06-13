@@ -196,26 +196,44 @@ function hasFfmpeg() {
   catch { return false; }
 }
 
-// Extract a section of stillness-space.mp3 as the breathing pause (with fade in/out)
-function synthesiseBreathe(durationSec, outMp3Path) {
-  const source = path.join(AUDIO_DIR, 'stillness-space.mp3');
-  const fadeOut = Math.max(0, durationSec - 2.0).toFixed(2);
+// Generate a silent segment for the breathing pause (background music will carry the moment)
+function synthesiseSilence(durationSec, outMp3Path) {
   execSync(
-    `ffmpeg -ss 10 -i "${source}" -t ${durationSec} -af "afade=t=in:st=0:d=2.0,afade=t=out:st=${fadeOut}:d=2.0,volume=0.7" -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
+    `ffmpeg -f lavfi -i "anullsrc=r=44100:cl=mono" -t ${durationSec} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
+    { stdio: 'inherit' }
+  );
+}
+
+// Mix a TTS voice track with looping background music at low volume
+function mixWithBackground(ttsPath, bgMusicPath, outputPath) {
+  execSync(
+    `ffmpeg -i "${ttsPath}" -stream_loop -1 -i "${bgMusicPath}" ` +
+    `-filter_complex "[1:a]volume=0.18[bg];[0:a][bg]amix=inputs=2:duration=first:normalize=0,volume=0.9[out]" ` +
+    `-map "[out]" -codec:a libmp3lame -b:a 128k "${outputPath}" -y`,
     { stdio: 'inherit' }
   );
 }
 
 // Generate audio for a basis text that may contain §VOICESTYLE:guide§ and §ATEMPHASE:Xs§ markers.
-// Splits the text into segments, renders each with appropriate voice settings, then concatenates.
+// Splits the text into segments, renders each with appropriate voice settings, concatenates,
+// then mixes the result with the situation's background music at low volume.
 // Premium texts (no markers) are rendered with narrative settings in a single API call.
-async function apiTTSWithOcean(voiceId, text, outputPath) {
+async function apiTTSWithOcean(voiceId, text, outputPath, bgMusicPath = null) {
   const hasStyleSplit = text.includes(VOICESTYLE_MARKER);
   const hasOcean = /§ATEMPHASE:[\d.]+§/.test(text);
+  const hasBg = bgMusicPath && fs.existsSync(bgMusicPath) && hasFfmpeg();
 
   // Simple case: no markers → plain TTS with narrative settings (e.g. premium text)
   if (!hasStyleSplit && !hasOcean) {
-    return apiTTS(voiceId, text, outputPath, VOICE_SETTINGS_NARRATIVE);
+    if (hasBg) {
+      const tmp = os.tmpdir();
+      const rawPath = path.join(tmp, 'si_tts_raw.mp3');
+      await apiTTS(voiceId, text, rawPath, VOICE_SETTINGS_NARRATIVE);
+      mixWithBackground(rawPath, bgMusicPath, outputPath);
+    } else {
+      await apiTTS(voiceId, text, outputPath, VOICE_SETTINGS_NARRATIVE);
+    }
+    return;
   }
 
   if (!hasFfmpeg()) {
@@ -250,14 +268,13 @@ async function apiTTSWithOcean(voiceId, text, outputPath) {
     const [beforeOcean, afterOcean = ''] = guideRaw.split(/§ATEMPHASE:[\d.]+§/);
 
     if (beforeOcean.trim()) {
-      // Trailing break prevents last syllable from being clipped before silence
       await gen(beforeOcean + '\n<break time="0.8s" />', VOICE_SETTINGS_GUIDE);
     }
 
-    // Silent breathing pause
-    const breathePath = path.join(tmp, `si_breathe_${Math.round(duration)}s.mp3`);
-    synthesiseBreathe(duration, breathePath);
-    tempFiles.push(breathePath);
+    // Silent pause — background music carries the breathing phase
+    const silPath = path.join(tmp, `si_silence_${Math.round(duration)}s.mp3`);
+    synthesiseSilence(duration, silPath);
+    tempFiles.push(silPath);
 
     if (afterOcean.trim()) {
       await gen(afterOcean, VOICE_SETTINGS_GUIDE);
@@ -272,13 +289,19 @@ async function apiTTSWithOcean(voiceId, text, outputPath) {
     console.log(`  [seg] ${path.basename(f)}: ${kb}KB`);
   });
 
-  // Concatenate with re-encode to avoid MP3 duration metadata bugs
+  // Concatenate TTS segments
   const listPath = path.join(tmp, 'si_concat.txt');
   fs.writeFileSync(listPath, tempFiles.map(f => `file '${f}'`).join('\n') + '\n');
+  const concatPath = hasBg ? path.join(tmp, 'si_concat_raw.mp3') : outputPath;
   execSync(
-    `ffmpeg -f concat -safe 0 -i "${listPath}" -codec:a libmp3lame -b:a 128k "${outputPath}" -y`,
+    `ffmpeg -f concat -safe 0 -i "${listPath}" -codec:a libmp3lame -b:a 128k "${concatPath}" -y`,
     { stdio: 'inherit' }
   );
+
+  // Mix with looping background music
+  if (hasBg) {
+    mixWithBackground(concatPath, bgMusicPath, outputPath);
+  }
 }
 
 // ─── Build task list ──────────────────────────────────────────────────────────
@@ -291,13 +314,14 @@ function buildTasks(deVoiceId, enVoiceId) {
       const voiceId = lang === 'de' ? deVoiceId : enVoiceId;
       const numStr  = String(n).padStart(2, '0');
 
+      const bgMusicPath = path.join(AUDIO_DIR, `hintergrund-situation-${n}.mp3`);
       const basisText = buildBasisText(mods);
-      tasks.push({ n, lang, type: 'basis', voiceId, text: basisText,
+      tasks.push({ n, lang, type: 'basis', voiceId, text: basisText, bgMusicPath,
                    file: path.join(AUDIO_DIR, `situation-${numStr}-${lang}-basis.${VERSION}.mp3`) });
 
       const premiumText = buildPremiumText(mods);
       if (premiumText) {
-        tasks.push({ n, lang, type: 'premium', voiceId, text: premiumText,
+        tasks.push({ n, lang, type: 'premium', voiceId, text: premiumText, bgMusicPath,
                      file: path.join(AUDIO_DIR, `situation-${numStr}-${lang}-premium.${VERSION}.mp3`) });
       }
     }
@@ -421,10 +445,14 @@ async function main() {
     if (!task) { console.error('Task not found'); process.exit(1); }
     console.log(`\nGenerating TEST file: ${path.basename(task.file)}`);
     console.log('─'.repeat(60));
-    console.log('TEXT PREVIEW (first 400 chars):\n');
-    console.log(task.text.substring(0, 400) + '...\n');
+    // Show which modules are present and where the voice/breathing markers are
+    const mods = parseVertonungFile('de', 1);
+    console.log('Module enthalten:', Object.keys(mods).map(k => `M${k}`).join(', '));
+    console.log('Stilwechsel bei:  §VOICESTYLE:guide§ (zwischen M2→M3)');
+    console.log('Atempause bei:    §ATEMPHASE:28§ (in M4)');
+    console.log(`Hintergrundmusik: ${path.basename(task.bgMusicPath)} (${fs.existsSync(task.bgMusicPath) ? 'gefunden ✓' : 'nicht gefunden ✗'})`);
     console.log('─'.repeat(60));
-    await apiTTSWithOcean(task.voiceId, task.text, task.file);
+    await apiTTSWithOcean(task.voiceId, task.text, task.file, task.bgMusicPath);
     const stat = fs.statSync(task.file);
     console.log(`\n✓ Saved: ${task.file}`);
     console.log(`  Size: ${(stat.size / 1024).toFixed(1)} KB`);
@@ -439,7 +467,7 @@ async function main() {
     const label = `situation-${String(task.n).padStart(2,'0')}-${task.lang}-${task.type}.${VERSION}.mp3`;
     process.stdout.write(`  ${label.padEnd(48)} `);
     try {
-      await apiTTSWithOcean(task.voiceId, task.text, task.file);
+      await apiTTSWithOcean(task.voiceId, task.text, task.file, task.bgMusicPath);
       const stat = fs.statSync(task.file);
       const kb = (stat.size / 1024).toFixed(1);
       console.log(`✓  ${kb} KB`);
