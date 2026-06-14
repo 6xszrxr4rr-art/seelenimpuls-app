@@ -31,7 +31,12 @@ const VERTONUNG_DIR = path.join(__dirname, 'vertonung');
 const MODEL        = 'eleven_turbo_v2_5';
 const FORMAT       = 'mp3_44100_128';
 const VERSION      = 'v1';
-const VOICE_SETTINGS = { stability: 0.7, similarity_boost: 0.8, style: 0.1, use_speaker_boost: true };
+// Narrative (Modul 1–2: Ankommen, Einblick) — warmer, slightly expressive
+const VOICE_SETTINGS_NARRATIVE = { stability: 0.68, similarity_boost: 0.80, style: 0.15, use_speaker_boost: true };
+// Guide (Modul 3–5: Kraftsätze, Ritual, Abschluss) — very calm, steady, meditative
+const VOICE_SETTINGS_GUIDE     = { stability: 0.90, similarity_boost: 0.80, style: 0.00, use_speaker_boost: true };
+// Marker inserted between Module 2 and Module 3 to trigger voice style switch
+const VOICESTYLE_MARKER = '§VOICESTYLE:guide§';
 
 // ─── Argument parsing ─────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -63,9 +68,9 @@ function apiGet(apiPath) {
   });
 }
 
-function apiTTS(voiceId, text, outputPath) {
+function apiTTS(voiceId, text, outputPath, settings = VOICE_SETTINGS_NARRATIVE) {
   return new Promise((resolve, reject) => {
-    const bodyStr = JSON.stringify({ text, model_id: MODEL, voice_settings: VOICE_SETTINGS });
+    const bodyStr = JSON.stringify({ text, model_id: MODEL, voice_settings: settings });
     const options = {
       hostname: 'api.elevenlabs.io',
       path: `/v1/text-to-speech/${voiceId}?output_format=${FORMAT}`,
@@ -152,12 +157,22 @@ function parseVertonungFile(lang, num) {
 }
 
 function buildBasisText(modules) {
-  // Combine modules 1–5, wrap with 1s intro + 2s outro silence
   const parts = ['<break time="1.0s" />'];
-  for (let i = 1; i <= 5; i++) {
+  // Modules 1–2: narrative voice (Ankommen, Einblick)
+  let hasNarr = false;
+  for (let i = 1; i <= 2; i++) {
     if (!modules[i]) continue;
+    if (hasNarr) parts.push('<break time="2.0s" />');
     parts.push(capBreaks(stripShortBreaks(modules[i])));
-    if (i < 5) parts.push('<break time="2.0s" />');
+    hasNarr = true;
+  }
+  // Voice style boundary: from here on use guide/exercise voice
+  parts.push(VOICESTYLE_MARKER);
+  // Modules 3–5: guide voice (Kraftsätze, Mini-Ritual, Abschluss)
+  for (let i = 3; i <= 5; i++) {
+    if (!modules[i]) continue;
+    parts.push('<break time="2.0s" />');
+    parts.push(capBreaks(stripShortBreaks(modules[i])));
   }
   parts.push('<break time="2.0s" />');
   return parts.join('\n');
@@ -169,10 +184,10 @@ function buildPremiumText(modules) {
 }
 
 function textChars(text) {
-  return text.replace(/<break[^>]*\/>/g, '').replace(/§ATEMPHASE:[^§]+§/g, '').replace(/\s+/g, ' ').trim().length;
+  return text.replace(/<break[^>]*\/>/g, '').replace(/§[^§]+§/g, '').replace(/\s+/g, ' ').trim().length;
 }
 function textWords(text) {
-  return text.replace(/<break[^>]*\/>/g, '').replace(/§ATEMPHASE:[^§]+§/g, '').trim().split(/\s+/).filter(Boolean).length;
+  return text.replace(/<break[^>]*\/>/g, '').replace(/§[^§]+§/g, '').trim().split(/\s+/).filter(Boolean).length;
 }
 
 // ─── ffmpeg + Atemphase-Ocean helpers ────────────────────────────────────────
@@ -181,66 +196,112 @@ function hasFfmpeg() {
   catch { return false; }
 }
 
-// Synthesise ocean-wave audio: brown noise → lowpass → volume → fades
-function synthesiseOcean(durationSec, outMp3Path) {
-  const d = durationSec;
-  const fadeOut = Math.max(0, d - 1.5).toFixed(2);
-  const af = [
-    'lowpass=f=350',
-    'volume=3.0',
-    'afade=t=in:st=0:d=1.5',
-    `afade=t=out:st=${fadeOut}:d=1.5`
-  ].join(',');
+// Generate a silent segment for the breathing pause (background music will carry the moment)
+function synthesiseSilence(durationSec, outMp3Path) {
   execSync(
-    `ffmpeg -f lavfi -i "anoisesrc=color=brown" -af "${af}" -t ${d} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
+    `ffmpeg -f lavfi -i "anullsrc=r=44100:cl=mono" -t ${durationSec} -codec:a libmp3lame -b:a 128k "${outMp3Path}" -y`,
     { stdio: 'inherit' }
   );
 }
 
-// TTS call that detects §ATEMPHASE:Xs§ markers, splits the text, calls TTS
-// for each part, synthesises ocean-wave audio and concatenates with ffmpeg.
-// Falls back to normal TTS (without ocean) if ffmpeg is not installed.
-async function apiTTSWithOcean(voiceId, text, outputPath) {
-  const markerMatch = text.match(/§ATEMPHASE:([\d.]+)§/);
-  if (!markerMatch) return apiTTS(voiceId, text, outputPath);
+// Mix a TTS voice track with looping background music at low volume
+function mixWithBackground(ttsPath, bgMusicPath, outputPath) {
+  execSync(
+    `ffmpeg -i "${ttsPath}" -stream_loop -1 -i "${bgMusicPath}" ` +
+    `-filter_complex "[1:a]volume=0.18[bg];[0:a][bg]amix=inputs=2:duration=first:normalize=0,volume=0.9[out]" ` +
+    `-map "[out]" -codec:a libmp3lame -b:a 128k "${outputPath}" -y`,
+    { stdio: 'inherit' }
+  );
+}
 
-  const duration = parseFloat(markerMatch[1]);
-  const [partA, partB] = text.split(/§ATEMPHASE:[\d.]+§/);
+// Generate audio for a basis text that may contain §VOICESTYLE:guide§ and §ATEMPHASE:Xs§ markers.
+// Splits the text into segments, renders each with appropriate voice settings, concatenates,
+// then mixes the result with the situation's background music at low volume.
+// Premium texts (no markers) are rendered with narrative settings in a single API call.
+async function apiTTSWithOcean(voiceId, text, outputPath, bgMusicPath = null) {
+  const hasStyleSplit = text.includes(VOICESTYLE_MARKER);
+  const hasOcean = /§ATEMPHASE:[\d.]+§/.test(text);
+  const hasBg = bgMusicPath && fs.existsSync(bgMusicPath) && hasFfmpeg();
+
+  // Simple case: no markers → plain TTS with narrative settings (e.g. premium text)
+  if (!hasStyleSplit && !hasOcean) {
+    if (hasBg) {
+      const tmp = os.tmpdir();
+      const rawPath = path.join(tmp, 'si_tts_raw.mp3');
+      await apiTTS(voiceId, text, rawPath, VOICE_SETTINGS_NARRATIVE);
+      mixWithBackground(rawPath, bgMusicPath, outputPath);
+    } else {
+      await apiTTS(voiceId, text, outputPath, VOICE_SETTINGS_NARRATIVE);
+    }
+    return;
+  }
 
   if (!hasFfmpeg()) {
-    console.warn('\n  ⚠  ffmpeg nicht gefunden — Atemphase wird übersprungen.');
-    console.warn('     Installieren mit: brew install ffmpeg');
-    const joined = [partA, partB].filter(Boolean).join(' ').trim();
-    return apiTTS(voiceId, joined, outputPath);
+    console.warn('\n  ⚠  ffmpeg nicht gefunden — Segmente werden zusammengeführt ohne Pause.');
+    const plain = text.replace(/§[^§]+§/g, ' ').replace(/\s+/g, ' ').trim();
+    return apiTTS(voiceId, plain, outputPath, VOICE_SETTINGS_NARRATIVE);
   }
 
-  const tmp       = os.tmpdir();
-  const pathA     = path.join(tmp, 'si_partA.mp3');
-  const pathOcean = path.join(tmp, `si_ocean_${Math.round(duration)}s.mp3`);
-  const pathB     = path.join(tmp, 'si_partB.mp3');
-  const pathList  = path.join(tmp, 'si_concat.txt');
+  const tmp = os.tmpdir();
+  const tempFiles = [];
+  let idx = 0;
 
-  // Part A — text before breathing
-  await apiTTS(voiceId, partA.trim(), pathA);
-  await new Promise(r => setTimeout(r, 600));
-
-  // Ocean wave
-  synthesiseOcean(duration, pathOcean);
-
-  // Part B — text after breathing (may be empty for some modules)
-  const hasPartB = partB && partB.trim().length > 0;
-  if (hasPartB) {
-    await apiTTS(voiceId, partB.trim(), pathB);
+  async function gen(partText, settings) {
+    const p = path.join(tmp, `si_seg${idx++}.mp3`);
+    await apiTTS(voiceId, partText.trim(), p, settings);
     await new Promise(r => setTimeout(r, 600));
+    tempFiles.push(p);
   }
 
-  // Concatenate
-  let list = `file '${pathA}'\nfile '${pathOcean}'\n`;
-  if (hasPartB) list += `file '${pathB}'\n`;
-  fs.writeFileSync(pathList, list);
+  // Split at voice style boundary
+  const [narrativeRaw = '', guideRaw = ''] = text.split(VOICESTYLE_MARKER);
+
+  // Narrative segment (Modules 1–2)
+  if (narrativeRaw.trim()) {
+    await gen(narrativeRaw, VOICE_SETTINGS_NARRATIVE);
+  }
+
+  // Guide segment(s) — may contain ATEMPHASE breathing pause
+  const oceanMatch = guideRaw.match(/§ATEMPHASE:([\d.]+)§/);
+  if (oceanMatch) {
+    const duration = parseFloat(oceanMatch[1]);
+    const [beforeOcean, afterOcean = ''] = guideRaw.split(/§ATEMPHASE:[\d.]+§/);
+
+    if (beforeOcean.trim()) {
+      await gen(beforeOcean + '\n<break time="0.8s" />', VOICE_SETTINGS_GUIDE);
+    }
+
+    // Silent pause — background music carries the breathing phase
+    const silPath = path.join(tmp, `si_silence_${Math.round(duration)}s.mp3`);
+    synthesiseSilence(duration, silPath);
+    tempFiles.push(silPath);
+
+    if (afterOcean.trim()) {
+      await gen(afterOcean, VOICE_SETTINGS_GUIDE);
+    }
+  } else if (guideRaw.trim()) {
+    await gen(guideRaw, VOICE_SETTINGS_GUIDE);
+  }
+
+  // Log segment sizes
+  tempFiles.forEach(f => {
+    const kb = (fs.statSync(f).size / 1024).toFixed(0);
+    console.log(`  [seg] ${path.basename(f)}: ${kb}KB`);
+  });
+
+  // Concatenate TTS segments
+  const listPath = path.join(tmp, 'si_concat.txt');
+  fs.writeFileSync(listPath, tempFiles.map(f => `file '${f}'`).join('\n') + '\n');
+  const concatPath = hasBg ? path.join(tmp, 'si_concat_raw.mp3') : outputPath;
   execSync(
-    `ffmpeg -f concat -safe 0 -i "${pathList}" -c copy "${outputPath}" -y -loglevel quiet`
+    `ffmpeg -f concat -safe 0 -i "${listPath}" -codec:a libmp3lame -b:a 128k "${concatPath}" -y`,
+    { stdio: 'inherit' }
   );
+
+  // Mix with looping background music
+  if (hasBg) {
+    mixWithBackground(concatPath, bgMusicPath, outputPath);
+  }
 }
 
 // ─── Build task list ──────────────────────────────────────────────────────────
@@ -253,13 +314,14 @@ function buildTasks(deVoiceId, enVoiceId) {
       const voiceId = lang === 'de' ? deVoiceId : enVoiceId;
       const numStr  = String(n).padStart(2, '0');
 
+      const bgMusicPath = path.join(AUDIO_DIR, `hintergrund-situation-${n}.mp3`);
       const basisText = buildBasisText(mods);
-      tasks.push({ n, lang, type: 'basis', voiceId, text: basisText,
+      tasks.push({ n, lang, type: 'basis', voiceId, text: basisText, bgMusicPath,
                    file: path.join(AUDIO_DIR, `situation-${numStr}-${lang}-basis.${VERSION}.mp3`) });
 
       const premiumText = buildPremiumText(mods);
       if (premiumText) {
-        tasks.push({ n, lang, type: 'premium', voiceId, text: premiumText,
+        tasks.push({ n, lang, type: 'premium', voiceId, text: premiumText, bgMusicPath,
                      file: path.join(AUDIO_DIR, `situation-${numStr}-${lang}-premium.${VERSION}.mp3`) });
       }
     }
@@ -383,10 +445,14 @@ async function main() {
     if (!task) { console.error('Task not found'); process.exit(1); }
     console.log(`\nGenerating TEST file: ${path.basename(task.file)}`);
     console.log('─'.repeat(60));
-    console.log('TEXT PREVIEW (first 400 chars):\n');
-    console.log(task.text.substring(0, 400) + '...\n');
+    // Show which modules are present and where the voice/breathing markers are
+    const mods = parseVertonungFile('de', 1);
+    console.log('Module enthalten:', Object.keys(mods).map(k => `M${k}`).join(', '));
+    console.log('Stilwechsel bei:  §VOICESTYLE:guide§ (zwischen M2→M3)');
+    console.log('Atempause bei:    §ATEMPHASE:28§ (in M4)');
+    console.log(`Hintergrundmusik: ${path.basename(task.bgMusicPath)} (${fs.existsSync(task.bgMusicPath) ? 'gefunden ✓' : 'nicht gefunden ✗'})`);
     console.log('─'.repeat(60));
-    await apiTTSWithOcean(task.voiceId, task.text, task.file);
+    await apiTTSWithOcean(task.voiceId, task.text, task.file, task.bgMusicPath);
     const stat = fs.statSync(task.file);
     console.log(`\n✓ Saved: ${task.file}`);
     console.log(`  Size: ${(stat.size / 1024).toFixed(1)} KB`);
@@ -401,7 +467,7 @@ async function main() {
     const label = `situation-${String(task.n).padStart(2,'0')}-${task.lang}-${task.type}.${VERSION}.mp3`;
     process.stdout.write(`  ${label.padEnd(48)} `);
     try {
-      await apiTTSWithOcean(task.voiceId, task.text, task.file);
+      await apiTTSWithOcean(task.voiceId, task.text, task.file, task.bgMusicPath);
       const stat = fs.statSync(task.file);
       const kb = (stat.size / 1024).toFixed(1);
       console.log(`✓  ${kb} KB`);
