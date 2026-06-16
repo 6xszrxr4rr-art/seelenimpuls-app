@@ -2805,6 +2805,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function reset() {
       if (rfInstance) rfInstance.detachAudio();
+      if (bgAudio) bgAudio.volume = 0.018;
       btn.className = 'vorlesen-btn';
       btn.textContent = lPlay;
       barOuter.classList.remove('visible');
@@ -2835,12 +2836,15 @@ document.addEventListener("DOMContentLoaded", () => {
         timeEl.classList.add('visible');
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
+        if (bgAudio) bgAudio.volume = 0;
         audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
       } else if (audio.paused) {
+        if (bgAudio) bgAudio.volume = 0;
         audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
       } else {
+        if (bgAudio) bgAudio.volume = 0.018;
         audio.pause();
         cancelAnimationFrame(rafId);
         btn.className = 'vorlesen-btn';
@@ -3109,10 +3113,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.04;
+    bgAudio.volume = 0.018;
     bgAudio.onerror = () => {
       bgAudio = new Audio("audio/stillness-space.mp3");
-      bgAudio.loop = true; bgAudio.volume = 0.04; bgAudio.play().catch(() => {});
+      bgAudio.loop = true; bgAudio.volume = 0.018; bgAudio.play().catch(() => {});
     };
     bgAudio.play().catch(() => {});
 
