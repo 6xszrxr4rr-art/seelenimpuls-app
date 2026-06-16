@@ -2761,6 +2761,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sitReadAudio) { sitReadAudio.pause(); sitReadAudio = null; }
   }
 
+  function fadeBgAudio(targetVol, ms = 500) {
+    if (!bgAudio) return;
+    const from = bgAudio.volume, steps = 20, stepMs = ms / steps;
+    let step = 0;
+    const iv = setInterval(() => {
+      step++;
+      if (!bgAudio) { clearInterval(iv); return; }
+      bgAudio.volume = Math.max(0, Math.min(1, from + (targetVol - from) * step / steps));
+      if (step >= steps) clearInterval(iv);
+    }, stepMs);
+  }
+
   function createVorlesenPlayer(container, audioSrc, extraClass) {
     const lPlay   = lang === 'de' ? '🔊 Vorlesen'    : '🔊 Listen';
     const lPause  = lang === 'de' ? '⏸ Pausieren'    : '⏸ Pause';
@@ -2805,7 +2817,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function reset() {
       if (rfInstance) rfInstance.detachAudio();
-      if (bgAudio) bgAudio.volume = 0.018;
+      fadeBgAudio(0.018);
       btn.className = 'vorlesen-btn';
       btn.textContent = lPlay;
       barOuter.classList.remove('visible');
@@ -2836,15 +2848,15 @@ document.addEventListener("DOMContentLoaded", () => {
         timeEl.classList.add('visible');
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
-        if (bgAudio) bgAudio.volume = 0;
+        fadeBgAudio(0);
         audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
       } else if (audio.paused) {
-        if (bgAudio) bgAudio.volume = 0;
+        fadeBgAudio(0);
         audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
       } else {
-        if (bgAudio) bgAudio.volume = 0.018;
+        fadeBgAudio(0.018);
         audio.pause();
         cancelAnimationFrame(rafId);
         btn.className = 'vorlesen-btn';
@@ -2987,68 +2999,97 @@ document.addEventListener("DOMContentLoaded", () => {
     if (rfInstance) { rfInstance.destroy(); rfInstance = null; }
     const segs = [];
     const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let destroyed = false;
 
     function esc(s) {
       return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
+    // Wrap each non-empty line as its own rf-seg span; empty lines become paragraph breaks
     function wrapAnchor(id) {
       const el = $(id);
       if (!el || !el.textContent.trim()) return;
-      const parts = el.textContent.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
-      if (!parts.length) return;
+      const lines = el.textContent.split('\n');
       const base = segs.length;
-      el.innerHTML = parts.map((p, i) =>
-        `<span class="rf-seg" data-rf="${base + i}">${esc(p)}</span>`
-      ).join('\n\n');
-      parts.forEach((p, i) =>
-        segs.push({ el: el.querySelector(`[data-rf="${base + i}"]`), chars: p.length })
-      );
+      const entries = [];
+      let si = 0;
+
+      // Collect sentences with pause-after marker
+      for (let i = 0; i < lines.length; i++) {
+        const text = lines[i].trim();
+        if (!text) continue;
+        let pauseAfter = false;
+        if (i + 1 < lines.length && !lines[i + 1].trim()) pauseAfter = true;
+        entries.push({ text, rfIdx: base + si, pauseAfter });
+        si++;
+      }
+
+      // Build innerHTML preserving blank lines for visual spacing
+      let html = '', ei = 0;
+      for (let i = 0; i < lines.length; i++) {
+        const text = lines[i].trim();
+        if (!text) { html += '\n'; continue; }
+        html += `<span class="rf-seg" data-rf="${entries[ei].rfIdx}">${esc(text)}</span>\n`;
+        ei++;
+      }
+      el.innerHTML = html;
+
+      entries.forEach(e => {
+        const elem = el.querySelector(`[data-rf="${e.rfIdx}"]`);
+        if (elem) segs.push({ el: elem, chars: e.text.length, pauseAfter: e.pauseAfter });
+      });
     }
 
+    // Add rf-seg to the text-span inside each list item (not the li itself)
     function wrapList(id) {
       const ul = $(id);
       if (!ul) return;
       ul.querySelectorAll('li').forEach(li => {
-        li.classList.add('rf-seg');
-        segs.push({ el: li, chars: li.textContent.trim().length });
+        const span = li.querySelector('span');
+        if (!span) return;
+        span.classList.add('rf-seg');
+        segs.push({ el: span, chars: span.textContent.trim().length, pauseAfter: false });
       });
     }
 
     wrapAnchor('t1'); wrapAnchor('t2'); wrapList('t3'); wrapList('t4'); wrapAnchor('t5');
     if (!segs.length) return;
 
-    let idx = 0, timer = null, audio = null, noScroll = false, scrollTimer = null;
+    let idx = -1, timer = null, audioEl = null, noScroll = false, scrollTimer = null;
 
     function go(i) {
-      if (i < 0 || i >= segs.length) return;
+      if (destroyed || i < 0 || i >= segs.length) return;
       segs.forEach((s, j) => {
-        s.el.classList.toggle('rf-active', j === i);
+        if (!s.el) return;
+        s.el.classList.toggle('rf-active',   j === i);
         s.el.classList.toggle('rf-inactive', j !== i);
       });
       idx = i;
-      if (motionOK && !noScroll) {
+      if (motionOK && !noScroll && segs[i].el) {
         const r = segs[i].el.getBoundingClientRect();
         if (r.bottom > window.innerHeight - 80 || r.top < 80)
           segs[i].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
 
-    function segDelay(chars) {
-      return Math.max(4000, Math.min(10000, Math.round(chars / 11 * 1000)));
+    // ms per segment: 60ms per char, min 1200ms, max 3500ms, +400ms after paragraph break
+    function segDelay(seg) {
+      return Math.max(1200, Math.min(3500, seg.chars * 60)) + (seg.pauseAfter ? 400 : 0);
     }
 
     function autoNext() {
       clearTimeout(timer);
-      if (audio || !motionOK) return;
+      if (audioEl || !motionOK || destroyed || idx >= segs.length - 1) return;
       timer = setTimeout(() => {
-        if (idx + 1 < segs.length) { go(idx + 1); autoNext(); }
-      }, segDelay(segs[idx].chars));
+        if (destroyed) return;
+        go(idx + 1);
+        autoNext();
+      }, idx < 0 ? 0 : segDelay(segs[idx]));
     }
 
     function onTimeUpdate() {
-      if (!audio || !audio.duration) return;
-      const t = audio.currentTime, dur = audio.duration;
+      if (!audioEl || !audioEl.duration || destroyed) return;
+      const t = audioEl.currentTime, dur = audioEl.duration;
       const total = segs.reduce((s, x) => s + x.chars, 0);
       let acc = 0;
       for (let i = 0; i < segs.length; i++) {
@@ -3069,25 +3110,29 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('touchmove', onScroll, { passive: true });
 
-    segs.forEach((s, i) => s.el.classList.add('rf-seg', i === 0 ? 'rf-active' : 'rf-inactive'));
-    autoNext();
+    // Start: all dimmed, first highlight after 1.5s delay
+    segs.forEach(s => { if (s.el) s.el.classList.add('rf-seg', 'rf-inactive'); });
+    timer = setTimeout(() => {
+      if (!destroyed) { go(0); autoNext(); }
+    }, 1500);
 
     rfInstance = {
       attachAudio(a) {
-        audio = a;
+        audioEl = a;
         clearTimeout(timer);
-        audio.addEventListener('timeupdate', onTimeUpdate);
+        audioEl.addEventListener('timeupdate', onTimeUpdate);
       },
       detachAudio() {
-        if (audio) { audio.removeEventListener('timeupdate', onTimeUpdate); audio = null; }
+        if (audioEl) { audioEl.removeEventListener('timeupdate', onTimeUpdate); audioEl = null; }
         autoNext();
       },
       destroy() {
+        destroyed = true;
         clearTimeout(timer); clearTimeout(scrollTimer);
         window.removeEventListener('scroll', onScroll);
         window.removeEventListener('touchmove', onScroll);
-        if (audio) audio.removeEventListener('timeupdate', onTimeUpdate);
-        segs.forEach(s => s.el.classList.remove('rf-seg', 'rf-active', 'rf-inactive'));
+        if (audioEl) audioEl.removeEventListener('timeupdate', onTimeUpdate);
+        segs.forEach(s => { if (s.el) s.el.classList.remove('rf-seg', 'rf-active', 'rf-inactive'); });
       }
     };
   }
