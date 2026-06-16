@@ -208,7 +208,7 @@ function synthesiseSilence(durationSec, outMp3Path) {
 function mixWithBackground(ttsPath, bgMusicPath, outputPath) {
   execSync(
     `ffmpeg -i "${ttsPath}" -stream_loop -1 -i "${bgMusicPath}" ` +
-    `-filter_complex "[1:a]volume=0.18[bg];[0:a][bg]amix=inputs=2:duration=first:normalize=0,volume=0.9[out]" ` +
+    `-filter_complex "[1:a]volume=0.10[bg];[0:a][bg]amix=inputs=2:duration=first:normalize=0,volume=0.85[out]" ` +
     `-map "[out]" -codec:a libmp3lame -b:a 128k "${outputPath}" -y`,
     { stdio: 'inherit' }
   );

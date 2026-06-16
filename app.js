@@ -3005,50 +3005,71 @@ document.addEventListener("DOMContentLoaded", () => {
       return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    // Wrap each non-empty line as its own rf-seg span; empty lines become paragraph breaks
+    // Push word-level spans into segs; returns the HTML string for the block
+    function wordsToSpans(text, isLastBeforeBreak) {
+      const lines = text.split('\n');
+      let html = '';
+      for (let li = 0; li < lines.length; li++) {
+        const line = lines[li].trim();
+        if (!line) { html += '\n'; continue; }
+        const isBreakAfterLine = (li === lines.length - 1 && isLastBeforeBreak) ||
+                                 (li < lines.length - 1 && !lines[li + 1].trim());
+        const words = line.split(/\s+/).filter(Boolean);
+        for (let wi = 0; wi < words.length; wi++) {
+          const w = words[wi];
+          const rfIdx = segs.length;
+          const isLastWordOnLine = wi === words.length - 1;
+          segs.push({
+            rfIdx,
+            chars: w.length,
+            sentenceEnd: /[.!?,;:]$/.test(w),
+            pauseAfter: isLastWordOnLine && isBreakAfterLine,
+          });
+          html += `<span class="rf-seg" data-rf="${rfIdx}">${esc(w)}</span>`;
+          if (wi < words.length - 1) html += ' ';
+        }
+        html += '\n';
+      }
+      return html;
+    }
+
     function wrapAnchor(id) {
       const el = $(id);
       if (!el || !el.textContent.trim()) return;
-      const lines = el.textContent.split('\n');
+      const text = el.textContent;
       const base = segs.length;
-      const entries = [];
-      let si = 0;
-
-      // Collect sentences with pause-after marker
-      for (let i = 0; i < lines.length; i++) {
-        const text = lines[i].trim();
-        if (!text) continue;
-        let pauseAfter = false;
-        if (i + 1 < lines.length && !lines[i + 1].trim()) pauseAfter = true;
-        entries.push({ text, rfIdx: base + si, pauseAfter });
-        si++;
-      }
-
-      // Build innerHTML preserving blank lines for visual spacing
-      let html = '', ei = 0;
-      for (let i = 0; i < lines.length; i++) {
-        const text = lines[i].trim();
-        if (!text) { html += '\n'; continue; }
-        html += `<span class="rf-seg" data-rf="${entries[ei].rfIdx}">${esc(text)}</span>\n`;
-        ei++;
-      }
+      const html = wordsToSpans(text, false);
       el.innerHTML = html;
-
-      entries.forEach(e => {
-        const elem = el.querySelector(`[data-rf="${e.rfIdx}"]`);
-        if (elem) segs.push({ el: elem, chars: e.text.length, pauseAfter: e.pauseAfter });
-      });
+      // bind DOM elements now that innerHTML is set
+      for (let i = base; i < segs.length; i++) {
+        segs[i].el = el.querySelector(`[data-rf="${i}"]`);
+      }
     }
 
-    // Add rf-seg to the text-span inside each list item (not the li itself)
     function wrapList(id) {
       const ul = $(id);
       if (!ul) return;
       ul.querySelectorAll('li').forEach(li => {
         const span = li.querySelector('span');
         if (!span) return;
-        span.classList.add('rf-seg');
-        segs.push({ el: span, chars: span.textContent.trim().length, pauseAfter: false });
+        const text = span.textContent.trim();
+        if (!text) return;
+        const base = segs.length;
+        const words = text.split(/\s+/).filter(Boolean);
+        span.innerHTML = words.map((w, wi) => {
+          const rfIdx = base + wi;
+          segs.push({
+            rfIdx,
+            chars: w.length,
+            sentenceEnd: /[.!?,;:]$/.test(w),
+            pauseAfter: false,
+            el: null,
+          });
+          return `<span class="rf-seg" data-rf="${rfIdx}">${esc(w)}</span>${wi < words.length - 1 ? ' ' : ''}`;
+        }).join('');
+        for (let i = base; i < segs.length; i++) {
+          segs[i].el = span.querySelector(`[data-rf="${i}"]`);
+        }
       });
     }
 
@@ -3072,9 +3093,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // ms per segment: 60ms per char, min 1200ms, max 3500ms, +400ms after paragraph break
+    // Per-word timing: short words ~350ms, long words ~550ms, +300ms after sentence punctuation, +500ms after paragraph break
     function segDelay(seg) {
-      return Math.max(1200, Math.min(3500, seg.chars * 60)) + (seg.pauseAfter ? 400 : 0);
+      const base = seg.chars <= 3 ? 350 : seg.chars >= 8 ? 550 : 450;
+      return base + (seg.sentenceEnd ? 300 : 0) + (seg.pauseAfter ? 500 : 0);
     }
 
     function autoNext() {
