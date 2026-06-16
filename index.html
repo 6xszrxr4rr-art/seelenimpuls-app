@@ -449,6 +449,17 @@
     /* Premium Vorlesen inside b6 */
     .vorlesen-wrap.premium { margin-top: 18px; margin-bottom: 0; }
 
+    /* ── Reading Focus ────────────────────────────── */
+    .rf-seg {
+      border-radius: 5px;
+      transition: opacity 0.75s ease, background-color 0.75s ease;
+    }
+    .rf-inactive { opacity: 0.42; }
+    span.rf-active { background: rgba(184, 148, 58, 0.13); }
+    @media (prefers-reduced-motion: reduce) {
+      .rf-seg { transition: none; }
+    }
+
     /* ── Favorites ── */
     .fav-item {
       background: var(--block-bg); border: 1px solid var(--block-border);

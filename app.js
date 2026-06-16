@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let pvFadeInt = null;
   let currentSongAudio = null;
   let bgAudio = null;
+  let rfInstance = null;
   let quickTimerInterval = null;
   let recommendedSituation = null;
   let sessionGen = 0;
@@ -886,6 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (quickTimerInterval){ clearInterval(quickTimerInterval); quickTimerInterval = null; }
     stopBreathPhase();
     stopSitRead();
+    if (rfInstance)        { rfInstance.destroy(); rfInstance = null; }
     if (currentSongAudio)  { currentSongAudio.pause(); currentSongAudio = null; }
     if (bgAudio)           { bgAudio.pause(); bgAudio = null; }
   }
@@ -2802,6 +2804,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function reset() {
+      if (rfInstance) rfInstance.detachAudio();
       btn.className = 'vorlesen-btn';
       btn.textContent = lPlay;
       barOuter.classList.remove('visible');
@@ -2832,9 +2835,9 @@ document.addEventListener("DOMContentLoaded", () => {
         timeEl.classList.add('visible');
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
-        audio.play().then(() => tick()).catch(reset);
+        audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
       } else if (audio.paused) {
-        audio.play().then(() => tick()).catch(reset);
+        audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
       } else {
@@ -2842,6 +2845,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cancelAnimationFrame(rafId);
         btn.className = 'vorlesen-btn';
         btn.textContent = lResume;
+        if (rfInstance) rfInstance.detachAudio();
       }
     });
 
@@ -2974,6 +2978,116 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ── READING FOCUS ─────────────────────────────────────────────────────
+  function startReadingFocus() {
+    if (rfInstance) { rfInstance.destroy(); rfInstance = null; }
+    const segs = [];
+    const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function esc(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function wrapAnchor(id) {
+      const el = $(id);
+      if (!el || !el.textContent.trim()) return;
+      const parts = el.textContent.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+      if (!parts.length) return;
+      const base = segs.length;
+      el.innerHTML = parts.map((p, i) =>
+        `<span class="rf-seg" data-rf="${base + i}">${esc(p)}</span>`
+      ).join('\n\n');
+      parts.forEach((p, i) =>
+        segs.push({ el: el.querySelector(`[data-rf="${base + i}"]`), chars: p.length })
+      );
+    }
+
+    function wrapList(id) {
+      const ul = $(id);
+      if (!ul) return;
+      ul.querySelectorAll('li').forEach(li => {
+        li.classList.add('rf-seg');
+        segs.push({ el: li, chars: li.textContent.trim().length });
+      });
+    }
+
+    wrapAnchor('t1'); wrapAnchor('t2'); wrapList('t3'); wrapList('t4'); wrapAnchor('t5');
+    if (!segs.length) return;
+
+    let idx = 0, timer = null, audio = null, noScroll = false, scrollTimer = null;
+
+    function go(i) {
+      if (i < 0 || i >= segs.length) return;
+      segs.forEach((s, j) => {
+        s.el.classList.toggle('rf-active', j === i);
+        s.el.classList.toggle('rf-inactive', j !== i);
+      });
+      idx = i;
+      if (motionOK && !noScroll) {
+        const r = segs[i].el.getBoundingClientRect();
+        if (r.bottom > window.innerHeight - 80 || r.top < 80)
+          segs[i].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function segDelay(chars) {
+      return Math.max(4000, Math.min(10000, Math.round(chars / 11 * 1000)));
+    }
+
+    function autoNext() {
+      clearTimeout(timer);
+      if (audio || !motionOK) return;
+      timer = setTimeout(() => {
+        if (idx + 1 < segs.length) { go(idx + 1); autoNext(); }
+      }, segDelay(segs[idx].chars));
+    }
+
+    function onTimeUpdate() {
+      if (!audio || !audio.duration) return;
+      const t = audio.currentTime, dur = audio.duration;
+      const total = segs.reduce((s, x) => s + x.chars, 0);
+      let acc = 0;
+      for (let i = 0; i < segs.length; i++) {
+        acc += segs[i].chars;
+        if (t < (acc / total) * dur || i === segs.length - 1) {
+          if (i !== idx) go(i);
+          break;
+        }
+      }
+    }
+
+    function onScroll() {
+      noScroll = true;
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => { noScroll = false; }, 3500);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('touchmove', onScroll, { passive: true });
+
+    segs.forEach((s, i) => s.el.classList.add('rf-seg', i === 0 ? 'rf-active' : 'rf-inactive'));
+    autoNext();
+
+    rfInstance = {
+      attachAudio(a) {
+        audio = a;
+        clearTimeout(timer);
+        audio.addEventListener('timeupdate', onTimeUpdate);
+      },
+      detachAudio() {
+        if (audio) { audio.removeEventListener('timeupdate', onTimeUpdate); audio = null; }
+        autoNext();
+      },
+      destroy() {
+        clearTimeout(timer); clearTimeout(scrollTimer);
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('touchmove', onScroll);
+        if (audio) audio.removeEventListener('timeupdate', onTimeUpdate);
+        segs.forEach(s => s.el.classList.remove('rf-seg', 'rf-active', 'rf-inactive'));
+      }
+    };
+  }
+
   // ── RUN SITUATION ─────────────────────────────────────────────────────
   async function runSituation(n) {
     const s = window.SITUATIONS && window.SITUATIONS[n];
@@ -3103,6 +3217,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const numStr = String(n).padStart(2, '0');
       createVorlesenPlayer(basisBar, `audio/situation-${numStr}-${lang}-basis.v1.mp3`, '');
     }
+
+    // Reading focus (prototype: situation 01 only)
+    if (n === 1) startReadingFocus();
 
     // Sanfter Gesamt-Fade-in aller Blöcke (700ms)
     requestAnimationFrame(() => {
