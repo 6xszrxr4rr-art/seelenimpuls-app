@@ -1,7 +1,18 @@
-const CACHE = 'seelenimpuls-v44';
+const CACHE = 'seelenimpuls-v45';
 
 const FILES = [
   './audio/stillness-space.mp3',
+  './audio/hintergrund-situation-1.mp3',
+  './audio/hintergrund-situation-2.mp3',
+  './audio/hintergrund-situation-3.mp3',
+  './audio/hintergrund-situation-4.mp3',
+  './audio/hintergrund-situation-5.mp3',
+  './audio/hintergrund-situation-6.mp3',
+  './audio/hintergrund-situation-7.mp3',
+  './audio/hintergrund-situation-8.mp3',
+  './audio/hintergrund-situation-9.mp3',
+  './audio/hintergrund-situation-10.mp3',
+  './audio/hintergrund-situation-11.mp3',
   './audio/situation-01-de-basis.v1.mp3',
   './audio/situation-01-de-premium.v1.mp3',
   './audio/situation-01-en-basis.v1.mp3',

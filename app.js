@@ -2786,6 +2786,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let audio = null;
     let rafId  = null;
 
+    // Pre-fetch so the file is buffered before the user clicks play
+    const preloadHint = new Audio(audioSrc);
+    preloadHint.preload = 'auto';
+
     const fmt = s => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
 
     function tick() {
