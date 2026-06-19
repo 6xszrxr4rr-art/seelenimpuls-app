@@ -3105,20 +3105,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, idx < 0 ? 0 : segDelay(segs[idx]));
     }
 
-    function onTimeUpdate() {
-      if (!audioEl || !audioEl.duration || destroyed) return;
-      const t = audioEl.currentTime, dur = audioEl.duration;
-      const total = segs.reduce((s, x) => s + x.chars, 0);
-      let acc = 0;
-      for (let i = 0; i < segs.length; i++) {
-        acc += segs[i].chars;
-        if (t < (acc / total) * dur || i === segs.length - 1) {
-          if (i !== idx) go(i);
-          break;
-        }
-      }
-    }
-
     function onScroll() {
       noScroll = true;
       clearTimeout(scrollTimer);
@@ -3138,10 +3124,20 @@ document.addEventListener("DOMContentLoaded", () => {
       attachAudio(a) {
         audioEl = a;
         clearTimeout(timer);
-        audioEl.addEventListener('timeupdate', onTimeUpdate);
+        // Hide cursor while vorlesen is active — voice guides the eye
+        segs.forEach(s => {
+          if (!s.el) return;
+          s.el.classList.remove('rf-active', 'rf-inactive');
+        });
       },
       detachAudio() {
-        if (audioEl) { audioEl.removeEventListener('timeupdate', onTimeUpdate); audioEl = null; }
+        audioEl = null;
+        // Restore cursor at last word and resume auto-advance
+        segs.forEach((s, j) => {
+          if (!s.el) return;
+          s.el.classList.toggle('rf-active',   j === idx);
+          s.el.classList.toggle('rf-inactive', j !== idx);
+        });
         autoNext();
       },
       destroy() {
@@ -3149,7 +3145,6 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(timer); clearTimeout(scrollTimer);
         window.removeEventListener('scroll', onScroll);
         window.removeEventListener('touchmove', onScroll);
-        if (audioEl) audioEl.removeEventListener('timeupdate', onTimeUpdate);
         segs.forEach(s => { if (s.el) s.el.classList.remove('rf-seg', 'rf-active', 'rf-inactive'); });
       }
     };
