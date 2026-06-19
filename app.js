@@ -3290,7 +3290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Reading focus (prototype: situation 01 only)
-    if (n === 1) startReadingFocus();
+    startReadingFocus();
 
     // Sanfter Gesamt-Fade-in aller Blöcke (700ms)
     requestAnimationFrame(() => {
