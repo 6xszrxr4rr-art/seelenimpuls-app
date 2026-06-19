@@ -1,4 +1,4 @@
-const CACHE = 'seelenimpuls-v52';
+const CACHE = 'seelenimpuls-v53';
 
 // Only small shell files are precached during install.
 // Audio and JS/CSS files are cached lazily on first request (see fetch handler).

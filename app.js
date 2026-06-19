@@ -3097,7 +3097,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function autoNext() {
       clearTimeout(timer);
-      if (audioEl || !motionOK || destroyed || idx >= segs.length - 1) return;
+      if (audioEl || destroyed || idx >= segs.length - 1) return;
       timer = setTimeout(() => {
         if (destroyed) return;
         go(idx + 1);
