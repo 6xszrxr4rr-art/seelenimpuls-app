@@ -41,6 +41,7 @@ const VOICESTYLE_MARKER = '§VOICESTYLE:guide§';
 // ─── Argument parsing ─────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const MODE = args.includes('--generate') ? 'generate'
+           : args.includes('--missing')  ? 'missing'
            : args.includes('--test')     ? 'test'
            : args.includes('--compare')  ? 'compare'
            : args.includes('--voices')   ? 'voices'
@@ -456,6 +457,27 @@ async function main() {
     console.log(`\n✓ Saved: ${task.file}`);
     console.log(`  Size: ${(stat.size / 1024).toFixed(1)} KB`);
     console.log('\nBitte Datei testen und dann --generate freigeben.');
+    return;
+  }
+
+  // ── MISSING mode: only files that don't exist yet or are too small ──
+  if (MODE === 'missing') {
+    const missing = tasks.filter(t => !fs.existsSync(t.file) || fs.statSync(t.file).size < 50000);
+    if (!missing.length) { console.log('\n✓ Alle Dateien vorhanden. Nichts zu tun.\n'); return; }
+    console.log(`\nGenerating ${missing.length} missing/incomplete files...\n`);
+    for (const task of missing) {
+      const label = `situation-${String(task.n).padStart(2,'0')}-${task.lang}-${task.type}.${VERSION}.mp3`;
+      process.stdout.write(`  ${label.padEnd(48)} `);
+      try {
+        await apiTTSWithOcean(task.voiceId, task.text, task.file);
+        const kb = (fs.statSync(task.file).size / 1024).toFixed(1);
+        console.log(`✓  ${kb} KB`);
+      } catch (e) {
+        console.log(`✗  ${e.message.substring(0, 80)}`);
+      }
+      await new Promise(r => setTimeout(r, 600));
+    }
+    console.log('\n  Nächster Schritt: git add audio/situation-*.mp3 && git push\n');
     return;
   }
 
