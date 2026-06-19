@@ -3072,7 +3072,7 @@ document.addEventListener("DOMContentLoaded", () => {
     wrapAnchor('t1'); wrapAnchor('t2'); wrapList('t3'); wrapList('t4'); wrapAnchor('t5');
     if (!segs.length) return;
 
-    let idx = -1, timer = null, audioEl = null, noScroll = false, scrollTimer = null;
+    let idx = -1, timer = null, autoIv = null, audioEl = null, noScroll = false, scrollTimer = null;
 
     function go(i) {
       if (destroyed || i < 0 || i >= segs.length) return;
@@ -3082,27 +3082,28 @@ document.addEventListener("DOMContentLoaded", () => {
         s.el.classList.toggle('rf-inactive', j !== i);
       });
       idx = i;
-      if (motionOK && !noScroll && segs[i].el) {
+      if (!noScroll && segs[i].el) {
         const r = segs[i].el.getBoundingClientRect();
         if (r.bottom > window.innerHeight - 80 || r.top < 80)
           segs[i].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
 
-    // Per-word timing: short words ~350ms, long words ~550ms, +300ms after sentence punctuation, +500ms after paragraph break
-    function segDelay(seg) {
-      const base = seg.chars <= 3 ? 350 : seg.chars >= 8 ? 550 : 450;
-      return base + (seg.sentenceEnd ? 300 : 0) + (seg.pauseAfter ? 500 : 0);
+    function stopAutoAdvance() {
+      if (autoIv) { clearInterval(autoIv); autoIv = null; }
     }
 
-    function autoNext() {
-      clearTimeout(timer);
-      if (audioEl || destroyed || idx >= segs.length - 1) return;
-      timer = setTimeout(() => {
-        if (destroyed) return;
+    function startAutoAdvance() {
+      stopAutoAdvance();
+      if (audioEl || destroyed) return;
+      let skipTick = 0;
+      autoIv = setInterval(() => {
+        if (audioEl || destroyed) { stopAutoAdvance(); return; }
+        if (skipTick > 0) { skipTick--; return; }
+        if (idx >= segs.length - 1) { stopAutoAdvance(); return; }
         go(idx + 1);
-        autoNext();
-      }, idx < 0 ? 0 : segDelay(segs[idx]));
+        if (segs[idx] && segs[idx].pauseAfter) skipTick = 1;
+      }, 450);
     }
 
     function onScroll() {
@@ -3117,14 +3118,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Start: all dimmed, first highlight after 1.5s delay
     segs.forEach(s => { if (s.el) s.el.classList.add('rf-seg', 'rf-inactive'); });
     timer = setTimeout(() => {
-      if (!destroyed) { go(0); autoNext(); }
+      if (!destroyed) { go(0); startAutoAdvance(); }
     }, 1500);
 
     rfInstance = {
       attachAudio(a) {
         audioEl = a;
         clearTimeout(timer);
-        // Hide cursor while vorlesen is active — voice guides the eye
+        stopAutoAdvance();
         segs.forEach(s => {
           if (!s.el) return;
           s.el.classList.remove('rf-active', 'rf-inactive');
@@ -3132,17 +3133,17 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       detachAudio() {
         audioEl = null;
-        // Restore cursor at last word and resume auto-advance
         segs.forEach((s, j) => {
           if (!s.el) return;
           s.el.classList.toggle('rf-active',   j === idx);
           s.el.classList.toggle('rf-inactive', j !== idx);
         });
-        autoNext();
+        startAutoAdvance();
       },
       destroy() {
         destroyed = true;
         clearTimeout(timer); clearTimeout(scrollTimer);
+        stopAutoAdvance();
         window.removeEventListener('scroll', onScroll);
         window.removeEventListener('touchmove', onScroll);
         segs.forEach(s => { if (s.el) s.el.classList.remove('rf-seg', 'rf-active', 'rf-inactive'); });
@@ -3171,10 +3172,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     bgAudio = new Audio("audio/hintergrund-situation-" + n + ".mp3");
     bgAudio.loop = true;
-    bgAudio.volume = 0.018;
+    bgAudio.volume = 0.010;
     bgAudio.onerror = () => {
       bgAudio = new Audio("audio/stillness-space.mp3");
-      bgAudio.loop = true; bgAudio.volume = 0.018; bgAudio.play().catch(() => {});
+      bgAudio.loop = true; bgAudio.volume = 0.010; bgAudio.play().catch(() => {});
     };
     bgAudio.play().catch(() => {});
 
