@@ -451,13 +451,13 @@
 
     /* ── Reading Focus ────────────────────────────── */
     .rf-seg {
-      border-radius: 4px;
-      transition: opacity 0.2s ease, background-color 0.15s ease;
+      border-radius: 5px;
+      transition: opacity 0.6s ease, background-color 0.7s ease;
     }
-    .rf-inactive { opacity: 0.38; background-color: transparent; }
-    .rf-active   { opacity: 1;    background-color: rgba(184, 148, 58, 0.14); }
+    .rf-inactive { opacity: 0.45; background-color: transparent; }
+    .rf-active   { opacity: 1;    background-color: rgba(210, 170, 148, 0.22); }
     @media (prefers-reduced-motion: reduce) {
-      .rf-seg { transition: none; }
+      .rf-seg { transition: opacity 0.3s ease; }
     }
 
     /* ── Favorites ── */

@@ -2994,78 +2994,42 @@ document.addEventListener("DOMContentLoaded", () => {
   function startReadingFocus() {
     if (rfInstance) { rfInstance.destroy(); rfInstance = null; }
     const segs = [];
-    const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let destroyed = false;
 
     function esc(s) {
       return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    // Push word-level spans into segs; returns the HTML string for the block
-    function wordsToSpans(text, isLastBeforeBreak) {
-      const lines = text.split('\n');
-      let html = '';
-      for (let li = 0; li < lines.length; li++) {
-        const line = lines[li].trim();
-        if (!line) { html += '\n'; continue; }
-        const isBreakAfterLine = (li === lines.length - 1 && isLastBeforeBreak) ||
-                                 (li < lines.length - 1 && !lines[li + 1].trim());
-        const words = line.split(/\s+/).filter(Boolean);
-        for (let wi = 0; wi < words.length; wi++) {
-          const w = words[wi];
-          const rfIdx = segs.length;
-          const isLastWordOnLine = wi === words.length - 1;
-          segs.push({
-            rfIdx,
-            chars: w.length,
-            sentenceEnd: /[.!?,;:]$/.test(w),
-            pauseAfter: isLastWordOnLine && isBreakAfterLine,
-          });
-          html += `<span class="rf-seg" data-rf="${rfIdx}">${esc(w)}</span>`;
-          if (wi < words.length - 1) html += ' ';
-        }
-        html += '\n';
-      }
-      return html;
-    }
-
+    // One segment per non-empty line (calm, line-by-line movement)
     function wrapAnchor(id) {
       const el = $(id);
       if (!el || !el.textContent.trim()) return;
-      const text = el.textContent;
+      const lines = el.textContent.split('\n');
       const base = segs.length;
-      const html = wordsToSpans(text, false);
+      let html = '';
+      for (let i = 0; i < lines.length; i++) {
+        const text = lines[i].trim();
+        if (!text) { html += '\n'; continue; }
+        const rfIdx = segs.length;
+        const pauseAfter = i < lines.length - 1 && !lines[i + 1].trim();
+        segs.push({ rfIdx, chars: text.length, pauseAfter, el: null });
+        html += `<span class="rf-seg" data-rf="${rfIdx}">${esc(text)}</span>\n`;
+      }
       el.innerHTML = html;
-      // bind DOM elements now that innerHTML is set
       for (let i = base; i < segs.length; i++) {
         segs[i].el = el.querySelector(`[data-rf="${i}"]`);
       }
     }
 
+    // One segment per list item (existing span reused directly)
     function wrapList(id) {
       const ul = $(id);
       if (!ul) return;
       ul.querySelectorAll('li').forEach(li => {
         const span = li.querySelector('span');
-        if (!span) return;
-        const text = span.textContent.trim();
-        if (!text) return;
-        const base = segs.length;
-        const words = text.split(/\s+/).filter(Boolean);
-        span.innerHTML = words.map((w, wi) => {
-          const rfIdx = base + wi;
-          segs.push({
-            rfIdx,
-            chars: w.length,
-            sentenceEnd: /[.!?,;:]$/.test(w),
-            pauseAfter: false,
-            el: null,
-          });
-          return `<span class="rf-seg" data-rf="${rfIdx}">${esc(w)}</span>${wi < words.length - 1 ? ' ' : ''}`;
-        }).join('');
-        for (let i = base; i < segs.length; i++) {
-          segs[i].el = span.querySelector(`[data-rf="${i}"]`);
-        }
+        if (!span || !span.textContent.trim()) return;
+        span.classList.add('rf-seg');
+        segs.push({ rfIdx: segs.length, chars: span.textContent.trim().length, pauseAfter: false, el: span });
       });
     }
 
@@ -3096,14 +3060,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function startAutoAdvance() {
       stopAutoAdvance();
       if (audioEl || destroyed) return;
-      let skipTick = 0;
+      let ticksLeft = 0;
       autoIv = setInterval(() => {
         if (audioEl || destroyed) { stopAutoAdvance(); return; }
-        if (skipTick > 0) { skipTick--; return; }
+        if (ticksLeft > 0) { ticksLeft--; return; }
         if (idx >= segs.length - 1) { stopAutoAdvance(); return; }
         go(idx + 1);
-        if (segs[idx] && segs[idx].pauseAfter) skipTick = 1;
-      }, 450);
+        const seg = segs[idx];
+        const ms = Math.max(1800, Math.min(3500, seg.chars * 50)) + (seg.pauseAfter ? 700 : 0);
+        ticksLeft = Math.max(0, Math.round(ms / 600) - 1);
+      }, 600);
     }
 
     function onScroll() {
@@ -3115,7 +3081,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('touchmove', onScroll, { passive: true });
 
-    // Start: all dimmed, first highlight after 1.5s delay
     segs.forEach(s => { if (s.el) s.el.classList.add('rf-seg', 'rf-inactive'); });
     timer = setTimeout(() => {
       if (!destroyed) { go(0); startAutoAdvance(); }
@@ -3126,10 +3091,7 @@ document.addEventListener("DOMContentLoaded", () => {
         audioEl = a;
         clearTimeout(timer);
         stopAutoAdvance();
-        segs.forEach(s => {
-          if (!s.el) return;
-          s.el.classList.remove('rf-active', 'rf-inactive');
-        });
+        segs.forEach(s => { if (s.el) s.el.classList.remove('rf-active', 'rf-inactive'); });
       },
       detachAudio() {
         audioEl = null;
