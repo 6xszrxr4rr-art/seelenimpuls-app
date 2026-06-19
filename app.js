@@ -2817,7 +2817,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function reset() {
       if (rfInstance) rfInstance.detachAudio();
-      fadeBgAudio(0.018);
       btn.className = 'vorlesen-btn';
       btn.textContent = lPlay;
       barOuter.classList.remove('visible');
@@ -2848,15 +2847,12 @@ document.addEventListener("DOMContentLoaded", () => {
         timeEl.classList.add('visible');
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
-        fadeBgAudio(0);
         audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
       } else if (audio.paused) {
-        fadeBgAudio(0);
         audio.play().then(() => { tick(); if (rfInstance) rfInstance.attachAudio(audio); }).catch(reset);
         btn.className = 'vorlesen-btn playing';
         btn.textContent = lPause;
       } else {
-        fadeBgAudio(0.018);
         audio.pause();
         cancelAnimationFrame(rafId);
         btn.className = 'vorlesen-btn';

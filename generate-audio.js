@@ -314,14 +314,13 @@ function buildTasks(deVoiceId, enVoiceId) {
       const voiceId = lang === 'de' ? deVoiceId : enVoiceId;
       const numStr  = String(n).padStart(2, '0');
 
-      const bgMusicPath = path.join(AUDIO_DIR, `hintergrund-situation-${n}.mp3`);
       const basisText = buildBasisText(mods);
-      tasks.push({ n, lang, type: 'basis', voiceId, text: basisText, bgMusicPath,
+      tasks.push({ n, lang, type: 'basis', voiceId, text: basisText,
                    file: path.join(AUDIO_DIR, `situation-${numStr}-${lang}-basis.${VERSION}.mp3`) });
 
       const premiumText = buildPremiumText(mods);
       if (premiumText) {
-        tasks.push({ n, lang, type: 'premium', voiceId, text: premiumText, bgMusicPath,
+        tasks.push({ n, lang, type: 'premium', voiceId, text: premiumText,
                      file: path.join(AUDIO_DIR, `situation-${numStr}-${lang}-premium.${VERSION}.mp3`) });
       }
     }
