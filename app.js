@@ -3067,9 +3067,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (idx >= segs.length - 1) { stopAutoAdvance(); return; }
         go(idx + 1);
         const seg = segs[idx];
-        const ms = Math.max(1800, Math.min(3500, seg.chars * 50)) + (seg.pauseAfter ? 700 : 0);
-        ticksLeft = Math.max(0, Math.round(ms / 600) - 1);
-      }, 600);
+        const ms = Math.max(2200, Math.min(4500, seg.chars * 65)) + (seg.pauseAfter ? 1000 : 0);
+        ticksLeft = Math.max(0, Math.round(ms / 700) - 1);
+      }, 700);
     }
 
     function onScroll() {
